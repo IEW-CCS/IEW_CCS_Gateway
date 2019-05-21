@@ -18,5 +18,9 @@ namespace IEW.GatewayService.GUI
             InitializeComponent();
         }
 
+        private void btnTagSave_Click(object sender, EventArgs e)
+        {
+            // this is testing
+        }
     }
 }
