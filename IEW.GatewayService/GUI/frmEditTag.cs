@@ -20,7 +20,6 @@ namespace IEW.GatewayService.GUI
 
         private void btnTagSave_Click(object sender, EventArgs e)
         {
-            // this ccr testing hello
             //test by james
             // this is vic test
             // test again
