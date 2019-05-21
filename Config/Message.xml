@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-definition>
+  <message name="/IEW/+/+/Cmd/Ack">
+    <object id="GatewayService" method="ReceiveMQTTData" />
+  </message>
+
+  <message name="/IEW/AA/BB/Cmd/#">
+    <object id="GatewayService" method="ReceiveMQTTData" />
+  </message>
+
+</object-definition>

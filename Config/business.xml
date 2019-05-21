@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<objects xmlns="http://www.springframework.net" xmlns:db="http://www.springframework.net/database">
+
+  <object id="ObjectManager" type="IEW.ObjectManager.ObjectManager,IEW.ObjectManager"> </object>
+
+  <object id="GatewayService" type="IEW.GatewayService.GatewayService,IEW.GatewayService" init-method="Init" destroy-method="Destroy" parent="AbstractService">
+    <property name="LogName" value="Service" />
+    <property name="ObjectManager" ref="ObjectManager" />
+  </object>
+
+
+
+
+
+</objects>

@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9E3F032A-1AAB-4A6E-951C-C12B7E9B5EBB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IEW.GatewayService</RootNamespace>
+    <AssemblyName>IEW.GatewayService</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\DLL\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IEW.Platform.Kernel, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\IEW.Platform.Kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\IEW.Lanucher\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\IEW.kernel\DLL\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet, Version=6.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>..\IEW.Launcher\packages\YamlDotNet.6.0.0\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GUI\frmEditTag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditTag.Designer.cs">
+      <DependentUpon>frmEditTag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmEditDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditDevice.Designer.cs">
+      <DependentUpon>frmEditDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmEditGateway.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditGateway.Designer.cs">
+      <DependentUpon>frmEditGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmTagSetTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmTagSetTemplate.Designer.cs">
+      <DependentUpon>frmTagSetTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Gateway.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Gateway.Designer.cs">
+      <DependentUpon>Gateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GatewayService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IEW.Launcher\IEW.Launcher.csproj">
+      <Project>{770ae743-6aac-4257-bdb9-481f2ed959af}</Project>
+      <Name>IEW.Launcher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IEW.ObjectManager\IEW.ObjectManager.csproj">
+      <Project>{7db2045c-a48c-4eb5-a813-b1b683eacfd7}</Project>
+      <Name>IEW.ObjectManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\frmEditTag.resx">
+      <DependentUpon>frmEditTag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmEditDevice.resx">
+      <DependentUpon>frmEditDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmEditGateway.resx">
+      <DependentUpon>frmEditGateway.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmTagSetTemplate.resx">
+      <DependentUpon>frmTagSetTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Gateway.resx">
+      <DependentUpon>Gateway.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call "$(ProjectDir)\1.bat"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

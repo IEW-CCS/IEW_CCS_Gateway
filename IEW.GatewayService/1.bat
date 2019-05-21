@@ -1,0 +1,1 @@
+copy /Y C:\MyProject\IEW_CCS_Gateway\DLL\IEW.Gateway* C:\MyProject\IEW_CCS_Gateway\IEW.Launcher\bin
