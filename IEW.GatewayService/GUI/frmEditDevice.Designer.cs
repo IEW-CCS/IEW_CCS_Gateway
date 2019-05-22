@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditDevice));
             this.txtDeviceID = new System.Windows.Forms.TextBox();
             this.lblDeviceID = new System.Windows.Forms.Label();
             this.lblDeviceType = new System.Windows.Forms.Label();
@@ -232,22 +233,28 @@
             // 
             // btnTagRemove
             // 
+            this.btnTagRemove.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
+            this.btnTagRemove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTagRemove.FlatAppearance.BorderSize = 0;
+            this.btnTagRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTagRemove.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnTagRemove.Location = new System.Drawing.Point(1318, 895);
             this.btnTagRemove.Name = "btnTagRemove";
             this.btnTagRemove.Size = new System.Drawing.Size(45, 45);
             this.btnTagRemove.TabIndex = 22;
-            this.btnTagRemove.Text = "-";
             this.btnTagRemove.UseVisualStyleBackColor = true;
             // 
             // btnTagAdd
             // 
+            this.btnTagAdd.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
+            this.btnTagAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTagAdd.FlatAppearance.BorderSize = 0;
+            this.btnTagAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTagAdd.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnTagAdd.Location = new System.Drawing.Point(1267, 895);
             this.btnTagAdd.Name = "btnTagAdd";
             this.btnTagAdd.Size = new System.Drawing.Size(45, 45);
             this.btnTagAdd.TabIndex = 21;
-            this.btnTagAdd.Text = "+";
             this.btnTagAdd.UseVisualStyleBackColor = true;
             // 
             // btnLoadTag
@@ -278,6 +285,7 @@
             this.Controls.Add(this.txtDeviceID);
             this.Controls.Add(this.lblDeviceID);
             this.Controls.Add(this.pnlBLE);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmEditDevice";
             this.Text = "Add Device";
             this.Load += new System.EventHandler(this.frmEditDevice_Load);

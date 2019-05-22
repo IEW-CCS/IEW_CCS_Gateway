@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -95,12 +96,21 @@ namespace IEW.GatewayService.GUI
                     return;
                 }
             }
-            else if ( cmbType.SelectedText == "BLE" )
+            else if ( cmbType.Text == "BLE" )
             {
                 if (txtBLE_Mac.Text.Trim() == "")
                 {
                     MessageBox.Show("Please enter the MAC address!", "Error");
                     return;
+                }
+                else
+                {
+                    Regex r = new Regex("^([0-9a-fA-F]{2}(?:(?:-[0-9a-fA-F]{2}){5}|(?::[0-9a-fA-F]{2}){5}|[0-9a-fA-F]{10}))$");
+                    if( !r.IsMatch(txtBLE_Mac.Text.Trim()) )
+                    {
+                        MessageBox.Show("Invalid MAC address!", "Error");
+                        return;
+                    }
                 }
 
                 if (txtBLE_Service_UUID.Text.Trim() == "")
