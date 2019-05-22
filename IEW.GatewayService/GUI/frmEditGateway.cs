@@ -16,10 +16,23 @@ namespace IEW.GatewayService.GUI
     public partial class frmEditGateway : Form
     {
         public List<cls_Device_Info> device_list = new List<cls_Device_Info>();
+        bool isEdit;
+        cls_Gateway_Info gateway_Info;
+        int iGatewayIndex;
 
         public frmEditGateway()
         {
             InitializeComponent();
+            this.isEdit = false;
+        }
+
+        public frmEditGateway(cls_Gateway_Info gw, int index)
+        {
+            InitializeComponent();
+            this.isEdit = true;
+            this.gateway_Info = gw;
+            this.device_list = gw.device_info;
+            iGatewayIndex = index;
         }
 
         private void frmEditGateway_Load(object sender, EventArgs e)
@@ -31,6 +44,17 @@ namespace IEW.GatewayService.GUI
             lvGWDevice.Columns.Add("PLC Port", 100);
             lvGWDevice.Columns.Add("BLE MAC", 100);
             lvGWDevice.Columns.Add("BLE Service UUID", 100);
+            if(this.isEdit)
+            {
+                txtGatewayID.Text = this.gateway_Info.gateway_id;
+                txtGatewayID.Enabled = false;
+                txtGatewayIP.Text = this.gateway_Info.gateway_ip;
+                DisplayDeviceList();
+            }
+            else
+            {
+                txtGatewayID.Enabled = true;
+            }
         }
 
         private void btnGWCancel_Click(object sender, EventArgs e)
@@ -75,12 +99,15 @@ namespace IEW.GatewayService.GUI
                 MessageBox.Show("Please enter the gateway id!", "Error");
             else
             {
-                foreach(cls_Gateway_Info gi in lgateway.ObjectManager.GatewayManager.gateway_list )
+                if(!this.isEdit)
                 {
-                    if ( gi.gateway_id.Trim() == txtGatewayID.Text.Trim() )
+                    foreach (cls_Gateway_Info gi in lgateway.ObjectManager.GatewayManager.gateway_list)
                     {
-                        MessageBox.Show("Gateway ID duplicated!", "Error");
-                        return;
+                        if (gi.gateway_id.Trim() == txtGatewayID.Text.Trim())
+                        {
+                            MessageBox.Show("Gateway ID duplicated!", "Error");
+                            return;
+                        }
                     }
                 }
             }
@@ -110,11 +137,84 @@ namespace IEW.GatewayService.GUI
             giTemp.gateway_id = txtGatewayID.Text.Trim();
             giTemp.gateway_ip = txtGatewayIP.Text.Trim();
             giTemp.device_info = this.device_list;
-            lgateway.ObjectManager.GatewayManager.gateway_list.Add(giTemp);
+            if(!this.isEdit)
+            {
+                lgateway.ObjectManager.GatewayManager.gateway_list.Add(giTemp);
+            }
+            else
+            {
+                lgateway.ObjectManager.GatewayManager.gateway_list[iGatewayIndex] = giTemp;
+            }
 
             giTemp = null;
 
             this.Close();
+        }
+
+        private void btnDeviceRemove_Click(object sender, EventArgs e)
+        {
+            string strDeviceID;
+
+            if (lvGWDevice.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the device first!", "Error");
+                return;
+            }
+
+            if (MessageBox.Show("Are you sure to delete the gateway?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                lvGWDevice.Focus();
+                return;
+            }
+
+            strDeviceID = lvGWDevice.SelectedItems[0].Text;
+
+            int i = 0;
+
+            foreach (cls_Device_Info di in device_list)
+            {
+                if (di.device_name == strDeviceID)
+                {
+                    device_list.RemoveAt(i);
+                    break;
+                }
+                i++;
+            }
+            DisplayDeviceList();
+        }
+
+        private void lvGWDevice_DoubleClick(object sender, EventArgs e)
+        {
+            string strDeviceID;
+            cls_Device_Info deviceTemp = new cls_Device_Info();
+
+            if (lvGWDevice.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the device first!", "Error");
+                return;
+            }
+
+            strDeviceID = lvGWDevice.SelectedItems[0].Text.Trim();
+
+            int i = 0;
+            foreach (cls_Device_Info di in this.gateway_Info.device_info)
+            {
+                if (di.device_name == strDeviceID)
+                {
+                    deviceTemp = this.gateway_Info.device_info[i];
+                    break;
+                }
+                i++;
+            }
+
+            var frm = new frmEditDevice(deviceTemp, i);
+            frm.Owner = this;
+            frm.ShowDialog();
+
+            deviceTemp = null;
+
+            DisplayDeviceList();
+            lvGWDevice.Focus();
         }
     }
 }

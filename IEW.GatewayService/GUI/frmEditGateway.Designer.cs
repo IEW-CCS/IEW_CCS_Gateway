@@ -90,6 +90,7 @@
             // lvGWDevice
             // 
             this.lvGWDevice.Font = new System.Drawing.Font("Arial Narrow", 10.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvGWDevice.FullRowSelect = true;
             this.lvGWDevice.GridLines = true;
             this.lvGWDevice.Location = new System.Drawing.Point(53, 262);
             this.lvGWDevice.Name = "lvGWDevice";
@@ -97,6 +98,7 @@
             this.lvGWDevice.TabIndex = 5;
             this.lvGWDevice.UseCompatibleStateImageBehavior = false;
             this.lvGWDevice.View = System.Windows.Forms.View.Details;
+            this.lvGWDevice.DoubleClick += new System.EventHandler(this.lvGWDevice_DoubleClick);
             // 
             // btnDeviceRemove
             // 
@@ -110,6 +112,7 @@
             this.btnDeviceRemove.Size = new System.Drawing.Size(48, 48);
             this.btnDeviceRemove.TabIndex = 7;
             this.btnDeviceRemove.UseVisualStyleBackColor = true;
+            this.btnDeviceRemove.Click += new System.EventHandler(this.btnDeviceRemove_Click);
             // 
             // btnDeviceAdd
             // 

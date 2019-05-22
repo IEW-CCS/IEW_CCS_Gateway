@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.cmbTagSet = new System.Windows.Forms.ComboBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lvTagList = new System.Windows.Forms.ListView();
             this.btnTempCancel = new System.Windows.Forms.Button();
             this.btnTempLoad = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -54,21 +54,21 @@
             this.cmbTagSet.Size = new System.Drawing.Size(261, 45);
             this.cmbTagSet.TabIndex = 1;
             // 
-            // listView1
+            // lvTagList
             // 
-            this.listView1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listView1.Location = new System.Drawing.Point(44, 136);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1200, 517);
-            this.listView1.TabIndex = 2;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvTagList.Location = new System.Drawing.Point(44, 136);
+            this.lvTagList.Name = "lvTagList";
+            this.lvTagList.Size = new System.Drawing.Size(1200, 517);
+            this.lvTagList.TabIndex = 2;
+            this.lvTagList.UseCompatibleStateImageBehavior = false;
             // 
             // btnTempCancel
             // 
             this.btnTempCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTempCancel.Location = new System.Drawing.Point(657, 695);
             this.btnTempCancel.Name = "btnTempCancel";
-            this.btnTempCancel.Size = new System.Drawing.Size(158, 45);
+            this.btnTempCancel.Size = new System.Drawing.Size(158, 67);
             this.btnTempCancel.TabIndex = 18;
             this.btnTempCancel.Text = "Cancel";
             this.btnTempCancel.UseVisualStyleBackColor = true;
@@ -78,7 +78,7 @@
             this.btnTempLoad.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTempLoad.Location = new System.Drawing.Point(461, 695);
             this.btnTempLoad.Name = "btnTempLoad";
-            this.btnTempLoad.Size = new System.Drawing.Size(158, 45);
+            this.btnTempLoad.Size = new System.Drawing.Size(158, 67);
             this.btnTempLoad.TabIndex = 17;
             this.btnTempLoad.Text = "Load";
             this.btnTempLoad.UseVisualStyleBackColor = true;
@@ -87,10 +87,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1288, 770);
+            this.ClientSize = new System.Drawing.Size(1288, 808);
             this.Controls.Add(this.btnTempCancel);
             this.Controls.Add(this.btnTempLoad);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.lvTagList);
             this.Controls.Add(this.cmbTagSet);
             this.Controls.Add(this.label1);
             this.Name = "frmTagSetTemplate";
@@ -104,7 +104,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbTagSet;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lvTagList;
         private System.Windows.Forms.Button btnTempCancel;
         private System.Windows.Forms.Button btnTempLoad;
     }
