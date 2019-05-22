@@ -28,15 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gateway));
             this.btnCmdDownload = new System.Windows.Forms.Button();
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.tvNodeList = new System.Windows.Forms.TreeView();
-            this.btnAddGateway = new System.Windows.Forms.Button();
-            this.btnRemoveGateway = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tcInfo = new System.Windows.Forms.TabControl();
             this.tpGatewayList = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lvGatewayList = new System.Windows.Forms.ListView();
+            this.btnRemoveGateway = new System.Windows.Forms.Button();
+            this.btnAddGateway = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.tpGatewayInfo = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -97,35 +100,26 @@
             // tvNodeList
             // 
             this.tvNodeList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvNodeList.ImageIndex = 0;
+            this.tvNodeList.ImageList = this.imageList1;
             this.tvNodeList.Location = new System.Drawing.Point(42, 126);
             this.tvNodeList.Name = "tvNodeList";
+            this.tvNodeList.SelectedImageIndex = 0;
             this.tvNodeList.Size = new System.Drawing.Size(373, 924);
             this.tvNodeList.TabIndex = 3;
             this.tvNodeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNodeList_AfterSelect);
             // 
-            // btnAddGateway
+            // imageList1
             // 
-            this.btnAddGateway.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnAddGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnAddGateway.Location = new System.Drawing.Point(51, 785);
-            this.btnAddGateway.Name = "btnAddGateway";
-            this.btnAddGateway.Size = new System.Drawing.Size(46, 45);
-            this.btnAddGateway.TabIndex = 4;
-            this.btnAddGateway.Text = "+";
-            this.btnAddGateway.UseVisualStyleBackColor = true;
-            this.btnAddGateway.Click += new System.EventHandler(this.btnAddGateway_Click);
-            // 
-            // btnRemoveGateway
-            // 
-            this.btnRemoveGateway.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnRemoveGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnRemoveGateway.Location = new System.Drawing.Point(110, 785);
-            this.btnRemoveGateway.Name = "btnRemoveGateway";
-            this.btnRemoveGateway.Size = new System.Drawing.Size(46, 45);
-            this.btnRemoveGateway.TabIndex = 5;
-            this.btnRemoveGateway.Text = "-";
-            this.btnRemoveGateway.UseVisualStyleBackColor = true;
-            this.btnRemoveGateway.Click += new System.EventHandler(this.btnRemoveGateway_Click);
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "gateway_list.png");
+            this.imageList1.Images.SetKeyName(1, "gateway.png");
+            this.imageList1.Images.SetKeyName(2, "device.png");
+            this.imageList1.Images.SetKeyName(3, "tag_list.png");
+            this.imageList1.Images.SetKeyName(4, "tag.png");
+            this.imageList1.Images.SetKeyName(5, "plus.png");
+            this.imageList1.Images.SetKeyName(6, "minus2.png");
             // 
             // tcInfo
             // 
@@ -180,6 +174,36 @@
             this.lvGatewayList.UseCompatibleStateImageBehavior = false;
             this.lvGatewayList.View = System.Windows.Forms.View.Details;
             this.lvGatewayList.DoubleClick += new System.EventHandler(this.lvGatewayList_DoubleClick);
+            // 
+            // btnRemoveGateway
+            // 
+            this.btnRemoveGateway.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
+            this.btnRemoveGateway.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnRemoveGateway.FlatAppearance.BorderSize = 0;
+            this.btnRemoveGateway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoveGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnRemoveGateway.ImageIndex = 6;
+            this.btnRemoveGateway.Location = new System.Drawing.Point(110, 785);
+            this.btnRemoveGateway.Name = "btnRemoveGateway";
+            this.btnRemoveGateway.Size = new System.Drawing.Size(48, 48);
+            this.btnRemoveGateway.TabIndex = 5;
+            this.btnRemoveGateway.UseVisualStyleBackColor = true;
+            this.btnRemoveGateway.Click += new System.EventHandler(this.btnRemoveGateway_Click);
+            // 
+            // btnAddGateway
+            // 
+            this.btnAddGateway.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
+            this.btnAddGateway.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAddGateway.FlatAppearance.BorderSize = 0;
+            this.btnAddGateway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnAddGateway.ImageIndex = 5;
+            this.btnAddGateway.Location = new System.Drawing.Point(54, 785);
+            this.btnAddGateway.Name = "btnAddGateway";
+            this.btnAddGateway.Size = new System.Drawing.Size(48, 48);
+            this.btnAddGateway.TabIndex = 4;
+            this.btnAddGateway.UseVisualStyleBackColor = true;
+            this.btnAddGateway.Click += new System.EventHandler(this.btnAddGateway_Click);
             // 
             // label1
             // 
@@ -419,5 +443,6 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnSaveConfig;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }

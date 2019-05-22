@@ -60,8 +60,13 @@ namespace IEW.GatewayService.UI
             this.objSelectedNode = null;
 
             tvNodeList.BeginUpdate();
-            tvNodeList.Nodes.Add("Gateway List").Tag = TABPAGE_INDEX_GATEWAY_LIST;
-            tvNodeList.Nodes.Add("Tag Set List").Tag = TABPAGE_INDEX_TAGSET_LIST;
+            TreeNode tNode = tvNodeList.Nodes.Add("Gateway List");
+            tNode.Tag = TABPAGE_INDEX_GATEWAY_LIST;
+            tNode.ImageIndex = 0;
+
+            tNode = tvNodeList.Nodes.Add("Tag Set List");
+            tNode.Tag = TABPAGE_INDEX_TAGSET_LIST;
+            tNode.ImageIndex = 3;
             tvNodeList.EndUpdate();
 
             tcInfo.Visible = false;
@@ -132,21 +137,31 @@ namespace IEW.GatewayService.UI
             }
 
             int j = 0;
+            TreeNode tNode;
             tvNodeList.BeginUpdate();
             foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
             {
-                tvNodeList.Nodes[NODE_INDEX_GATEWAY_LIST].Nodes.Add(gi.gateway_id).Tag = TABPAGE_INDEX_GATEWAY_INFO;
+                tNode = tvNodeList.Nodes[NODE_INDEX_GATEWAY_LIST].Nodes.Add(gi.gateway_id);
+                tNode.Tag = TABPAGE_INDEX_GATEWAY_INFO;
+                tNode.ImageIndex = 1;
 
                 foreach (cls_Device_Info di in gi.device_info)
                 {
-                    tvNodeList.Nodes[NODE_INDEX_GATEWAY_LIST].Nodes[j].Nodes.Add(di.device_name).Tag = TABPAGE_INDEX_DEVICE_INFO;
+                    tNode = tvNodeList.Nodes[NODE_INDEX_GATEWAY_LIST].Nodes[j].Nodes.Add(di.device_name);
+                    tNode.Tag = TABPAGE_INDEX_DEVICE_INFO;
+                    tNode.ImageIndex = 2;
                 }
                 j++;
             }
 
             // Temp data
-            tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add("Tag Set 1").Tag = TABPAGE_INDEX_TAGSET_INFO;
-            tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add("Tag Set 2").Tag = TABPAGE_INDEX_TAGSET_INFO;
+            tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add("Tag Set 1");
+            tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
+            tNode.ImageIndex = 4;
+
+            tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add("Tag Set 2");
+            tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
+            tNode.ImageIndex = 4;
 
             tvNodeList.ExpandAll();
             tvNodeList.EndUpdate();
@@ -296,6 +311,12 @@ namespace IEW.GatewayService.UI
             if( lvGatewayList.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Please select the gateway first!", "Error");
+                return;
+            }
+
+            if (MessageBox.Show("Are you sure to delete the gateway?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                lvGatewayList.Focus();
                 return;
             }
 

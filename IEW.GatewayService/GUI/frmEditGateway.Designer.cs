@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditGateway));
             this.lblGatewayID = new System.Windows.Forms.Label();
             this.lblGatewayIP = new System.Windows.Forms.Label();
             this.txtGatewayID = new System.Windows.Forms.TextBox();
@@ -99,22 +100,28 @@
             // 
             // btnDeviceRemove
             // 
+            this.btnDeviceRemove.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
+            this.btnDeviceRemove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnDeviceRemove.FlatAppearance.BorderSize = 0;
+            this.btnDeviceRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeviceRemove.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnDeviceRemove.Location = new System.Drawing.Point(1105, 822);
             this.btnDeviceRemove.Name = "btnDeviceRemove";
-            this.btnDeviceRemove.Size = new System.Drawing.Size(45, 45);
+            this.btnDeviceRemove.Size = new System.Drawing.Size(48, 48);
             this.btnDeviceRemove.TabIndex = 7;
-            this.btnDeviceRemove.Text = "-";
             this.btnDeviceRemove.UseVisualStyleBackColor = true;
             // 
             // btnDeviceAdd
             // 
+            this.btnDeviceAdd.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
+            this.btnDeviceAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnDeviceAdd.FlatAppearance.BorderSize = 0;
+            this.btnDeviceAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeviceAdd.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnDeviceAdd.Location = new System.Drawing.Point(1054, 822);
             this.btnDeviceAdd.Name = "btnDeviceAdd";
-            this.btnDeviceAdd.Size = new System.Drawing.Size(45, 45);
+            this.btnDeviceAdd.Size = new System.Drawing.Size(48, 48);
             this.btnDeviceAdd.TabIndex = 6;
-            this.btnDeviceAdd.Text = "+";
             this.btnDeviceAdd.UseVisualStyleBackColor = true;
             this.btnDeviceAdd.Click += new System.EventHandler(this.btnDeviceAdd_Click);
             // 
@@ -155,6 +162,7 @@
             this.Controls.Add(this.txtGatewayID);
             this.Controls.Add(this.lblGatewayIP);
             this.Controls.Add(this.lblGatewayID);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmEditGateway";
             this.Text = "Add Gateway";
             this.Load += new System.EventHandler(this.frmEditGateway_Load);
