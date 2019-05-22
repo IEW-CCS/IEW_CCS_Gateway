@@ -245,7 +245,7 @@
             // btnTagCancel
             // 
             this.btnTagCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTagCancel.Location = new System.Drawing.Point(403, 848);
+            this.btnTagCancel.Location = new System.Drawing.Point(395, 706);
             this.btnTagCancel.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnTagCancel.Name = "btnTagCancel";
             this.btnTagCancel.Size = new System.Drawing.Size(158, 72);
@@ -256,7 +256,7 @@
             // btnTagSave
             // 
             this.btnTagSave.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTagSave.Location = new System.Drawing.Point(206, 848);
+            this.btnTagSave.Location = new System.Drawing.Point(198, 706);
             this.btnTagSave.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnTagSave.Name = "btnTagSave";
             this.btnTagSave.Size = new System.Drawing.Size(158, 72);
@@ -269,7 +269,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(776, 1016);
+            this.ClientSize = new System.Drawing.Size(776, 826);
             this.Controls.Add(this.btnTagCancel);
             this.Controls.Add(this.btnTagSave);
             this.Controls.Add(this.gbLinearScale);

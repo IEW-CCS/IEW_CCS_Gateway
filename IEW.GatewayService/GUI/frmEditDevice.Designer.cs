@@ -223,6 +223,7 @@
             // 
             // lvTagList
             // 
+            this.lvTagList.FullRowSelect = true;
             this.lvTagList.GridLines = true;
             this.lvTagList.Location = new System.Drawing.Point(20, 56);
             this.lvTagList.Name = "lvTagList";

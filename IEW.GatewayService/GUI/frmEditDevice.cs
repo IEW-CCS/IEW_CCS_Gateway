@@ -16,10 +16,22 @@ namespace IEW.GatewayService.GUI
 {
     public partial class frmEditDevice : Form
     {
+        bool isEdit;
+        cls_Device_Info device_data;
+        int iDeviceIndex;
 
         public frmEditDevice()
         {
             InitializeComponent();
+            this.isEdit = false;
+        }
+
+        public frmEditDevice(cls_Device_Info device, int index)
+        {
+            InitializeComponent();
+            this.isEdit = true;
+            device_data = device;
+            iDeviceIndex = index;
         }
 
         private void frmEditDevice_Load(object sender, EventArgs e)
@@ -27,6 +39,20 @@ namespace IEW.GatewayService.GUI
             cmbType.Items.Clear();
             cmbType.Items.Add("PLC");
             cmbType.Items.Add("BLE");
+            if(this.isEdit)
+            {
+                txtDeviceID.Text = device_data.device_name;
+                txtDeviceID.Enabled = false;
+                cmbType.Text = device_data.device_type;
+                txtPLC_IP.Text = device_data.plc_ip_address;
+                txtPLC_Port .Text= device_data.plc_port_id;
+                txtBLE_Mac.Text = device_data.ble_mac;
+                //txtBLE_Service_UUID.Text = device_data.ble_service_uuid;
+            }
+            else
+            {
+                txtDeviceID.Enabled = true;
+            }
         }
 
         private void cmbType_SelectedIndexChanged(object sender, EventArgs e)
@@ -35,9 +61,7 @@ namespace IEW.GatewayService.GUI
             {
                 pnlBLE.Enabled = false;
                 txtBLE_Mac.Text = "";
-                //txtBLE_Mac.Enabled = false;
                 txtBLE_Service_UUID.Text = "";
-                //txtBLE_Service_UUID.Enabled = false;
                 pnlPLC.Enabled = true;
                 txtPLC_IP.Enabled = true;
                 txtPLC_Port.Enabled = true;
@@ -49,9 +73,7 @@ namespace IEW.GatewayService.GUI
                 txtBLE_Service_UUID.Enabled = true;
                 pnlPLC.Enabled = false;
                 txtPLC_IP.Text = "";
-                //txtPLC_IP.Enabled = false;
                 txtPLC_Port.Text = "";
-                //txtPLC_Port.Enabled = false;
             }
         }
 
@@ -143,8 +165,16 @@ namespace IEW.GatewayService.GUI
             {
 
             }
+            
+            if(!isEdit)
+            {
+                pgw.device_list.Add(diTemp);
+            }
+            else
+            {
+                pgw.device_list[iDeviceIndex] = diTemp;
+            }
 
-            pgw.device_list.Add(diTemp);
             diTemp = null;
 
             this.Close();

@@ -174,8 +174,6 @@ namespace IEW.GatewayService.UI
         {
             objSelectedNode = e.Node;
 
-            //MessageBox.Show(objSelectedNode.Text + ": Tag = " + e.Node.Tag.ToString(), "Information");
-
             int index = int.Parse(e.Node.Tag.ToString());
             DisplayPanel(index);
         }
@@ -235,6 +233,11 @@ namespace IEW.GatewayService.UI
             
             lvGatewayList.Items.Clear();
             
+            if(ObjectManager.GatewayManager == null)
+            {
+                return;
+            }
+
             foreach( cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list )
             {
                 ListViewItem lvItem = new ListViewItem(gi.gateway_id);
@@ -260,8 +263,46 @@ namespace IEW.GatewayService.UI
         {
             try
             {
-                //ObjectManager.GatewayManager.gateway_list = null;
+                if(System.IO.File.Exists("C:\\Gateway\\Config\\Gateway_Device_Config.json"))
+                {
+                    MessageBox.Show("No config file exists!", "Warnoing");
+                    return false;
+                }
+
                 StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Gateway_Device_Config.json");
+
+                var json_string = inputFile.ReadToEnd();
+
+                ObjectManager.GatewayManager_Initial(json_string);
+
+                if (ObjectManager.GatewayManager.gateway_list == null)
+                {
+                    MessageBox.Show("No device exists!", "Warning");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch
+            {
+                MessageBox.Show("Config file loading error!", "Error");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool LoadTagSetConfig()
+        {
+            try
+            {
+                if (System.IO.File.Exists("C:\\Gateway\\Config\\Tag_Set_Config.json"))
+                {
+                    MessageBox.Show("No config file exists!", "Warnoing");
+                    return false;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Tag_Set_Config.json");
 
                 var json_string = inputFile.ReadToEnd();
 
@@ -301,7 +342,36 @@ namespace IEW.GatewayService.UI
 
         private void lvGatewayList_DoubleClick(object sender, EventArgs e)
         {
+            string strGatewayID;
+            cls_Gateway_Info gwTemp = new cls_Gateway_Info();
 
+            if (lvGatewayList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the gateway first!", "Error");
+                return;
+            }
+
+            strGatewayID = lvGatewayList.SelectedItems[0].Text.Trim();
+
+            int i = 0;
+            foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+            {
+                if (gi.gateway_id == strGatewayID)
+                {
+                    gwTemp = ObjectManager.GatewayManager.gateway_list[i];
+                    break;
+                }
+                i++;
+            }
+
+            var frm = new frmEditGateway(gwTemp, i);
+            frm.Owner = this;
+            frm.ShowDialog();
+
+            gwTemp = null;
+
+            RefreshGatewayConfig();
+            lvGatewayList.Focus();
         }
 
         private void btnRemoveGateway_Click(object sender, EventArgs e)
@@ -323,7 +393,6 @@ namespace IEW.GatewayService.UI
             strGatewayID = lvGatewayList.SelectedItems[0].Text;
 
             int i = 0;
-
             foreach ( cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
             {
                 if ( gi.gateway_id == strGatewayID )
@@ -336,5 +405,6 @@ namespace IEW.GatewayService.UI
 
             RefreshGatewayConfig();
         }
+
     }
 }
