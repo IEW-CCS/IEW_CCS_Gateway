@@ -101,16 +101,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IEW.Launcher\IEW.Launcher.csproj">
-      <Project>{770ae743-6aac-4257-bdb9-481f2ed959af}</Project>
-      <Name>IEW.Launcher</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IEW.ObjectManager\IEW.ObjectManager.csproj">
-      <Project>{7db2045c-a48c-4eb5-a813-b1b683eacfd7}</Project>
-      <Name>IEW.ObjectManager</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -131,9 +121,16 @@
       <DependentUpon>Gateway.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IEW.ObjectManager\IEW.ObjectManager.csproj">
+      <Project>{7db2045c-a48c-4eb5-a813-b1b683eacfd7}</Project>
+      <Name>IEW.ObjectManager</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "$(ProjectDir)\1.bat"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

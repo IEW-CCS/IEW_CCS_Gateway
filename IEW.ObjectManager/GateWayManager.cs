@@ -82,7 +82,7 @@ namespace IEW.ObjectManager
 
         }
 
-        public cls_Collect (string _Cmd_Type, string _Report_Interval, string _Trace_ID, cls_Gateway_Info _GateWayInfo)
+        public cls_Collect (string _Cmd_Type, string _Report_Interval, string _Trace_ID, cls_Device_Info _DeviceInfo)
         {
             Cmd_Type = _Cmd_Type;
             Report_Interval = _Report_Interval;
@@ -93,39 +93,36 @@ namespace IEW.ObjectManager
             int first_colon_index = -1;
             int first_dot_index = -1;
 
-            foreach (cls_Device_Info di in _GateWayInfo.device_info)
+            foreach (KeyValuePair<string, cls_Tag> kvp in _DeviceInfo.tag_info)
             {
-                foreach (KeyValuePair<string, cls_Tag> kvp in di.tag_info)
+                cls_Collect_Tag temp = new cls_Collect_Tag();
+                temp.DATA_NAME = kvp.Value.TagName;
+                temp.DATA_TYPE = kvp.Value.Expression;
+                string[] Split_Words = kvp.Value.UUID_Address.Split(delimiterChars);
+                temp.DATA_ADDR = Split_Words[0]; // 這裡填入需要拆碼後的資料 W1000: 1003   只填入W1000 進去
+
+                //---- Address 用法  W1000:3000
+                //---- W1000.0:a     這種Case固定填一
+                first_colon_index = kvp.Value.UUID_Address.IndexOf(":");
+                first_dot_index = kvp.Value.UUID_Address.IndexOf(".");
+
+                if ((first_colon_index > -1) && first_dot_index == -1)   // W1000:3000
                 {
-                    cls_Collect_Tag temp = new cls_Collect_Tag();
-                    temp.DATA_NAME = kvp.Value.TagName;
-                    temp.DATA_TYPE = kvp.Value.Expression;
-                    string[] Split_Words = kvp.Value.UUID_Address.Split(delimiterChars);
-                    temp.DATA_ADDR = Split_Words[0]; // 這裡填入需要拆碼後的資料 W1000: 1003   只填入W1000 進去
+                    int start = int.Parse(Split_Words[0].Replace("W", "").Replace("w", ""));
+                    int end = int.Parse(Split_Words[1].Replace("W", "").Replace("w", ""));
+                    int diff = end - start;
 
-                    //---- Address 用法  W1000:3000
-                    //---- W1000.0:a     這種Case固定填一
-                    first_colon_index = kvp.Value.UUID_Address.IndexOf(":");
-                    first_dot_index = kvp.Value.UUID_Address.IndexOf(".");
-
-                    if ((first_colon_index > -1) && first_dot_index == -1)   // W1000:3000
-                    {
-                        int start = int.Parse(Split_Words[0].Replace("W", "").Replace("w", ""));
-                        int end = int.Parse(Split_Words[1].Replace("W", "").Replace("w", ""));
-                        int diff = end - start;
-
-                        if (diff > 0)
-                            temp.DATA_LENGTH = diff.ToString();
-                        else
-                            temp.DATA_LENGTH = "1";
-                    }
+                    if (diff > 0)
+                        temp.DATA_LENGTH = diff.ToString();
                     else
-                    {
                         temp.DATA_LENGTH = "1";
-                    }
-
-                    Address_Info.Add(temp);
                 }
+                else
+                {
+                    temp.DATA_LENGTH = "1";
+                }
+
+                Address_Info.Add(temp);
             }
 
         }
@@ -155,6 +152,7 @@ namespace IEW.ObjectManager
     public class cls_ProcRecv_CollectData
     {
         public string GateWayID { get; set; }
+        public string Device_ID { get; set; }
         public bool Decode_Result { get; set; }
         public List<cls_Collect_Reply_Tag> Prod_EDC_Data = new List<cls_Collect_Reply_Tag>();
     }

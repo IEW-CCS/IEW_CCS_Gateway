@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEW.Launcher", "IEW.Launcher\IEW.Launcher.csproj", "{770AE743-6AAC-4257-BDB9-481F2ED959AF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9E3F032A-1AAB-4A6E-951C-C12B7E9B5EBB} = {9E3F032A-1AAB-4A6E-951C-C12B7E9B5EBB}
+		{7DB2045C-A48C-4EB5-A813-B1B683EACFD7} = {7DB2045C-A48C-4EB5-A813-B1B683EACFD7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEW.GatewayService", "IEW.GatewayService\IEW.GatewayService.csproj", "{9E3F032A-1AAB-4A6E-951C-C12B7E9B5EBB}"
 EndProject
@@ -17,6 +21,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{770AE743-6AAC-4257-BDB9-481F2ED959AF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{770AE743-6AAC-4257-BDB9-481F2ED959AF}.Debug|Any CPU.Build.0 = Debug|x86
 		{770AE743-6AAC-4257-BDB9-481F2ED959AF}.Debug|x86.ActiveCfg = Debug|x86
 		{770AE743-6AAC-4257-BDB9-481F2ED959AF}.Debug|x86.Build.0 = Debug|x86
 		{770AE743-6AAC-4257-BDB9-481F2ED959AF}.Release|Any CPU.ActiveCfg = Release|x86
