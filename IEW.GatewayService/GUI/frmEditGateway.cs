@@ -59,7 +59,10 @@ namespace IEW.GatewayService.GUI
 
         private void btnGWCancel_Click(object sender, EventArgs e)
         {
+            Gateway lgateway = (Gateway)this.Owner;
+            lgateway.RefreshGatewayConfig();
             this.Close();
+
         }
 
         private void btnDeviceAdd_Click(object sender, EventArgs e)
@@ -144,6 +147,7 @@ namespace IEW.GatewayService.GUI
             else
             {
                 lgateway.ObjectManager.GatewayManager.gateway_list[iGatewayIndex] = giTemp;
+                lgateway.RefreshGatewayConfig();
             }
 
             giTemp = null;

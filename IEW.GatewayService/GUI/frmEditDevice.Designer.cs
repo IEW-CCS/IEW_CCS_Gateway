@@ -271,8 +271,8 @@
             // 
             // frmEditDevice
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1414, 1026);
             this.Controls.Add(this.btnLoadTag);
             this.Controls.Add(this.btnTagRemove);

@@ -138,7 +138,7 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig();
         }
 
-        private void RefreshGatewayConfig()
+        public void RefreshGatewayConfig()
         {
             foreach (TreeNode node in tvNodeList.Nodes)
             {
@@ -218,9 +218,11 @@ namespace IEW.GatewayService.UI
                     break;
 
                 case TABPAGE_INDEX_GATEWAY_INFO:
+                    DisplayGatewayInfo(index);
                     break;
 
                 case TABPAGE_INDEX_DEVICE_INFO:
+                    DisplayDeviceInfo(index);
                     break;
 
                 case TABPAGE_INDEX_TAGSET_LIST:
@@ -260,6 +262,66 @@ namespace IEW.GatewayService.UI
             }
 
             lvGatewayList.EndUpdate();
+        }
+
+        private void DisplayGatewayInfo(int index)
+        {
+            TreeNode tNode = tvNodeList.SelectedNode;
+            //MessageBox.Show(tNode.Text, "Information");
+
+            int i = 0;
+            foreach(cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+            {
+                if(gi.gateway_id == tNode.Text)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            frmEditGateway gwForm = new frmEditGateway(ObjectManager.GatewayManager.gateway_list[i], i);
+            gwForm.Owner = this;
+            gwForm.TopLevel = false;
+            gwForm.FormBorderStyle = FormBorderStyle.None;
+            this.Panels[index].Controls.Add(gwForm);
+            gwForm.Show();
+        }
+
+        private void DisplayDeviceInfo(int index)
+        {
+            TreeNode tNode = tvNodeList.SelectedNode;  // Device Node
+            TreeNode pNode = tNode.Parent;                    // Gateway Node
+
+            int i = 0;
+            int j = 0;
+            foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+            {
+                if (gi.gateway_id == pNode.Text)
+                {
+                    foreach (cls_Device_Info dv in ObjectManager.GatewayManager.gateway_list[i].device_info)
+                    {
+                        if(dv.device_name == tNode.Text)
+                        {
+                            break;
+                        }
+                        j++;
+                    }
+                    break;
+                }
+                i++;
+            }
+
+            frmEditDevice deviceForm = new frmEditDevice(ObjectManager.GatewayManager.gateway_list[i], ObjectManager.GatewayManager.gateway_list[i].device_info[j], j);
+            deviceForm.Owner = this;
+            deviceForm.TopLevel = false;
+            deviceForm.FormBorderStyle = FormBorderStyle.None;
+            this.Panels[index].Controls.Add(deviceForm);
+            deviceForm.Show();
+        }
+
+        public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
+        {
+            gi.device_info[index] = di;
         }
 
         private void btnAddGateway_Click(object sender, EventArgs e)
@@ -312,7 +374,7 @@ namespace IEW.GatewayService.UI
             {
                 if (!System.IO.File.Exists("C:\\Gateway\\Config\\Tag_Set_Config.json"))
                 {
-                    MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
                     ObjectManager.TagSetManager_Initial();
                     return true;
                 }
