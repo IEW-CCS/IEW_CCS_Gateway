@@ -12,6 +12,7 @@ namespace IEW.ObjectManager
     public class ObjectManager
     {
         public GateWayManager GatewayManager = null;
+        public TagSetManager TagSetManager = null;
 
         public void GatewayManager_Initial()
         {
@@ -21,6 +22,16 @@ namespace IEW.ObjectManager
         public void GatewayManager_Initial(string Json)
         {
             this.GatewayManager = JsonConvert.DeserializeObject<GateWayManager>(Json);
+        }
+
+        public void TagSetManager_Initial()
+        {
+            this.TagSetManager = new TagSetManager();
+        }
+
+        public void TagSetManager_Initial(string Json)
+        {
+            this.TagSetManager = JsonConvert.DeserializeObject<TagSetManager>(Json);
         }
 
         public void Insert_Update_TagValue (cls_ProcRecv_CollectData ProcRecv_CollectData)

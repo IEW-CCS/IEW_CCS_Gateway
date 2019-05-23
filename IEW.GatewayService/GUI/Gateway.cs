@@ -48,6 +48,7 @@ namespace IEW.GatewayService.UI
         List<Panel> Panels = new List<Panel>();
         Panel VisiblePanel = null;
         public cls_Gateway_Info gw;
+        bool isLoadConfig;
 
         public Gateway()
         {
@@ -68,6 +69,7 @@ namespace IEW.GatewayService.UI
             tNode.Tag = TABPAGE_INDEX_TAGSET_LIST;
             tNode.ImageIndex = 3;
             tvNodeList.EndUpdate();
+            this.isLoadConfig = false;
 
             tcInfo.Visible = false;
 
@@ -123,10 +125,17 @@ namespace IEW.GatewayService.UI
 
         private void btnLoadConfig_Click(object sender, EventArgs e)
         {
-            if(LoadGatewayConfig())
+            if (LoadGatewayConfig())
             {
-                RefreshGatewayConfig();
+                this.isLoadConfig = true;
             }
+            else
+            {
+                return;
+            }
+
+            LoadTagSetConfig();
+            RefreshGatewayConfig();
         }
 
         private void RefreshGatewayConfig()
@@ -154,14 +163,12 @@ namespace IEW.GatewayService.UI
                 j++;
             }
 
-            // Temp data
-            tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add("Tag Set 1");
-            tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
-            tNode.ImageIndex = 4;
-
-            tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add("Tag Set 2");
-            tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
-            tNode.ImageIndex = 4;
+            foreach(cls_Tag_Set ts in ObjectManager.TagSetManager.tag_set_list)
+            {
+                tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add(ts.TagSetName);
+                tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
+                tNode.ImageIndex = 4;
+            }
 
             tvNodeList.ExpandAll();
             tvNodeList.EndUpdate();
@@ -172,6 +179,11 @@ namespace IEW.GatewayService.UI
 
         private void tvNodeList_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if(!this.isLoadConfig)
+            {
+                return;
+            }
+            
             objSelectedNode = e.Node;
 
             int index = int.Parse(e.Node.Tag.ToString());
@@ -232,9 +244,10 @@ namespace IEW.GatewayService.UI
             lvGatewayList.Columns.Add("Device Count", 100);
             
             lvGatewayList.Items.Clear();
-            
-            if(ObjectManager.GatewayManager == null)
+
+            if(ObjectManager.GatewayManager.gateway_list.Count == 0)
             {
+                lvGatewayList.BeginUpdate();
                 return;
             }
 
@@ -263,10 +276,11 @@ namespace IEW.GatewayService.UI
         {
             try
             {
-                if(System.IO.File.Exists("C:\\Gateway\\Config\\Gateway_Device_Config.json"))
+                if(!System.IO.File.Exists("C:\\Gateway\\Config\\Gateway_Device_Config.json"))
                 {
-                    MessageBox.Show("No config file exists!", "Warnoing");
-                    return false;
+                    MessageBox.Show("No gateway config file exists! Please start to create new gateway information.", "Information");
+                    ObjectManager.GatewayManager_Initial();
+                    return true;
                 }
 
                 StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Gateway_Device_Config.json");
@@ -277,7 +291,7 @@ namespace IEW.GatewayService.UI
 
                 if (ObjectManager.GatewayManager.gateway_list == null)
                 {
-                    MessageBox.Show("No device exists!", "Warning");
+                    MessageBox.Show("No gateway exists!", "Warning");
                     return false;
                 }
 
@@ -285,7 +299,7 @@ namespace IEW.GatewayService.UI
             }
             catch
             {
-                MessageBox.Show("Config file loading error!", "Error");
+                MessageBox.Show("Gateway config file loading error!", "Error");
                 return false;
             }
 
@@ -296,21 +310,22 @@ namespace IEW.GatewayService.UI
         {
             try
             {
-                if (System.IO.File.Exists("C:\\Gateway\\Config\\Tag_Set_Config.json"))
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\Tag_Set_Config.json"))
                 {
-                    MessageBox.Show("No config file exists!", "Warnoing");
-                    return false;
+                    MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    ObjectManager.TagSetManager_Initial();
+                    return true;
                 }
 
                 StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Tag_Set_Config.json");
 
                 var json_string = inputFile.ReadToEnd();
 
-                ObjectManager.GatewayManager_Initial(json_string);
+                ObjectManager.TagSetManager_Initial(json_string);
 
-                if (ObjectManager.GatewayManager.gateway_list == null)
+                if (ObjectManager.TagSetManager.tag_set_list == null)
                 {
-                    MessageBox.Show("No device exists!", "Information");
+                    MessageBox.Show("No tag set template exists!", "Information");
                     return false;
                 }
 
@@ -318,7 +333,7 @@ namespace IEW.GatewayService.UI
             }
             catch
             {
-                MessageBox.Show("Config file loading error!", "Error");
+                MessageBox.Show("Tag Set config file loading error!", "Error");
                 return false;
             }
 
