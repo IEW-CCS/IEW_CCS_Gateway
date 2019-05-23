@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
+using IEW.Platform.Kernel.Log;
 
 
 namespace IEW.ObjectManager
@@ -39,26 +41,34 @@ namespace IEW.ObjectManager
             string _GateWayID = ProcRecv_CollectData.GateWayID;
             string _DeviceID = ProcRecv_CollectData.Device_ID;
 
-            if (ProcRecv_CollectData.Decode_Result == true)
+            cls_Gateway_Info Gateway = GatewayManager.gateway_list.Where(p => p.gateway_id == _GateWayID).FirstOrDefault();
+            if (Gateway != null)
             {
-                cls_Gateway_Info Gateway = GatewayManager.gateway_list.Where(p => p.gateway_id == _GateWayID).FirstOrDefault();
-                if (Gateway != null)
+                cls_Device_Info Device = Gateway.device_info.Where(p => p.device_name == _DeviceID).FirstOrDefault();
+                if (Device != null)
                 {
-                    cls_Device_Info Device = Gateway.device_info.Where(p => p.device_name == _DeviceID).FirstOrDefault();
-                    if (Device != null)
+                    Tuple<string, string> _tag = null;
+                    while (ProcRecv_CollectData.Prod_EDC_Data.TryDequeue(out _tag))
                     {
-                        foreach (cls_Collect_Reply_Tag p in ProcRecv_CollectData.Prod_EDC_Data)
+                        if (Device.tag_info.ContainsKey(_tag.Item1))
                         {
-                            if (Device.tag_info.ContainsKey(p.TAG_NAME))
-                            {
-                                cls_Tag tag = Device.tag_info[p.TAG_NAME];
-                                tag.Value.Add( p.TAG_VALUE);
-                                Device.tag_info.AddOrUpdate(p.TAG_NAME, tag, (key, oldvalue) => tag);
-                            }
+                            cls_Tag tag = Device.tag_info[_tag.Item1];
+                            tag.Value.Add(_tag.Item2);
+                            Device.tag_info.AddOrUpdate(_tag.Item1, tag, (key, oldvalue) => tag);
                         }
                     }
                 }
+                else
+                {
+                    NLogManager.Logger.LogError("Service", GetType().Name, MethodInfo.GetCurrentMethod().Name , string.Format("Device {0} Not Exist, So Skip Update Tag Value", _DeviceID));
+                }
             }
+            else
+            {
+                NLogManager.Logger.LogError("Service", GetType().Name, MethodInfo.GetCurrentMethod().Name, string.Format("Gateway {0} Not Exist, So Skip Update Tag Value", _GateWayID));
+
+            }
+
 
         }
 

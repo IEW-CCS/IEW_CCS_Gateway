@@ -18,6 +18,11 @@ namespace IEW.ObjectManager
         public string ble_mac { get; set; }
         public List<string> ble_service_uuid = new List<string>();
         public ConcurrentDictionary<string, cls_Tag> tag_info = new ConcurrentDictionary<string, cls_Tag>();
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 
     public class cls_Gateway_Info
@@ -179,8 +184,7 @@ namespace IEW.ObjectManager
     {
         public string GateWayID { get; set; }
         public string Device_ID { get; set; }
-        public bool Decode_Result { get; set; }
-        public List<cls_Collect_Reply_Tag> Prod_EDC_Data = new List<cls_Collect_Reply_Tag>();
+        public ConcurrentQueue<Tuple<string, string>> Prod_EDC_Data = new ConcurrentQueue<Tuple<string, string>>();
     }
 
     #endregion
