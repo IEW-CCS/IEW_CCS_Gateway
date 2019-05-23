@@ -163,70 +163,42 @@ namespace IEW.GatewayService
                         {
                             switch (Device_Tag.Expression)
                             {
-                                case "Bit":
-                                    BitPoints = CalculateBit(Device_Tag.UUID_Address);
+                                case "BIT":
+                                    BitPoints = CalcBitPoints(Device_Tag.UUID_Address);
                                     if (BitPoints != 0)
                                         Output = HexToBit(0, BitPoints, Tag_Value);
                                     else
                                         Output = string.Empty;
+                                    break;
 
+                                case "UINT":
+                                    BitPoints = 16;   // Int固定16 bit ;
+                                    tmp_output = HexToInt(BitPoints, Tag_Value);
+                                    tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
+                                    Output = tmp_output.ToString();
                                     break;
-                                case "Int":
-                                    BitPoints = CalculateBit(Device_Tag.UUID_Address);
-                                    if (BitPoints != 0)
-                                    {
-                                        tmp_output = HexToInt(BitPoints, Tag_Value);
-                                        tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
-                                        Output = tmp_output.ToString();
-                                    }
-                                    else
-                                    {
-                                        Output = string.Empty;
-                                    }
+
+                                case "ULONG":
+                                    BitPoints = 32;
+                                    tmp_output = HexToLong(BitPoints, Tag_Value);
+                                    tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
+                                    Output = tmp_output.ToString();
                                     break;
-                                case "Long":
-                                    // 考慮bit offset 寫死固定
-                                    BitPoints = CalculateBit(Device_Tag.UUID_Address);
-                                    if (BitPoints != 0)
-                                    {
-                                        tmp_output = HexToLong(BitPoints, Tag_Value);
-                                        tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
-                                        Output = tmp_output.ToString();
-                                    }
-                                    else
-                                    {
-                                        Output = string.Empty;
-                                    }
+                                case "SINT":
+                                    BitPoints = 16;
+                                    tmp_output = HexToSInt(BitPoints, Tag_Value);
+                                    tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
+                                    Output = tmp_output.ToString();
                                     break;
-                                case "SInt":
-                                    BitPoints = CalculateBit(Device_Tag.UUID_Address);
-                                    if (BitPoints != 0)
-                                    {
-                                        tmp_output = HexToSInt(BitPoints, Tag_Value);
-                                        tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
-                                        Output = tmp_output.ToString();
-                                    }
-                                    else
-                                    {
-                                        Output = string.Empty;
-                                    }
-                                    
+                                case "SLONG":
+                                    BitPoints = 32;
+                                    tmp_output = HexToSLong(BitPoints, Tag_Value);
+                                    tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
+                                    Output = tmp_output.ToString();
                                     break;
-                                case "SLong":
-                                    BitPoints = CalculateBit(Device_Tag.UUID_Address);
-                                    if (BitPoints != 0)
-                                    {
-                                        tmp_output = HexToSLong(BitPoints, Tag_Value);
-                                        tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
-                                        Output = tmp_output.ToString();
-                                    }
-                                    else
-                                    {
-                                        Output = string.Empty;
-                                    }
-                                    break;
+
                                 case "ASC":
-                                    Output = HexToASCII(Tag_Value);
+                                    Output = HexToASCII(Tag_Value);  //  目前Decode 全部都解析解析完再考慮長度
                                     break;
                                 default:
                                     Output = string.Empty;
@@ -365,51 +337,67 @@ namespace IEW.GatewayService
             return sb.ToString();
         }
 
-        public int CalculateBit(string UUID_Address)
+        public int CalcBitPoints( string UUID_Address)
         {
-            //-------運算使用 ------
             char[] delimiterChars = { '.', ':' };
             int first_colon_index = -1;
             int first_dot_index = -1;
 
             string[] Split_Words = UUID_Address.Split(delimiterChars);
           
-            //---- Address 用法  W1000:3000
-            //---- W1000.0:a     這種Case固定填一
             first_colon_index = UUID_Address.IndexOf(":");
             first_dot_index = UUID_Address.IndexOf(".");
+
+            //----- 討論不合法表示是是否該回傳整個word or o
+            if ((first_colon_index == -1) && first_dot_index == -1)  // W1000  沒有寫 dot or :
+            {
+                //return 0;
+                return 16;
+            }
+            else if (first_colon_index == -1)                       // 忘記標誌 : 則代表全部
+            {
+                //return 0;
+                return 16;
+            }
+            else if( first_dot_index < first_colon_index)          //W1000.3:5   
+            {
+                string[] tempSplit_Words = UUID_Address.Substring(first_dot_index).Split(delimiterChars);
+                int start = int.Parse(tempSplit_Words[0]);
+                int end = int.Parse(tempSplit_Words[1]);
+                int diff = (end - start) + 1;
+                return diff ;
+            }
+            else   // 表示不合法的表示式for bit return 0 
+            {
+                return 0; 
+            }
+        }
+
+        public int CalcWordPoints(string UUID_Address)
+        {
+            char[] delimiterChars = { '.', ':' };
+            int first_colon_index = -1;
+            int first_dot_index = -1;
+
+            string[] Split_Words = UUID_Address.Split(delimiterChars);
+
+            //---- Address 用法  W1000:3000
+            first_colon_index = UUID_Address.IndexOf(":");
+            first_dot_index =UUID_Address.IndexOf(".");
 
             if ((first_colon_index > -1) && first_dot_index == -1)   // W1000:3000
             {
                 int start = int.Parse(Split_Words[0].Replace("W", "").Replace("w", ""));
                 int end = int.Parse(Split_Words[1].Replace("W", "").Replace("w", ""));
-                int diff = end - start;
-                if (diff < 0) diff = 1;
-                return diff * 16;
-            }
-            else if ((first_colon_index == -1) && first_dot_index == -1)  // W1000
-            {
-                return 16;
-            }
-
-            else if( first_dot_index < first_colon_index)   //W1000.3:5   
-            {
-                string[] tempSplit_Words = UUID_Address.Substring(first_dot_index).Split(delimiterChars);
-                int start = int.Parse(tempSplit_Words[0]);
-                int end = int.Parse(tempSplit_Words[1]);
-                int diff = end - start;
-                return diff ;
+                int diff = (end - start) + 1;
+                return diff;
+               
             }
             else
             {
-                // 表示不合法的表示式 W1000:1001.3:5
-                // 組合UUID_Address 的時候需要確認正確的模式進行
-                return 0; 
+                return 1;
             }
-
-
         }
-
     }
 
 }

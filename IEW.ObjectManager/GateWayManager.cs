@@ -130,27 +130,57 @@ namespace IEW.ObjectManager
                 temp.DATA_NAME = kvp.Value.TagName;
                 temp.DATA_TYPE = kvp.Value.Expression;
                 string[] Split_Words = kvp.Value.UUID_Address.Split(delimiterChars);
-                temp.DATA_ADDR = Split_Words[0]; // 這裡填入需要拆碼後的資料 W1000: 1003   只填入W1000 進去
+                temp.DATA_ADDR = Split_Words[0];
 
-                //---- Address 用法  W1000:3000
-                //---- W1000.0:a     這種Case固定填一
-                first_colon_index = kvp.Value.UUID_Address.IndexOf(":");
-                first_dot_index = kvp.Value.UUID_Address.IndexOf(".");
-
-                if ((first_colon_index > -1) && first_dot_index == -1)   // W1000:3000
+                switch (temp.DATA_TYPE)
                 {
-                    int start = int.Parse(Split_Words[0].Replace("W", "").Replace("w", ""));
-                    int end = int.Parse(Split_Words[1].Replace("W", "").Replace("w", ""));
-                    int diff = end - start;
-
-                    if (diff > 0)
-                        temp.DATA_LENGTH = diff.ToString();
-                    else
+                    case "BIT":
                         temp.DATA_LENGTH = "1";
-                }
-                else
-                {
-                    temp.DATA_LENGTH = "1";
+                        break;
+
+                    case "UINT":
+                        temp.DATA_LENGTH = "1";
+                        break;
+
+                    case "SINT":
+                        temp.DATA_LENGTH = "1";
+                        break;
+
+                    case "ULONG":
+                        temp.DATA_LENGTH = "2";
+                        break;
+
+                    case "SLONG":
+                        temp.DATA_LENGTH = "2";
+                        break;
+
+                    case "ASC":
+
+                        //---- Address 用法  W1000:3000
+                        first_colon_index = kvp.Value.UUID_Address.IndexOf(":");
+                        first_dot_index = kvp.Value.UUID_Address.IndexOf(".");
+
+                        if ((first_colon_index > -1) && first_dot_index == -1)   // W1000:3000
+                        {
+                            int start = int.Parse(Split_Words[0].Replace("W", "").Replace("w", ""));
+                            int end = int.Parse(Split_Words[1].Replace("W", "").Replace("w", ""));
+                            int diff = (end - start) + 1;
+
+                            if (diff > 0)
+                                temp.DATA_LENGTH = diff.ToString();
+                            else
+                                temp.DATA_LENGTH = "1";
+                        }
+                        else
+                        {
+                            temp.DATA_LENGTH = "1";
+                        }
+                        break;
+
+                    default:
+                        temp.DATA_LENGTH = "1";
+                        break;
+
                 }
 
                 Address_Info.Add(temp);
