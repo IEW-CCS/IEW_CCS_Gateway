@@ -56,12 +56,30 @@ namespace IEW.GatewayService.GUI
 
                 if(tag_data.UUID_Address.Contains('.'))
                 {
-                    cmbWordBit.Text = "Bit";
-
+                    cmbWordBit.Text = "BIT";
+                    txtLength.Text = "";
+                    txtLength.Enabled = false;
+                    string[] strArray = tag_data.Expression.Split(new Char[] { ':', '.'});
+                    txtStartAddress.Text = strArray[0];
+                    txtStartBit.Text = strArray[1];
+                    txtEndBit.Text = strArray[2];
                 }
                 else
                 {
-                    cmbWordBit.Text = "Word";
+                    cmbWordBit.Text = tag_data.Expression ;
+                    string[] strArray = tag_data.Expression.Split(new Char[] { ':' });
+
+
+                    if (cmbWordBit.Text == "ASC")
+                    {
+                        txtLength.Enabled = true;
+                    }
+                    else
+                    {
+                        txtLength.Enabled = false;
+                    }
+
+
                 }
 
 
