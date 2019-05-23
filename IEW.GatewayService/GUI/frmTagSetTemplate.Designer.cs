@@ -33,6 +33,7 @@
             this.lvTagList = new System.Windows.Forms.ListView();
             this.btnTempCancel = new System.Windows.Forms.Button();
             this.btnTempLoad = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -57,9 +58,9 @@
             // lvTagList
             // 
             this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lvTagList.Location = new System.Drawing.Point(44, 136);
+            this.lvTagList.Location = new System.Drawing.Point(44, 184);
             this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1200, 517);
+            this.lvTagList.Size = new System.Drawing.Size(1200, 469);
             this.lvTagList.TabIndex = 2;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             // 
@@ -83,11 +84,22 @@
             this.btnTempLoad.Text = "Load";
             this.btnTempLoad.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(37, 110);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(164, 37);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Description: ";
+            // 
             // frmTagSetTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1288, 808);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btnTempCancel);
             this.Controls.Add(this.btnTempLoad);
             this.Controls.Add(this.lvTagList);
@@ -107,5 +119,6 @@
         private System.Windows.Forms.ListView lvTagList;
         private System.Windows.Forms.Button btnTempCancel;
         private System.Windows.Forms.Button btnTempLoad;
+        private System.Windows.Forms.Label label2;
     }
 }

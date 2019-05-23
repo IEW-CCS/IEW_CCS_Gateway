@@ -66,6 +66,32 @@ namespace IEW.ObjectManager
 
     #endregion
 
+    #region Tag Set Template Class Define
+
+    public class cls_Tag_Set
+    {
+        public string TagSetName { get; set; }
+        public string TagSetDescription { get; set; }
+        public List<cls_Tag> tag_set = new List<cls_Tag>();
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+    }
+
+    public class TagSetManager
+    {
+        public List<cls_Tag_Set> tag_set_list = new List<cls_Tag_Set>();
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+    }
+
+    #endregion
+
     #region Collect Cmd Json
     public class cls_Collect_Tag
     {
