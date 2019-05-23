@@ -260,4 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 
-/DLL
+# For  DLL folder
+/DLL/
