@@ -29,149 +29,82 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditTag));
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtTagName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtDataType = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbWordBit = new System.Windows.Forms.ComboBox();
-            this.txtAddress = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtStartBit = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtLength = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnTagCancel = new System.Windows.Forms.Button();
+            this.btnTagSave = new System.Windows.Forms.Button();
             this.gbLinearScale = new System.Windows.Forms.GroupBox();
             this.txtOffset = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtScale = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnTagCancel = new System.Windows.Forms.Button();
-            this.btnTagSave = new System.Windows.Forms.Button();
+            this.txtLength = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtStartBit = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtStartAddress = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbWordBit = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtTagName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbDataType = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtDescription = new System.Windows.Forms.TextBox();
+            this.txtEndBit = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
             this.gbLinearScale.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // panel1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(37, 42);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(184, 37);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Tag Name(X):";
+            this.panel1.Controls.Add(this.txtEndBit);
+            this.panel1.Controls.Add(this.label11);
+            this.panel1.Controls.Add(this.txtDescription);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.cmbDataType);
+            this.panel1.Controls.Add(this.btnTagCancel);
+            this.panel1.Controls.Add(this.btnTagSave);
+            this.panel1.Controls.Add(this.gbLinearScale);
+            this.panel1.Controls.Add(this.txtLength);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.txtStartBit);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.txtStartAddress);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.cmbWordBit);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.txtTagName);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(743, 970);
+            this.panel1.TabIndex = 16;
             // 
-            // txtTagName
+            // btnTagCancel
             // 
-            this.txtTagName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTagName.Location = new System.Drawing.Point(308, 42);
-            this.txtTagName.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.txtTagName.Name = "txtTagName";
-            this.txtTagName.Size = new System.Drawing.Size(266, 44);
-            this.txtTagName.TabIndex = 1;
+            this.btnTagCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTagCancel.Location = new System.Drawing.Point(379, 865);
+            this.btnTagCancel.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.btnTagCancel.Name = "btnTagCancel";
+            this.btnTagCancel.Size = new System.Drawing.Size(158, 72);
+            this.btnTagCancel.TabIndex = 30;
+            this.btnTagCancel.Text = "Cancel";
+            this.btnTagCancel.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // btnTagSave
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(37, 110);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(126, 37);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Word/Bit:";
-            // 
-            // txtDataType
-            // 
-            this.txtDataType.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDataType.Location = new System.Drawing.Point(308, 180);
-            this.txtDataType.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.txtDataType.Name = "txtDataType";
-            this.txtDataType.Size = new System.Drawing.Size(266, 44);
-            this.txtDataType.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(37, 180);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 37);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Data Type:";
-            // 
-            // cmbWordBit
-            // 
-            this.cmbWordBit.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbWordBit.FormattingEnabled = true;
-            this.cmbWordBit.Location = new System.Drawing.Point(308, 108);
-            this.cmbWordBit.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.cmbWordBit.Name = "cmbWordBit";
-            this.cmbWordBit.Size = new System.Drawing.Size(266, 45);
-            this.cmbWordBit.TabIndex = 6;
-            // 
-            // txtAddress
-            // 
-            this.txtAddress.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAddress.Location = new System.Drawing.Point(308, 252);
-            this.txtAddress.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(266, 44);
-            this.txtAddress.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(37, 252);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(122, 37);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Address:";
-            // 
-            // txtStartBit
-            // 
-            this.txtStartBit.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtStartBit.Location = new System.Drawing.Point(308, 322);
-            this.txtStartBit.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.txtStartBit.Name = "txtStartBit";
-            this.txtStartBit.Size = new System.Drawing.Size(266, 44);
-            this.txtStartBit.TabIndex = 10;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(37, 322);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(118, 37);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Start Bit:";
-            // 
-            // txtLength
-            // 
-            this.txtLength.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLength.Location = new System.Drawing.Point(308, 392);
-            this.txtLength.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.txtLength.Name = "txtLength";
-            this.txtLength.Size = new System.Drawing.Size(266, 44);
-            this.txtLength.TabIndex = 12;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(37, 392);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(106, 37);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Length:";
+            this.btnTagSave.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTagSave.Location = new System.Drawing.Point(182, 865);
+            this.btnTagSave.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.btnTagSave.Name = "btnTagSave";
+            this.btnTagSave.Size = new System.Drawing.Size(158, 72);
+            this.btnTagSave.TabIndex = 29;
+            this.btnTagSave.Text = "Save";
+            this.btnTagSave.UseVisualStyleBackColor = true;
             // 
             // gbLinearScale
             // 
@@ -182,12 +115,12 @@
             this.gbLinearScale.Controls.Add(this.label7);
             this.gbLinearScale.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.gbLinearScale.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbLinearScale.Location = new System.Drawing.Point(33, 466);
+            this.gbLinearScale.Location = new System.Drawing.Point(17, 415);
             this.gbLinearScale.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.gbLinearScale.Name = "gbLinearScale";
             this.gbLinearScale.Padding = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.gbLinearScale.Size = new System.Drawing.Size(702, 172);
-            this.gbLinearScale.TabIndex = 13;
+            this.gbLinearScale.TabIndex = 28;
             this.gbLinearScale.TabStop = false;
             this.gbLinearScale.Text = "Linear Scale Setup";
             // 
@@ -242,81 +175,211 @@
             this.label7.TabIndex = 1;
             this.label7.Text = "Formula: AX + B";
             // 
-            // btnTagCancel
+            // txtLength
             // 
-            this.btnTagCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTagCancel.Location = new System.Drawing.Point(395, 706);
-            this.btnTagCancel.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.btnTagCancel.Name = "btnTagCancel";
-            this.btnTagCancel.Size = new System.Drawing.Size(158, 72);
-            this.btnTagCancel.TabIndex = 15;
-            this.btnTagCancel.Text = "Cancel";
-            this.btnTagCancel.UseVisualStyleBackColor = true;
+            this.txtLength.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLength.Location = new System.Drawing.Point(235, 347);
+            this.txtLength.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.txtLength.Name = "txtLength";
+            this.txtLength.Size = new System.Drawing.Size(266, 44);
+            this.txtLength.TabIndex = 27;
             // 
-            // btnTagSave
+            // label6
             // 
-            this.btnTagSave.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTagSave.Location = new System.Drawing.Point(198, 706);
-            this.btnTagSave.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.btnTagSave.Name = "btnTagSave";
-            this.btnTagSave.Size = new System.Drawing.Size(158, 72);
-            this.btnTagSave.TabIndex = 14;
-            this.btnTagSave.Text = "Save";
-            this.btnTagSave.UseVisualStyleBackColor = true;
-            this.btnTagSave.Click += new System.EventHandler(this.btnTagSave_Click);
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(21, 350);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(106, 37);
+            this.label6.TabIndex = 26;
+            this.label6.Text = "Length:";
+            // 
+            // txtStartBit
+            // 
+            this.txtStartBit.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtStartBit.Location = new System.Drawing.Point(235, 281);
+            this.txtStartBit.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.txtStartBit.Name = "txtStartBit";
+            this.txtStartBit.Size = new System.Drawing.Size(50, 44);
+            this.txtStartBit.TabIndex = 25;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(21, 283);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(118, 37);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Start Bit:";
+            // 
+            // txtStartAddress
+            // 
+            this.txtStartAddress.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtStartAddress.Location = new System.Drawing.Point(235, 215);
+            this.txtStartAddress.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.txtStartAddress.Name = "txtStartAddress";
+            this.txtStartAddress.Size = new System.Drawing.Size(266, 44);
+            this.txtStartAddress.TabIndex = 23;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(21, 216);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(185, 37);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Start Address:";
+            // 
+            // cmbWordBit
+            // 
+            this.cmbWordBit.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbWordBit.FormattingEnabled = true;
+            this.cmbWordBit.Location = new System.Drawing.Point(235, 148);
+            this.cmbWordBit.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.cmbWordBit.Name = "cmbWordBit";
+            this.cmbWordBit.Size = new System.Drawing.Size(266, 45);
+            this.cmbWordBit.TabIndex = 21;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(21, 82);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(146, 37);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Data Type:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(21, 149);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(126, 37);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Word/Bit:";
+            // 
+            // txtTagName
+            // 
+            this.txtTagName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTagName.Location = new System.Drawing.Point(235, 15);
+            this.txtTagName.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.txtTagName.Name = "txtTagName";
+            this.txtTagName.Size = new System.Drawing.Size(266, 44);
+            this.txtTagName.TabIndex = 17;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(21, 15);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(184, 37);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "Tag Name(X):";
+            // 
+            // cmbDataType
+            // 
+            this.cmbDataType.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbDataType.FormattingEnabled = true;
+            this.cmbDataType.Location = new System.Drawing.Point(235, 81);
+            this.cmbDataType.Name = "cmbDataType";
+            this.cmbDataType.Size = new System.Drawing.Size(266, 45);
+            this.cmbDataType.TabIndex = 31;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(21, 611);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(157, 37);
+            this.label10.TabIndex = 32;
+            this.label10.Text = "Description:";
+            // 
+            // txtDescription
+            // 
+            this.txtDescription.Location = new System.Drawing.Point(28, 660);
+            this.txtDescription.Multiline = true;
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(652, 170);
+            this.txtDescription.TabIndex = 33;
+            // 
+            // txtEndBit
+            // 
+            this.txtEndBit.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEndBit.Location = new System.Drawing.Point(447, 283);
+            this.txtEndBit.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.txtEndBit.Name = "txtEndBit";
+            this.txtEndBit.Size = new System.Drawing.Size(54, 44);
+            this.txtEndBit.TabIndex = 35;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(314, 283);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(110, 37);
+            this.label11.TabIndex = 34;
+            this.label11.Text = "End Bit:";
             // 
             // frmEditTag
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(776, 826);
-            this.Controls.Add(this.btnTagCancel);
-            this.Controls.Add(this.btnTagSave);
-            this.Controls.Add(this.gbLinearScale);
-            this.Controls.Add(this.txtLength);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.txtStartBit);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtAddress);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.cmbWordBit);
-            this.Controls.Add(this.txtDataType);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtTagName);
-            this.Controls.Add(this.label1);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(764, 999);
+            this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.Name = "frmEditTag";
             this.Text = "Add Tag";
+            this.Load += new System.EventHandler(this.frmEditTag_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.gbLinearScale.ResumeLayout(false);
             this.gbLinearScale.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtTagName;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtDataType;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbWordBit;
-        private System.Windows.Forms.TextBox txtAddress;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtStartBit;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtLength;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnTagCancel;
+        private System.Windows.Forms.Button btnTagSave;
         private System.Windows.Forms.GroupBox gbLinearScale;
+        private System.Windows.Forms.TextBox txtOffset;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtScale;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtOffset;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button btnTagCancel;
-        private System.Windows.Forms.Button btnTagSave;
+        private System.Windows.Forms.TextBox txtLength;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtStartBit;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtStartAddress;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbWordBit;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtTagName;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbDataType;
+        private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtEndBit;
+        private System.Windows.Forms.Label label11;
     }
 }

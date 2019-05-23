@@ -17,21 +17,35 @@ namespace IEW.GatewayService.GUI
     public partial class frmEditDevice : Form
     {
         bool isEdit;
+        bool isEmbedded;
         cls_Device_Info device_data;
+        cls_Gateway_Info gw_data;
         int iDeviceIndex;
 
         public frmEditDevice()
         {
             InitializeComponent();
             this.isEdit = false;
+            this.isEmbedded = false;
         }
 
         public frmEditDevice(cls_Device_Info device, int index)
         {
             InitializeComponent();
             this.isEdit = true;
-            device_data = device;
-            iDeviceIndex = index;
+            this.isEmbedded = false;
+            this.device_data = device;
+            this.iDeviceIndex = index;
+        }
+
+        public frmEditDevice(cls_Gateway_Info gw, cls_Device_Info device, int index)
+        {
+            InitializeComponent();
+            this.isEdit = true;
+            this.isEmbedded = true;
+            this.gw_data = gw;
+            this.device_data = device;
+            this.iDeviceIndex = index;
         }
 
         private void frmEditDevice_Load(object sender, EventArgs e)
@@ -82,9 +96,13 @@ namespace IEW.GatewayService.GUI
             this.Close();
         }
 
+        public cls_Device_Info GetDeviceInfo()
+        {
+            return device_data;
+        }
+
         private void btnDeviceSave_Click(object sender, EventArgs e)
         {
-            frmEditGateway pgw = (frmEditGateway)this.Owner;
             cls_Device_Info diTemp = new cls_Device_Info();
 
             if ( txtDeviceID.Text.Trim() == "" )
@@ -92,7 +110,6 @@ namespace IEW.GatewayService.GUI
                 MessageBox.Show("Please enter Device ID!", "Error");
                 return;
             }
-
 
             if (cmbType.Text == "PLC")
             {
@@ -165,14 +182,27 @@ namespace IEW.GatewayService.GUI
             {
 
             }
-            
-            if(!isEdit)
+
+            this.device_data = diTemp;
+
+            if(!isEmbedded)
             {
-                pgw.device_list.Add(diTemp);
+                frmEditGateway pgw = (frmEditGateway)this.Owner;
+
+                if (!isEdit)
+                {
+                    pgw.device_list.Add(diTemp);
+                }
+                else
+                {
+                    pgw.device_list[iDeviceIndex] = diTemp;
+                }
             }
             else
             {
-                pgw.device_list[iDeviceIndex] = diTemp;
+                Gateway p = (Gateway)this.Owner;
+                p.SetDeviceInfo(gw_data, device_data, iDeviceIndex);
+                p.RefreshGatewayConfig();
             }
 
             diTemp = null;

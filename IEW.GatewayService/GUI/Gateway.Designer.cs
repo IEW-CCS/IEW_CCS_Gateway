@@ -43,37 +43,31 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tpGatewayInfo = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.tpDeviceInfo = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.tpTagSetList = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnRemoveTagSetTemplate = new System.Windows.Forms.Button();
+            this.btnAddTagSetTemplate = new System.Windows.Forms.Button();
+            this.lvTagSetList = new System.Windows.Forms.ListView();
             this.label6 = new System.Windows.Forms.Label();
             this.tpTagSetInfo = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.btnSaveConfig = new System.Windows.Forms.Button();
-            this.lvTagSetList = new System.Windows.Forms.ListView();
-            this.btnRemoveTagSetTemplate = new System.Windows.Forms.Button();
-            this.btnAddTagSetTemplate = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.lblName = new System.Windows.Forms.Label();
-            this.lblDescription = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnRemoveTag = new System.Windows.Forms.Button();
             this.btnAddTag = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblDescription = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnSaveConfig = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lvTagList = new System.Windows.Forms.ListView();
             this.tcInfo.SuspendLayout();
             this.tpGatewayList.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tpGatewayInfo.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.tpDeviceInfo.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.tpTagSetList.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tpTagSetInfo.SuspendLayout();
@@ -118,7 +112,7 @@
             this.tvNodeList.Location = new System.Drawing.Point(42, 126);
             this.tvNodeList.Name = "tvNodeList";
             this.tvNodeList.SelectedImageIndex = 0;
-            this.tvNodeList.Size = new System.Drawing.Size(373, 924);
+            this.tvNodeList.Size = new System.Drawing.Size(373, 1076);
             this.tvNodeList.TabIndex = 3;
             this.tvNodeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNodeList_AfterSelect);
             // 
@@ -144,7 +138,7 @@
             this.tcInfo.Location = new System.Drawing.Point(446, 126);
             this.tcInfo.Name = "tcInfo";
             this.tcInfo.SelectedIndex = 0;
-            this.tcInfo.Size = new System.Drawing.Size(1361, 932);
+            this.tcInfo.Size = new System.Drawing.Size(1585, 1076);
             this.tcInfo.TabIndex = 6;
             // 
             // tpGatewayList
@@ -155,7 +149,7 @@
             this.tpGatewayList.Location = new System.Drawing.Point(8, 39);
             this.tpGatewayList.Name = "tpGatewayList";
             this.tpGatewayList.Padding = new System.Windows.Forms.Padding(3);
-            this.tpGatewayList.Size = new System.Drawing.Size(1345, 885);
+            this.tpGatewayList.Size = new System.Drawing.Size(1569, 1029);
             this.tpGatewayList.TabIndex = 0;
             this.tpGatewayList.Tag = "GATEWAY_LIST_TAB";
             this.tpGatewayList.Text = "Gateway List";
@@ -171,7 +165,7 @@
             this.panel1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(7, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1333, 867);
+            this.panel1.Size = new System.Drawing.Size(1554, 1015);
             this.panel1.TabIndex = 0;
             // 
             // lvGatewayList
@@ -182,7 +176,7 @@
             this.lvGatewayList.GridLines = true;
             this.lvGatewayList.Location = new System.Drawing.Point(41, 81);
             this.lvGatewayList.Name = "lvGatewayList";
-            this.lvGatewayList.Size = new System.Drawing.Size(1239, 673);
+            this.lvGatewayList.Size = new System.Drawing.Size(1508, 846);
             this.lvGatewayList.TabIndex = 1;
             this.lvGatewayList.UseCompatibleStateImageBehavior = false;
             this.lvGatewayList.View = System.Windows.Forms.View.Details;
@@ -196,7 +190,7 @@
             this.btnRemoveGateway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnRemoveGateway.ImageIndex = 6;
-            this.btnRemoveGateway.Location = new System.Drawing.Point(97, 777);
+            this.btnRemoveGateway.Location = new System.Drawing.Point(93, 933);
             this.btnRemoveGateway.Name = "btnRemoveGateway";
             this.btnRemoveGateway.Size = new System.Drawing.Size(48, 48);
             this.btnRemoveGateway.TabIndex = 5;
@@ -211,7 +205,7 @@
             this.btnAddGateway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnAddGateway.ImageIndex = 5;
-            this.btnAddGateway.Location = new System.Drawing.Point(41, 777);
+            this.btnAddGateway.Location = new System.Drawing.Point(37, 933);
             this.btnAddGateway.Name = "btnAddGateway";
             this.btnAddGateway.Size = new System.Drawing.Size(48, 48);
             this.btnAddGateway.TabIndex = 4;
@@ -236,7 +230,7 @@
             this.tpGatewayInfo.Location = new System.Drawing.Point(8, 39);
             this.tpGatewayInfo.Name = "tpGatewayInfo";
             this.tpGatewayInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpGatewayInfo.Size = new System.Drawing.Size(1345, 885);
+            this.tpGatewayInfo.Size = new System.Drawing.Size(1569, 1029);
             this.tpGatewayInfo.TabIndex = 1;
             this.tpGatewayInfo.Tag = "GATEWAY_INFO_TAB";
             this.tpGatewayInfo.Text = "Gateway Information";
@@ -245,33 +239,11 @@
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.label2);
             this.panel2.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel2.Location = new System.Drawing.Point(7, 6);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1333, 861);
+            this.panel2.Size = new System.Drawing.Size(1554, 1015);
             this.panel2.TabIndex = 0;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(29, 88);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(153, 37);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Gateway IP";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(29, 32);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(154, 37);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Gateway ID";
             // 
             // tpDeviceInfo
             // 
@@ -280,7 +252,7 @@
             this.tpDeviceInfo.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tpDeviceInfo.Location = new System.Drawing.Point(8, 39);
             this.tpDeviceInfo.Name = "tpDeviceInfo";
-            this.tpDeviceInfo.Size = new System.Drawing.Size(1345, 885);
+            this.tpDeviceInfo.Size = new System.Drawing.Size(1569, 1029);
             this.tpDeviceInfo.TabIndex = 2;
             this.tpDeviceInfo.Tag = "DEVICE_INFO_TAB";
             this.tpDeviceInfo.Text = "Device Information";
@@ -289,33 +261,11 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.label5);
-            this.panel3.Controls.Add(this.label4);
             this.panel3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel3.Location = new System.Drawing.Point(3, 9);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1339, 868);
+            this.panel3.Size = new System.Drawing.Size(1561, 1006);
             this.panel3.TabIndex = 0;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(40, 104);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(164, 37);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Device Type";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(40, 44);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(131, 37);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Device ID";
             // 
             // tpTagSetList
             // 
@@ -324,7 +274,7 @@
             this.tpTagSetList.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tpTagSetList.Location = new System.Drawing.Point(8, 39);
             this.tpTagSetList.Name = "tpTagSetList";
-            this.tpTagSetList.Size = new System.Drawing.Size(1345, 885);
+            this.tpTagSetList.Size = new System.Drawing.Size(1569, 1029);
             this.tpTagSetList.TabIndex = 3;
             this.tpTagSetList.Text = "TagSet List";
             this.tpTagSetList.UseVisualStyleBackColor = true;
@@ -339,8 +289,44 @@
             this.panel4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1339, 882);
+            this.panel4.Size = new System.Drawing.Size(1549, 1021);
             this.panel4.TabIndex = 0;
+            // 
+            // btnRemoveTagSetTemplate
+            // 
+            this.btnRemoveTagSetTemplate.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
+            this.btnRemoveTagSetTemplate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnRemoveTagSetTemplate.FlatAppearance.BorderSize = 0;
+            this.btnRemoveTagSetTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoveTagSetTemplate.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnRemoveTagSetTemplate.ImageIndex = 6;
+            this.btnRemoveTagSetTemplate.Location = new System.Drawing.Point(97, 932);
+            this.btnRemoveTagSetTemplate.Name = "btnRemoveTagSetTemplate";
+            this.btnRemoveTagSetTemplate.Size = new System.Drawing.Size(48, 48);
+            this.btnRemoveTagSetTemplate.TabIndex = 7;
+            this.btnRemoveTagSetTemplate.UseVisualStyleBackColor = true;
+            // 
+            // btnAddTagSetTemplate
+            // 
+            this.btnAddTagSetTemplate.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
+            this.btnAddTagSetTemplate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAddTagSetTemplate.FlatAppearance.BorderSize = 0;
+            this.btnAddTagSetTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddTagSetTemplate.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnAddTagSetTemplate.ImageIndex = 5;
+            this.btnAddTagSetTemplate.Location = new System.Drawing.Point(41, 932);
+            this.btnAddTagSetTemplate.Name = "btnAddTagSetTemplate";
+            this.btnAddTagSetTemplate.Size = new System.Drawing.Size(48, 48);
+            this.btnAddTagSetTemplate.TabIndex = 6;
+            this.btnAddTagSetTemplate.UseVisualStyleBackColor = true;
+            // 
+            // lvTagSetList
+            // 
+            this.lvTagSetList.Location = new System.Drawing.Point(47, 100);
+            this.lvTagSetList.Name = "lvTagSetList";
+            this.lvTagSetList.Size = new System.Drawing.Size(1461, 809);
+            this.lvTagSetList.TabIndex = 1;
+            this.lvTagSetList.UseCompatibleStateImageBehavior = false;
             // 
             // label6
             // 
@@ -359,7 +345,7 @@
             this.tpTagSetInfo.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tpTagSetInfo.Location = new System.Drawing.Point(8, 39);
             this.tpTagSetInfo.Name = "tpTagSetInfo";
-            this.tpTagSetInfo.Size = new System.Drawing.Size(1345, 885);
+            this.tpTagSetInfo.Size = new System.Drawing.Size(1569, 1029);
             this.tpTagSetInfo.TabIndex = 4;
             this.tpTagSetInfo.Text = "TagSet Info";
             this.tpTagSetInfo.UseVisualStyleBackColor = true;
@@ -369,13 +355,86 @@
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.btnRemoveTag);
             this.panel5.Controls.Add(this.btnAddTag);
-            this.panel5.Controls.Add(this.groupBox2);
             this.panel5.Controls.Add(this.groupBox1);
             this.panel5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1339, 878);
+            this.panel5.Size = new System.Drawing.Size(1561, 1021);
             this.panel5.TabIndex = 0;
+            // 
+            // btnRemoveTag
+            // 
+            this.btnRemoveTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
+            this.btnRemoveTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnRemoveTag.FlatAppearance.BorderSize = 0;
+            this.btnRemoveTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoveTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnRemoveTag.Location = new System.Drawing.Point(84, 928);
+            this.btnRemoveTag.Name = "btnRemoveTag";
+            this.btnRemoveTag.Size = new System.Drawing.Size(48, 48);
+            this.btnRemoveTag.TabIndex = 9;
+            this.btnRemoveTag.UseVisualStyleBackColor = true;
+            // 
+            // btnAddTag
+            // 
+            this.btnAddTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
+            this.btnAddTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAddTag.FlatAppearance.BorderSize = 0;
+            this.btnAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnAddTag.Location = new System.Drawing.Point(33, 928);
+            this.btnAddTag.Name = "btnAddTag";
+            this.btnAddTag.Size = new System.Drawing.Size(48, 48);
+            this.btnAddTag.TabIndex = 8;
+            this.btnAddTag.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.groupBox2);
+            this.groupBox1.Controls.Add(this.lblDescription);
+            this.groupBox1.Controls.Add(this.lblName);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Location = new System.Drawing.Point(33, 28);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1490, 880);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Tag Set Deail Information";
+            // 
+            // lblDescription
+            // 
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.Location = new System.Drawing.Point(367, 128);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(0, 37);
+            this.lblDescription.TabIndex = 3;
+            // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(367, 68);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(0, 37);
+            this.lblName.TabIndex = 2;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(28, 128);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(257, 37);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Tag Set Description:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(28, 68);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(202, 37);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Tag Set Name: ";
             // 
             // btnSaveConfig
             // 
@@ -389,130 +448,21 @@
             this.btnSaveConfig.UseVisualStyleBackColor = true;
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
             // 
-            // lvTagSetList
-            // 
-            this.lvTagSetList.Location = new System.Drawing.Point(47, 100);
-            this.lvTagSetList.Name = "lvTagSetList";
-            this.lvTagSetList.Size = new System.Drawing.Size(1245, 687);
-            this.lvTagSetList.TabIndex = 1;
-            this.lvTagSetList.UseCompatibleStateImageBehavior = false;
-            // 
-            // btnRemoveTagSetTemplate
-            // 
-            this.btnRemoveTagSetTemplate.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
-            this.btnRemoveTagSetTemplate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnRemoveTagSetTemplate.FlatAppearance.BorderSize = 0;
-            this.btnRemoveTagSetTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemoveTagSetTemplate.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnRemoveTagSetTemplate.ImageIndex = 6;
-            this.btnRemoveTagSetTemplate.Location = new System.Drawing.Point(103, 806);
-            this.btnRemoveTagSetTemplate.Name = "btnRemoveTagSetTemplate";
-            this.btnRemoveTagSetTemplate.Size = new System.Drawing.Size(48, 48);
-            this.btnRemoveTagSetTemplate.TabIndex = 7;
-            this.btnRemoveTagSetTemplate.UseVisualStyleBackColor = true;
-            // 
-            // btnAddTagSetTemplate
-            // 
-            this.btnAddTagSetTemplate.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
-            this.btnAddTagSetTemplate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnAddTagSetTemplate.FlatAppearance.BorderSize = 0;
-            this.btnAddTagSetTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddTagSetTemplate.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnAddTagSetTemplate.ImageIndex = 5;
-            this.btnAddTagSetTemplate.Location = new System.Drawing.Point(47, 806);
-            this.btnAddTagSetTemplate.Name = "btnAddTagSetTemplate";
-            this.btnAddTagSetTemplate.Size = new System.Drawing.Size(48, 48);
-            this.btnAddTagSetTemplate.TabIndex = 6;
-            this.btnAddTagSetTemplate.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.lblDescription);
-            this.groupBox1.Controls.Add(this.lblName);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Location = new System.Drawing.Point(33, 28);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1272, 212);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tag Set Deail Information";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(28, 68);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(202, 37);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Tag Set Name: ";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(28, 128);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(257, 37);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Tag Set Description:";
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(367, 68);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(0, 37);
-            this.lblName.TabIndex = 2;
-            // 
-            // lblDescription
-            // 
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(367, 128);
-            this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(0, 37);
-            this.lblDescription.TabIndex = 3;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lvTagList);
-            this.groupBox2.Location = new System.Drawing.Point(33, 260);
+            this.groupBox2.Location = new System.Drawing.Point(0, 214);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1272, 530);
-            this.groupBox2.TabIndex = 1;
+            this.groupBox2.Size = new System.Drawing.Size(1490, 648);
+            this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tag List";
             // 
-            // btnRemoveTag
-            // 
-            this.btnRemoveTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
-            this.btnRemoveTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnRemoveTag.FlatAppearance.BorderSize = 0;
-            this.btnRemoveTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemoveTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnRemoveTag.Location = new System.Drawing.Point(84, 796);
-            this.btnRemoveTag.Name = "btnRemoveTag";
-            this.btnRemoveTag.Size = new System.Drawing.Size(48, 48);
-            this.btnRemoveTag.TabIndex = 9;
-            this.btnRemoveTag.UseVisualStyleBackColor = true;
-            // 
-            // btnAddTag
-            // 
-            this.btnAddTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
-            this.btnAddTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnAddTag.FlatAppearance.BorderSize = 0;
-            this.btnAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnAddTag.Location = new System.Drawing.Point(33, 796);
-            this.btnAddTag.Name = "btnAddTag";
-            this.btnAddTag.Size = new System.Drawing.Size(48, 48);
-            this.btnAddTag.TabIndex = 8;
-            this.btnAddTag.UseVisualStyleBackColor = true;
-            // 
             // lvTagList
             // 
-            this.lvTagList.Location = new System.Drawing.Point(22, 64);
+            this.lvTagList.Location = new System.Drawing.Point(22, 54);
             this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1225, 441);
+            this.lvTagList.Size = new System.Drawing.Size(1449, 578);
             this.lvTagList.TabIndex = 0;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             // 
@@ -520,7 +470,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1839, 1131);
+            this.ClientSize = new System.Drawing.Size(2063, 1283);
             this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.tcInfo);
             this.Controls.Add(this.tvNodeList);
@@ -537,11 +487,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tpGatewayInfo.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.tpDeviceInfo.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.tpTagSetList.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
@@ -570,10 +516,6 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ListView lvGatewayList;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TabPage tpTagSetList;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label6;
@@ -589,9 +531,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnRemoveTag;
         private System.Windows.Forms.Button btnAddTag;
+        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListView lvTagList;
     }
 }
