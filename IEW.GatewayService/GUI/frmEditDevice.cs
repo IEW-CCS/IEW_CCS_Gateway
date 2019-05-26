@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using IEW.ObjectManager;
 using IEW.GatewayService.UI;
 using System.Net;
+using System.Collections.Concurrent;
 
 namespace IEW.GatewayService.GUI
 {
@@ -20,6 +21,7 @@ namespace IEW.GatewayService.GUI
         bool isEmbedded;
         cls_Device_Info device_data;
         cls_Gateway_Info gw_data;
+        ConcurrentDictionary<string, cls_Tag> taglist_data = new ConcurrentDictionary<string, cls_Tag>();
         int iDeviceIndex;
 
         public frmEditDevice()
@@ -212,8 +214,13 @@ namespace IEW.GatewayService.GUI
 
         private void btnLoadTag_Click(object sender, EventArgs e)
         {
-            var frm = new frmTagSetTemplate();
+            var frm = new frmLoadTagSetTemplate();
             frm.ShowDialog();
+
+        }
+
+        private void RefreshDeviceTagList()
+        {
 
         }
     }

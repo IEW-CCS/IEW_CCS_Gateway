@@ -11,11 +11,16 @@ using IEW.ObjectManager;
 
 namespace IEW.GatewayService.GUI
 {
-    public partial class frmTagSetTemplate : Form
+    public partial class frmLoadTagSetTemplate : Form
     {
-        public frmTagSetTemplate()
+        public frmLoadTagSetTemplate()
         {
             InitializeComponent();
+        }
+
+        private void btnTempCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

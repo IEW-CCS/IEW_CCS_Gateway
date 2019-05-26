@@ -1,6 +1,6 @@
 ﻿namespace IEW.GatewayService.GUI
 {
-    partial class frmTagSetTemplate
+    partial class frmLoadTagSetTemplate
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLoadTagSetTemplate));
             this.label1 = new System.Windows.Forms.Label();
             this.cmbTagSet = new System.Windows.Forms.ComboBox();
             this.lvTagList = new System.Windows.Forms.ListView();
@@ -58,11 +59,14 @@
             // lvTagList
             // 
             this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvTagList.FullRowSelect = true;
             this.lvTagList.Location = new System.Drawing.Point(44, 184);
+            this.lvTagList.MultiSelect = false;
             this.lvTagList.Name = "lvTagList";
             this.lvTagList.Size = new System.Drawing.Size(1200, 469);
             this.lvTagList.TabIndex = 2;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
+            this.lvTagList.View = System.Windows.Forms.View.Details;
             // 
             // btnTempCancel
             // 
@@ -73,6 +77,7 @@
             this.btnTempCancel.TabIndex = 18;
             this.btnTempCancel.Text = "Cancel";
             this.btnTempCancel.UseVisualStyleBackColor = true;
+            this.btnTempCancel.Click += new System.EventHandler(this.btnTempCancel_Click);
             // 
             // btnTempLoad
             // 
@@ -94,7 +99,7 @@
             this.label2.TabIndex = 19;
             this.label2.Text = "Description: ";
             // 
-            // frmTagSetTemplate
+            // frmLoadTagSetTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -105,7 +110,8 @@
             this.Controls.Add(this.lvTagList);
             this.Controls.Add(this.cmbTagSet);
             this.Controls.Add(this.label1);
-            this.Name = "frmTagSetTemplate";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "frmLoadTagSetTemplate";
             this.Text = "Load Tag Set Template";
             this.ResumeLayout(false);
             this.PerformLayout();
