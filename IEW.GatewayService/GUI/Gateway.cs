@@ -285,6 +285,10 @@ namespace IEW.GatewayService.UI
             gwForm.Owner = this;
             gwForm.TopLevel = false;
             gwForm.FormBorderStyle = FormBorderStyle.None;
+            if(this.Panels[index].Controls.Count > 0)
+            {
+                this.Panels[index].Controls.RemoveAt(0);
+            }
             this.Panels[index].Controls.Add(gwForm);
             gwForm.Show();
         }
@@ -317,6 +321,11 @@ namespace IEW.GatewayService.UI
             deviceForm.Owner = this;
             deviceForm.TopLevel = false;
             deviceForm.FormBorderStyle = FormBorderStyle.None;
+            if (this.Panels[index].Controls.Count > 0)
+            {
+                this.Panels[index].Controls.RemoveAt(0);
+            }
+
             this.Panels[index].Controls.Add(deviceForm);
             deviceForm.Show();
         }
@@ -367,6 +376,11 @@ namespace IEW.GatewayService.UI
             frm.Owner = this;
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
+            if (this.Panels[index].Controls.Count > 0)
+            {
+                this.Panels[index].Controls.RemoveAt(0);
+            }
+
             this.Panels[index].Controls.Add(frm);
             frm.Show();
         }
@@ -399,7 +413,7 @@ namespace IEW.GatewayService.UI
 
                 StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Gateway_Device_Config.json");
 
-                var json_string = inputFile.ReadToEnd();
+                string json_string = inputFile.ReadToEnd();
 
                 ObjectManager.GatewayManager_Initial(json_string);
 
@@ -433,7 +447,7 @@ namespace IEW.GatewayService.UI
 
                 StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Tag_Set_Config.json");
 
-                var json_string = inputFile.ReadToEnd();
+                string json_string = inputFile.ReadToEnd();
 
                 ObjectManager.TagSetManager_Initial(json_string);
 

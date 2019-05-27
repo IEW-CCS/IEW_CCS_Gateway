@@ -62,7 +62,6 @@ namespace IEW.GatewayService.GUI
             Gateway lgateway = (Gateway)this.Owner;
             lgateway.RefreshGatewayConfig();
             this.Close();
-
         }
 
         private void btnDeviceAdd_Click(object sender, EventArgs e)

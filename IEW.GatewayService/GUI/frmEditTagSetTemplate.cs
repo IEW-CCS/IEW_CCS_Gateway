@@ -47,18 +47,6 @@ namespace IEW.GatewayService.GUI
             }
             else
             {
-                if(tag_list.Count > 0)
-                {
-                    foreach(cls_Tag t in tag_list)
-                    {
-                        if(t.TagName == tag.TagName)
-                        {
-                            MessageBox.Show("Duplicate tag name", "Error");
-                            return;
-                        }
-                    }
-                }
-
                 tag_list.Add(tag);
                 return;
             }
@@ -162,7 +150,9 @@ namespace IEW.GatewayService.GUI
 
         private void DisplayTagList()
         {
-            if(this.tag_list.Count > 0)
+            lvTagList.Items.Clear();
+
+            if (this.tag_list.Count > 0)
             {
                 lvTagList.BeginUpdate();
                 lvTagList.Items.Clear();
