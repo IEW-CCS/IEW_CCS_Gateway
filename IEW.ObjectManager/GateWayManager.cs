@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 
 namespace IEW.ObjectManager
 {
-    #region Gateway Class Define
+    #region Gateway Class Define  For Global used.
 
     public class cls_Device_Info
     {
@@ -49,7 +49,7 @@ namespace IEW.ObjectManager
 
     #endregion
 
-    #region Tag Class Define
+    #region Tag Class Define Class Tag Define   Normal Tag or Calc Tag
 
     public class cls_Tag
     {
@@ -57,7 +57,7 @@ namespace IEW.ObjectManager
         public string Type { get; set; }
         public string UUID_Address { get; set; }  // For PLC type Using W1000:W1003  or W1000.1:a   16 bit 代表 0 1 2 3 4 5 6 7 8 9 a b c d e 
         public string Expression { get; set; }
-        public List<string> Value = new List<string>();
+        public string Value { get; set; }
         public double scale { get; set; }
         public double offset { get; set; }
         public string LastUpdateTime { get; set; }
@@ -92,7 +92,8 @@ namespace IEW.ObjectManager
 
     #endregion
 
-    #region Collect Cmd Json
+    #region Collect Cmd Json Class Define
+
     public class cls_Collect_Tag
     {
         public string DATA_NAME { get; set; }
@@ -103,6 +104,7 @@ namespace IEW.ObjectManager
 
     public class cls_Collect
     {
+        // [JsonIgnore] 如果Class中不要轉進去Json file 要加這個屬性上去
         public string Cmd_Type { get; set; }
         public string Report_Interval { get; set; }
         public string Trace_ID { get; set; }
@@ -112,7 +114,6 @@ namespace IEW.ObjectManager
         {
 
         }
-
         public cls_Collect (string _Cmd_Type, string _Report_Interval, string _Trace_ID, cls_Device_Info _DeviceInfo)
         {
             Cmd_Type = _Cmd_Type;
@@ -195,7 +196,8 @@ namespace IEW.ObjectManager
 
     #endregion
 
-    #region Collect Reply  Json
+    #region Collect Reply Json Class Define
+
     public class cls_Collect_Reply_Tag
     {
         public string TAG_NAME { get; set; }
@@ -210,14 +212,15 @@ namespace IEW.ObjectManager
         public List<cls_Collect_Reply_Tag> EDC_Data = new List<cls_Collect_Reply_Tag>();
     }
 
+    #endregion
+
+    #region Process Collect Reply  Middle Class Define
     public class cls_ProcRecv_CollectData
     {
         public string GateWayID { get; set; }
         public string Device_ID { get; set; }
         public ConcurrentQueue<Tuple<string, string>> Prod_EDC_Data = new ConcurrentQueue<Tuple<string, string>>();
     }
-
     #endregion
-
 
 }
