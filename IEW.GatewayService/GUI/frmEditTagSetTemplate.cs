@@ -18,13 +18,17 @@ namespace IEW.GatewayService.GUI
         public cls_Tag_Set tag_set_data;
         public List<cls_Tag> tag_list = new List<cls_Tag>();
         public int tag_set_index;
+        int tag_index;
 
+
+        // New Tag Set Constructor
         public frmEditTagSetTemplate()
         {
             InitializeComponent();
             this.isEdit = false;
         }
 
+        //Edit Tag Set Constructor
         public frmEditTagSetTemplate(cls_Tag_Set tag_set, int index)
         {
             InitializeComponent();
@@ -34,19 +38,63 @@ namespace IEW.GatewayService.GUI
             tag_set_index = index;
         }
 
+        void SetTagInformation(cls_Tag tag, bool edit)
+        {
+            if(edit)
+            {
+                tag_list[tag_index] = tag;
+                return;
+            }
+            else
+            {
+                if(tag_list.Count > 0)
+                {
+                    foreach(cls_Tag t in tag_list)
+                    {
+                        if(t.TagName == tag.TagName)
+                        {
+                            MessageBox.Show("Duplicate tag name", "Error");
+                            return;
+                        }
+                    }
+                }
+
+                tag_list.Add(tag);
+                return;
+            }
+        }
+
+        bool CheckDuplicateTag(string tag_name)
+        {
+            if (tag_list.Count > 0)
+            {
+                cls_Tag tag = tag_list.Where(p => p.TagName == tag_name).FirstOrDefault();
+                if (tag != null)
+                {
+                    MessageBox.Show("Duplicate Tag Name!", "Error");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void frmEditTagSetTemplate_Load(object sender, EventArgs e)
         {
             lvTagList.Columns.Clear();
             lvTagList.Columns.Add("Tag Name", 80);
             lvTagList.Columns.Add("Data Type", 80);
-            lvTagList.Columns.Add("Address", 80);
+            lvTagList.Columns.Add("Address", 120);
             lvTagList.Columns.Add("Scale", 80);
             lvTagList.Columns.Add("Offset", 80);
-            lvTagList.Columns.Add("Update Time", 80);
+            lvTagList.Columns.Add("Update Time", 180);
 
             if (isEdit)
             {
+                txtTagSetName.Text = this.tag_set_data.TagSetName;
                 txtTagSetName.Enabled = false;
+                txtTagSetDescription.Text = this.tag_set_data.TagSetDescription;
+                DisplayTagList();
             }
         }
 
@@ -105,7 +153,8 @@ namespace IEW.GatewayService.GUI
 
         private void btnTemplateAddTag_Click(object sender, EventArgs e)
         {
-            frmEditTag frm = new frmEditTag();
+            //frmEditTag frm = new frmEditTag();
+            frmEditTag frm = new frmEditTag(SetTagInformation, CheckDuplicateTag, false);
             frm.Owner = this;
             frm.ShowDialog();
             DisplayTagList();
@@ -116,6 +165,7 @@ namespace IEW.GatewayService.GUI
             if(this.tag_list.Count > 0)
             {
                 lvTagList.BeginUpdate();
+                lvTagList.Items.Clear();
                 foreach (cls_Tag tag in tag_list)
                 {
                     ListViewItem lvItem = new ListViewItem(tag.TagName);
@@ -124,6 +174,7 @@ namespace IEW.GatewayService.GUI
                     lvItem.SubItems.Add(tag.scale.ToString());
                     lvItem.SubItems.Add(tag.offset.ToString());
                     lvItem.SubItems.Add(tag.LastUpdateTime);
+                    lvTagList.Items.Add(lvItem);
                 }
                 lvTagList.EndUpdate();
             }
@@ -139,7 +190,7 @@ namespace IEW.GatewayService.GUI
                 return;
             }
 
-            if (MessageBox.Show("Are you sure to delete the gateway?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            if (MessageBox.Show("Are you sure to delete the tag?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
             {
                 lvTagList.Focus();
                 return;
@@ -158,6 +209,36 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
+            DisplayTagList();
+        }
+
+        private void lvTagList_DoubleClick(object sender, EventArgs e)
+        {
+            string strTagName;
+            cls_Tag tag = new cls_Tag();
+
+            if (lvTagList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the tag first!", "Error");
+                return;
+            }
+
+            strTagName = lvTagList.SelectedItems[0].Text;
+            int i = 0;
+            foreach(cls_Tag t in tag_list)
+            {
+                if(t.TagName == strTagName)
+                {
+                    tag = t;
+                    break;
+                }
+                i++;
+            }
+            this.tag_index = i;
+
+            frmEditTag frm = new frmEditTag(SetTagInformation, tag);
+            frm.Owner = this;
+            frm.ShowDialog();
             DisplayTagList();
         }
     }

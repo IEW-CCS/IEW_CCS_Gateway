@@ -351,7 +351,24 @@ namespace IEW.GatewayService.UI
 
         private void DisplayTagSetInfo(int index)
         {
+            TreeNode tNode = tvNodeList.SelectedNode;  // Tag Set Node
 
+            int i = 0;
+            foreach(cls_Tag_Set tag_set in ObjectManager.TagSetManager.tag_set_list)
+            {
+                if(tag_set.TagSetName == tNode.Text)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            frmEditTagSetTemplate frm = new frmEditTagSetTemplate(ObjectManager.TagSetManager.tag_set_list[i], i);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            this.Panels[index].Controls.Add(frm);
+            frm.Show();
         }
 
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
@@ -447,9 +464,20 @@ namespace IEW.GatewayService.UI
             output.Close();
         }
 
+        private void SaveTagSetConfig()
+        {
+            string json_string;
+
+            json_string = ObjectManager.TagSetManager_ToJson_String();
+            StreamWriter output = new StreamWriter("C:\\Gateway\\Config\\Tag_Set_Config.json");
+            output.Write(json_string);
+            output.Close();
+        }
+
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
             SaveGatewayConfig();
+            SaveTagSetConfig();
         }
 
         private void lvGatewayList_DoubleClick(object sender, EventArgs e)
