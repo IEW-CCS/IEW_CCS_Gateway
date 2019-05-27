@@ -53,16 +53,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.tpTagSetInfo = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.btnRemoveTag = new System.Windows.Forms.Button();
-            this.btnAddTag = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblDescription = new System.Windows.Forms.Label();
-            this.lblName = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.btnSaveConfig = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lvTagList = new System.Windows.Forms.ListView();
             this.tcInfo.SuspendLayout();
             this.tpGatewayList.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -71,9 +62,6 @@
             this.tpTagSetList.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tpTagSetInfo.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCmdDownload
@@ -319,14 +307,19 @@
             this.btnAddTagSetTemplate.Size = new System.Drawing.Size(48, 48);
             this.btnAddTagSetTemplate.TabIndex = 6;
             this.btnAddTagSetTemplate.UseVisualStyleBackColor = true;
+            this.btnAddTagSetTemplate.Click += new System.EventHandler(this.btnAddTagSetTemplate_Click);
             // 
             // lvTagSetList
             // 
+            this.lvTagSetList.FullRowSelect = true;
             this.lvTagSetList.Location = new System.Drawing.Point(47, 100);
+            this.lvTagSetList.MultiSelect = false;
             this.lvTagSetList.Name = "lvTagSetList";
             this.lvTagSetList.Size = new System.Drawing.Size(1461, 809);
             this.lvTagSetList.TabIndex = 1;
             this.lvTagSetList.UseCompatibleStateImageBehavior = false;
+            this.lvTagSetList.View = System.Windows.Forms.View.Details;
+            this.lvTagSetList.DoubleClick += new System.EventHandler(this.lvTagSetList_DoubleClick);
             // 
             // label6
             // 
@@ -353,88 +346,11 @@
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.btnRemoveTag);
-            this.panel5.Controls.Add(this.btnAddTag);
-            this.panel5.Controls.Add(this.groupBox1);
             this.panel5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(1561, 1021);
             this.panel5.TabIndex = 0;
-            // 
-            // btnRemoveTag
-            // 
-            this.btnRemoveTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
-            this.btnRemoveTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnRemoveTag.FlatAppearance.BorderSize = 0;
-            this.btnRemoveTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemoveTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnRemoveTag.Location = new System.Drawing.Point(84, 928);
-            this.btnRemoveTag.Name = "btnRemoveTag";
-            this.btnRemoveTag.Size = new System.Drawing.Size(48, 48);
-            this.btnRemoveTag.TabIndex = 9;
-            this.btnRemoveTag.UseVisualStyleBackColor = true;
-            // 
-            // btnAddTag
-            // 
-            this.btnAddTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
-            this.btnAddTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnAddTag.FlatAppearance.BorderSize = 0;
-            this.btnAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnAddTag.Location = new System.Drawing.Point(33, 928);
-            this.btnAddTag.Name = "btnAddTag";
-            this.btnAddTag.Size = new System.Drawing.Size(48, 48);
-            this.btnAddTag.TabIndex = 8;
-            this.btnAddTag.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.lblDescription);
-            this.groupBox1.Controls.Add(this.lblName);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Location = new System.Drawing.Point(33, 28);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1490, 880);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tag Set Deail Information";
-            // 
-            // lblDescription
-            // 
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(367, 128);
-            this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(0, 37);
-            this.lblDescription.TabIndex = 3;
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(367, 68);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(0, 37);
-            this.lblName.TabIndex = 2;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(28, 128);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(257, 37);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Tag Set Description:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(28, 68);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(202, 37);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Tag Set Name: ";
             // 
             // btnSaveConfig
             // 
@@ -447,24 +363,6 @@
             this.btnSaveConfig.Text = "Save Config";
             this.btnSaveConfig.UseVisualStyleBackColor = true;
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.lvTagList);
-            this.groupBox2.Location = new System.Drawing.Point(0, 214);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1490, 648);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tag List";
-            // 
-            // lvTagList
-            // 
-            this.lvTagList.Location = new System.Drawing.Point(22, 54);
-            this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1449, 578);
-            this.lvTagList.TabIndex = 0;
-            this.lvTagList.UseCompatibleStateImageBehavior = false;
             // 
             // Gateway
             // 
@@ -492,10 +390,6 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.tpTagSetInfo.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -526,14 +420,5 @@
         private System.Windows.Forms.ListView lvTagSetList;
         private System.Windows.Forms.Button btnRemoveTagSetTemplate;
         private System.Windows.Forms.Button btnAddTagSetTemplate;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label lblDescription;
-        private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.Button btnRemoveTag;
-        private System.Windows.Forms.Button btnAddTag;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ListView lvTagList;
     }
 }

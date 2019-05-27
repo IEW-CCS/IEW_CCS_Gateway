@@ -226,9 +226,11 @@ namespace IEW.GatewayService.UI
                     break;
 
                 case TABPAGE_INDEX_TAGSET_LIST:
+                    DispalyTagSetList(index);
                     break;
 
                 case TABPAGE_INDEX_TAGSET_INFO:
+                    DisplayTagSetInfo(index);
                     break;
                      
                 default:
@@ -249,7 +251,7 @@ namespace IEW.GatewayService.UI
 
             if(ObjectManager.GatewayManager.gateway_list.Count == 0)
             {
-                lvGatewayList.BeginUpdate();
+                lvGatewayList.EndUpdate();
                 return;
             }
 
@@ -317,6 +319,39 @@ namespace IEW.GatewayService.UI
             deviceForm.FormBorderStyle = FormBorderStyle.None;
             this.Panels[index].Controls.Add(deviceForm);
             deviceForm.Show();
+        }
+
+        private void DispalyTagSetList(int index)
+        {
+            lvTagSetList.BeginUpdate();
+
+            lvTagSetList.Columns.Clear();
+            lvTagSetList.Columns.Add("Tag Set Name", 100);
+            lvTagSetList.Columns.Add("Tag Count", 80);
+            lvTagSetList.Columns.Add("Tag Set Description", 200);
+
+            lvTagSetList.Items.Clear();
+
+            if (ObjectManager.TagSetManager.tag_set_list.Count == 0)
+            {
+                lvTagSetList.EndUpdate();
+                return;
+            }
+
+            foreach (cls_Tag_Set ts in ObjectManager.TagSetManager.tag_set_list)
+            {
+                ListViewItem lvItem = new ListViewItem(ts.TagSetName);
+                lvItem.SubItems.Add(ts.tag_set.Count().ToString());
+                lvItem.SubItems.Add(ts.TagSetDescription);
+                lvTagSetList.Items.Add(lvItem);
+            }
+
+            lvTagSetList.EndUpdate();
+        }
+
+        private void DisplayTagSetInfo(int index)
+        {
+
         }
 
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
@@ -483,5 +518,45 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig();
         }
 
+        private void btnAddTagSetTemplate_Click(object sender, EventArgs e)
+        {
+            frmEditTagSetTemplate frm = new frmEditTagSetTemplate();
+            frm.Owner = this;
+            frm.ShowDialog();
+        }
+
+        private void lvTagSetList_DoubleClick(object sender, EventArgs e)
+        {
+            string strTagSetName;
+            cls_Tag_Set tmpTagSet = new cls_Tag_Set();
+
+            if (lvTagSetList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the tag set first!", "Error");
+                return;
+            }
+
+            strTagSetName = lvTagSetList.SelectedItems[0].Text.Trim();
+
+            int i = 0;
+            foreach (cls_Tag_Set ts in ObjectManager.TagSetManager.tag_set_list)
+            {
+                if (ts.TagSetName == strTagSetName)
+                {
+                    tmpTagSet = ObjectManager.TagSetManager.tag_set_list[i];
+                    break;
+                }
+                i++;
+            }
+
+            var frm = new frmEditTagSetTemplate(tmpTagSet, i);
+            frm.Owner = this;
+            frm.ShowDialog();
+
+            tmpTagSet = null;
+
+            RefreshGatewayConfig();
+            lvTagSetList.Focus();
+        }
     }
 }
