@@ -95,7 +95,7 @@ namespace IEW.ObjectManager
 
             try
             {
-                return JsonConvert.SerializeObject(TagSetManager, Formatting.Indented);
+                return JsonConvert.SerializeObject(TagSetManager, Newtonsoft.Json.Formatting.Indented);
             }
             catch
             {
