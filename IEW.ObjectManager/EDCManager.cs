@@ -39,4 +39,16 @@ namespace IEW.ObjectManager
             return this.MemberwiseClone();
         }
     }
+
+    public class cls_EDC_Head_Item
+    {
+        public string head_name { get; set; }
+        public int length { get; set; }
+        public string value { get; set; }
+    }
+
+    public class cls_EDC_Head_Set
+    {
+        public List<cls_EDC_Head_Item> head_set = new List<cls_EDC_Head_Item>();
+    }
 }

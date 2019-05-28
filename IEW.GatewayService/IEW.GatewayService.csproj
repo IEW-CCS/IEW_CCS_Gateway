@@ -67,6 +67,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\frmEditEDCHeader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditEDCHeader.Designer.cs">
+      <DependentUpon>frmEditEDCHeader.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmEditTag.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\frmEditEDCHeader.resx">
+      <DependentUpon>frmEditEDCHeader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmEditTag.resx">
       <DependentUpon>frmEditTag.cs</DependentUpon>
     </EmbeddedResource>

@@ -197,8 +197,8 @@ namespace IEW.GatewayService.UI
                 return;
 
             // If this is the same Panel, do nothing.
-            if (VisiblePanel == Panels[index])
-                return;
+            //if (VisiblePanel == Panels[index])
+            //    return;
 
             // Hide the previously visible Panel.
             if (VisiblePanel != null) VisiblePanel.Visible = false;
