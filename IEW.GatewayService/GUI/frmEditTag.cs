@@ -11,12 +11,16 @@ using IEW.ObjectManager;
 
 namespace IEW.GatewayService.GUI
 {
+    public delegate void SetTag(cls_Tag tag, bool edit);
+    public delegate bool CheckDuplicateTag(string tag_name);
+
     public partial class frmEditTag : Form
     {
         bool isEdit;
         cls_Tag tag_data;
         cls_Tag_Set tag_list;
-
+        public SetTag delgSetTag;
+        public CheckDuplicateTag delgCheckDuplicate;
 
         public frmEditTag()
         {
@@ -25,12 +29,21 @@ namespace IEW.GatewayService.GUI
             tag_list = new cls_Tag_Set();
         }
 
-        public frmEditTag(cls_Tag_Set tag_set, cls_Tag tag)
+        public frmEditTag(SetTag set_tag, cls_Tag tag)
         {
             InitializeComponent();
             this.isEdit = true;
             this.tag_data = tag;
-            this.tag_list = tag_set;
+            this.delgSetTag = set_tag;
+            //this.delgCheckDuplicate = check_tag;
+        }
+
+        public frmEditTag(SetTag set_tag, CheckDuplicateTag check_tag, bool edit)
+        {
+            InitializeComponent();
+            this.isEdit = edit;
+            this.delgSetTag = set_tag;
+            this.delgCheckDuplicate = check_tag; 
         }
 
         private void frmEditTag_Load(object sender, EventArgs e)
@@ -68,7 +81,7 @@ namespace IEW.GatewayService.GUI
                     txtStartBit.Enabled = true;
                     txtEndBit.Enabled = true;
 
-                    string[] strArray = tag_data.Expression.Split(new Char[] { ':', '.'});
+                    string[] strArray = tag_data.UUID_Address.Split(new Char[] { ':', '.'});
                     txtStartAddress.Text = strArray[0];
                     txtStartBit.Text = strArray[1];
                     txtEndBit.Text = strArray[2];
@@ -76,7 +89,7 @@ namespace IEW.GatewayService.GUI
                 else
                 {
                     cmbWordBit.Text = tag_data.Expression ;
-                    string[] strArray = tag_data.Expression.Split(new Char[] { ':' });
+                    string[] strArray = tag_data.UUID_Address.Split(new Char[] { ':' });
                     txtStartAddress.Text = strArray[0];
                     txtStartBit.Enabled = false;
                     txtEndBit.Enabled = false;
@@ -128,6 +141,8 @@ namespace IEW.GatewayService.GUI
                 txtScale.Text = "";
                 txtOffset.Text = "";
                 txtLength.Enabled = true;
+                txtStartBit.Text = "";
+                txtEndBit.Text = "";
                 txtStartBit.Enabled = false;
                 txtEndBit.Enabled = false;
             }
@@ -136,8 +151,12 @@ namespace IEW.GatewayService.GUI
                 gbLinearScale.Enabled = true;
                 txtLength.Text = "";
                 txtLength.Enabled = false;
+                txtStartBit.Text = "";
+                txtEndBit.Text = "";
                 txtStartBit.Enabled = false;
                 txtEndBit.Enabled = false;
+                txtScale.Text = "1";
+                txtOffset.Text = "0";
             }
         }
 
@@ -169,14 +188,9 @@ namespace IEW.GatewayService.GUI
             {
                 if(!this.isEdit) //Check duplicated id
                 {
-                    if(tag_list.tag_set.Count > 0)
+                    if(!delgCheckDuplicate(txtTagName.Text.Trim()))
                     {
-                        cls_Tag tag = tag_list.tag_set.Where(p => p.TagName == txtTagName.Text.Trim()).FirstOrDefault();
-                        if (tag != null)
-                        {
-                            MessageBox.Show("Duplicate Tag Name!", "Error");
-                            return;
-                        }
+                        return;
                     }
                 }
             }
@@ -187,10 +201,11 @@ namespace IEW.GatewayService.GUI
                 MessageBox.Show("Please select the data type!", "Error");
                 return;
             }
+            tmpTag.Type = cmbDataType.Text.Trim();
 
             if (txtStartAddress.Text == "")
             {
-                MessageBox.Show("Please enter Tag Name!", "Error");
+                MessageBox.Show("Please enter start address!", "Error");
                 return;
             }
             else
@@ -218,7 +233,7 @@ namespace IEW.GatewayService.GUI
                 }
                 else
                 {
-                    if (!int.TryParse(txtStartBit.Text, out iValue))
+                    if (int.TryParse(txtStartBit.Text, out iValue))
                     {
                         if (iValue < 0 || iValue > 15)
                         {
@@ -228,7 +243,7 @@ namespace IEW.GatewayService.GUI
                     }
                     else
                     {
-                        MessageBox.Show("Number only for End Bit!", "Error");
+                        MessageBox.Show("Number only for Start Bit!", "Error");
                         return;
                     }
                 }
@@ -240,7 +255,7 @@ namespace IEW.GatewayService.GUI
                 }
                 else
                 {
-                    if(!int.TryParse(txtEndBit.Text, out iValue))
+                    if(int.TryParse(txtEndBit.Text, out iValue))
                     {
                         if (iValue < 0 || iValue > 15)
                         {
@@ -250,12 +265,11 @@ namespace IEW.GatewayService.GUI
                     }
                     else
                     {
-                        MessageBox.Show("Number only for Start Bit!", "Error");
+                        MessageBox.Show("Number only for End Bit!", "Error");
                         return;
                     }
                 }
-
-                tmpTag.Expression = txtStartAddress.Text.Trim() + "." + txtStartBit.Text.Trim() + ":" + txtEndBit.Text.Trim();
+                tmpTag.UUID_Address = txtStartAddress.Text.Trim() + "." + txtStartBit.Text.Trim() + ":" + txtEndBit.Text.Trim();
             }
             else if(cmbWordBit.Text == "ASC")
             {
@@ -278,9 +292,8 @@ namespace IEW.GatewayService.GUI
                     MessageBox.Show("Number only for Length!", "Error");
                     return;
                 }
-
                 end_address = get_end_address(txtStartAddress.Text.Trim(), int.Parse(txtLength.Text.Trim()));
-                tmpTag.Expression = txtStartAddress.Text.Trim() + ":" + end_address;
+                tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
             }
             else
             {
@@ -288,19 +301,19 @@ namespace IEW.GatewayService.GUI
                 {
                     case "SINT":
                         end_address = get_end_address(txtStartAddress.Text.Trim(), 2);
-                        tmpTag.Expression = txtStartAddress.Text.Trim() + ":" + end_address;
+                        tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                         break;
                     case "UINT":
                         end_address = get_end_address(txtStartAddress.Text.Trim(), 2);
-                        tmpTag.Expression = txtStartAddress.Text.Trim() + ":" + end_address;
+                        tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                         break;
                     case "SLONG":
                         end_address = get_end_address(txtStartAddress.Text.Trim(), 4);
-                        tmpTag.Expression = txtStartAddress.Text.Trim() + ":" + end_address;
+                        tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                         break;
                     case "ULONG":
                         end_address = get_end_address(txtStartAddress.Text.Trim(), 4);
-                        tmpTag.Expression = txtStartAddress.Text.Trim() + ":" + end_address;
+                        tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                         break;
 
                     default:
@@ -330,26 +343,11 @@ namespace IEW.GatewayService.GUI
                 }
             }
 
+            tmpTag.Expression = cmbWordBit.Text.Trim();
             tmpTag.Description = txtDescription.Text.Trim();
             tmpTag.LastUpdateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            if (!this.isEdit)
-            {
-                tag_list.tag_set.Add(tmpTag);
-            }
-            else
-            {
-                int i = 0;
-                foreach(cls_Tag tag in tag_list.tag_set)
-                {
-                    if(tag.TagName == txtTagName.Text.Trim())
-                    {
-                        break;
-                    }
-                    i++;
-                }
-                tag_list.tag_set[i] = tmpTag;
-            }
+            delgSetTag(tmpTag, this.isEdit);
 
             this.Close();
         }

@@ -89,7 +89,21 @@ namespace IEW.ObjectManager
                 return null;
             }
         }
-        public string GatewayCommand_ToJson_String(string _Cmd_Type, string _Report_Interval, string _Trace_ID, string _GateWayID, string _DeviceID)
+
+        public string TagSetManager_ToJson_String()
+        {
+
+            try
+            {
+                return JsonConvert.SerializeObject(TagSetManager, Formatting.Indented);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public string GatewayCommand_Json(string _Cmd_Type, string _Report_Interval, string _Trace_ID, string _GateWayID, string _DeviceID)
         {
             cls_Gateway_Info Gateway = GatewayManager.gateway_list.Where(p => p.gateway_id == _GateWayID).FirstOrDefault();
             if (Gateway == null)

@@ -231,6 +231,7 @@
             this.lvTagList.TabIndex = 0;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             this.lvTagList.View = System.Windows.Forms.View.Details;
+            this.lvTagList.DoubleClick += new System.EventHandler(this.lvTagList_DoubleClick);
             // 
             // btnTagRemove
             // 
@@ -244,6 +245,7 @@
             this.btnTagRemove.Size = new System.Drawing.Size(45, 45);
             this.btnTagRemove.TabIndex = 22;
             this.btnTagRemove.UseVisualStyleBackColor = true;
+            this.btnTagRemove.Click += new System.EventHandler(this.btnTagRemove_Click);
             // 
             // btnTagAdd
             // 
@@ -257,6 +259,7 @@
             this.btnTagAdd.Size = new System.Drawing.Size(45, 45);
             this.btnTagAdd.TabIndex = 21;
             this.btnTagAdd.UseVisualStyleBackColor = true;
+            this.btnTagAdd.Click += new System.EventHandler(this.btnTagAdd_Click);
             // 
             // btnLoadTag
             // 
