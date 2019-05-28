@@ -11,6 +11,10 @@ using System.Collections.Concurrent;
 
 using System.Threading;
 
+using System.Xml.Serialization;
+using System.Xml;
+
+
 using IEW.Platform.Kernel.Log;
 
 
@@ -26,28 +30,19 @@ namespace IEW.ObjectManager
         private System.Threading.Timer Timer_Check_EDC = null;
         private ConcurrentQueue<Tuple<string, string>> _Write_EDC_File = new ConcurrentQueue<Tuple<string, string>>();
 
-
+        #region Gateway Constructor
         public void GatewayManager_Initial()
         {
             this.GatewayManager = new GateWayManager();
         }
-
         public void GatewayManager_Initial(string Json)
         {
             this.GatewayManager = JsonConvert.DeserializeObject<GateWayManager>(Json);
         }
+        #endregion
 
-        public void TagSetManager_Initial()
-        {
-            this.TagSetManager = new TagSetManager();
-        }
-
-        public void TagSetManager_Initial(string Json)
-        {
-            this.TagSetManager = JsonConvert.DeserializeObject<TagSetManager>(Json);
-        }
-
-        public void Insert_Update_TagValue(cls_ProcRecv_CollectData ProcRecv_CollectData)
+        #region Gateway Method
+        public void GatewayManager_Set_TagValue(cls_ProcRecv_CollectData ProcRecv_CollectData)
         {
             string _GateWayID = ProcRecv_CollectData.GateWayID;
             string _DeviceID = ProcRecv_CollectData.Device_ID;
@@ -82,21 +77,19 @@ namespace IEW.ObjectManager
 
 
         }
-
         public string GatewayManager_ToJson_String()
         {
 
             try
             {
-                return JsonConvert.SerializeObject(GatewayManager, Formatting.Indented);
+                return JsonConvert.SerializeObject(GatewayManager, Newtonsoft.Json.Formatting.Indented);
             }
             catch
             {
                 return null;
             }
         }
-
-        public string GatewayCommand_Json(string _Cmd_Type, string _Report_Interval, string _Trace_ID, string _GateWayID, string _DeviceID)
+        public string GatewayCommand_ToJson_String(string _Cmd_Type, string _Report_Interval, string _Trace_ID, string _GateWayID, string _DeviceID)
         {
             cls_Gateway_Info Gateway = GatewayManager.gateway_list.Where(p => p.gateway_id == _GateWayID).FirstOrDefault();
             if (Gateway == null)
@@ -114,19 +107,48 @@ namespace IEW.ObjectManager
                 {
 
                     cls_Collect collect_cmd = new cls_Collect(_Cmd_Type, _Report_Interval, _Trace_ID, Device);
-                    return JsonConvert.SerializeObject(collect_cmd, Formatting.Indented);
+                    return JsonConvert.SerializeObject(collect_cmd, Newtonsoft.Json.Formatting.Indented);
                 }
             }
         }
+        #endregion
+
+        #region Tagset Constructor
+        public void TagSetManager_Initial()
+        {
+            this.TagSetManager = new TagSetManager();
+        }
+        public void TagSetManager_Initial(string Json)
+        {
+            this.TagSetManager = JsonConvert.DeserializeObject<TagSetManager>(Json);
+        }
+        #endregion
 
 
-        //-------------------------------------------------
-        private void Timer_Report_EDC_Abort(int interval)
+
+
+        #region EDCManager Method
+        public T EDC_Deserialize<T>(string s)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            try
+            {
+                xdoc.LoadXml(s);
+                XmlNodeReader reader = new XmlNodeReader(xdoc.DocumentElement);
+                XmlSerializer ser = new XmlSerializer(typeof(T));
+                object obj = ser.Deserialize(reader);
+                return (T)obj;
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+        private void EDCManager_Stop()
         {
             this.Thread_Timer_Check_EDC.Abort();
         }
-
-        private void Timer_Report_EDC_Start(int interval)
+        private void EDCManager_Start(int interval)
         {
             if (interval == 0)
                 interval = 1000;  // Default 1s scan 一次
@@ -137,13 +159,12 @@ namespace IEW.ObjectManager
                delegate (object value)
                {
                    int Interval = Convert.ToInt32(value);
-                   Timer_Check_EDC = new System.Threading.Timer(new System.Threading.TimerCallback(EDC_TimerTask), null, 1000, Interval);
+                   Timer_Check_EDC = new System.Threading.Timer(new System.Threading.TimerCallback(EDCManager_TimerTask), null, 1000, Interval);
                }
             );
             this.Thread_Timer_Check_EDC.Start(interval);
         }
-
-        private void EDC_TimerTask(object timerState)
+        private void EDCManager_TimerTask(object timerState)
         {
             // 在Timer task中一直檢查是否符合EDC上報條件。
             DateTime CurrentTime = DateTime.Now;
@@ -180,7 +201,13 @@ namespace IEW.ObjectManager
                         cls_Device_Info Device = Gateway.device_info.Where(p => p.device_name == e.device_id).FirstOrDefault();
                         if (Device != null)
                         {
-                            EDC_Report tempEDC = new EDC_Report();  // 考慮直接使用反序列畫
+                            //  EDC_Report tempEDC = new EDC_Report();  // 考慮直接使用反序列畫
+                            // 直接在local 存放一個 base 的 EDC 檔案，直接返序列畫成物件進行對應
+                            var sr = new StreamReader(e.baseEDCPath);
+                            EDC_Report tempEDC  = EDC_Deserialize<EDC_Report>(sr.ReadToEnd());
+
+
+
                             foreach (Tuple<string, string> edctag in e.tag_info)
                             {
                                 EDC_Report.IARYClass _data_count = tempEDC.CreateIARYClass();
@@ -190,7 +217,7 @@ namespace IEW.ObjectManager
                             }
                             e.LastReportDatetime = CurrentTime;
                             e.triggered = false;
-                            EDC_string = tempEDC.Gererate_EDC_String();
+                            EDC_string = tempEDC.EDC_String_Serialize();
                         }
                     }
                 }
@@ -203,10 +230,9 @@ namespace IEW.ObjectManager
                 }
             });
 
-            ReportEDC();
+            EDCManager_ReportFile();
         }
-
-        public void ReportEDC()
+        public void EDCManager_ReportFile()
         {
             if (_Write_EDC_File.Count > 0)
             {
@@ -252,5 +278,6 @@ namespace IEW.ObjectManager
 
 
         }
+        #endregion
     }
- }
+}

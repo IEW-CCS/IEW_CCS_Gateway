@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Xml.Serialization;
+using System.Xml;
 using System.IO;
 using System.Threading;
+
 
 namespace IEW.ObjectManager
 {
@@ -213,7 +215,7 @@ namespace IEW.ObjectManager
 
         }
 
-        public string Gererate_EDC_String()
+        public string EDC_String_Serialize()
         {
             // -----------  Define xml header -------------
             stringwriterUTF8 sw = new stringwriterUTF8();
@@ -234,6 +236,7 @@ namespace IEW.ObjectManager
 
         }
 
+     
     }
   
 }
