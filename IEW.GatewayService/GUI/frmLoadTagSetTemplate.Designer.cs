@@ -35,6 +35,7 @@
             this.btnTempCancel = new System.Windows.Forms.Button();
             this.btnTempLoad = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtDescription = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -51,16 +52,17 @@
             // 
             this.cmbTagSet.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTagSet.FormattingEnabled = true;
-            this.cmbTagSet.Location = new System.Drawing.Point(178, 46);
+            this.cmbTagSet.Location = new System.Drawing.Point(212, 46);
             this.cmbTagSet.Name = "cmbTagSet";
             this.cmbTagSet.Size = new System.Drawing.Size(261, 45);
             this.cmbTagSet.TabIndex = 1;
+            this.cmbTagSet.SelectedIndexChanged += new System.EventHandler(this.cmbTagSet_SelectedIndexChanged);
             // 
             // lvTagList
             // 
             this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagList.FullRowSelect = true;
-            this.lvTagList.Location = new System.Drawing.Point(44, 184);
+            this.lvTagList.Location = new System.Drawing.Point(44, 268);
             this.lvTagList.MultiSelect = false;
             this.lvTagList.Name = "lvTagList";
             this.lvTagList.Size = new System.Drawing.Size(1200, 469);
@@ -71,7 +73,7 @@
             // btnTempCancel
             // 
             this.btnTempCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTempCancel.Location = new System.Drawing.Point(657, 695);
+            this.btnTempCancel.Location = new System.Drawing.Point(657, 779);
             this.btnTempCancel.Name = "btnTempCancel";
             this.btnTempCancel.Size = new System.Drawing.Size(158, 67);
             this.btnTempCancel.TabIndex = 18;
@@ -82,12 +84,13 @@
             // btnTempLoad
             // 
             this.btnTempLoad.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTempLoad.Location = new System.Drawing.Point(461, 695);
+            this.btnTempLoad.Location = new System.Drawing.Point(461, 779);
             this.btnTempLoad.Name = "btnTempLoad";
             this.btnTempLoad.Size = new System.Drawing.Size(158, 67);
             this.btnTempLoad.TabIndex = 17;
             this.btnTempLoad.Text = "Load";
             this.btnTempLoad.UseVisualStyleBackColor = true;
+            this.btnTempLoad.Click += new System.EventHandler(this.btnTempLoad_Click);
             // 
             // label2
             // 
@@ -99,11 +102,20 @@
             this.label2.TabIndex = 19;
             this.label2.Text = "Description: ";
             // 
+            // txtDescription
+            // 
+            this.txtDescription.Location = new System.Drawing.Point(212, 110);
+            this.txtDescription.Multiline = true;
+            this.txtDescription.Name = "txtDescription";
+            this.txtDescription.Size = new System.Drawing.Size(1021, 86);
+            this.txtDescription.TabIndex = 20;
+            // 
             // frmLoadTagSetTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1288, 808);
+            this.ClientSize = new System.Drawing.Size(1288, 886);
+            this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnTempCancel);
             this.Controls.Add(this.btnTempLoad);
@@ -126,5 +138,6 @@
         private System.Windows.Forms.Button btnTempCancel;
         private System.Windows.Forms.Button btnTempLoad;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtDescription;
     }
 }

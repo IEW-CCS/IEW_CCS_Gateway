@@ -194,10 +194,10 @@ namespace IEW.GatewayService.GUI
           
             if (lvTagList.Items.Count > 0)
             {
-                foreach(ListViewItem item in lvTagList.Items)
-                {
-                    diTemp.tag_info = taglist_data;
-                }
+                //foreach(ListViewItem item in lvTagList.Items)
+                //{
+                  diTemp.tag_info = taglist_data;
+                //}
             }
 
             this.device_data = diTemp;
@@ -229,9 +229,9 @@ namespace IEW.GatewayService.GUI
 
         private void btnLoadTag_Click(object sender, EventArgs e)
         {
-            var frm = new frmLoadTagSetTemplate();
+            var frm = new frmLoadTagSetTemplate(SetTagListFromTamplate);
             frm.ShowDialog();
-
+            RefreshDeviceTagList();
         }
 
         private void RefreshDeviceTagList()
@@ -294,6 +294,11 @@ namespace IEW.GatewayService.GUI
             }
 
             return true;
+        }
+
+        void SetTagListFromTamplate(ConcurrentDictionary<string, cls_Tag> tag_list)
+        {
+            this.taglist_data = tag_list;
         }
 
         private void btnTagAdd_Click(object sender, EventArgs e)

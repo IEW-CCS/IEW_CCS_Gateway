@@ -162,7 +162,7 @@
             this.lvGatewayList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvGatewayList.FullRowSelect = true;
             this.lvGatewayList.GridLines = true;
-            this.lvGatewayList.Location = new System.Drawing.Point(41, 81);
+            this.lvGatewayList.Location = new System.Drawing.Point(20, 81);
             this.lvGatewayList.Name = "lvGatewayList";
             this.lvGatewayList.Size = new System.Drawing.Size(1508, 846);
             this.lvGatewayList.TabIndex = 1;
