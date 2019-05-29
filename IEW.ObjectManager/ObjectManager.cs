@@ -218,6 +218,7 @@ namespace IEW.ObjectManager
                             //  EDC_Report tempEDC = new EDC_Report();  // 考慮直接使用反序列畫
                             // 直接在local 存放一個 base 的 EDC 檔案，直接返序列畫成物件進行對應
                             var sr = new StreamReader(e.baseEDCPath);
+                            /*
                             EDC_Report tempEDC  = EDC_Deserialize<EDC_Report>(sr.ReadToEnd());
 
 
@@ -229,9 +230,10 @@ namespace IEW.ObjectManager
                                 _data_count.ITEM_TYPE = "X";
                                 _data_count.ITEM_VALUE = Device.tag_info[edctag.Item2].Value;
                             }
+                            */
                             e.LastReportDatetime = CurrentTime;
                             e.triggered = false;
-                            EDC_string = tempEDC.EDC_String_Serialize();
+                            //EDC_string = tempEDC.EDC_String_Serialize();
                         }
                     }
                 }
