@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <framework>
-  <shop></shop>
-  <servername></servername>
+  <shop>IEW</shop>
+  <servername>IEWX0100</servername>
   <version>2016.10.21.01</version>
   <linetype></linetype>
-  <environment></environment>
+  <environment>Test</environment>
   <object-definition>
-    <core>..\Config\Objects\core.xml</core>
-    <agent>..\Config\Objects\agent.xml</agent>
-    <business>..\Config\objects\business.xml</business>
+    <core>../../Config/core.xml</core> 
+    <business>../../Config/business.xml</business> 
   </object-definition>
+  <managerlist>
+    <manager enabled="true">MQTTManager</manager>
+  </managerlist>
   <agentlist>
-    <agent enabled="true">PLCAgent</agent>
-    <agent enabled="false">MESAgent</agent>
-    <agent enabled="false">OPIAgent</agent>
-    <agent enabled="false">OEEAgent</agent>
-    <agent enabled="false">EDAAgent</agent>
-    <agent enabled="false">APCAgent</agent>
-    <agent enabled="true">BmsAgent</agent>
+    <agent enabled="false">PLCAgent</agent>
   </agentlist>
 </framework>
