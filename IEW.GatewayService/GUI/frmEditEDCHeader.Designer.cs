@@ -37,35 +37,35 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(43, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(334, 37);
+            this.label1.Size = new System.Drawing.Size(274, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "EDC Header Group Name:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(43, 104);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(396, 37);
+            this.label2.Size = new System.Drawing.Size(325, 31);
             this.label2.TabIndex = 1;
             this.label2.Text = "EDC Header Group Description:";
             // 
             // txtName
             // 
-            this.txtName.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtName.Location = new System.Drawing.Point(494, 40);
+            this.txtName.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtName.Location = new System.Drawing.Point(414, 40);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(310, 44);
+            this.txtName.Size = new System.Drawing.Size(310, 38);
             this.txtName.TabIndex = 2;
             // 
             // txtDescription
             // 
-            this.txtDescription.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDescription.Location = new System.Drawing.Point(494, 104);
+            this.txtDescription.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDescription.Location = new System.Drawing.Point(414, 104);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(834, 110);
