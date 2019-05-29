@@ -15,6 +15,7 @@ using System.Collections.Concurrent;
 
 namespace IEW.GatewayService.GUI
 {
+
     public partial class frmEditDevice : Form
     {
         bool isEdit;

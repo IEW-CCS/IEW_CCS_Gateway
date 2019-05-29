@@ -45,8 +45,8 @@ namespace IEW.GatewayService.UI
         const int TABPAGE_INDEX_TAGSET_INFO = 4;
 
         TreeNode objSelectedNode;
-        List<Panel> Panels = new List<Panel>();
-        Panel VisiblePanel = null;
+        //List<Panel> Panels = new List<Panel>();
+        //Panel VisiblePanel = null;
         public cls_Gateway_Info gw;
         bool isLoadConfig;
 
@@ -71,6 +71,7 @@ namespace IEW.GatewayService.UI
             tvNodeList.EndUpdate();
             this.isLoadConfig = false;
 
+            /*
             tcInfo.Visible = false;
 
             foreach (TabPage page in tcInfo.TabPages)
@@ -86,6 +87,8 @@ namespace IEW.GatewayService.UI
                 panel.Location = tcInfo.Location;
                 panel.Visible = false;
             }
+            */
+            pnlMain.Height = tvNodeList.Height;
         }
 
         private void btnCmdDownload_Click(object sender, EventArgs e)
@@ -174,7 +177,7 @@ namespace IEW.GatewayService.UI
             tvNodeList.EndUpdate();
 
             DisplayPanel(TABPAGE_INDEX_GATEWAY_LIST);
-            DisplayGatewayList();
+            //DisplayGatewayList();
         }
 
         private void tvNodeList_AfterSelect(object sender, TreeViewEventArgs e)
@@ -193,19 +196,20 @@ namespace IEW.GatewayService.UI
         // Display the appropriate Panel.
         private void DisplayPanel(int index)
         {
-            if (Panels.Count < 1)
-                return;
+            //if (Panels.Count < 1)
+            //    return;
 
             // If this is the same Panel, do nothing.
             //if (VisiblePanel == Panels[index])
             //    return;
 
             // Hide the previously visible Panel.
-            if (VisiblePanel != null) VisiblePanel.Visible = false;
+            //if (VisiblePanel != null) VisiblePanel.Visible = false;
 
             // Display the appropriate Panel.
-            Panels[index].Visible = true;
-            VisiblePanel = Panels[index];
+            //Panels[index].Visible = true;
+            //VisiblePanel = Panels[index];
+            pnlMain.Visible = true;
             SetupPanelData(index);
         }
 
@@ -238,32 +242,56 @@ namespace IEW.GatewayService.UI
             }
         }
 
+        //Delegate function to update GateWayManager information
+        void SetGatewayManager(GateWayManager g_manager)
+        {
+            ObjectManager.GatewayManager.gateway_list = g_manager.gateway_list;
+            RefreshGatewayConfig();
+        }
+
+        //Delegate function to set Gateway Information
+        void SetGatewayInfo(cls_Gateway_Info g_info, bool edit_flag)
+        {
+            if(edit_flag)
+            {
+                int i = 0;
+                foreach(cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+                {
+                    if(gi.gateway_id == g_info.gateway_id)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                ObjectManager.GatewayManager.gateway_list[i] = g_info;
+            }
+            else
+            {
+                ObjectManager.GatewayManager.gateway_list.Add(g_info);
+            }
+
+            RefreshGatewayConfig();
+        }
+
+        //Delegate function to update TagSetManager information
+        void SetTagSetManager(TagSetManager tsManager)
+        {
+            ObjectManager.TagSetManager.tag_set_list = tsManager.tag_set_list;
+            RefreshGatewayConfig();
+        }
+
         private void DisplayGatewayList()
         {
-            lvGatewayList.BeginUpdate();
-
-            lvGatewayList.Columns.Clear();
-            lvGatewayList.Columns.Add("Gateway ID", 100);
-            lvGatewayList.Columns.Add("Gateway IP", 100);
-            lvGatewayList.Columns.Add("Device Count", 100);
-            
-            lvGatewayList.Items.Clear();
-
-            if(ObjectManager.GatewayManager.gateway_list.Count == 0)
+            frmListGateway gwList = new frmListGateway(SetGatewayManager, ObjectManager.GatewayManager);
+            gwList.Owner = this;
+            gwList.TopLevel = false;
+            gwList.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
             {
-                lvGatewayList.EndUpdate();
-                return;
+                pnlMain.Controls.RemoveAt(0);
             }
-
-            foreach( cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list )
-            {
-                ListViewItem lvItem = new ListViewItem(gi.gateway_id);
-                lvItem.SubItems.Add(gi.gateway_ip);
-                lvItem.SubItems.Add(gi.device_info.Count().ToString());
-                lvGatewayList.Items.Add(lvItem);
-            }
-
-            lvGatewayList.EndUpdate();
+            pnlMain.Controls.Add(gwList);
+            gwList.Show();
         }
 
         private void DisplayGatewayInfo(int index)
@@ -281,15 +309,16 @@ namespace IEW.GatewayService.UI
                 i++;
             }
 
-            frmEditGateway gwForm = new frmEditGateway(ObjectManager.GatewayManager.gateway_list[i], i);
+            frmEditGateway gwForm = new frmEditGateway(SetGatewayInfo, ObjectManager.GatewayManager.gateway_list[i], i);
             gwForm.Owner = this;
             gwForm.TopLevel = false;
             gwForm.FormBorderStyle = FormBorderStyle.None;
-            if(this.Panels[index].Controls.Count > 0)
+            if (pnlMain.Controls.Count > 0)
             {
-                this.Panels[index].Controls.RemoveAt(0);
+                pnlMain.Controls.RemoveAt(0);
             }
-            this.Panels[index].Controls.Add(gwForm);
+            pnlMain.Controls.Add(gwForm);
+
             gwForm.Show();
         }
 
@@ -321,41 +350,28 @@ namespace IEW.GatewayService.UI
             deviceForm.Owner = this;
             deviceForm.TopLevel = false;
             deviceForm.FormBorderStyle = FormBorderStyle.None;
-            if (this.Panels[index].Controls.Count > 0)
+            if (pnlMain.Controls.Count > 0)
             {
-                this.Panels[index].Controls.RemoveAt(0);
+                pnlMain.Controls.RemoveAt(0);
             }
+            pnlMain.Controls.Add(deviceForm);
 
-            this.Panels[index].Controls.Add(deviceForm);
             deviceForm.Show();
         }
 
         private void DispalyTagSetList(int index)
         {
-            lvTagSetList.BeginUpdate();
-
-            lvTagSetList.Columns.Clear();
-            lvTagSetList.Columns.Add("Tag Set Name", 100);
-            lvTagSetList.Columns.Add("Tag Count", 80);
-            lvTagSetList.Columns.Add("Tag Set Description", 200);
-
-            lvTagSetList.Items.Clear();
-
-            if (ObjectManager.TagSetManager.tag_set_list.Count == 0)
+            frmListTagSet setList = new frmListTagSet(SetTagSetManager, ObjectManager.TagSetManager);
+            setList.Owner = this;
+            setList.TopLevel = false;
+            setList.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
             {
-                lvTagSetList.EndUpdate();
-                return;
+                pnlMain.Controls.RemoveAt(0);
             }
+            pnlMain.Controls.Add(setList);
+            setList.Show();
 
-            foreach (cls_Tag_Set ts in ObjectManager.TagSetManager.tag_set_list)
-            {
-                ListViewItem lvItem = new ListViewItem(ts.TagSetName);
-                lvItem.SubItems.Add(ts.tag_set.Count().ToString());
-                lvItem.SubItems.Add(ts.TagSetDescription);
-                lvTagSetList.Items.Add(lvItem);
-            }
-
-            lvTagSetList.EndUpdate();
         }
 
         private void DisplayTagSetInfo(int index)
@@ -376,12 +392,12 @@ namespace IEW.GatewayService.UI
             frm.Owner = this;
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
-            if (this.Panels[index].Controls.Count > 0)
+            if (pnlMain.Controls.Count > 0)
             {
-                this.Panels[index].Controls.RemoveAt(0);
+                pnlMain.Controls.RemoveAt(0);
             }
+            pnlMain.Controls.Add(frm);
 
-            this.Panels[index].Controls.Add(frm);
             frm.Show();
         }
 
@@ -494,6 +510,7 @@ namespace IEW.GatewayService.UI
             SaveTagSetConfig();
         }
 
+        /*
         private void lvGatewayList_DoubleClick(object sender, EventArgs e)
         {
             string strGatewayID;
@@ -600,5 +617,6 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig();
             lvTagSetList.Focus();
         }
+        */
     }
 }

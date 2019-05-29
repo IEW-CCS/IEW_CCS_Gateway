@@ -97,6 +97,18 @@
     <Compile Include="GUI\frmEditTagSetTemplate.Designer.cs">
       <DependentUpon>frmEditTagSetTemplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmListGateway.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmListGateway.Designer.cs">
+      <DependentUpon>frmListGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmListTagSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmListTagSet.Designer.cs">
+      <DependentUpon>frmListTagSet.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmLoadTagSetTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +148,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmEditTagSetTemplate.resx">
       <DependentUpon>frmEditTagSetTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmListGateway.resx">
+      <DependentUpon>frmListGateway.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmListTagSet.resx">
+      <DependentUpon>frmListTagSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmLoadTagSetTemplate.resx">
       <DependentUpon>frmLoadTagSetTemplate.cs</DependentUpon>

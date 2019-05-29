@@ -12,6 +12,9 @@ using IEW.GatewayService.UI;
 
 namespace IEW.GatewayService.GUI
 {
+    public delegate void SetTagSetInfo(cls_Tag_Set ts_info, bool edit_flag);
+    public delegate bool CheckDuplicateTagSet(string ts_id);
+
     public partial class frmEditTagSetTemplate : Form
     {
         public bool isEdit;
@@ -19,7 +22,8 @@ namespace IEW.GatewayService.GUI
         public List<cls_Tag> tag_list = new List<cls_Tag>();
         public int tag_set_index;
         int tag_index;
-
+        public SetTagSetInfo delgSetTagSet;
+        public CheckDuplicateTagSet delgCheckDuplicate;
 
         // New Tag Set Constructor
         public frmEditTagSetTemplate()
@@ -36,6 +40,24 @@ namespace IEW.GatewayService.GUI
             tag_set_data = tag_set;
             tag_list = tag_set.tag_set;
             tag_set_index = index;
+        }
+        public frmEditTagSetTemplate(SetTagSetInfo set_ts, cls_Tag_Set tag_set, int index)
+        {
+            InitializeComponent();
+            this.isEdit = true;
+            tag_set_data = tag_set;
+            tag_list = tag_set.tag_set;
+            tag_set_index = index;
+            this.delgSetTagSet = set_ts;
+        }
+
+
+        public frmEditTagSetTemplate(SetTagSetInfo set_ts, CheckDuplicateTagSet check, bool edit_flag)
+        {
+            InitializeComponent();
+            this.isEdit = edit_flag;
+            this.delgSetTagSet = set_ts;
+            this.delgCheckDuplicate = check;
         }
 
         void SetTagInformation(cls_Tag tag, bool edit)
@@ -88,14 +110,14 @@ namespace IEW.GatewayService.GUI
 
         private void btnTemplateCancel_Click(object sender, EventArgs e)
         {
-            Gateway lgateway = (Gateway)this.Owner;
-            lgateway.RefreshGatewayConfig();
+            //Gateway lgateway = (Gateway)this.Owner;
+            //lgateway.RefreshGatewayConfig();
             this.Close();
         }
 
         private void btnTemplateSave_Click(object sender, EventArgs e)
         {
-            Gateway lgateway = (Gateway)this.Owner;
+            //Gateway lgateway = (Gateway)this.Owner;
             cls_Tag_Set tmpTagSet = new cls_Tag_Set();
 
             if(txtTagSetName.Text.Trim() == "")
@@ -107,6 +129,11 @@ namespace IEW.GatewayService.GUI
             {
                 if(!this.isEdit)
                 {
+                    if (!this.delgCheckDuplicate(txtTagSetName.Text.Trim()))
+                    {
+                        return;
+                    }
+                    /*
                     if(lgateway.ObjectManager.TagSetManager.tag_set_list.Count > 0)
                     {
                         foreach (cls_Tag_Set tag_set in lgateway.ObjectManager.TagSetManager.tag_set_list)
@@ -118,12 +145,14 @@ namespace IEW.GatewayService.GUI
                             }
                         }
                     }
+                    */
                 }
             }
 
             tmpTagSet.TagSetName = txtTagSetName.Text.Trim();
             tmpTagSet.TagSetDescription = txtTagSetDescription.Text.Trim();
             tmpTagSet.tag_set = this.tag_list;
+            /*
             if (!this.isEdit)
             {
                 lgateway.ObjectManager.TagSetManager.tag_set_list.Add(tmpTagSet);
@@ -133,9 +162,13 @@ namespace IEW.GatewayService.GUI
                 lgateway.ObjectManager.TagSetManager.tag_set_list[this.tag_set_index] = tmpTagSet;
                 lgateway.RefreshGatewayConfig();
             }
+            */
 
+            delgSetTagSet(tmpTagSet, this.isEdit);
             tmpTagSet = null;
-            lgateway.RefreshGatewayConfig();
+
+           // lgateway.RefreshGatewayConfig();
+
             this.Close();
         }
 

@@ -94,7 +94,7 @@
             this.lvGWDevice.GridLines = true;
             this.lvGWDevice.Location = new System.Drawing.Point(53, 262);
             this.lvGWDevice.Name = "lvGWDevice";
-            this.lvGWDevice.Size = new System.Drawing.Size(1097, 521);
+            this.lvGWDevice.Size = new System.Drawing.Size(1281, 521);
             this.lvGWDevice.TabIndex = 5;
             this.lvGWDevice.UseCompatibleStateImageBehavior = false;
             this.lvGWDevice.View = System.Windows.Forms.View.Details;
@@ -107,7 +107,7 @@
             this.btnDeviceRemove.FlatAppearance.BorderSize = 0;
             this.btnDeviceRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeviceRemove.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnDeviceRemove.Location = new System.Drawing.Point(1105, 822);
+            this.btnDeviceRemove.Location = new System.Drawing.Point(1286, 800);
             this.btnDeviceRemove.Name = "btnDeviceRemove";
             this.btnDeviceRemove.Size = new System.Drawing.Size(48, 48);
             this.btnDeviceRemove.TabIndex = 7;
@@ -121,7 +121,7 @@
             this.btnDeviceAdd.FlatAppearance.BorderSize = 0;
             this.btnDeviceAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeviceAdd.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnDeviceAdd.Location = new System.Drawing.Point(1054, 822);
+            this.btnDeviceAdd.Location = new System.Drawing.Point(1235, 800);
             this.btnDeviceAdd.Name = "btnDeviceAdd";
             this.btnDeviceAdd.Size = new System.Drawing.Size(48, 48);
             this.btnDeviceAdd.TabIndex = 6;
@@ -131,7 +131,7 @@
             // btnGWSave
             // 
             this.btnGWSave.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGWSave.Location = new System.Drawing.Point(388, 820);
+            this.btnGWSave.Location = new System.Drawing.Point(523, 800);
             this.btnGWSave.Name = "btnGWSave";
             this.btnGWSave.Size = new System.Drawing.Size(158, 69);
             this.btnGWSave.TabIndex = 8;
@@ -142,7 +142,7 @@
             // btnGWCancel
             // 
             this.btnGWCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGWCancel.Location = new System.Drawing.Point(584, 822);
+            this.btnGWCancel.Location = new System.Drawing.Point(719, 802);
             this.btnGWCancel.Name = "btnGWCancel";
             this.btnGWCancel.Size = new System.Drawing.Size(158, 69);
             this.btnGWCancel.TabIndex = 9;
@@ -154,7 +154,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1202, 934);
+            this.ClientSize = new System.Drawing.Size(1386, 898);
             this.Controls.Add(this.btnGWCancel);
             this.Controls.Add(this.btnGWSave);
             this.Controls.Add(this.btnDeviceRemove);

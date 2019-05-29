@@ -13,12 +13,17 @@ using IEW.GatewayService.UI;
 
 namespace IEW.GatewayService.GUI
 {
+    public delegate void SetGatewayInfo(cls_Gateway_Info g_info, bool edit_flag);
+    public delegate bool ChechDuplicateGatewayID(string gw_id);
+
     public partial class frmEditGateway : Form
     {
         public List<cls_Device_Info> device_list = new List<cls_Device_Info>();
         bool isEdit;
         cls_Gateway_Info gateway_Info;
         int iGatewayIndex;
+        public SetGatewayInfo delgSetGateway;
+        public ChechDuplicateGatewayID delgCheckDuplicate;
 
         public frmEditGateway()
         {
@@ -33,6 +38,24 @@ namespace IEW.GatewayService.GUI
             this.gateway_Info = gw;
             this.device_list = gw.device_info;
             iGatewayIndex = index;
+        }
+
+        public frmEditGateway(SetGatewayInfo set_gw, cls_Gateway_Info gw, int index)
+        {
+            InitializeComponent();
+            this.isEdit = true;
+            this.gateway_Info = gw;
+            this.device_list = gw.device_info;
+            iGatewayIndex = index;
+            this.delgSetGateway = set_gw;
+        }
+
+        public frmEditGateway(SetGatewayInfo set_gw, ChechDuplicateGatewayID check, bool edit_flag)
+        {
+            InitializeComponent();
+            this.isEdit = edit_flag;
+            this.delgSetGateway = set_gw;
+            this.delgCheckDuplicate = check;
         }
 
         private void frmEditGateway_Load(object sender, EventArgs e)
@@ -59,8 +82,8 @@ namespace IEW.GatewayService.GUI
 
         private void btnGWCancel_Click(object sender, EventArgs e)
         {
-            Gateway lgateway = (Gateway)this.Owner;
-            lgateway.RefreshGatewayConfig();
+            //Gateway lgateway = (Gateway)this.Owner;
+            //lgateway.RefreshGatewayConfig();
             this.Close();
         }
 
@@ -94,15 +117,23 @@ namespace IEW.GatewayService.GUI
 
         private void btnGWSave_Click(object sender, EventArgs e)
         {
-            Gateway lgateway = (Gateway)this.Owner;
+            //Gateway lgateway = (Gateway)this.Owner;
             cls_Gateway_Info giTemp = new cls_Gateway_Info();
 
             if ( txtGatewayID.Text.Trim() == "" )
+            {
                 MessageBox.Show("Please enter the gateway id!", "Error");
+                return;
+            }
             else
             {
                 if(!this.isEdit)
                 {
+                    if(!this.delgCheckDuplicate(txtGatewayID.Text.Trim()))
+                    {
+                        return;
+                    }
+                    /*
                     foreach (cls_Gateway_Info gi in lgateway.ObjectManager.GatewayManager.gateway_list)
                     {
                         if (gi.gateway_id.Trim() == txtGatewayID.Text.Trim())
@@ -111,6 +142,7 @@ namespace IEW.GatewayService.GUI
                             return;
                         }
                     }
+                    */
                 }
             }
 
@@ -139,7 +171,9 @@ namespace IEW.GatewayService.GUI
             giTemp.gateway_id = txtGatewayID.Text.Trim();
             giTemp.gateway_ip = txtGatewayIP.Text.Trim();
             giTemp.device_info = this.device_list;
-            if(!this.isEdit)
+
+            /*
+            if (!this.isEdit)
             {
                 lgateway.ObjectManager.GatewayManager.gateway_list.Add(giTemp);
             }
@@ -148,7 +182,9 @@ namespace IEW.GatewayService.GUI
                 lgateway.ObjectManager.GatewayManager.gateway_list[iGatewayIndex] = giTemp;
                 lgateway.RefreshGatewayConfig();
             }
+            */
 
+            delgSetGateway(giTemp, this.isEdit);
             giTemp = null;
 
             this.Close();
@@ -164,7 +200,7 @@ namespace IEW.GatewayService.GUI
                 return;
             }
 
-            if (MessageBox.Show("Are you sure to delete the gateway?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            if (MessageBox.Show("Are you sure to delete the device?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
             {
                 lvGWDevice.Focus();
                 return;
