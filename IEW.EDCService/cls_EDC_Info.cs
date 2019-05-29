@@ -9,9 +9,9 @@ using System.Xml;
 using System.IO;
 using System.Threading;
 
-
-namespace IEW.ObjectManager
+namespace IEW.IOTEDCService
 {
+
     [Serializable]
     [XmlRoot("EDC")]
     public class EDC_Report
@@ -236,7 +236,7 @@ namespace IEW.ObjectManager
 
         }
 
-     
+
     }
-  
+
 }
