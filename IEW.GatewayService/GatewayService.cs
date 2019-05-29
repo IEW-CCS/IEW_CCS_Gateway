@@ -30,6 +30,7 @@ namespace IEW.GatewayService
 {
     public class GatewayService : AbstractService
     {
+        // this is vic testing 
         //-----  依賴注射直接綁進去 取數值方便 ------
         //-----  如果需要在其他地方取得這個數值 copy 下面兩個function & object factory setting 設定 -----
         private IEW.ObjectManager.ObjectManager _ObjectManager;
