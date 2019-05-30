@@ -10,13 +10,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEW.Launcher", "IEW.Launche
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEW.GatewayService", "IEW.GatewayService\IEW.GatewayService.csproj", "{9E3F032A-1AAB-4A6E-951C-C12B7E9B5EBB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{680B208C-1BE9-4550-B63D-F27896903B3C} = {680B208C-1BE9-4550-B63D-F27896903B3C}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEW.ObjectManager", "IEW.ObjectManager\IEW.ObjectManager.csproj", "{7DB2045C-A48C-4EB5-A813-B1B683EACFD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IEW.EDCService", "IEW.EDCService\IEW.EDCService.csproj", "{680B208C-1BE9-4550-B63D-F27896903B3C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7DB2045C-A48C-4EB5-A813-B1B683EACFD7} = {7DB2045C-A48C-4EB5-A813-B1B683EACFD7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
