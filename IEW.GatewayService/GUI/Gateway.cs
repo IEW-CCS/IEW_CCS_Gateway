@@ -72,7 +72,7 @@ namespace IEW.GatewayService.UI
 
             tNode = tvNodeList.Nodes.Add("EDC Header Set List");
             tNode.Tag = TABPAGE_INDEX_EDCHEADERSET_LIST;
-            tNode.ImageIndex = 3;
+            tNode.ImageIndex = 8;
             tvNodeList.EndUpdate();
 
             this.isLoadConfig = false;
@@ -166,7 +166,7 @@ namespace IEW.GatewayService.UI
             {
                 tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add(hs.set_name);
                 tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
-                tNode.ImageIndex = 6;
+                tNode.ImageIndex = 7;
             }
 
             tvNodeList.ExpandAll();
@@ -271,7 +271,7 @@ namespace IEW.GatewayService.UI
         }
 
         //Delegate function to set EDC Header Set information
-        void SetEDCHeaderSet(cls_EDC_Head_Set edc_set)
+        void SetEDCHeaderSet(EDCHeaderSet edc_set)
         {
             this.header_set = edc_set;
             RefreshGatewayConfig();
@@ -489,6 +489,42 @@ namespace IEW.GatewayService.UI
 
             return true;
         }
+
+        private bool LoadHeaderSetConfig()
+        {
+            try
+            {
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\EDC_Header_Set_Config.json"))
+                {
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    //ObjectManager.TagSetManager_Initial();
+                    return true;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\EDC_Header_Set_Config.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                //ObjectManager.TagSetManager_Initial(json_string);
+                this.header_set = JsonConvert.DeserializeObject<EDCHeaderSet>(json_string);
+
+                if (this.header_set.head_set_list == null)
+                {
+                    MessageBox.Show("No EDC header set exists!", "Information");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch
+            {
+                MessageBox.Show("EDC Header Set config file loading error!", "Error");
+                return false;
+            }
+
+            return true;
+        }
+
 
         private void SaveGatewayConfig()
         {

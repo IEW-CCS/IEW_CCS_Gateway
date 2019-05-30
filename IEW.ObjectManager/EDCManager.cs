@@ -95,7 +95,7 @@ namespace IEW.ObjectManager
         public string item_value { get; set; }
     }
 
-    public class cls_EDC_Head_Set
+    public class cls_EDC_Header
     {
         public string set_name;
         public string set_description;
