@@ -177,7 +177,9 @@
             // 
             // lvItemList
             // 
+            this.lvItemList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvItemList.FullRowSelect = true;
+            this.lvItemList.GridLines = true;
             this.lvItemList.Location = new System.Drawing.Point(37, 410);
             this.lvItemList.MultiSelect = false;
             this.lvItemList.Name = "lvItemList";
@@ -185,7 +187,7 @@
             this.lvItemList.TabIndex = 13;
             this.lvItemList.UseCompatibleStateImageBehavior = false;
             this.lvItemList.View = System.Windows.Forms.View.Details;
-            this.lvItemList.SelectedIndexChanged += new System.EventHandler(this.lvItemList_SelectedIndexChanged);
+            this.lvItemList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvItemList_ItemSelectionChanged);
             // 
             // btnTagCancel
             // 

@@ -106,6 +106,7 @@
             // 
             // pnlMain
             // 
+            this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlMain.Location = new System.Drawing.Point(436, 126);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(1586, 1076);

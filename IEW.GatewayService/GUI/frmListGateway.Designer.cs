@@ -43,7 +43,7 @@
             this.lvGatewayList.GridLines = true;
             this.lvGatewayList.Location = new System.Drawing.Point(23, 72);
             this.lvGatewayList.Name = "lvGatewayList";
-            this.lvGatewayList.Size = new System.Drawing.Size(1508, 846);
+            this.lvGatewayList.Size = new System.Drawing.Size(1396, 846);
             this.lvGatewayList.TabIndex = 7;
             this.lvGatewayList.UseCompatibleStateImageBehavior = false;
             this.lvGatewayList.View = System.Windows.Forms.View.Details;
@@ -67,7 +67,7 @@
             this.btnRemoveGateway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnRemoveGateway.ImageIndex = 6;
-            this.btnRemoveGateway.Location = new System.Drawing.Point(1483, 924);
+            this.btnRemoveGateway.Location = new System.Drawing.Point(1371, 931);
             this.btnRemoveGateway.Name = "btnRemoveGateway";
             this.btnRemoveGateway.Size = new System.Drawing.Size(48, 48);
             this.btnRemoveGateway.TabIndex = 9;
@@ -82,7 +82,7 @@
             this.btnAddGateway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnAddGateway.ImageIndex = 5;
-            this.btnAddGateway.Location = new System.Drawing.Point(1427, 924);
+            this.btnAddGateway.Location = new System.Drawing.Point(1315, 931);
             this.btnAddGateway.Name = "btnAddGateway";
             this.btnAddGateway.Size = new System.Drawing.Size(48, 48);
             this.btnAddGateway.TabIndex = 8;
@@ -93,7 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1554, 1002);
+            this.ClientSize = new System.Drawing.Size(1458, 1002);
             this.Controls.Add(this.lvGatewayList);
             this.Controls.Add(this.btnRemoveGateway);
             this.Controls.Add(this.btnAddGateway);

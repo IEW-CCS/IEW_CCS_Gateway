@@ -128,6 +128,7 @@ namespace IEW.GatewayService.UI
             }
 
             LoadTagSetConfig();
+            LoadHeaderSetConfig();
             RefreshGatewayConfig();
         }
 

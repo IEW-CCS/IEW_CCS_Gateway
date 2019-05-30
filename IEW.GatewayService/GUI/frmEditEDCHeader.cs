@@ -47,6 +47,7 @@ namespace IEW.GatewayService.GUI
             this.isEdit = edit_flag;
             this.delgSetHeaderSet = set_hs;
             this.delgCheckDuplicate = check;
+            this.header_set_data = new cls_EDC_Header();
         }
 
         private void frmEditEDCHeader_Load(object sender, EventArgs e)
@@ -186,13 +187,6 @@ namespace IEW.GatewayService.GUI
             DisplayItemList();
         }
 
-        private void lvItemList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            txtName.Text = lvItemList.SelectedItems[0].Text;
-            txtValue.Text = lvItemList.SelectedItems[0].SubItems[0].Text;
-            txtLength.Text = lvItemList.SelectedItems[0].SubItems[1].Text;
-        }
-
         private void btnEditItem_Click(object sender, EventArgs e)
         {
             bool isFound;
@@ -267,6 +261,13 @@ namespace IEW.GatewayService.GUI
             tmpHeaderSet = null;
 
             this.Close();
+        }
+
+        private void lvItemList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            txtName.Text = e.Item.SubItems[0].Text;
+            txtValue.Text = e.Item.SubItems[1].Text;
+            txtLength.Text = e.Item.SubItems[2].Text;
         }
     }
 }
