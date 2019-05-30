@@ -22,8 +22,6 @@ using IEW.ObjectManager;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-
-
 using System.Xml;
 
 namespace IEW.GatewayService

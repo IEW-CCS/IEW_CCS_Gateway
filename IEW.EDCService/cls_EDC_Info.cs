@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
 using System.Threading;
+using IEW.ObjectManager;
 
 namespace IEW.IOTEDCService
 {
@@ -162,6 +163,24 @@ namespace IEW.IOTEDCService
 
         }
 
+        public T EDC_Deserialize<T>(string s)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            try
+            {
+                xdoc.LoadXml(s);
+                XmlNodeReader reader = new XmlNodeReader(xdoc.DocumentElement);
+                XmlSerializer ser = new XmlSerializer(typeof(T));
+                object obj = ser.Deserialize(reader);
+                return (T)obj;
+            }
+            catch
+            {
+                return default(T);
+            }
+
+        }
+
         public void Write_EDC(string save_file_path)
         {
             // -----------  Define xml header -------------
@@ -236,7 +255,9 @@ namespace IEW.IOTEDCService
 
         }
 
-
     }
+
+
+
 
 }

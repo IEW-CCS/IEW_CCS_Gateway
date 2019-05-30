@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using System.Xml.Linq;
 
 namespace IEW.ObjectManager
 {
@@ -14,8 +15,8 @@ namespace IEW.ObjectManager
         public string gateway_id { get; set; }
         public string device_id { get; set; }
 
-        public string report_tpye { get; set; }       
-        public double report_interval { get; set; }     
+        public string report_tpye { get; set; }
+        public double report_interval { get; set; }
         public DateTime timestapm { get; set; }
 
         public string ReportEDCPath { get; set; }
@@ -41,6 +42,25 @@ namespace IEW.ObjectManager
         public object Clone()
         {
             return this.MemberwiseClone();
+        }
+
+        public string xml_string()
+        {
+            XDocument xmlDocument = new XDocument(
+               new XDeclaration("1.0", "utf-8", ""),
+              // new XComment("Creating an XML Tree using LINQ to XML"),
+               new XElement("EDC",
+                      from header in this.edchead_info
+                      select new XElement(header.head_name, header.value),
+
+                      new XElement("datas",
+                      from item in this.edcitem_info
+                      select new XElement("iary", "",
+                                 new XElement("item_name", item.item_name),
+                                 new XElement("item_type", item.item_type),
+                                 new XElement("item_value", item.item_value)))
+           ));
+            return xmlDocument.ToString();
         }
     }
 
