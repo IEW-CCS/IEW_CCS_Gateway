@@ -38,7 +38,7 @@
             // 
             this.lvGatewayList.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.lvGatewayList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lvGatewayList.Font = new System.Drawing.Font("Arial Narrow", 10.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvGatewayList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvGatewayList.FullRowSelect = true;
             this.lvGatewayList.GridLines = true;
             this.lvGatewayList.Location = new System.Drawing.Point(23, 72);
@@ -52,10 +52,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(37, 16);
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(17, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(169, 37);
+            this.label1.Size = new System.Drawing.Size(140, 31);
             this.label1.TabIndex = 6;
             this.label1.Text = "Gateway List";
             // 
@@ -67,7 +67,7 @@
             this.btnRemoveGateway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnRemoveGateway.ImageIndex = 6;
-            this.btnRemoveGateway.Location = new System.Drawing.Point(96, 924);
+            this.btnRemoveGateway.Location = new System.Drawing.Point(1483, 924);
             this.btnRemoveGateway.Name = "btnRemoveGateway";
             this.btnRemoveGateway.Size = new System.Drawing.Size(48, 48);
             this.btnRemoveGateway.TabIndex = 9;
@@ -82,7 +82,7 @@
             this.btnAddGateway.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddGateway.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnAddGateway.ImageIndex = 5;
-            this.btnAddGateway.Location = new System.Drawing.Point(40, 924);
+            this.btnAddGateway.Location = new System.Drawing.Point(1427, 924);
             this.btnAddGateway.Name = "btnAddGateway";
             this.btnAddGateway.Size = new System.Drawing.Size(48, 48);
             this.btnAddGateway.TabIndex = 8;
@@ -93,7 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1574, 1002);
+            this.ClientSize = new System.Drawing.Size(1554, 1002);
             this.Controls.Add(this.lvGatewayList);
             this.Controls.Add(this.btnRemoveGateway);
             this.Controls.Add(this.btnAddGateway);

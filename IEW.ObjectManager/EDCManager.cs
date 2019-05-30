@@ -101,4 +101,9 @@ namespace IEW.ObjectManager
         public string set_description;
         public List<cls_EDC_Head_Item> head_set = new List<cls_EDC_Head_Item>();
     }
+
+    public class EDCHeaderSet
+    {
+        public List<cls_EDC_Header> head_set_list = new List<cls_EDC_Header>();
+    }
 }

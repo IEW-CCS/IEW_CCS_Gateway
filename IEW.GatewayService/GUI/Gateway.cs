@@ -43,12 +43,13 @@ namespace IEW.GatewayService.UI
         const int TABPAGE_INDEX_DEVICE_INFO = 2;
         const int TABPAGE_INDEX_TAGSET_LIST = 3;
         const int TABPAGE_INDEX_TAGSET_INFO = 4;
+        const int TABPAGE_INDEX_EDCHEADERSET_LIST = 5;
+        const int TABPAGE_INDEX_EDCHEADERSET_INFO = 6;
 
         TreeNode objSelectedNode;
-        //List<Panel> Panels = new List<Panel>();
-        //Panel VisiblePanel = null;
         public cls_Gateway_Info gw;
         bool isLoadConfig;
+        public EDCHeaderSet header_set = new EDCHeaderSet();
 
         public Gateway()
         {
@@ -57,7 +58,6 @@ namespace IEW.GatewayService.UI
 
         private void Gateway_Load(object sender, EventArgs e)
         {
-            //this.gw_array = null;
             this.objSelectedNode = null;
 
             tvNodeList.BeginUpdate();
@@ -69,25 +69,14 @@ namespace IEW.GatewayService.UI
             tNode.Tag = TABPAGE_INDEX_TAGSET_LIST;
             tNode.ImageIndex = 3;
             tvNodeList.EndUpdate();
+
+            tNode = tvNodeList.Nodes.Add("EDC Header Set List");
+            tNode.Tag = TABPAGE_INDEX_EDCHEADERSET_LIST;
+            tNode.ImageIndex = 3;
+            tvNodeList.EndUpdate();
+
             this.isLoadConfig = false;
 
-            /*
-            tcInfo.Visible = false;
-
-            foreach (TabPage page in tcInfo.TabPages)
-            {
-                // Add the Panel to the list.
-                Panel panel = page.Controls[0] as Panel;
-                panel.Height = tvNodeList.Height;
-                panel.Width = tcInfo.Width;
-                Panels.Add(panel);
-
-                // Reparent and move the Panel.
-                panel.Parent = tcInfo.Parent;
-                panel.Location = tcInfo.Location;
-                panel.Visible = false;
-            }
-            */
             pnlMain.Height = tvNodeList.Height;
         }
 
@@ -173,11 +162,17 @@ namespace IEW.GatewayService.UI
                 tNode.ImageIndex = 4;
             }
 
+            foreach (cls_EDC_Header hs in this.header_set.head_set_list)
+            {
+                tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add(hs.set_name);
+                tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
+                tNode.ImageIndex = 6;
+            }
+
             tvNodeList.ExpandAll();
             tvNodeList.EndUpdate();
 
             DisplayPanel(TABPAGE_INDEX_GATEWAY_LIST);
-            //DisplayGatewayList();
         }
 
         private void tvNodeList_AfterSelect(object sender, TreeViewEventArgs e)
@@ -193,22 +188,9 @@ namespace IEW.GatewayService.UI
             DisplayPanel(index);
         }
 
-        // Display the appropriate Panel.
+        // Display the appropriate form
         private void DisplayPanel(int index)
         {
-            //if (Panels.Count < 1)
-            //    return;
-
-            // If this is the same Panel, do nothing.
-            //if (VisiblePanel == Panels[index])
-            //    return;
-
-            // Hide the previously visible Panel.
-            //if (VisiblePanel != null) VisiblePanel.Visible = false;
-
-            // Display the appropriate Panel.
-            //Panels[index].Visible = true;
-            //VisiblePanel = Panels[index];
             pnlMain.Visible = true;
             SetupPanelData(index);
         }
@@ -236,7 +218,15 @@ namespace IEW.GatewayService.UI
                 case TABPAGE_INDEX_TAGSET_INFO:
                     DisplayTagSetInfo(index);
                     break;
-                     
+
+                case TABPAGE_INDEX_EDCHEADERSET_LIST:
+                    DisplayEDCHeaderSetList(index);
+                    break;
+
+                case TABPAGE_INDEX_EDCHEADERSET_INFO:
+                    DisplayEDCHeaderSetInfo(index);
+                    break;
+
                 default:
                     break;
             }
@@ -280,6 +270,13 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig();
         }
 
+        //Delegate function to set EDC Header Set information
+        void SetEDCHeaderSet(cls_EDC_Head_Set edc_set)
+        {
+            this.header_set = edc_set;
+            RefreshGatewayConfig();
+        }
+
         private void DisplayGatewayList()
         {
             frmListGateway gwList = new frmListGateway(SetGatewayManager, ObjectManager.GatewayManager);
@@ -297,7 +294,6 @@ namespace IEW.GatewayService.UI
         private void DisplayGatewayInfo(int index)
         {
             TreeNode tNode = tvNodeList.SelectedNode;
-            //MessageBox.Show(tNode.Text, "Information");
 
             int i = 0;
             foreach(cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
@@ -399,6 +395,16 @@ namespace IEW.GatewayService.UI
             pnlMain.Controls.Add(frm);
 
             frm.Show();
+        }
+
+        private void DisplayEDCHeaderSetList(int index)
+        {
+
+        }
+
+        private void DisplayEDCHeaderSetInfo(int index)
+        {
+
         }
 
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
@@ -504,119 +510,22 @@ namespace IEW.GatewayService.UI
             output.Close();
         }
 
+        private void SaveEDCHeaderSetConfig()
+        {
+            string json_string;
+
+            json_string = JsonConvert.SerializeObject(this.header_set, Newtonsoft.Json.Formatting.Indented);
+            StreamWriter output = new StreamWriter("C:\\Gateway\\Config\\EDC_Header_Set_Config.json");
+            output.Write(json_string);
+            output.Close();
+        }
+
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
             SaveGatewayConfig();
             SaveTagSetConfig();
+            SaveEDCHeaderSetConfig();
         }
-
-        /*
-        private void lvGatewayList_DoubleClick(object sender, EventArgs e)
-        {
-            string strGatewayID;
-            cls_Gateway_Info gwTemp = new cls_Gateway_Info();
-
-            if (lvGatewayList.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Please select the gateway first!", "Error");
-                return;
-            }
-
-            strGatewayID = lvGatewayList.SelectedItems[0].Text.Trim();
-
-            int i = 0;
-            foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
-            {
-                if (gi.gateway_id == strGatewayID)
-                {
-                    gwTemp = ObjectManager.GatewayManager.gateway_list[i];
-                    break;
-                }
-                i++;
-            }
-
-            var frm = new frmEditGateway(gwTemp, i);
-            frm.Owner = this;
-            frm.ShowDialog();
-
-            gwTemp = null;
-
-            RefreshGatewayConfig();
-            lvGatewayList.Focus();
-        }
-
-        private void btnRemoveGateway_Click(object sender, EventArgs e)
-        {
-            string strGatewayID;
-
-            if( lvGatewayList.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Please select the gateway first!", "Error");
-                return;
-            }
-
-            if (MessageBox.Show("Are you sure to delete the gateway?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
-            {
-                lvGatewayList.Focus();
-                return;
-            }
-
-            strGatewayID = lvGatewayList.SelectedItems[0].Text;
-
-            int i = 0;
-            foreach ( cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
-            {
-                if ( gi.gateway_id == strGatewayID )
-                {
-                    ObjectManager.GatewayManager.gateway_list.RemoveAt(i);
-                    break;
-                }
-                i++;
-            }
-
-            RefreshGatewayConfig();
-        }
-
-        private void btnAddTagSetTemplate_Click(object sender, EventArgs e)
-        {
-            frmEditTagSetTemplate frm = new frmEditTagSetTemplate();
-            frm.Owner = this;
-            frm.ShowDialog();
-        }
-
-        private void lvTagSetList_DoubleClick(object sender, EventArgs e)
-        {
-            string strTagSetName;
-            cls_Tag_Set tmpTagSet = new cls_Tag_Set();
-
-            if (lvTagSetList.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Please select the tag set first!", "Error");
-                return;
-            }
-
-            strTagSetName = lvTagSetList.SelectedItems[0].Text.Trim();
-
-            int i = 0;
-            foreach (cls_Tag_Set ts in ObjectManager.TagSetManager.tag_set_list)
-            {
-                if (ts.TagSetName == strTagSetName)
-                {
-                    tmpTagSet = ObjectManager.TagSetManager.tag_set_list[i];
-                    break;
-                }
-                i++;
-            }
-
-            var frm = new frmEditTagSetTemplate(tmpTagSet, i);
-            frm.Owner = this;
-            frm.ShowDialog();
-
-            tmpTagSet = null;
-
-            RefreshGatewayConfig();
-            lvTagSetList.Focus();
-        }
-        */
+        
     }
 }

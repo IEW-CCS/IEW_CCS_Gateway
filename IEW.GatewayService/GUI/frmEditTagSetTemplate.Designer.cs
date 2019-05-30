@@ -51,17 +51,18 @@
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1361, 878);
+            this.groupBox1.Size = new System.Drawing.Size(1301, 878);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tag Set Deail Information";
             // 
             // txtTagSetDescription
             // 
-            this.txtTagSetDescription.Location = new System.Drawing.Point(351, 128);
+            this.txtTagSetDescription.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTagSetDescription.Location = new System.Drawing.Point(281, 125);
             this.txtTagSetDescription.Multiline = true;
             this.txtTagSetDescription.Name = "txtTagSetDescription";
             this.txtTagSetDescription.Size = new System.Drawing.Size(986, 94);
@@ -69,28 +70,31 @@
             // 
             // txtTagSetName
             // 
-            this.txtTagSetName.Location = new System.Drawing.Point(351, 68);
+            this.txtTagSetName.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTagSetName.Location = new System.Drawing.Point(281, 65);
             this.txtTagSetName.Name = "txtTagSetName";
-            this.txtTagSetName.Size = new System.Drawing.Size(246, 44);
+            this.txtTagSetName.Size = new System.Drawing.Size(246, 38);
             this.txtTagSetName.TabIndex = 1;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lvTagList);
+            this.groupBox2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 232);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1360, 648);
+            this.groupBox2.Size = new System.Drawing.Size(1286, 648);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tag List";
             // 
             // lvTagList
             // 
+            this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagList.FullRowSelect = true;
             this.lvTagList.Location = new System.Drawing.Point(22, 54);
             this.lvTagList.MultiSelect = false;
             this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1315, 578);
+            this.lvTagList.Size = new System.Drawing.Size(1245, 578);
             this.lvTagList.TabIndex = 0;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             this.lvTagList.View = System.Windows.Forms.View.Details;
@@ -99,18 +103,20 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(28, 128);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(257, 37);
+            this.label8.Size = new System.Drawing.Size(212, 31);
             this.label8.TabIndex = 1;
             this.label8.Text = "Tag Set Description:";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(28, 68);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(202, 37);
+            this.label7.Size = new System.Drawing.Size(167, 31);
             this.label7.TabIndex = 0;
             this.label7.Text = "Tag Set Name: ";
             // 
@@ -121,7 +127,7 @@
             this.btnTemplateRemoveTag.FlatAppearance.BorderSize = 0;
             this.btnTemplateRemoveTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTemplateRemoveTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnTemplateRemoveTag.Location = new System.Drawing.Point(1301, 927);
+            this.btnTemplateRemoveTag.Location = new System.Drawing.Point(1231, 897);
             this.btnTemplateRemoveTag.Name = "btnTemplateRemoveTag";
             this.btnTemplateRemoveTag.Size = new System.Drawing.Size(48, 48);
             this.btnTemplateRemoveTag.TabIndex = 11;
@@ -135,7 +141,7 @@
             this.btnTemplateAddTag.FlatAppearance.BorderSize = 0;
             this.btnTemplateAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTemplateAddTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnTemplateAddTag.Location = new System.Drawing.Point(1250, 927);
+            this.btnTemplateAddTag.Location = new System.Drawing.Point(1180, 897);
             this.btnTemplateAddTag.Name = "btnTemplateAddTag";
             this.btnTemplateAddTag.Size = new System.Drawing.Size(48, 48);
             this.btnTemplateAddTag.TabIndex = 10;
@@ -144,8 +150,8 @@
             // 
             // btnTemplateCancel
             // 
-            this.btnTemplateCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTemplateCancel.Location = new System.Drawing.Point(690, 927);
+            this.btnTemplateCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTemplateCancel.Location = new System.Drawing.Point(662, 897);
             this.btnTemplateCancel.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnTemplateCancel.Name = "btnTemplateCancel";
             this.btnTemplateCancel.Size = new System.Drawing.Size(158, 72);
@@ -156,8 +162,8 @@
             // 
             // btnTemplateSave
             // 
-            this.btnTemplateSave.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTemplateSave.Location = new System.Drawing.Point(493, 927);
+            this.btnTemplateSave.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTemplateSave.Location = new System.Drawing.Point(465, 897);
             this.btnTemplateSave.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnTemplateSave.Name = "btnTemplateSave";
             this.btnTemplateSave.Size = new System.Drawing.Size(158, 72);
@@ -170,7 +176,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1380, 1038);
+            this.ClientSize = new System.Drawing.Size(1312, 1010);
             this.Controls.Add(this.btnTemplateCancel);
             this.Controls.Add(this.btnTemplateSave);
             this.Controls.Add(this.btnTemplateRemoveTag);

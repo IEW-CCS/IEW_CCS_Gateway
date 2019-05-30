@@ -110,6 +110,12 @@
     <Compile Include="GUI\frmEditTagSetTemplate.Designer.cs">
       <DependentUpon>frmEditTagSetTemplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmListEDCHeaderSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmListEDCHeaderSet.Designer.cs">
+      <DependentUpon>frmListEDCHeaderSet.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmListGateway.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +171,9 @@
     <EmbeddedResource Include="GUI\frmEditTagSetTemplate.resx">
       <DependentUpon>frmEditTagSetTemplate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmListEDCHeaderSet.resx">
+      <DependentUpon>frmListEDCHeaderSet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmListGateway.resx">
       <DependentUpon>frmListGateway.cs</DependentUpon>
     </EmbeddedResource>
@@ -187,6 +196,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\icons\device.png" />
+    <Content Include="images\icons\edc_set.png" />
+    <Content Include="images\icons\edc_set_list.png" />
     <Content Include="images\icons\gateway.png" />
     <Content Include="images\icons\gateway_list.png" />
     <Content Include="images\icons\load.png" />

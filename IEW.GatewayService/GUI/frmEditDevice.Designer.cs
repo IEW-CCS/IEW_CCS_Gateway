@@ -57,117 +57,117 @@
             // 
             // txtDeviceID
             // 
-            this.txtDeviceID.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDeviceID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDeviceID.Location = new System.Drawing.Point(312, 44);
             this.txtDeviceID.Name = "txtDeviceID";
-            this.txtDeviceID.Size = new System.Drawing.Size(312, 44);
+            this.txtDeviceID.Size = new System.Drawing.Size(312, 38);
             this.txtDeviceID.TabIndex = 4;
             // 
             // lblDeviceID
             // 
             this.lblDeviceID.AutoSize = true;
-            this.lblDeviceID.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDeviceID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDeviceID.Location = new System.Drawing.Point(40, 47);
             this.lblDeviceID.Name = "lblDeviceID";
-            this.lblDeviceID.Size = new System.Drawing.Size(145, 37);
+            this.lblDeviceID.Size = new System.Drawing.Size(121, 31);
             this.lblDeviceID.TabIndex = 3;
             this.lblDeviceID.Text = "Device ID: ";
             // 
             // lblDeviceType
             // 
             this.lblDeviceType.AutoSize = true;
-            this.lblDeviceType.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDeviceType.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDeviceType.Location = new System.Drawing.Point(40, 115);
             this.lblDeviceType.Name = "lblDeviceType";
-            this.lblDeviceType.Size = new System.Drawing.Size(178, 37);
+            this.lblDeviceType.Size = new System.Drawing.Size(148, 31);
             this.lblDeviceType.TabIndex = 5;
             this.lblDeviceType.Text = "Device Type: ";
             // 
             // cmbType
             // 
-            this.cmbType.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbType.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbType.FormattingEnabled = true;
             this.cmbType.Location = new System.Drawing.Point(312, 112);
             this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(312, 45);
+            this.cmbType.Size = new System.Drawing.Size(312, 39);
             this.cmbType.TabIndex = 6;
             this.cmbType.SelectedIndexChanged += new System.EventHandler(this.cmbType_SelectedIndexChanged);
             // 
             // txtPLC_IP
             // 
-            this.txtPLC_IP.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPLC_IP.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPLC_IP.Location = new System.Drawing.Point(285, 23);
             this.txtPLC_IP.Name = "txtPLC_IP";
-            this.txtPLC_IP.Size = new System.Drawing.Size(312, 44);
+            this.txtPLC_IP.Size = new System.Drawing.Size(312, 38);
             this.txtPLC_IP.TabIndex = 8;
             // 
             // lblPLC_IP
             // 
             this.lblPLC_IP.AutoSize = true;
-            this.lblPLC_IP.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPLC_IP.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPLC_IP.Location = new System.Drawing.Point(43, 26);
             this.lblPLC_IP.Name = "lblPLC_IP";
-            this.lblPLC_IP.Size = new System.Drawing.Size(115, 37);
+            this.lblPLC_IP.Size = new System.Drawing.Size(96, 31);
             this.lblPLC_IP.TabIndex = 7;
             this.lblPLC_IP.Text = "PLC IP: ";
             // 
             // txtPLC_Port
             // 
-            this.txtPLC_Port.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPLC_Port.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPLC_Port.Location = new System.Drawing.Point(285, 98);
             this.txtPLC_Port.Name = "txtPLC_Port";
-            this.txtPLC_Port.Size = new System.Drawing.Size(312, 44);
+            this.txtPLC_Port.Size = new System.Drawing.Size(312, 38);
             this.txtPLC_Port.TabIndex = 10;
             // 
             // lblPLC_Port
             // 
             this.lblPLC_Port.AutoSize = true;
-            this.lblPLC_Port.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPLC_Port.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPLC_Port.Location = new System.Drawing.Point(43, 101);
             this.lblPLC_Port.Name = "lblPLC_Port";
-            this.lblPLC_Port.Size = new System.Drawing.Size(139, 37);
+            this.lblPLC_Port.Size = new System.Drawing.Size(115, 31);
             this.lblPLC_Port.TabIndex = 9;
             this.lblPLC_Port.Text = "PLC Port: ";
             // 
             // txtBLE_Mac
             // 
-            this.txtBLE_Mac.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBLE_Mac.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBLE_Mac.Location = new System.Drawing.Point(315, 25);
             this.txtBLE_Mac.Name = "txtBLE_Mac";
-            this.txtBLE_Mac.Size = new System.Drawing.Size(312, 44);
+            this.txtBLE_Mac.Size = new System.Drawing.Size(312, 38);
             this.txtBLE_Mac.TabIndex = 12;
             // 
             // lblBLE_Mac
             // 
             this.lblBLE_Mac.AutoSize = true;
-            this.lblBLE_Mac.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBLE_Mac.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBLE_Mac.Location = new System.Drawing.Point(43, 28);
             this.lblBLE_Mac.Name = "lblBLE_Mac";
-            this.lblBLE_Mac.Size = new System.Drawing.Size(148, 37);
+            this.lblBLE_Mac.Size = new System.Drawing.Size(123, 31);
             this.lblBLE_Mac.TabIndex = 11;
             this.lblBLE_Mac.Text = "BLE MAC: ";
             // 
             // txtBLE_Service_UUID
             // 
-            this.txtBLE_Service_UUID.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBLE_Service_UUID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBLE_Service_UUID.Location = new System.Drawing.Point(315, 101);
             this.txtBLE_Service_UUID.Name = "txtBLE_Service_UUID";
-            this.txtBLE_Service_UUID.Size = new System.Drawing.Size(312, 44);
+            this.txtBLE_Service_UUID.Size = new System.Drawing.Size(312, 38);
             this.txtBLE_Service_UUID.TabIndex = 14;
             // 
             // lblBLE_Service_UUID
             // 
             this.lblBLE_Service_UUID.AutoSize = true;
-            this.lblBLE_Service_UUID.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBLE_Service_UUID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBLE_Service_UUID.Location = new System.Drawing.Point(43, 104);
             this.lblBLE_Service_UUID.Name = "lblBLE_Service_UUID";
-            this.lblBLE_Service_UUID.Size = new System.Drawing.Size(249, 37);
+            this.lblBLE_Service_UUID.Size = new System.Drawing.Size(207, 31);
             this.lblBLE_Service_UUID.TabIndex = 13;
             this.lblBLE_Service_UUID.Text = "BLE Service UUID: ";
             // 
             // btnDeviceCancel
             // 
-            this.btnDeviceCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeviceCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeviceCancel.Location = new System.Drawing.Point(696, 895);
             this.btnDeviceCancel.Name = "btnDeviceCancel";
             this.btnDeviceCancel.Size = new System.Drawing.Size(158, 67);
@@ -178,7 +178,7 @@
             // 
             // btnDeviceSave
             // 
-            this.btnDeviceSave.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeviceSave.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeviceSave.Location = new System.Drawing.Point(500, 895);
             this.btnDeviceSave.Name = "btnDeviceSave";
             this.btnDeviceSave.Size = new System.Drawing.Size(158, 67);
@@ -193,6 +193,7 @@
             this.pnlBLE.Controls.Add(this.lblBLE_Mac);
             this.pnlBLE.Controls.Add(this.txtBLE_Service_UUID);
             this.pnlBLE.Controls.Add(this.lblBLE_Service_UUID);
+            this.pnlBLE.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlBLE.Location = new System.Drawing.Point(696, 188);
             this.pnlBLE.Name = "pnlBLE";
             this.pnlBLE.Size = new System.Drawing.Size(667, 174);
@@ -204,6 +205,7 @@
             this.pnlPLC.Controls.Add(this.lblPLC_IP);
             this.pnlPLC.Controls.Add(this.txtPLC_IP);
             this.pnlPLC.Controls.Add(this.lblPLC_Port);
+            this.pnlPLC.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlPLC.Location = new System.Drawing.Point(27, 188);
             this.pnlPLC.Name = "pnlPLC";
             this.pnlPLC.Size = new System.Drawing.Size(638, 174);
@@ -213,10 +215,10 @@
             // 
             this.gbTagSet.Controls.Add(this.lvTagList);
             this.gbTagSet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.gbTagSet.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbTagSet.Location = new System.Drawing.Point(27, 390);
+            this.gbTagSet.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbTagSet.Location = new System.Drawing.Point(27, 382);
             this.gbTagSet.Name = "gbTagSet";
-            this.gbTagSet.Size = new System.Drawing.Size(1355, 488);
+            this.gbTagSet.Size = new System.Drawing.Size(1355, 496);
             this.gbTagSet.TabIndex = 20;
             this.gbTagSet.TabStop = false;
             this.gbTagSet.Text = "Tag List";
@@ -227,7 +229,7 @@
             this.lvTagList.GridLines = true;
             this.lvTagList.Location = new System.Drawing.Point(20, 56);
             this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1316, 405);
+            this.lvTagList.Size = new System.Drawing.Size(1316, 421);
             this.lvTagList.TabIndex = 0;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             this.lvTagList.View = System.Windows.Forms.View.Details;
@@ -263,7 +265,7 @@
             // 
             // btnLoadTag
             // 
-            this.btnLoadTag.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadTag.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLoadTag.Location = new System.Drawing.Point(955, 895);
             this.btnLoadTag.Name = "btnLoadTag";
             this.btnLoadTag.Size = new System.Drawing.Size(272, 72);
