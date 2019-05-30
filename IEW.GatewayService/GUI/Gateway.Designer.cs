@@ -89,6 +89,8 @@
             this.imageList1.Images.SetKeyName(4, "tag.png");
             this.imageList1.Images.SetKeyName(5, "plus.png");
             this.imageList1.Images.SetKeyName(6, "minus2.png");
+            this.imageList1.Images.SetKeyName(7, "edc_set.png");
+            this.imageList1.Images.SetKeyName(8, "edc_set_list.png");
             // 
             // btnSaveConfig
             // 

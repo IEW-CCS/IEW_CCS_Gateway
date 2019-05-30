@@ -47,10 +47,15 @@ namespace IEW.ObjectManager
         public string value { get; set; }
     }
 
-    public class cls_EDC_Head_Set
+    public class cls_EDC_Header
     {
         public string set_name;
         public string set_description;
         public List<cls_EDC_Head_Item> head_set = new List<cls_EDC_Head_Item>();
+    }
+
+    public class EDCHeaderSet
+    {
+        public List<cls_EDC_Header> head_set_list = new List<cls_EDC_Header>();
     }
 }
