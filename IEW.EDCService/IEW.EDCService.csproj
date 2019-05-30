@@ -7,8 +7,8 @@
     <ProjectGuid>{680B208C-1BE9-4550-B63D-F27896903B3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IEW.IOTEDCService</RootNamespace>
-    <AssemblyName>IEW.IOTEDCService</AssemblyName>
+    <RootNamespace>IEW.EDCService</RootNamespace>
+    <AssemblyName>IEW.EDCService</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
