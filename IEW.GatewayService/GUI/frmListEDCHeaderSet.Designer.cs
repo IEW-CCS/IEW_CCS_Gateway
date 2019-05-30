@@ -42,11 +42,12 @@
             this.btnRemoveHeaderSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveHeaderSet.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnRemoveHeaderSet.ImageIndex = 6;
-            this.btnRemoveHeaderSet.Location = new System.Drawing.Point(1021, 730);
+            this.btnRemoveHeaderSet.Location = new System.Drawing.Point(1325, 732);
             this.btnRemoveHeaderSet.Name = "btnRemoveHeaderSet";
             this.btnRemoveHeaderSet.Size = new System.Drawing.Size(48, 48);
             this.btnRemoveHeaderSet.TabIndex = 15;
             this.btnRemoveHeaderSet.UseVisualStyleBackColor = true;
+            this.btnRemoveHeaderSet.Click += new System.EventHandler(this.btnRemoveHeaderSet_Click);
             // 
             // btnAddHeaderSet
             // 
@@ -56,11 +57,12 @@
             this.btnAddHeaderSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddHeaderSet.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnAddHeaderSet.ImageIndex = 5;
-            this.btnAddHeaderSet.Location = new System.Drawing.Point(965, 730);
+            this.btnAddHeaderSet.Location = new System.Drawing.Point(1269, 732);
             this.btnAddHeaderSet.Name = "btnAddHeaderSet";
             this.btnAddHeaderSet.Size = new System.Drawing.Size(48, 48);
             this.btnAddHeaderSet.TabIndex = 14;
             this.btnAddHeaderSet.UseVisualStyleBackColor = true;
+            this.btnAddHeaderSet.Click += new System.EventHandler(this.btnAddHeaderSet_Click);
             // 
             // lvHeaderSetList
             // 
@@ -69,10 +71,11 @@
             this.lvHeaderSetList.Location = new System.Drawing.Point(10, 69);
             this.lvHeaderSetList.MultiSelect = false;
             this.lvHeaderSetList.Name = "lvHeaderSetList";
-            this.lvHeaderSetList.Size = new System.Drawing.Size(1061, 647);
+            this.lvHeaderSetList.Size = new System.Drawing.Size(1363, 647);
             this.lvHeaderSetList.TabIndex = 13;
             this.lvHeaderSetList.UseCompatibleStateImageBehavior = false;
             this.lvHeaderSetList.View = System.Windows.Forms.View.Details;
+            this.lvHeaderSetList.DoubleClick += new System.EventHandler(this.lvHeaderSetList_DoubleClick);
             // 
             // label6
             // 
@@ -88,13 +91,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1102, 818);
+            this.ClientSize = new System.Drawing.Size(1406, 808);
             this.Controls.Add(this.btnRemoveHeaderSet);
             this.Controls.Add(this.btnAddHeaderSet);
             this.Controls.Add(this.lvHeaderSetList);
             this.Controls.Add(this.label6);
             this.Name = "frmListEDCHeaderSet";
             this.Text = "frmListEDCHeaderSet";
+            this.Load += new System.EventHandler(this.frmListEDCHeaderSet_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

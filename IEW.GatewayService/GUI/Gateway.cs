@@ -36,6 +36,7 @@ namespace IEW.GatewayService.UI
 
         static int NODE_INDEX_GATEWAY_LIST = 0;
         static int NODE_INDEX_TAG_SET_LIST = 1;
+        static int NODE_INDEX_EDC_HEADER_SET_LIST = 2;
 
         //Define TabPages Index
         const int TABPAGE_INDEX_GATEWAY_LIST = 0;
@@ -164,8 +165,8 @@ namespace IEW.GatewayService.UI
 
             foreach (cls_EDC_Header hs in this.header_set.head_set_list)
             {
-                tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add(hs.set_name);
-                tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
+                tNode = tvNodeList.Nodes[NODE_INDEX_EDC_HEADER_SET_LIST].Nodes.Add(hs.set_name);
+                tNode.Tag = TABPAGE_INDEX_EDCHEADERSET_INFO;
                 tNode.ImageIndex = 7;
             }
 
@@ -270,10 +271,34 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig();
         }
 
-        //Delegate function to set EDC Header Set information
-        void SetEDCHeaderSet(EDCHeaderSet edc_set)
+        void SetEDCHeaderSetList(EDCHeaderSet edc_set_list)
         {
-            this.header_set = edc_set;
+            this.header_set = edc_set_list;
+            RefreshGatewayConfig();
+        }
+
+
+        //Delegate function to set EDC Header Set information
+        void SetEDCHeaderSetInfo(cls_EDC_Header edc_set, bool edit_flag)
+        {
+            if(edit_flag)
+            {
+                int i = 0;
+                foreach(cls_EDC_Header hs in this.header_set.head_set_list)
+                {
+                    if (hs.set_name == edc_set.set_name)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                this.header_set.head_set_list[i] = edc_set;
+            }
+            else
+            {
+                this.header_set.head_set_list.Add(edc_set);
+            }
+
             RefreshGatewayConfig();
         }
 
@@ -399,12 +424,43 @@ namespace IEW.GatewayService.UI
 
         private void DisplayEDCHeaderSetList(int index)
         {
-
+            frmListEDCHeaderSet headerList = new frmListEDCHeaderSet(SetEDCHeaderSetList, this.header_set);
+            headerList.Owner = this;
+            headerList.TopLevel = false;
+            headerList.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                pnlMain.Controls.RemoveAt(0);
+            }
+            pnlMain.Controls.Add(headerList);
+            headerList.Show();
         }
 
         private void DisplayEDCHeaderSetInfo(int index)
         {
+            TreeNode tNode = tvNodeList.SelectedNode;  // Header Set Info Node
 
+            int i = 0;
+            foreach (cls_EDC_Header hs in this.header_set.head_set_list)
+            {
+                if (hs.set_name == tNode.Text)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            frmEditEDCHeader frm = new frmEditEDCHeader(SetEDCHeaderSetInfo, this.header_set.head_set_list[i], i);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                pnlMain.Controls.RemoveAt(0);
+            }
+            pnlMain.Controls.Add(frm);
+
+            frm.Show();
         }
 
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
