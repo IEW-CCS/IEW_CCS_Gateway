@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpressionCalculator.cs" />
     <Compile Include="GUI\frmCalcExpression.cs">
       <SubType>Form</SubType>
     </Compile>
