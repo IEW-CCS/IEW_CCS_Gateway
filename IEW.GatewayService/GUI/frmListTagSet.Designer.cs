@@ -42,7 +42,7 @@
             this.btnRemoveTagSetTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveTagSetTemplate.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnRemoveTagSetTemplate.ImageIndex = 6;
-            this.btnRemoveTagSetTemplate.Location = new System.Drawing.Point(66, 851);
+            this.btnRemoveTagSetTemplate.Location = new System.Drawing.Point(1349, 851);
             this.btnRemoveTagSetTemplate.Name = "btnRemoveTagSetTemplate";
             this.btnRemoveTagSetTemplate.Size = new System.Drawing.Size(48, 48);
             this.btnRemoveTagSetTemplate.TabIndex = 11;
@@ -57,7 +57,7 @@
             this.btnAddTagSetTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddTagSetTemplate.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnAddTagSetTemplate.ImageIndex = 5;
-            this.btnAddTagSetTemplate.Location = new System.Drawing.Point(10, 851);
+            this.btnAddTagSetTemplate.Location = new System.Drawing.Point(1293, 851);
             this.btnAddTagSetTemplate.Name = "btnAddTagSetTemplate";
             this.btnAddTagSetTemplate.Size = new System.Drawing.Size(48, 48);
             this.btnAddTagSetTemplate.TabIndex = 10;
@@ -66,12 +66,13 @@
             // 
             // lvTagSetList
             // 
-            this.lvTagSetList.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvTagSetList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagSetList.FullRowSelect = true;
-            this.lvTagSetList.Location = new System.Drawing.Point(12, 85);
+            this.lvTagSetList.GridLines = true;
+            this.lvTagSetList.Location = new System.Drawing.Point(30, 85);
             this.lvTagSetList.MultiSelect = false;
             this.lvTagSetList.Name = "lvTagSetList";
-            this.lvTagSetList.Size = new System.Drawing.Size(1393, 743);
+            this.lvTagSetList.Size = new System.Drawing.Size(1367, 743);
             this.lvTagSetList.TabIndex = 9;
             this.lvTagSetList.UseCompatibleStateImageBehavior = false;
             this.lvTagSetList.View = System.Windows.Forms.View.Details;
@@ -80,10 +81,10 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(5, 15);
+            this.label6.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(24, 31);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(276, 37);
+            this.label6.Size = new System.Drawing.Size(228, 31);
             this.label6.TabIndex = 8;
             this.label6.Text = "Tag Set Template List";
             // 

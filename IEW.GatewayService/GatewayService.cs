@@ -22,8 +22,6 @@ using IEW.ObjectManager;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-
-
 using System.Xml;
 
 namespace IEW.GatewayService
@@ -46,6 +44,11 @@ namespace IEW.GatewayService
             }
         }
 
+        //----- 設定 Routine Job
+        private System.Threading.Timer timer_routine;
+        private int routine_interval = 5000;  // 5秒掃描一次
+
+
         //----暫時存放到Queue中在慢慢Update到ObjectManager去
         internal static ConcurrentQueue<cls_ProcRecv_CollectData> _Update_TagValue_Queue = new ConcurrentQueue<cls_ProcRecv_CollectData>();
 
@@ -54,8 +57,10 @@ namespace IEW.GatewayService
             bool ret = false;
             try
             {
-               // 以下建構子 讀取 gateway json string from file 
-               // ObjectManager.GatewayManager_Initial(InputData.MQTTPayload.ToString());
+                // 以下建構子 讀取 gateway json string from file 
+                // ObjectManager.GatewayManager_Initial(InputData.MQTTPayload.ToString());
+
+                Timer_Routine_Job(routine_interval);
                 NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Initial Finished");
                 ret = true;
             }
@@ -91,9 +96,84 @@ namespace IEW.GatewayService
         }
 
         // ----- Sample to insert gateway
-        public void UpdateGatewayInfo()
+
+        private void Timer_Routine_Job(int interval)
         {
-           // 直接在裡面純取  ObjectManager 物件
+            if (interval == 0)
+                interval = 5000;  // 5s
+
+            //使用匿名方法，建立帶有參數的委派
+            System.Threading.Thread Thread_Timer_Routine_Job = new System.Threading.Thread
+            (
+               delegate (object value)
+               {
+                   int Interval = Convert.ToInt32(value);
+                   timer_routine = new System.Threading.Timer(new System.Threading.TimerCallback(TimerTask), null, 1000, Interval);
+               }
+            );
+            Thread_Timer_Routine_Job.Start(interval);
+        }
+
+        private void TimerTask(object timerState)
+        {
+            if (_Update_TagValue_Queue.Count > 0)
+            {
+                cls_ProcRecv_CollectData _msg = null;
+                while (_Update_TagValue_Queue.TryDequeue(out _msg))
+                {
+                    // Update GUI 
+                    UpdateGatewayTagInfo(_msg);
+
+                    // 結合EDC and other Information 送MQTT
+                    Organize_EDCPartaker(_msg);
+                }
+            }
+        }
+
+
+        public void UpdateGatewayTagInfo(cls_ProcRecv_CollectData ProcData)
+        {
+            ObjectManager.GatewayManager_Set_TagValue(ProcData);
+        }
+
+        public void Organize_EDCPartaker(cls_ProcRecv_CollectData ProcData)
+        {
+            List<cls_EDC_Info> lst_EDCInfo = ObjectManager.EDCManager.gateway_edc.Where(p => p.gateway_id == ProcData.GateWayID && p.device_id == ProcData.Device_ID).ToList();
+            //找出對應的EDC Information
+            foreach (cls_EDC_Info _EDC in lst_EDCInfo)
+            {
+                EDCPartaker EDCReporter = new EDCPartaker(_EDC);
+
+                // 整理Normal EDC Info
+                foreach (Tuple<string, string> _Items in _EDC.tag_info)
+                {
+
+                    // Prod_EDC_Data Item1  = class name    Item2 = value
+                    // tag_info      Item1  = Report Name    Item2 = class name
+
+                    cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
+                    edctiem.item_name = _Items.Item1;
+                    edctiem.item_type = "X";
+                    Tuple<string, string> item_obj = ProcData.Prod_EDC_Data.Where(p => p.Item1 == _Items.Item2).FirstOrDefault();
+                    if (item_obj != null)
+                        edctiem.item_value = item_obj.Item2;
+                    else
+                        edctiem.item_value = string.Empty;
+
+                    EDCReporter.edcitem_info.Add(edctiem);
+
+                }
+
+                // ------整理 calculation Tag
+
+
+                // ------Send out EDCReporter to MQTT
+
+            }
+
+
+
+
         }
 
 
@@ -144,7 +224,7 @@ namespace IEW.GatewayService
             {
                 cls_Collect_Reply CollectData = null;
                 CollectData = JsonConvert.DeserializeObject<cls_Collect_Reply>(msg.ToString());
-
+    
                 cls_ProcRecv_CollectData ProcRecv_CollectData = new cls_ProcRecv_CollectData();
                 ProcRecv_CollectData.GateWayID = _GatewayID;
                 ProcRecv_CollectData.Device_ID = _DeviceID;
@@ -214,6 +294,7 @@ namespace IEW.GatewayService
 
                     });
                 }
+            
                 GatewayService._Update_TagValue_Queue.Enqueue(ProcRecv_CollectData);
             }
             catch (Exception ex)

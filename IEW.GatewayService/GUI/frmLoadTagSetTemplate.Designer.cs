@@ -36,44 +36,46 @@
             this.btnTempLoad = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(37, 46);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(124, 37);
+            this.label1.Size = new System.Drawing.Size(103, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "Tag Set: ";
             // 
             // cmbTagSet
             // 
-            this.cmbTagSet.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbTagSet.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTagSet.FormattingEnabled = true;
-            this.cmbTagSet.Location = new System.Drawing.Point(212, 46);
+            this.cmbTagSet.Location = new System.Drawing.Point(192, 46);
             this.cmbTagSet.Name = "cmbTagSet";
-            this.cmbTagSet.Size = new System.Drawing.Size(261, 45);
+            this.cmbTagSet.Size = new System.Drawing.Size(261, 39);
             this.cmbTagSet.TabIndex = 1;
             this.cmbTagSet.SelectedIndexChanged += new System.EventHandler(this.cmbTagSet_SelectedIndexChanged);
             // 
             // lvTagList
             // 
-            this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagList.FullRowSelect = true;
-            this.lvTagList.Location = new System.Drawing.Point(44, 268);
+            this.lvTagList.GridLines = true;
+            this.lvTagList.Location = new System.Drawing.Point(43, 266);
             this.lvTagList.MultiSelect = false;
             this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1200, 469);
+            this.lvTagList.Size = new System.Drawing.Size(1169, 469);
             this.lvTagList.TabIndex = 2;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             this.lvTagList.View = System.Windows.Forms.View.Details;
             // 
             // btnTempCancel
             // 
-            this.btnTempCancel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTempCancel.Location = new System.Drawing.Point(657, 779);
+            this.btnTempCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTempCancel.Location = new System.Drawing.Point(613, 775);
             this.btnTempCancel.Name = "btnTempCancel";
             this.btnTempCancel.Size = new System.Drawing.Size(158, 67);
             this.btnTempCancel.TabIndex = 18;
@@ -83,8 +85,8 @@
             // 
             // btnTempLoad
             // 
-            this.btnTempLoad.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTempLoad.Location = new System.Drawing.Point(461, 779);
+            this.btnTempLoad.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTempLoad.Location = new System.Drawing.Point(417, 775);
             this.btnTempLoad.Name = "btnTempLoad";
             this.btnTempLoad.Size = new System.Drawing.Size(158, 67);
             this.btnTempLoad.TabIndex = 17;
@@ -95,26 +97,38 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(37, 110);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(164, 37);
+            this.label2.Size = new System.Drawing.Size(135, 31);
             this.label2.TabIndex = 19;
             this.label2.Text = "Description: ";
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(212, 110);
+            this.txtDescription.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDescription.Location = new System.Drawing.Point(192, 110);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(1021, 86);
             this.txtDescription.TabIndex = 20;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(37, 212);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(98, 31);
+            this.label3.TabIndex = 21;
+            this.label3.Text = "Tag List:";
+            // 
             // frmLoadTagSetTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1288, 886);
+            this.ClientSize = new System.Drawing.Size(1242, 886);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnTempCancel);
@@ -139,5 +153,6 @@
         private System.Windows.Forms.Button btnTempLoad;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.Label label3;
     }
 }

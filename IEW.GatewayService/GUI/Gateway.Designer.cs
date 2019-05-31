@@ -43,7 +43,7 @@
             this.btnCmdDownload.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
             this.btnCmdDownload.FlatAppearance.BorderSize = 2;
             this.btnCmdDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnCmdDownload.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCmdDownload.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCmdDownload.ForeColor = System.Drawing.SystemColors.Highlight;
             this.btnCmdDownload.Location = new System.Drawing.Point(1584, 38);
             this.btnCmdDownload.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
@@ -57,7 +57,7 @@
             // btnLoadConfig
             // 
             this.btnLoadConfig.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnLoadConfig.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadConfig.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLoadConfig.Location = new System.Drawing.Point(42, 38);
             this.btnLoadConfig.Name = "btnLoadConfig";
             this.btnLoadConfig.Size = new System.Drawing.Size(216, 60);
@@ -89,11 +89,13 @@
             this.imageList1.Images.SetKeyName(4, "tag.png");
             this.imageList1.Images.SetKeyName(5, "plus.png");
             this.imageList1.Images.SetKeyName(6, "minus2.png");
+            this.imageList1.Images.SetKeyName(7, "edc_set.png");
+            this.imageList1.Images.SetKeyName(8, "edc_set_list.png");
             // 
             // btnSaveConfig
             // 
             this.btnSaveConfig.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSaveConfig.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveConfig.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSaveConfig.Location = new System.Drawing.Point(302, 38);
             this.btnSaveConfig.Name = "btnSaveConfig";
             this.btnSaveConfig.Size = new System.Drawing.Size(216, 60);
@@ -104,6 +106,7 @@
             // 
             // pnlMain
             // 
+            this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlMain.Location = new System.Drawing.Point(436, 126);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(1586, 1076);
