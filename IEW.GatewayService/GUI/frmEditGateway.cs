@@ -255,5 +255,6 @@ namespace IEW.GatewayService.GUI
             DisplayDeviceList();
             lvGWDevice.Focus();
         }
+
     }
 }

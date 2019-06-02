@@ -82,7 +82,7 @@
             this.txtDescription.Location = new System.Drawing.Point(339, 91);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(400, 88);
+            this.txtDescription.Size = new System.Drawing.Size(310, 88);
             this.txtDescription.TabIndex = 1;
             // 
             // gbAddHeaderItem
@@ -104,7 +104,7 @@
             // 
             // btnEditItem
             // 
-            this.btnEditItem.Location = new System.Drawing.Point(523, 112);
+            this.btnEditItem.Location = new System.Drawing.Point(540, 112);
             this.btnEditItem.Name = "btnEditItem";
             this.btnEditItem.Size = new System.Drawing.Size(147, 61);
             this.btnEditItem.TabIndex = 5;
@@ -114,7 +114,7 @@
             // 
             // txtLength
             // 
-            this.txtLength.Location = new System.Drawing.Point(452, 52);
+            this.txtLength.Location = new System.Drawing.Point(469, 52);
             this.txtLength.Name = "txtLength";
             this.txtLength.Size = new System.Drawing.Size(218, 38);
             this.txtLength.TabIndex = 4;
@@ -122,7 +122,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(353, 52);
+            this.label5.Location = new System.Drawing.Point(370, 52);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(80, 31);
             this.label5.TabIndex = 4;

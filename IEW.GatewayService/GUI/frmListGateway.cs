@@ -181,5 +181,6 @@ namespace IEW.GatewayService.GUI
             RefreshGatewayList();
             lvGatewayList.Focus();
         }
+
     }
 }

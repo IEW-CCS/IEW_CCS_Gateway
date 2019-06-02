@@ -269,5 +269,6 @@ namespace IEW.GatewayService.GUI
             txtValue.Text = e.Item.SubItems[1].Text;
             txtLength.Text = e.Item.SubItems[2].Text;
         }
+
     }
 }
