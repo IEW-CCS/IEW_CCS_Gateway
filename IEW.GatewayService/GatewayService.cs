@@ -165,10 +165,29 @@ namespace IEW.GatewayService
                 }
 
                 // ------整理 calculation Tag
+                cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == ProcData.GateWayID).FirstOrDefault();
+                if (gateway != null)
+                {
+                    cls_Device_Info device = gateway.device_info.Where(p => p.device_name == ProcData.Device_ID).FirstOrDefault();
+                    if (device != null)
+                    {
+                        //  device.tag_info["vic"].Value;
 
+
+                      //  cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
+                       // edctiem.item_name = itemname
+                       // edctiem.item_type = "X";
+                       // edctiem.item_value =itemvalue
+                     
+                       // EDCReporter.edcitem_info.Add(edctiem);
+
+                    }
+
+
+                }
 
                 // ------Send out EDCReporter to MQTT
-
+                
             }
 
 
