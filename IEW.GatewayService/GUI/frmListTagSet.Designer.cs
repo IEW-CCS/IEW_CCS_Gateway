@@ -42,7 +42,7 @@
             this.btnRemoveTagSetTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveTagSetTemplate.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnRemoveTagSetTemplate.ImageIndex = 6;
-            this.btnRemoveTagSetTemplate.Location = new System.Drawing.Point(1375, 851);
+            this.btnRemoveTagSetTemplate.Location = new System.Drawing.Point(1349, 851);
             this.btnRemoveTagSetTemplate.Name = "btnRemoveTagSetTemplate";
             this.btnRemoveTagSetTemplate.Size = new System.Drawing.Size(48, 48);
             this.btnRemoveTagSetTemplate.TabIndex = 11;
@@ -57,7 +57,7 @@
             this.btnAddTagSetTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddTagSetTemplate.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnAddTagSetTemplate.ImageIndex = 5;
-            this.btnAddTagSetTemplate.Location = new System.Drawing.Point(1319, 851);
+            this.btnAddTagSetTemplate.Location = new System.Drawing.Point(1293, 851);
             this.btnAddTagSetTemplate.Name = "btnAddTagSetTemplate";
             this.btnAddTagSetTemplate.Size = new System.Drawing.Size(48, 48);
             this.btnAddTagSetTemplate.TabIndex = 10;
@@ -68,10 +68,11 @@
             // 
             this.lvTagSetList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagSetList.FullRowSelect = true;
+            this.lvTagSetList.GridLines = true;
             this.lvTagSetList.Location = new System.Drawing.Point(30, 85);
             this.lvTagSetList.MultiSelect = false;
             this.lvTagSetList.Name = "lvTagSetList";
-            this.lvTagSetList.Size = new System.Drawing.Size(1393, 743);
+            this.lvTagSetList.Size = new System.Drawing.Size(1367, 743);
             this.lvTagSetList.TabIndex = 9;
             this.lvTagSetList.UseCompatibleStateImageBehavior = false;
             this.lvTagSetList.View = System.Windows.Forms.View.Details;

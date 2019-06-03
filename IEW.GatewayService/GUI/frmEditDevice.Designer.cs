@@ -46,6 +46,9 @@
             this.pnlBLE = new System.Windows.Forms.Panel();
             this.pnlPLC = new System.Windows.Forms.Panel();
             this.gbTagSet = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lvCalcTagList = new System.Windows.Forms.ListView();
             this.lvTagList = new System.Windows.Forms.ListView();
             this.btnTagRemove = new System.Windows.Forms.Button();
             this.btnTagAdd = new System.Windows.Forms.Button();
@@ -58,7 +61,7 @@
             // txtDeviceID
             // 
             this.txtDeviceID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDeviceID.Location = new System.Drawing.Point(312, 44);
+            this.txtDeviceID.Location = new System.Drawing.Point(313, 22);
             this.txtDeviceID.Name = "txtDeviceID";
             this.txtDeviceID.Size = new System.Drawing.Size(312, 38);
             this.txtDeviceID.TabIndex = 4;
@@ -67,7 +70,7 @@
             // 
             this.lblDeviceID.AutoSize = true;
             this.lblDeviceID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeviceID.Location = new System.Drawing.Point(40, 47);
+            this.lblDeviceID.Location = new System.Drawing.Point(41, 25);
             this.lblDeviceID.Name = "lblDeviceID";
             this.lblDeviceID.Size = new System.Drawing.Size(121, 31);
             this.lblDeviceID.TabIndex = 3;
@@ -77,7 +80,7 @@
             // 
             this.lblDeviceType.AutoSize = true;
             this.lblDeviceType.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeviceType.Location = new System.Drawing.Point(40, 115);
+            this.lblDeviceType.Location = new System.Drawing.Point(41, 79);
             this.lblDeviceType.Name = "lblDeviceType";
             this.lblDeviceType.Size = new System.Drawing.Size(148, 31);
             this.lblDeviceType.TabIndex = 5;
@@ -87,7 +90,7 @@
             // 
             this.cmbType.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbType.FormattingEnabled = true;
-            this.cmbType.Location = new System.Drawing.Point(312, 112);
+            this.cmbType.Location = new System.Drawing.Point(313, 76);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(312, 39);
             this.cmbType.TabIndex = 6;
@@ -114,7 +117,7 @@
             // txtPLC_Port
             // 
             this.txtPLC_Port.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPLC_Port.Location = new System.Drawing.Point(285, 98);
+            this.txtPLC_Port.Location = new System.Drawing.Point(285, 80);
             this.txtPLC_Port.Name = "txtPLC_Port";
             this.txtPLC_Port.Size = new System.Drawing.Size(312, 38);
             this.txtPLC_Port.TabIndex = 10;
@@ -123,7 +126,7 @@
             // 
             this.lblPLC_Port.AutoSize = true;
             this.lblPLC_Port.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPLC_Port.Location = new System.Drawing.Point(43, 101);
+            this.lblPLC_Port.Location = new System.Drawing.Point(43, 83);
             this.lblPLC_Port.Name = "lblPLC_Port";
             this.lblPLC_Port.Size = new System.Drawing.Size(115, 31);
             this.lblPLC_Port.TabIndex = 9;
@@ -150,7 +153,7 @@
             // txtBLE_Service_UUID
             // 
             this.txtBLE_Service_UUID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBLE_Service_UUID.Location = new System.Drawing.Point(315, 101);
+            this.txtBLE_Service_UUID.Location = new System.Drawing.Point(315, 83);
             this.txtBLE_Service_UUID.Name = "txtBLE_Service_UUID";
             this.txtBLE_Service_UUID.Size = new System.Drawing.Size(312, 38);
             this.txtBLE_Service_UUID.TabIndex = 14;
@@ -159,7 +162,7 @@
             // 
             this.lblBLE_Service_UUID.AutoSize = true;
             this.lblBLE_Service_UUID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBLE_Service_UUID.Location = new System.Drawing.Point(43, 104);
+            this.lblBLE_Service_UUID.Location = new System.Drawing.Point(43, 86);
             this.lblBLE_Service_UUID.Name = "lblBLE_Service_UUID";
             this.lblBLE_Service_UUID.Size = new System.Drawing.Size(207, 31);
             this.lblBLE_Service_UUID.TabIndex = 13;
@@ -168,7 +171,7 @@
             // btnDeviceCancel
             // 
             this.btnDeviceCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeviceCancel.Location = new System.Drawing.Point(696, 895);
+            this.btnDeviceCancel.Location = new System.Drawing.Point(696, 951);
             this.btnDeviceCancel.Name = "btnDeviceCancel";
             this.btnDeviceCancel.Size = new System.Drawing.Size(158, 67);
             this.btnDeviceCancel.TabIndex = 16;
@@ -179,7 +182,7 @@
             // btnDeviceSave
             // 
             this.btnDeviceSave.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeviceSave.Location = new System.Drawing.Point(500, 895);
+            this.btnDeviceSave.Location = new System.Drawing.Point(500, 951);
             this.btnDeviceSave.Name = "btnDeviceSave";
             this.btnDeviceSave.Size = new System.Drawing.Size(158, 67);
             this.btnDeviceSave.TabIndex = 15;
@@ -189,50 +192,88 @@
             // 
             // pnlBLE
             // 
+            this.pnlBLE.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlBLE.Controls.Add(this.txtBLE_Mac);
             this.pnlBLE.Controls.Add(this.lblBLE_Mac);
             this.pnlBLE.Controls.Add(this.txtBLE_Service_UUID);
             this.pnlBLE.Controls.Add(this.lblBLE_Service_UUID);
             this.pnlBLE.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlBLE.Location = new System.Drawing.Point(696, 188);
+            this.pnlBLE.Location = new System.Drawing.Point(696, 132);
             this.pnlBLE.Name = "pnlBLE";
-            this.pnlBLE.Size = new System.Drawing.Size(667, 174);
+            this.pnlBLE.Size = new System.Drawing.Size(667, 150);
             this.pnlBLE.TabIndex = 17;
             // 
             // pnlPLC
             // 
+            this.pnlPLC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlPLC.Controls.Add(this.txtPLC_Port);
             this.pnlPLC.Controls.Add(this.lblPLC_IP);
             this.pnlPLC.Controls.Add(this.txtPLC_IP);
             this.pnlPLC.Controls.Add(this.lblPLC_Port);
             this.pnlPLC.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlPLC.Location = new System.Drawing.Point(27, 188);
+            this.pnlPLC.Location = new System.Drawing.Point(27, 132);
             this.pnlPLC.Name = "pnlPLC";
-            this.pnlPLC.Size = new System.Drawing.Size(638, 174);
+            this.pnlPLC.Size = new System.Drawing.Size(638, 150);
             this.pnlPLC.TabIndex = 18;
             // 
             // gbTagSet
             // 
+            this.gbTagSet.Controls.Add(this.label2);
+            this.gbTagSet.Controls.Add(this.label1);
+            this.gbTagSet.Controls.Add(this.lvCalcTagList);
             this.gbTagSet.Controls.Add(this.lvTagList);
             this.gbTagSet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.gbTagSet.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbTagSet.Location = new System.Drawing.Point(27, 382);
+            this.gbTagSet.Location = new System.Drawing.Point(27, 304);
             this.gbTagSet.Name = "gbTagSet";
-            this.gbTagSet.Size = new System.Drawing.Size(1355, 496);
+            this.gbTagSet.Size = new System.Drawing.Size(1355, 630);
             this.gbTagSet.TabIndex = 20;
             this.gbTagSet.TabStop = false;
             this.gbTagSet.Text = "Tag List";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(25, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(134, 31);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Normal Tag:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(25, 393);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(172, 31);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Calculation Tag:";
+            // 
+            // lvCalcTagList
+            // 
+            this.lvCalcTagList.FullRowSelect = true;
+            this.lvCalcTagList.GridLines = true;
+            this.lvCalcTagList.Location = new System.Drawing.Point(20, 436);
+            this.lvCalcTagList.Name = "lvCalcTagList";
+            this.lvCalcTagList.OwnerDraw = true;
+            this.lvCalcTagList.Size = new System.Drawing.Size(1316, 175);
+            this.lvCalcTagList.TabIndex = 1;
+            this.lvCalcTagList.UseCompatibleStateImageBehavior = false;
+            this.lvCalcTagList.View = System.Windows.Forms.View.Details;
             // 
             // lvTagList
             // 
             this.lvTagList.FullRowSelect = true;
             this.lvTagList.GridLines = true;
-            this.lvTagList.Location = new System.Drawing.Point(20, 56);
+            this.lvTagList.Location = new System.Drawing.Point(20, 81);
             this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1316, 421);
+            this.lvTagList.Size = new System.Drawing.Size(1316, 295);
             this.lvTagList.TabIndex = 0;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             this.lvTagList.View = System.Windows.Forms.View.Details;
+            this.lvTagList.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lvTagList_DrawColumnHeader);
             this.lvTagList.DoubleClick += new System.EventHandler(this.lvTagList_DoubleClick);
             // 
             // btnTagRemove
@@ -242,7 +283,7 @@
             this.btnTagRemove.FlatAppearance.BorderSize = 0;
             this.btnTagRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTagRemove.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnTagRemove.Location = new System.Drawing.Point(1318, 895);
+            this.btnTagRemove.Location = new System.Drawing.Point(1318, 951);
             this.btnTagRemove.Name = "btnTagRemove";
             this.btnTagRemove.Size = new System.Drawing.Size(45, 45);
             this.btnTagRemove.TabIndex = 22;
@@ -256,7 +297,7 @@
             this.btnTagAdd.FlatAppearance.BorderSize = 0;
             this.btnTagAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTagAdd.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnTagAdd.Location = new System.Drawing.Point(1267, 895);
+            this.btnTagAdd.Location = new System.Drawing.Point(1267, 951);
             this.btnTagAdd.Name = "btnTagAdd";
             this.btnTagAdd.Size = new System.Drawing.Size(45, 45);
             this.btnTagAdd.TabIndex = 21;
@@ -266,7 +307,7 @@
             // btnLoadTag
             // 
             this.btnLoadTag.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadTag.Location = new System.Drawing.Point(955, 895);
+            this.btnLoadTag.Location = new System.Drawing.Point(955, 951);
             this.btnLoadTag.Name = "btnLoadTag";
             this.btnLoadTag.Size = new System.Drawing.Size(272, 72);
             this.btnLoadTag.TabIndex = 23;
@@ -278,7 +319,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1414, 1026);
+            this.ClientSize = new System.Drawing.Size(1414, 1046);
             this.Controls.Add(this.btnLoadTag);
             this.Controls.Add(this.btnTagRemove);
             this.Controls.Add(this.btnTagAdd);
@@ -300,6 +341,7 @@
             this.pnlPLC.ResumeLayout(false);
             this.pnlPLC.PerformLayout();
             this.gbTagSet.ResumeLayout(false);
+            this.gbTagSet.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -328,5 +370,8 @@
         private System.Windows.Forms.Button btnTagRemove;
         private System.Windows.Forms.Button btnTagAdd;
         private System.Windows.Forms.Button btnLoadTag;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListView lvCalcTagList;
     }
 }

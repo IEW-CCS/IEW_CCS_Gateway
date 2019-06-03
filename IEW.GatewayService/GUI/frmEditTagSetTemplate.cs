@@ -264,5 +264,6 @@ namespace IEW.GatewayService.GUI
             frm.ShowDialog();
             DisplayTagList();
         }
+
     }
 }

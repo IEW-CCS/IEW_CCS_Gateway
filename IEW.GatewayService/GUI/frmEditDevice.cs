@@ -60,6 +60,7 @@ namespace IEW.GatewayService.GUI
             //cmbType.Items.Add("BLE");
 
             lvTagList.Columns.Clear();
+           
             lvTagList.Columns.Add("Tag Name", 80);
             lvTagList.Columns.Add("Data Type", 80);
             lvTagList.Columns.Add("Address", 120);
@@ -361,5 +362,12 @@ namespace IEW.GatewayService.GUI
             frm.ShowDialog();
             RefreshDeviceTagList();
         }
+
+        private void lvTagList_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.Graphics.FillRectangle(Brushes.LightSkyBlue, e.Bounds);
+            e.DrawText();
+        }
+
     }
 }

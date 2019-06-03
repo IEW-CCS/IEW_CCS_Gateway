@@ -63,6 +63,7 @@
             // 
             this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagList.FullRowSelect = true;
+            this.lvTagList.GridLines = true;
             this.lvTagList.Location = new System.Drawing.Point(43, 266);
             this.lvTagList.MultiSelect = false;
             this.lvTagList.Name = "lvTagList";

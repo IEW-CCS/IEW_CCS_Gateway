@@ -68,6 +68,7 @@
             // 
             this.lvHeaderSetList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvHeaderSetList.FullRowSelect = true;
+            this.lvHeaderSetList.GridLines = true;
             this.lvHeaderSetList.Location = new System.Drawing.Point(10, 69);
             this.lvHeaderSetList.MultiSelect = false;
             this.lvHeaderSetList.Name = "lvHeaderSetList";
