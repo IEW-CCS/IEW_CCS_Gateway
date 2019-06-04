@@ -307,9 +307,9 @@
             // btnLoadTag
             // 
             this.btnLoadTag.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadTag.Location = new System.Drawing.Point(955, 951);
+            this.btnLoadTag.Location = new System.Drawing.Point(986, 951);
             this.btnLoadTag.Name = "btnLoadTag";
-            this.btnLoadTag.Size = new System.Drawing.Size(272, 72);
+            this.btnLoadTag.Size = new System.Drawing.Size(220, 67);
             this.btnLoadTag.TabIndex = 23;
             this.btnLoadTag.Text = "Load Tag Template";
             this.btnLoadTag.UseVisualStyleBackColor = true;
