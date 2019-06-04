@@ -171,20 +171,110 @@ namespace IEW.GatewayService
                     cls_Device_Info device = gateway.device_info.Where(p => p.device_name == ProcData.Device_ID).FirstOrDefault();
                     if (device != null)
                     {
+                        foreach (KeyValuePair<string, cls_CalcTag> kvp in device.calc_tag_info)
+                        {
+                            cls_Tag tagA = null;
+                            cls_Tag tagB = null;
+                            cls_Tag tagC = null;
+                            cls_Tag tagD = null;
+                            cls_Tag tagE = null;
+                            cls_Tag tagF = null;
+                            cls_Tag tagG = null;
+                            cls_Tag tagH = null;
+
+                            Double douA = -1;
+                            Double douB = -1;
+                            Double douC = -1;
+                            Double douD = -1;
+                            Double douE = -1;
+                            Double douF = -1;
+                            Double douG = -1;
+                            Double douH = -1;
+                            Double douResult = -999999.999;
+
+                            if (kvp.Value.ParamA.Trim() != "")
+                            {
+                                tagA = device.tag_info[kvp.Value.ParamA];
+                            }
+
+                            if (kvp.Value.ParamB.Trim() != "")
+                            {
+                                tagB = device.tag_info[kvp.Value.ParamB];
+                            }
+
+                            if (kvp.Value.ParamC.Trim() != "")
+                            {
+                                tagC = device.tag_info[kvp.Value.ParamC];
+                            }
+
+                            if (kvp.Value.ParamD.Trim() != "")
+                            {
+                                tagD = device.tag_info[kvp.Value.ParamD];
+                            }
+
+                            if (kvp.Value.ParamE.Trim() != "")
+                            {
+                                tagE = device.tag_info[kvp.Value.ParamE];
+                            }
+
+                            if (kvp.Value.ParamF.Trim() != "")
+                            {
+                                tagF = device.tag_info[kvp.Value.ParamF];
+                            }
+
+                            if (kvp.Value.ParamG.Trim() != "")
+                            {
+                                tagG = device.tag_info[kvp.Value.ParamG];
+                            }
+
+                            if (kvp.Value.ParamH.Trim() != "")
+                            {
+                                tagH = device.tag_info[kvp.Value.ParamH];
+                            }
+
+                            try
+                            {
+                                douA = Convert.ToDouble(tagA.Value);
+                                douB = Convert.ToDouble(tagB.Value);
+                                douC = Convert.ToDouble(tagC.Value);
+                                douD = Convert.ToDouble(tagD.Value);
+                                douE = Convert.ToDouble(tagE.Value);
+                                douF = Convert.ToDouble(tagF.Value);
+                                douG = Convert.ToDouble(tagG.Value);
+                                douH = Convert.ToDouble(tagH.Value);
+
+                                ExpressionCalculator exp_calc = new ExpressionCalculator(kvp.Value.Expression, douA, douB, douC, douD, douE, douF, douG, douH);
+                                douResult = exp_calc.Evaluate();
+
+                                kvp.Value.Value = douResult.ToString();
+                            }
+                            catch (Exception ex)
+                            {
+                                douResult = -999999.999;
+                            }
+
+                            //Add EDC
+                            cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
+                            edctiem.item_name = kvp.Value.TagName;
+                            edctiem.item_type = "X";
+                            edctiem.item_value = kvp.Value.Value;
+
+                            EDCReporter.edcitem_info.Add(edctiem);
+                        }
                         //  device.tag_info["vic"].Value;
 
 
-                      //  cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
-                       // edctiem.item_name = itemname
-                       // edctiem.item_type = "X";
-                       // edctiem.item_value =itemvalue
-                     
-                       // EDCReporter.edcitem_info.Add(edctiem);
+                        //  cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
+                        // edctiem.item_name = itemname
+                        // edctiem.item_type = "X";
+                        // edctiem.item_value =itemvalue
+
+                        // EDCReporter.edcitem_info.Add(edctiem);
 
                     }
 
 
-                }
+                    }
 
                 // ------Send out EDCReporter to MQTT
                 

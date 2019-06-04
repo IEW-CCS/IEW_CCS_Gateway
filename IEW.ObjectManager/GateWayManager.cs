@@ -18,6 +18,7 @@ namespace IEW.ObjectManager
         public string ble_mac { get; set; }
         public List<string> ble_service_uuid = new List<string>();
         public ConcurrentDictionary<string, cls_Tag> tag_info = new ConcurrentDictionary<string, cls_Tag>();
+        public ConcurrentDictionary<string, cls_CalcTag> calc_tag_info = new ConcurrentDictionary<string, cls_CalcTag>();
 
         public object Clone()
         {
@@ -60,6 +61,28 @@ namespace IEW.ObjectManager
         public string Value { get; set; }
         public double scale { get; set; }
         public double offset { get; set; }
+        public string LastUpdateTime { get; set; }
+        public string Description { get; set; }
+    }
+
+    #endregion
+
+    #region Calculate Tag Class Define Class Tag Define  -  Calc Tag
+
+    public class cls_CalcTag
+    {
+        public string TagName { get; set; }
+        public string Type { get; set; }
+        public string Expression { get; set; }
+        public string Value { get; set; }
+        public string ParamA { get; set; }
+        public string ParamB { get; set; }
+        public string ParamC { get; set; }
+        public string ParamD { get; set; }
+        public string ParamE { get; set; }
+        public string ParamF { get; set; }
+        public string ParamG { get; set; }
+        public string ParamH { get; set; }
         public string LastUpdateTime { get; set; }
         public string Description { get; set; }
     }

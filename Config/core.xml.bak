@@ -34,7 +34,7 @@
     <property name="Name" value="MQTTManager" /> 
     <property name="MessageManager" ref="MessageManager"/>
     <property name="QueueManager" ref="QueueManager"/>
-    <property name="ConnectionString" value="tcp://127.0.0.1:1883"/>
+    <property name="ConnectionString" value="tcp://10.0.1.11:1883"/>
     <property name="ClientId" value="{ComputerName}_{ServerName}"/>
     <property name="Receive_Topic">
       <dictionary>
