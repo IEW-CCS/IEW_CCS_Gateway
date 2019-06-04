@@ -24,6 +24,20 @@ namespace IEW.GatewayService
             return this.MemberwiseClone();
         }
 
+        public ExpressionCalculator(string _calculate_expression, double _a, double _b, double _c, double _d, double _e, double _f, double _g, double _h)
+        {
+            this.calculate_expression = _calculate_expression;
+            this.a = _a;
+            this.b = _b;
+            this.c = _c;
+            this.d = _d;
+            this.e = _e;
+            this.f = _f;
+            this.g = _g;
+            this.h = _h;
+
+        }
+
         public Double Evaluate()
         {
             Double douResult = 0;
@@ -90,7 +104,7 @@ namespace IEW.GatewayService
             }
             catch (Exception ex)
             {
-                douResult = -1;
+                douResult = -999999.999;
             }
 
             return douResult;
