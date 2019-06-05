@@ -89,6 +89,12 @@
     <Compile Include="GUI\frmEditEDCHeader.Designer.cs">
       <DependentUpon>frmEditEDCHeader.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmEditEDCXml.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditEDCXml.Designer.cs">
+      <DependentUpon>frmEditEDCXml.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmEditTag.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,12 @@
     </Compile>
     <Compile Include="GUI\frmListEDCHeaderSet.Designer.cs">
       <DependentUpon>frmListEDCHeaderSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmListEDCXml.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmListEDCXml.Designer.cs">
+      <DependentUpon>frmListEDCXml.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmListGateway.cs">
       <SubType>Form</SubType>
@@ -165,6 +177,9 @@
     <EmbeddedResource Include="GUI\frmEditEDCHeader.resx">
       <DependentUpon>frmEditEDCHeader.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmEditEDCXml.resx">
+      <DependentUpon>frmEditEDCXml.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmEditTag.resx">
       <DependentUpon>frmEditTag.cs</DependentUpon>
     </EmbeddedResource>
@@ -179,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmListEDCHeaderSet.resx">
       <DependentUpon>frmListEDCHeaderSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmListEDCXml.resx">
+      <DependentUpon>frmListEDCXml.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmListGateway.resx">
       <DependentUpon>frmListGateway.cs</DependentUpon>

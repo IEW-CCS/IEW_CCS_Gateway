@@ -37,6 +37,7 @@ namespace IEW.GatewayService.UI
         static int NODE_INDEX_GATEWAY_LIST = 0;
         static int NODE_INDEX_TAG_SET_LIST = 1;
         static int NODE_INDEX_EDC_HEADER_SET_LIST = 2;
+        static int NODE_INDEX_EDC_OUTPUT_LIST = 3;
 
         //Define TabPages Index
         const int TABPAGE_INDEX_GATEWAY_LIST = 0;
@@ -46,6 +47,9 @@ namespace IEW.GatewayService.UI
         const int TABPAGE_INDEX_TAGSET_INFO = 4;
         const int TABPAGE_INDEX_EDCHEADERSET_LIST = 5;
         const int TABPAGE_INDEX_EDCHEADERSET_INFO = 6;
+        const int TABPAGE_INDEX_EDC_OUTPUT_LIST = 7;
+        const int TABPAGE_INDEX_EDC_OUTPUT_INFO = 8;
+
 
         TreeNode objSelectedNode;
         public cls_Gateway_Info gw;
@@ -74,6 +78,11 @@ namespace IEW.GatewayService.UI
             tNode = tvNodeList.Nodes.Add("EDC Header Set List");
             tNode.Tag = TABPAGE_INDEX_EDCHEADERSET_LIST;
             tNode.ImageIndex = 8;
+            tvNodeList.EndUpdate();
+
+            tNode = tvNodeList.Nodes.Add("EDC XML Output Config List");
+            tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_LIST;
+            tNode.ImageIndex = 9;
             tvNodeList.EndUpdate();
 
             this.isLoadConfig = false;
@@ -116,6 +125,7 @@ namespace IEW.GatewayService.UI
 
             LoadTagSetConfig();
             LoadHeaderSetConfig();
+            LoadEDCXmlConfig();
             RefreshGatewayConfig();
         }
 
@@ -216,6 +226,14 @@ namespace IEW.GatewayService.UI
                     DisplayEDCHeaderSetInfo(index);
                     break;
 
+                case TABPAGE_INDEX_EDC_OUTPUT_LIST:
+                    DisplayEDCXMLList(index);
+                    break;
+
+                case TABPAGE_INDEX_EDC_OUTPUT_INFO:
+                    DisplayEDCXMLInfo(index);
+                    break;
+
                 default:
                     break;
             }
@@ -314,6 +332,37 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig();
         }
 
+        //Delegate function to update EDCManager information
+        void EDCManager(EDCManager edcMgr)
+        {
+            ObjectManager.EDCManager.gateway_edc = edcMgr.gateway_edc;
+            RefreshGatewayConfig();
+        }
+
+        //Delegate function to update EDC XML Information
+        void SetEDCXmlInfo(cls_EDC_Info edc_info, bool edit_flag)
+        {
+            if (edit_flag)
+            {
+                int i = 0;
+                foreach (cls_EDC_Info edc in ObjectManager.EDCManager.gateway_edc)
+                {
+                    if (edc.serial_id == edc_info.serial_id)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                ObjectManager.EDCManager.gateway_edc[i] = edc_info;
+            }
+            else
+            {
+                ObjectManager.EDCManager.gateway_edc.Add(edc_info);
+            }
+
+            RefreshGatewayConfig();
+        }
+
         private void DisplayGatewayList()
         {
             frmListGateway gwList = new frmListGateway(SetGatewayManager, ObjectManager.GatewayManager);
@@ -404,7 +453,6 @@ namespace IEW.GatewayService.UI
             }
             pnlMain.Controls.Add(setList);
             setList.Show();
-
         }
 
         private void DisplayTagSetInfo(int index)
@@ -421,7 +469,6 @@ namespace IEW.GatewayService.UI
                 i++;
             }
 
-            //frmEditTagSetTemplate frm = new frmEditTagSetTemplate(ObjectManager.TagSetManager.tag_set_list[i], i);
             frmEditTagSetTemplate frm = new frmEditTagSetTemplate(SetTagSetInfo, ObjectManager.TagSetManager.tag_set_list[i], i);
             frm.Owner = this;
             frm.TopLevel = false;
@@ -474,6 +521,16 @@ namespace IEW.GatewayService.UI
             pnlMain.Controls.Add(frm);
 
             frm.Show();
+        }
+
+        private void DisplayEDCXMLList(int index)
+        {
+
+        }
+
+        private void DisplayEDCXMLInfo(int index)
+        {
+
         }
 
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
@@ -594,6 +651,39 @@ namespace IEW.GatewayService.UI
             return true;
         }
 
+        private bool LoadEDCXmlConfig()
+        {
+            try
+            {
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\EDC_Xml_Config.json"))
+                {
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    //ObjectManager.TagSetManager_Initial();
+                    return true;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\EDC_Xml_Config.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                ObjectManager.EDCManager_Initial(json_string);
+
+                if (ObjectManager.EDCManager.gateway_edc == null)
+                {
+                    MessageBox.Show("No EDC XML config exists!", "Information");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch
+            {
+                MessageBox.Show("EDC XML config file loading error!", "Error");
+                return false;
+            }
+
+            return true;
+        }
 
         private void SaveGatewayConfig()
         {
@@ -625,12 +715,22 @@ namespace IEW.GatewayService.UI
             output.Close();
         }
 
+        private void SaveEDCXmlConfig()
+        {
+            string json_string;
+
+            json_string = JsonConvert.SerializeObject(ObjectManager.EDCManager, Newtonsoft.Json.Formatting.Indented);
+            StreamWriter output = new StreamWriter("C:\\Gateway\\Config\\EDC_Xml_Config.json");
+            output.Write(json_string);
+            output.Close();
+        }
+
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
             SaveGatewayConfig();
             SaveTagSetConfig();
             SaveEDCHeaderSetConfig();
+            SaveEDCXmlConfig();
         }
-        
     }
 }

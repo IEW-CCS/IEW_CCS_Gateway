@@ -110,7 +110,6 @@ namespace IEW.GatewayService.GUI
 
         private void btnAddTagSetTemplate_Click(object sender, EventArgs e)
         {
-            //var frm = new frmEditGateway();
             frmEditTagSetTemplate frm = new frmEditTagSetTemplate(SetTagSetInfo, CheckDuplicateTagSet, false);
             frm.Owner = this;
             frm.ShowDialog();
