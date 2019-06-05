@@ -8,16 +8,44 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NCalc;
+using IEW.ObjectManager;
 
 namespace IEW.GatewayService.GUI
 {
     public partial class frmCalcExpression : Form
     {
+        cls_CalcTag calc_tag_data = new cls_CalcTag();
+        bool isEdit;
+
         public frmCalcExpression()
         {
             InitializeComponent();
+            this.isEdit = false;
         }
-        
+
+        public frmCalcExpression(cls_CalcTag calc_tag)
+        {
+            InitializeComponent();
+            this.calc_tag_data = calc_tag;
+            this.isEdit = true;
+        }
+
+        private void frmCalcExpression_Load(object sender, EventArgs e)
+        {
+            if(isEdit)
+            {
+                txtA.Text = calc_tag_data.ParamA;
+                txtB.Text = calc_tag_data.ParamB;
+                txtC.Text = calc_tag_data.ParamC;
+                txtD.Text = calc_tag_data.ParamD;
+                txtE.Text = calc_tag_data.ParamE;
+                txtF.Text = calc_tag_data.ParamF;
+                txtG.Text = calc_tag_data.ParamG;
+                txtH.Text = calc_tag_data.ParamH;
+                txtCalcExpression.Text = calc_tag_data.Expression;
+            }
+        }
+
         private void btnEvaluate_Click(object sender, EventArgs e)
         {
      
@@ -78,6 +106,62 @@ namespace IEW.GatewayService.GUI
         private void cboBooleanLogic_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtCalcExpression.Text = cboBooleanLogic.Text + txtCalcExpression.Text;
+        }
+
+        public string GetExpression()
+        {
+            return txtCalcExpression.Text;
+        }
+
+        public Dictionary<string, string> GetTagNameList()
+        {
+            Dictionary<string, string> name_list = new Dictionary<string, string>();
+            if(txtA.Text.Trim() != "")
+            {
+                name_list.Add("A", txtA.Text.Trim());
+            }
+
+            if (txtB.Text.Trim() != "")
+            {
+                name_list.Add("B", txtB.Text.Trim());
+            }
+
+            if (txtC.Text.Trim() != "")
+            {
+                name_list.Add("C", txtC.Text.Trim());
+            }
+
+            if (txtD.Text.Trim() != "")
+            {
+                name_list.Add("D", txtD.Text.Trim());
+            }
+
+            if (txtE.Text.Trim() != "")
+            {
+                name_list.Add("E", txtE.Text.Trim());
+            }
+
+            if (txtF.Text.Trim() != "")
+            {
+                name_list.Add("F", txtF.Text.Trim());
+            }
+
+            if (txtG.Text.Trim() != "")
+            {
+                name_list.Add("G", txtG.Text.Trim());
+            }
+
+            if (txtH.Text.Trim() != "")
+            {
+                name_list.Add("H", txtH.Text.Trim());
+            }
+
+            return name_list;
+        }
+
+        public void SetNewTag()
+        {
+
         }
     }
 }

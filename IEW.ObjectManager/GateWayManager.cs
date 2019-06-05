@@ -96,6 +96,7 @@ namespace IEW.ObjectManager
         public string TagSetName { get; set; }
         public string TagSetDescription { get; set; }
         public List<cls_Tag> tag_set = new List<cls_Tag>();
+        public List<cls_CalcTag> calc_tag_set = new List<cls_CalcTag>();
 
         public object Clone()
         {

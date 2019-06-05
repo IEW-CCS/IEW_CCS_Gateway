@@ -407,6 +407,7 @@
             this.Controls.Add(this.txtCalcExpression);
             this.Name = "frmCalcExpression";
             this.Text = "Calc Expression";
+            this.Load += new System.EventHandler(this.frmCalcExpression_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

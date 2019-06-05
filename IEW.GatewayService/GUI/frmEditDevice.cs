@@ -23,6 +23,7 @@ namespace IEW.GatewayService.GUI
         cls_Device_Info device_data;
         cls_Gateway_Info gw_data;
         ConcurrentDictionary<string, cls_Tag> taglist_data = new ConcurrentDictionary<string, cls_Tag>();
+        ConcurrentDictionary<string, cls_CalcTag> calc_taglist_data = new ConcurrentDictionary<string, cls_CalcTag>();
         int iDeviceIndex;
 
         public frmEditDevice()
@@ -40,6 +41,7 @@ namespace IEW.GatewayService.GUI
             this.device_data = device;
             this.iDeviceIndex = index;
             this.taglist_data = device.tag_info;
+            this.calc_taglist_data = device.calc_tag_info;
         }
 
         public frmEditDevice(cls_Gateway_Info gw, cls_Device_Info device, int index)
@@ -51,6 +53,7 @@ namespace IEW.GatewayService.GUI
             this.device_data = device;
             this.iDeviceIndex = index;
             this.taglist_data = device.tag_info;
+            this.calc_taglist_data = device.calc_tag_info;
         }
 
         private void frmEditDevice_Load(object sender, EventArgs e)
@@ -194,13 +197,8 @@ namespace IEW.GatewayService.GUI
                 diTemp.ble_service_uuid.Add(txtBLE_Service_UUID.Text.Trim());
             }
           
-            if (lvTagList.Items.Count > 0)
-            {
-                //foreach(ListViewItem item in lvTagList.Items)
-                //{
-                  diTemp.tag_info = taglist_data;
-                //}
-            }
+            diTemp.tag_info = taglist_data;
+            diTemp.calc_tag_info = calc_taglist_data;
 
             this.device_data = diTemp;
 
@@ -259,6 +257,7 @@ namespace IEW.GatewayService.GUI
             }
         }
 
+        //Delegate function to recieve tag data from frmEditTag form
         void SetTagInformation(cls_Tag tag, bool edit)
         {
             if (edit)
@@ -284,13 +283,59 @@ namespace IEW.GatewayService.GUI
             }
         }
 
-        bool CheckDuplicateTag(string tag_name)
+        //Delegate function to recieve calculation tag data from frmEditCalcTag form
+        void SetCalcTagInformation(cls_CalcTag calc_tag, bool edit)
         {
-            if (taglist_data.Count > 0)
+            if (edit)
             {
-                if(taglist_data.ContainsKey(tag_name))
+                cls_CalcTag tmp = new cls_CalcTag();
+
+                if (calc_taglist_data.TryGetValue(calc_tag.TagName, out tmp))
                 {
-                    MessageBox.Show("Duplicate Tag Name!", "Error");
+                    if (!calc_taglist_data.TryUpdate(calc_tag.TagName, calc_tag, tmp))
+                    {
+                        MessageBox.Show("Calculation Tag Update failed!", "Error");
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                if (!calc_taglist_data.TryAdd(calc_tag.TagName, calc_tag))
+                {
+                    MessageBox.Show("Calculation Tag Add failed!", "Error");
+                    return;
+                }
+            }
+        }
+
+        //Delegate function to check duplicated Tag ID
+        bool CheckDuplicateTag(string tag_name, string type)
+        {
+            if(type == "TAG")
+            {
+                if (taglist_data.Count > 0)
+                {
+                    if (taglist_data.ContainsKey(tag_name))
+                    {
+                        MessageBox.Show("Duplicate Tag Name!", "Error");
+                        return false;
+                    }
+                }
+            }
+            else if(type =="CALC_TAG")
+            {
+                if (calc_taglist_data.Count > 0)
+                {
+                    if (calc_taglist_data.ContainsKey(tag_name))
+                    {
+                        MessageBox.Show("Duplicate Calculation Tag Name!", "Error");
+                        return false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Wrong type string to check duplicated tag name!", "Error");
                     return false;
                 }
             }
@@ -298,6 +343,7 @@ namespace IEW.GatewayService.GUI
             return true;
         }
 
+        //Delegate function to receive data from frmLoadTagSetTemplate form
         void SetTagListFromTamplate(ConcurrentDictionary<string, cls_Tag> tag_list)
         {
             this.taglist_data = tag_list;
@@ -362,12 +408,5 @@ namespace IEW.GatewayService.GUI
             frm.ShowDialog();
             RefreshDeviceTagList();
         }
-
-        private void lvTagList_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
-            e.Graphics.FillRectangle(Brushes.LightSkyBlue, e.Bounds);
-            e.DrawText();
-        }
-
     }
 }

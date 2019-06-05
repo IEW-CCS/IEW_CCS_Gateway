@@ -52,6 +52,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lvCalcTagList = new System.Windows.Forms.ListView();
             this.lvTagList = new System.Windows.Forms.ListView();
+            this.btnCalcTagRemove = new System.Windows.Forms.Button();
+            this.btnCalcTagAdd = new System.Windows.Forms.Button();
             this.pnlBLE.SuspendLayout();
             this.pnlPLC.SuspendLayout();
             this.SuspendLayout();
@@ -169,7 +171,7 @@
             // btnDeviceCancel
             // 
             this.btnDeviceCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeviceCancel.Location = new System.Drawing.Point(696, 951);
+            this.btnDeviceCancel.Location = new System.Drawing.Point(696, 953);
             this.btnDeviceCancel.Name = "btnDeviceCancel";
             this.btnDeviceCancel.Size = new System.Drawing.Size(158, 67);
             this.btnDeviceCancel.TabIndex = 16;
@@ -180,7 +182,7 @@
             // btnDeviceSave
             // 
             this.btnDeviceSave.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeviceSave.Location = new System.Drawing.Point(500, 951);
+            this.btnDeviceSave.Location = new System.Drawing.Point(500, 953);
             this.btnDeviceSave.Name = "btnDeviceSave";
             this.btnDeviceSave.Size = new System.Drawing.Size(158, 67);
             this.btnDeviceSave.TabIndex = 15;
@@ -221,7 +223,7 @@
             this.btnTagRemove.FlatAppearance.BorderSize = 0;
             this.btnTagRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTagRemove.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnTagRemove.Location = new System.Drawing.Point(1318, 645);
+            this.btnTagRemove.Location = new System.Drawing.Point(1318, 679);
             this.btnTagRemove.Name = "btnTagRemove";
             this.btnTagRemove.Size = new System.Drawing.Size(45, 45);
             this.btnTagRemove.TabIndex = 22;
@@ -235,7 +237,7 @@
             this.btnTagAdd.FlatAppearance.BorderSize = 0;
             this.btnTagAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTagAdd.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnTagAdd.Location = new System.Drawing.Point(1267, 645);
+            this.btnTagAdd.Location = new System.Drawing.Point(1267, 679);
             this.btnTagAdd.Name = "btnTagAdd";
             this.btnTagAdd.Size = new System.Drawing.Size(45, 45);
             this.btnTagAdd.TabIndex = 21;
@@ -245,9 +247,9 @@
             // btnLoadTag
             // 
             this.btnLoadTag.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadTag.Location = new System.Drawing.Point(1012, 645);
+            this.btnLoadTag.Location = new System.Drawing.Point(948, 953);
             this.btnLoadTag.Name = "btnLoadTag";
-            this.btnLoadTag.Size = new System.Drawing.Size(220, 51);
+            this.btnLoadTag.Size = new System.Drawing.Size(220, 67);
             this.btnLoadTag.TabIndex = 23;
             this.btnLoadTag.Text = "Load Tag Template";
             this.btnLoadTag.UseVisualStyleBackColor = true;
@@ -267,7 +269,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(52, 694);
+            this.label1.Location = new System.Drawing.Point(52, 701);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(172, 31);
             this.label1.TabIndex = 26;
@@ -275,9 +277,10 @@
             // 
             // lvCalcTagList
             // 
+            this.lvCalcTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvCalcTagList.FullRowSelect = true;
             this.lvCalcTagList.GridLines = true;
-            this.lvCalcTagList.Location = new System.Drawing.Point(47, 737);
+            this.lvCalcTagList.Location = new System.Drawing.Point(47, 744);
             this.lvCalcTagList.Name = "lvCalcTagList";
             this.lvCalcTagList.OwnerDraw = true;
             this.lvCalcTagList.Size = new System.Drawing.Size(1316, 193);
@@ -291,16 +294,45 @@
             this.lvTagList.GridLines = true;
             this.lvTagList.Location = new System.Drawing.Point(47, 329);
             this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1316, 295);
+            this.lvTagList.Size = new System.Drawing.Size(1316, 335);
             this.lvTagList.TabIndex = 24;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             this.lvTagList.View = System.Windows.Forms.View.Details;
+            this.lvTagList.DoubleClick += new System.EventHandler(this.lvTagList_DoubleClick);
+            // 
+            // btnCalcTagRemove
+            // 
+            this.btnCalcTagRemove.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
+            this.btnCalcTagRemove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnCalcTagRemove.FlatAppearance.BorderSize = 0;
+            this.btnCalcTagRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalcTagRemove.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnCalcTagRemove.Location = new System.Drawing.Point(1318, 953);
+            this.btnCalcTagRemove.Name = "btnCalcTagRemove";
+            this.btnCalcTagRemove.Size = new System.Drawing.Size(45, 45);
+            this.btnCalcTagRemove.TabIndex = 29;
+            this.btnCalcTagRemove.UseVisualStyleBackColor = true;
+            // 
+            // btnCalcTagAdd
+            // 
+            this.btnCalcTagAdd.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
+            this.btnCalcTagAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnCalcTagAdd.FlatAppearance.BorderSize = 0;
+            this.btnCalcTagAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCalcTagAdd.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnCalcTagAdd.Location = new System.Drawing.Point(1267, 953);
+            this.btnCalcTagAdd.Name = "btnCalcTagAdd";
+            this.btnCalcTagAdd.Size = new System.Drawing.Size(45, 45);
+            this.btnCalcTagAdd.TabIndex = 28;
+            this.btnCalcTagAdd.UseVisualStyleBackColor = true;
             // 
             // frmEditDevice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1414, 1046);
+            this.Controls.Add(this.btnCalcTagRemove);
+            this.Controls.Add(this.btnCalcTagAdd);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lvCalcTagList);
@@ -354,5 +386,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListView lvCalcTagList;
         private System.Windows.Forms.ListView lvTagList;
+        private System.Windows.Forms.Button btnCalcTagRemove;
+        private System.Windows.Forms.Button btnCalcTagAdd;
     }
 }
