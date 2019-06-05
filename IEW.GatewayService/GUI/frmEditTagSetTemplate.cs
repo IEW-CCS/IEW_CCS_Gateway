@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using IEW.ObjectManager;
 using IEW.GatewayService.UI;
+using System.Collections.Concurrent;
 
 namespace IEW.GatewayService.GUI
 {
@@ -23,6 +24,7 @@ namespace IEW.GatewayService.GUI
         public List<cls_CalcTag> calc_tag_list = new List<cls_CalcTag>();
         public int tag_set_index;
         int tag_index;
+        int calc_tag_index;
         public SetTagSetInfo delgSetTagSet;
         public CheckDuplicateTagSet delgCheckDuplicate;
 
@@ -44,6 +46,7 @@ namespace IEW.GatewayService.GUI
             this.tag_set_index = index;
         }
 
+        //Counstructor to Edit Tag Set Template
         public frmEditTagSetTemplate(SetTagSetInfo set_ts, cls_Tag_Set tag_set, int index)
         {
             InitializeComponent();
@@ -55,6 +58,7 @@ namespace IEW.GatewayService.GUI
             this.delgSetTagSet = set_ts;
         }
 
+        //Counstructor to Add New Tag Set Template
         public frmEditTagSetTemplate(SetTagSetInfo set_ts, CheckDuplicateTagSet check, bool edit_flag)
         {
             InitializeComponent();
@@ -74,6 +78,21 @@ namespace IEW.GatewayService.GUI
             else
             {
                 tag_list.Add(tag);
+                return;
+            }
+        }
+
+        //Delegate function to receive tag set data from frmEditTag form
+        void SetCalcTagInformation(cls_CalcTag calc_tag, bool edit)
+        {
+            if (edit)
+            {
+                this.calc_tag_list[calc_tag_index] = calc_tag;
+                return;
+            }
+            else
+            {
+                this.calc_tag_list.Add(calc_tag);
                 return;
             }
         }
@@ -124,12 +143,25 @@ namespace IEW.GatewayService.GUI
             lvTagList.Columns.Add("Offset", 80);
             lvTagList.Columns.Add("Update Time", 180);
 
+            lvCalcTagList.Columns.Clear();
+            lvCalcTagList.Columns.Add("Tag Name", 80);
+            lvCalcTagList.Columns.Add("A", 60);
+            lvCalcTagList.Columns.Add("B", 60);
+            lvCalcTagList.Columns.Add("C", 60);
+            lvCalcTagList.Columns.Add("D", 60);
+            lvCalcTagList.Columns.Add("E", 60);
+            lvCalcTagList.Columns.Add("F", 60);
+            lvCalcTagList.Columns.Add("G", 60);
+            lvCalcTagList.Columns.Add("H", 60);
+            lvCalcTagList.Columns.Add("Expression", 180);
+
             if (isEdit)
             {
                 txtTagSetName.Text = this.tag_set_data.TagSetName;
                 txtTagSetName.Enabled = false;
                 txtTagSetDescription.Text = this.tag_set_data.TagSetDescription;
                 DisplayTagList();
+                DisplayCalcTagList();
             }
         }
 
@@ -161,6 +193,7 @@ namespace IEW.GatewayService.GUI
             tmpTagSet.TagSetName = txtTagSetName.Text.Trim();
             tmpTagSet.TagSetDescription = txtTagSetDescription.Text.Trim();
             tmpTagSet.tag_set = this.tag_list;
+            tmpTagSet.calc_tag_set = this.calc_tag_list;
 
             delgSetTagSet(tmpTagSet, this.isEdit);
             tmpTagSet = null;
@@ -184,7 +217,7 @@ namespace IEW.GatewayService.GUI
             {
                 lvTagList.BeginUpdate();
                 lvTagList.Items.Clear();
-                foreach (cls_Tag tag in tag_list)
+                foreach (cls_Tag tag in this.tag_list)
                 {
                     ListViewItem lvItem = new ListViewItem(tag.TagName);
                     lvItem.SubItems.Add(tag.Expression);
@@ -195,6 +228,32 @@ namespace IEW.GatewayService.GUI
                     lvTagList.Items.Add(lvItem);
                 }
                 lvTagList.EndUpdate();
+            }
+        }
+
+        private void DisplayCalcTagList()
+        {
+            lvCalcTagList.Items.Clear();
+
+            if (this.calc_tag_list.Count > 0)
+            {
+                lvCalcTagList.BeginUpdate();
+                lvCalcTagList.Items.Clear();
+                foreach (cls_CalcTag calc_tag in this.calc_tag_list)
+                {
+                    ListViewItem lvItem = new ListViewItem(calc_tag.TagName);
+                    lvItem.SubItems.Add(calc_tag.ParamA);
+                    lvItem.SubItems.Add(calc_tag.ParamB);
+                    lvItem.SubItems.Add(calc_tag.ParamC);
+                    lvItem.SubItems.Add(calc_tag.ParamD);
+                    lvItem.SubItems.Add(calc_tag.ParamE);
+                    lvItem.SubItems.Add(calc_tag.ParamF);
+                    lvItem.SubItems.Add(calc_tag.ParamG);
+                    lvItem.SubItems.Add(calc_tag.ParamH);
+                    lvItem.SubItems.Add(calc_tag.Expression);
+                    lvCalcTagList.Items.Add(lvItem);
+                }
+                lvCalcTagList.EndUpdate();
             }
         }
 
@@ -230,6 +289,53 @@ namespace IEW.GatewayService.GUI
             DisplayTagList();
         }
 
+        private void btnTemplateAddCalcTag_Click(object sender, EventArgs e)
+        {
+            ConcurrentDictionary<string, cls_Tag> dicTag = new ConcurrentDictionary<string, cls_Tag>();
+            foreach(cls_Tag tag in this.tag_list)
+            {
+                dicTag.TryAdd(tag.TagName, tag);
+            }
+
+
+            frmEditCalcTag frm = new frmEditCalcTag(SetCalcTagInformation, CheckDuplicateTag, dicTag, false);
+            frm.Owner = this;
+            frm.ShowDialog();
+            DisplayCalcTagList();
+        }
+
+        private void btnTemplateRemoveCalcTag_Click(object sender, EventArgs e)
+        {
+            string strCalcTagName;
+
+            if (lvCalcTagList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the calculation tag first!", "Error");
+                return;
+            }
+
+            if (MessageBox.Show("Are you sure to delete the calculation tag?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                lvCalcTagList.Focus();
+                return;
+            }
+
+            strCalcTagName = lvCalcTagList.SelectedItems[0].Text;
+
+            int i = 0;
+            foreach (cls_CalcTag calc_tag in this.calc_tag_list)
+            {
+                if (calc_tag.TagName == strCalcTagName)
+                {
+                    this.calc_tag_list.RemoveAt(i);
+                    break;
+                }
+                i++;
+            }
+
+            DisplayCalcTagList();
+        }
+
         private void lvTagList_DoubleClick(object sender, EventArgs e)
         {
             string strTagName;
@@ -243,9 +349,9 @@ namespace IEW.GatewayService.GUI
 
             strTagName = lvTagList.SelectedItems[0].Text;
             int i = 0;
-            foreach(cls_Tag t in tag_list)
+            foreach (cls_Tag t in tag_list)
             {
-                if(t.TagName == strTagName)
+                if (t.TagName == strTagName)
                 {
                     tag = t;
                     break;
@@ -260,5 +366,40 @@ namespace IEW.GatewayService.GUI
             DisplayTagList();
         }
 
+        private void lvCalcTagList_DoubleClick(object sender, EventArgs e)
+        {
+            string strCalcTagName;
+            ConcurrentDictionary<string, cls_Tag> dictTag = new ConcurrentDictionary<string, cls_Tag>();
+            cls_CalcTag calc_tag = new cls_CalcTag();
+
+            if (lvCalcTagList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the calculation tag first!", "Error");
+                return;
+            }
+
+            foreach (cls_Tag tag in this.tag_list)
+            {
+                dictTag.TryAdd(tag.TagName, tag);
+            }
+
+            strCalcTagName = lvCalcTagList.SelectedItems[0].Text;
+            int i = 0;
+            foreach (cls_CalcTag t in this.calc_tag_list)
+            {
+                if (t.TagName == strCalcTagName)
+                {
+                    calc_tag = t;
+                    break;
+                }
+                i++;
+            }
+            this.calc_tag_index = i;
+
+            frmEditCalcTag frm = new frmEditCalcTag(SetCalcTagInformation, dictTag, calc_tag);
+            frm.Owner = this;
+            frm.ShowDialog();
+            DisplayCalcTagList();
+        }
     }
 }

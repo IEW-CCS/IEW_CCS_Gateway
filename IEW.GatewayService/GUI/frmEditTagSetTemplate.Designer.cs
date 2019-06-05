@@ -30,18 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmEditTagSetTemplate));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lvCalcTagList = new System.Windows.Forms.ListView();
+            this.btnTemplateRemoveTag = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnTemplateAddTag = new System.Windows.Forms.Button();
+            this.lvTagList = new System.Windows.Forms.ListView();
             this.txtTagSetDescription = new System.Windows.Forms.TextBox();
             this.txtTagSetName = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnTemplateRemoveTag = new System.Windows.Forms.Button();
-            this.btnTemplateAddTag = new System.Windows.Forms.Button();
             this.btnTemplateCancel = new System.Windows.Forms.Button();
             this.btnTemplateSave = new System.Windows.Forms.Button();
-            this.lvTagList = new System.Windows.Forms.ListView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lvCalcTagList = new System.Windows.Forms.ListView();
             this.btnTemplateRemoveCalcTag = new System.Windows.Forms.Button();
             this.btnTemplateAddCalcTag = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -66,6 +66,82 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tag Set Deail Information";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(28, 606);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(206, 31);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Calculation Tag List";
+            // 
+            // lvCalcTagList
+            // 
+            this.lvCalcTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvCalcTagList.FullRowSelect = true;
+            this.lvCalcTagList.GridLines = true;
+            this.lvCalcTagList.Location = new System.Drawing.Point(28, 657);
+            this.lvCalcTagList.MultiSelect = false;
+            this.lvCalcTagList.Name = "lvCalcTagList";
+            this.lvCalcTagList.Size = new System.Drawing.Size(1245, 198);
+            this.lvCalcTagList.TabIndex = 8;
+            this.lvCalcTagList.UseCompatibleStateImageBehavior = false;
+            this.lvCalcTagList.View = System.Windows.Forms.View.Details;
+            this.lvCalcTagList.DoubleClick += new System.EventHandler(this.lvCalcTagList_DoubleClick);
+            // 
+            // btnTemplateRemoveTag
+            // 
+            this.btnTemplateRemoveTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
+            this.btnTemplateRemoveTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTemplateRemoveTag.FlatAppearance.BorderSize = 0;
+            this.btnTemplateRemoveTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTemplateRemoveTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnTemplateRemoveTag.Location = new System.Drawing.Point(1225, 595);
+            this.btnTemplateRemoveTag.Name = "btnTemplateRemoveTag";
+            this.btnTemplateRemoveTag.Size = new System.Drawing.Size(48, 48);
+            this.btnTemplateRemoveTag.TabIndex = 11;
+            this.btnTemplateRemoveTag.UseVisualStyleBackColor = true;
+            this.btnTemplateRemoveTag.Click += new System.EventHandler(this.btnTemplateRemoveTag_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(28, 218);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(168, 31);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Normal Tag List";
+            // 
+            // btnTemplateAddTag
+            // 
+            this.btnTemplateAddTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
+            this.btnTemplateAddTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnTemplateAddTag.FlatAppearance.BorderSize = 0;
+            this.btnTemplateAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTemplateAddTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btnTemplateAddTag.Location = new System.Drawing.Point(1174, 595);
+            this.btnTemplateAddTag.Name = "btnTemplateAddTag";
+            this.btnTemplateAddTag.Size = new System.Drawing.Size(48, 48);
+            this.btnTemplateAddTag.TabIndex = 10;
+            this.btnTemplateAddTag.UseVisualStyleBackColor = true;
+            this.btnTemplateAddTag.Click += new System.EventHandler(this.btnTemplateAddTag_Click);
+            // 
+            // lvTagList
+            // 
+            this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvTagList.FullRowSelect = true;
+            this.lvTagList.GridLines = true;
+            this.lvTagList.Location = new System.Drawing.Point(28, 269);
+            this.lvTagList.MultiSelect = false;
+            this.lvTagList.Name = "lvTagList";
+            this.lvTagList.Size = new System.Drawing.Size(1245, 312);
+            this.lvTagList.TabIndex = 6;
+            this.lvTagList.UseCompatibleStateImageBehavior = false;
+            this.lvTagList.View = System.Windows.Forms.View.Details;
+            this.lvTagList.DoubleClick += new System.EventHandler(this.lvTagList_DoubleClick);
             // 
             // txtTagSetDescription
             // 
@@ -104,34 +180,6 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "Tag Set Name: ";
             // 
-            // btnTemplateRemoveTag
-            // 
-            this.btnTemplateRemoveTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
-            this.btnTemplateRemoveTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnTemplateRemoveTag.FlatAppearance.BorderSize = 0;
-            this.btnTemplateRemoveTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTemplateRemoveTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnTemplateRemoveTag.Location = new System.Drawing.Point(1225, 595);
-            this.btnTemplateRemoveTag.Name = "btnTemplateRemoveTag";
-            this.btnTemplateRemoveTag.Size = new System.Drawing.Size(48, 48);
-            this.btnTemplateRemoveTag.TabIndex = 11;
-            this.btnTemplateRemoveTag.UseVisualStyleBackColor = true;
-            this.btnTemplateRemoveTag.Click += new System.EventHandler(this.btnTemplateRemoveTag_Click);
-            // 
-            // btnTemplateAddTag
-            // 
-            this.btnTemplateAddTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.plus;
-            this.btnTemplateAddTag.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnTemplateAddTag.FlatAppearance.BorderSize = 0;
-            this.btnTemplateAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTemplateAddTag.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnTemplateAddTag.Location = new System.Drawing.Point(1174, 595);
-            this.btnTemplateAddTag.Name = "btnTemplateAddTag";
-            this.btnTemplateAddTag.Size = new System.Drawing.Size(48, 48);
-            this.btnTemplateAddTag.TabIndex = 10;
-            this.btnTemplateAddTag.UseVisualStyleBackColor = true;
-            this.btnTemplateAddTag.Click += new System.EventHandler(this.btnTemplateAddTag_Click);
-            // 
             // btnTemplateCancel
             // 
             this.btnTemplateCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -156,52 +204,6 @@
             this.btnTemplateSave.UseVisualStyleBackColor = true;
             this.btnTemplateSave.Click += new System.EventHandler(this.btnTemplateSave_Click);
             // 
-            // lvTagList
-            // 
-            this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lvTagList.FullRowSelect = true;
-            this.lvTagList.GridLines = true;
-            this.lvTagList.Location = new System.Drawing.Point(28, 269);
-            this.lvTagList.MultiSelect = false;
-            this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1245, 312);
-            this.lvTagList.TabIndex = 6;
-            this.lvTagList.UseCompatibleStateImageBehavior = false;
-            this.lvTagList.View = System.Windows.Forms.View.Details;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(28, 218);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(168, 31);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Normal Tag List";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(28, 606);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(206, 31);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Calculation Tag List";
-            // 
-            // lvCalcTagList
-            // 
-            this.lvCalcTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lvCalcTagList.FullRowSelect = true;
-            this.lvCalcTagList.GridLines = true;
-            this.lvCalcTagList.Location = new System.Drawing.Point(28, 657);
-            this.lvCalcTagList.MultiSelect = false;
-            this.lvCalcTagList.Name = "lvCalcTagList";
-            this.lvCalcTagList.Size = new System.Drawing.Size(1245, 198);
-            this.lvCalcTagList.TabIndex = 8;
-            this.lvCalcTagList.UseCompatibleStateImageBehavior = false;
-            this.lvCalcTagList.View = System.Windows.Forms.View.Details;
-            // 
             // btnTemplateRemoveCalcTag
             // 
             this.btnTemplateRemoveCalcTag.BackgroundImage = global::IEW.GatewayService.Properties.Resources.minus2;
@@ -214,6 +216,7 @@
             this.btnTemplateRemoveCalcTag.Size = new System.Drawing.Size(48, 48);
             this.btnTemplateRemoveCalcTag.TabIndex = 34;
             this.btnTemplateRemoveCalcTag.UseVisualStyleBackColor = true;
+            this.btnTemplateRemoveCalcTag.Click += new System.EventHandler(this.btnTemplateRemoveCalcTag_Click);
             // 
             // btnTemplateAddCalcTag
             // 
@@ -227,6 +230,7 @@
             this.btnTemplateAddCalcTag.Size = new System.Drawing.Size(48, 48);
             this.btnTemplateAddCalcTag.TabIndex = 33;
             this.btnTemplateAddCalcTag.UseVisualStyleBackColor = true;
+            this.btnTemplateAddCalcTag.Click += new System.EventHandler(this.btnTemplateAddCalcTag_Click);
             // 
             // frmEditTagSetTemplate
             // 

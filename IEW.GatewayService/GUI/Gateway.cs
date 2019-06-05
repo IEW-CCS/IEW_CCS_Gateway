@@ -272,12 +272,36 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig();
         }
 
+        //Delegate function to update Tag Set Information
+        void SetTagSetInfo(cls_Tag_Set tag_set, bool edit_flag)
+        {
+            if (edit_flag)
+            {
+                int i = 0;
+                foreach (cls_Tag_Set ts in ObjectManager.TagSetManager.tag_set_list)
+                {
+                    if (ts.TagSetName == tag_set.TagSetName)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                ObjectManager.TagSetManager.tag_set_list[i] = tag_set;
+            }
+            else
+            {
+                ObjectManager.TagSetManager.tag_set_list.Add(tag_set);
+            }
+
+            RefreshGatewayConfig();
+        }
+
+        //Delegate function to update EDC Header Set List
         void SetEDCHeaderSetList(EDCHeaderSet edc_set_list)
         {
             this.header_set = edc_set_list;
             RefreshGatewayConfig();
         }
-
 
         //Delegate function to set EDC Header Set information
         void SetEDCHeaderSetInfo(cls_EDC_Header edc_set, bool edit_flag)
@@ -410,7 +434,8 @@ namespace IEW.GatewayService.UI
                 i++;
             }
 
-            frmEditTagSetTemplate frm = new frmEditTagSetTemplate(ObjectManager.TagSetManager.tag_set_list[i], i);
+            //frmEditTagSetTemplate frm = new frmEditTagSetTemplate(ObjectManager.TagSetManager.tag_set_list[i], i);
+            frmEditTagSetTemplate frm = new frmEditTagSetTemplate(SetTagSetInfo, ObjectManager.TagSetManager.tag_set_list[i], i);
             frm.Owner = this;
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;

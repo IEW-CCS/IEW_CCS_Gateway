@@ -14,11 +14,18 @@ using System.Collections.Concurrent;
 namespace IEW.GatewayService.GUI
 {
     public delegate void SetTagListData(ConcurrentDictionary<string, cls_Tag> tag_list);
+    public delegate void SetCalcTagListData(ConcurrentDictionary<string, cls_CalcTag> calc_tag_list);
+
 
     public partial class frmLoadTagSetTemplate : Form
     {
         public ConcurrentDictionary<string, cls_Tag> template_data = new ConcurrentDictionary<string, cls_Tag>();
+        public ConcurrentDictionary<string, cls_CalcTag> template_calc_data = new ConcurrentDictionary<string, cls_CalcTag>();
+
         public SetTagListData delgSetTagTemplate;
+        public SetCalcTagListData delgSetCalcTagTemplate;
+
+
         IEW.ObjectManager.ObjectManager objManager = new IEW.ObjectManager.ObjectManager();
         int set_index;
 
@@ -27,10 +34,12 @@ namespace IEW.GatewayService.GUI
             InitializeComponent();
         }
 
-        public frmLoadTagSetTemplate(SetTagListData set_data)
+        public frmLoadTagSetTemplate(SetTagListData set_data, SetCalcTagListData set_calc_data)
         {
             InitializeComponent();
             this.delgSetTagTemplate = set_data;
+            this.delgSetCalcTagTemplate = set_calc_data;
+
             if(LoadTagSetConfig())
             {
                 cmbTagSet.Items.Clear();
@@ -38,6 +47,7 @@ namespace IEW.GatewayService.GUI
                 {
                     cmbTagSet.Items.Add(t_set.TagSetName);
                 }
+
                 lvTagList.Columns.Clear();
                 lvTagList.Columns.Add("Tag Name", 80);
                 lvTagList.Columns.Add("Data Type", 80);
@@ -45,6 +55,19 @@ namespace IEW.GatewayService.GUI
                 lvTagList.Columns.Add("Scale", 80);
                 lvTagList.Columns.Add("Offset", 80);
                 lvTagList.Columns.Add("Update Time", 180);
+
+                lvCalcTagList.Columns.Clear();
+                lvCalcTagList.Columns.Add("Tag Name", 80);
+                lvCalcTagList.Columns.Add("A", 60);
+                lvCalcTagList.Columns.Add("B", 60);
+                lvCalcTagList.Columns.Add("C", 60);
+                lvCalcTagList.Columns.Add("D", 60);
+                lvCalcTagList.Columns.Add("E", 60);
+                lvCalcTagList.Columns.Add("F", 60);
+                lvCalcTagList.Columns.Add("G", 60);
+                lvCalcTagList.Columns.Add("H", 60);
+                lvCalcTagList.Columns.Add("Expression", 180);
+
             }
             txtDescription.Enabled = false;
         }
@@ -63,11 +86,20 @@ namespace IEW.GatewayService.GUI
 
             if(lvTagList.Items.Count > 0)
             {
-                foreach(cls_Tag tag in this.objManager.TagSetManager.tag_set_list[set_index].tag_set)
+                foreach(cls_Tag tag in this.objManager.TagSetManager.tag_set_list[this.set_index].tag_set)
                 {
                     template_data.TryAdd(tag.TagName, tag);
                 }
                 delgSetTagTemplate(template_data);
+            }
+
+            if (lvCalcTagList.Items.Count > 0)
+            {
+                foreach (cls_CalcTag calc_tag in this.objManager.TagSetManager.tag_set_list[this.set_index].calc_tag_set)
+                {
+                    template_calc_data.TryAdd(calc_tag.TagName, calc_tag);
+                }
+                delgSetCalcTagTemplate(template_calc_data);
             }
 
             this.objManager = null;
@@ -123,14 +155,14 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
-            set_index = i;
-            txtDescription.Text = this.objManager.TagSetManager.tag_set_list[set_index].TagSetDescription;
+            this.set_index = i;
+            txtDescription.Text = this.objManager.TagSetManager.tag_set_list[this.set_index].TagSetDescription;
 
-            if (this.objManager.TagSetManager.tag_set_list[set_index].tag_set.Count > 0)
+            if (this.objManager.TagSetManager.tag_set_list[this.set_index].tag_set.Count > 0)
             {
                 lvTagList.BeginUpdate();
                 lvTagList.Items.Clear();
-                foreach (cls_Tag tag in this.objManager.TagSetManager.tag_set_list[set_index].tag_set)
+                foreach (cls_Tag tag in this.objManager.TagSetManager.tag_set_list[this.set_index].tag_set)
                 {
                     ListViewItem lvItem = new ListViewItem(tag.TagName);
                     lvItem.SubItems.Add(tag.Expression);
@@ -142,6 +174,28 @@ namespace IEW.GatewayService.GUI
                 }
                 lvTagList.EndUpdate();
             }
+
+            if (this.objManager.TagSetManager.tag_set_list[this.set_index].calc_tag_set.Count > 0)
+            {
+                lvCalcTagList.BeginUpdate();
+                lvCalcTagList.Items.Clear();
+                foreach (cls_CalcTag calc_tag in this.objManager.TagSetManager.tag_set_list[this.set_index].calc_tag_set)
+                {
+                    ListViewItem lvItem = new ListViewItem(calc_tag.TagName);
+                    lvItem.SubItems.Add(calc_tag.ParamA);
+                    lvItem.SubItems.Add(calc_tag.ParamB);
+                    lvItem.SubItems.Add(calc_tag.ParamC);
+                    lvItem.SubItems.Add(calc_tag.ParamD);
+                    lvItem.SubItems.Add(calc_tag.ParamE);
+                    lvItem.SubItems.Add(calc_tag.ParamF);
+                    lvItem.SubItems.Add(calc_tag.ParamG);
+                    lvItem.SubItems.Add(calc_tag.ParamH);
+                    lvItem.SubItems.Add(calc_tag.Expression);
+                    lvCalcTagList.Items.Add(lvItem);
+                }
+                lvTagList.EndUpdate();
+            }
+
         }
 
         private void cmbTagSet_SelectedIndexChanged(object sender, EventArgs e)

@@ -33,6 +33,7 @@ namespace IEW.GatewayService.GUI
             lvTagSetList.Columns.Clear();
             lvTagSetList.Columns.Add("Tag Set Name", 100);
             lvTagSetList.Columns.Add("Tag Count", 80);
+            lvTagSetList.Columns.Add("Calculation Tag Count", 80);
             lvTagSetList.Columns.Add("Tag Set Description", 200);
 
             lvTagSetList.Items.Clear();
@@ -43,24 +44,22 @@ namespace IEW.GatewayService.GUI
 
         private void RefreshTagSetList()
         {
+            //Setup Tag List
             lvTagSetList.BeginUpdate();
-
             lvTagSetList.Items.Clear();
-
             if (this.tsm.tag_set_list.Count == 0)
             {
                 lvTagSetList.EndUpdate();
                 return;
             }
-
             foreach (cls_Tag_Set ts in tsm.tag_set_list)
             {
                 ListViewItem lvItem = new ListViewItem(ts.TagSetName);
                 lvItem.SubItems.Add(ts.tag_set.Count().ToString());
+                lvItem.SubItems.Add(ts.calc_tag_set.Count().ToString());
                 lvItem.SubItems.Add(ts.TagSetDescription);
                 lvTagSetList.Items.Add(lvItem);
             }
-
             lvTagSetList.EndUpdate();
         }
 

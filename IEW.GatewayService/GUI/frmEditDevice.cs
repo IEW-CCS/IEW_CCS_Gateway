@@ -242,7 +242,7 @@ namespace IEW.GatewayService.GUI
 
         private void btnLoadTag_Click(object sender, EventArgs e)
         {
-            var frm = new frmLoadTagSetTemplate(SetTagListFromTamplate);
+            var frm = new frmLoadTagSetTemplate(SetTagListFromTamplate, SetCalcTagListFromTamplate);
             frm.ShowDialog();
             RefreshDeviceTagList();
         }

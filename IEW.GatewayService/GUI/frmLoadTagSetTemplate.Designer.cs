@@ -37,6 +37,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.lvCalcTagList = new System.Windows.Forms.ListView();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -64,10 +66,10 @@
             this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagList.FullRowSelect = true;
             this.lvTagList.GridLines = true;
-            this.lvTagList.Location = new System.Drawing.Point(43, 266);
+            this.lvTagList.Location = new System.Drawing.Point(43, 244);
             this.lvTagList.MultiSelect = false;
             this.lvTagList.Name = "lvTagList";
-            this.lvTagList.Size = new System.Drawing.Size(1169, 469);
+            this.lvTagList.Size = new System.Drawing.Size(1169, 361);
             this.lvTagList.TabIndex = 2;
             this.lvTagList.UseCompatibleStateImageBehavior = false;
             this.lvTagList.View = System.Windows.Forms.View.Details;
@@ -75,7 +77,7 @@
             // btnTempCancel
             // 
             this.btnTempCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTempCancel.Location = new System.Drawing.Point(613, 775);
+            this.btnTempCancel.Location = new System.Drawing.Point(615, 905);
             this.btnTempCancel.Name = "btnTempCancel";
             this.btnTempCancel.Size = new System.Drawing.Size(158, 67);
             this.btnTempCancel.TabIndex = 18;
@@ -86,7 +88,7 @@
             // btnTempLoad
             // 
             this.btnTempLoad.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTempLoad.Location = new System.Drawing.Point(417, 775);
+            this.btnTempLoad.Location = new System.Drawing.Point(419, 905);
             this.btnTempLoad.Name = "btnTempLoad";
             this.btnTempLoad.Size = new System.Drawing.Size(158, 67);
             this.btnTempLoad.TabIndex = 17;
@@ -117,17 +119,41 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(37, 212);
+            this.label3.Location = new System.Drawing.Point(37, 190);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 31);
             this.label3.TabIndex = 21;
             this.label3.Text = "Tag List:";
             // 
+            // lvCalcTagList
+            // 
+            this.lvCalcTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvCalcTagList.FullRowSelect = true;
+            this.lvCalcTagList.GridLines = true;
+            this.lvCalcTagList.Location = new System.Drawing.Point(45, 671);
+            this.lvCalcTagList.Name = "lvCalcTagList";
+            this.lvCalcTagList.Size = new System.Drawing.Size(1169, 219);
+            this.lvCalcTagList.TabIndex = 26;
+            this.lvCalcTagList.UseCompatibleStateImageBehavior = false;
+            this.lvCalcTagList.View = System.Windows.Forms.View.Details;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(39, 627);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(212, 31);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "Calculation Tag List:";
+            // 
             // frmLoadTagSetTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1242, 886);
+            this.ClientSize = new System.Drawing.Size(1242, 996);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lvCalcTagList);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.label2);
@@ -154,5 +180,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ListView lvCalcTagList;
+        private System.Windows.Forms.Label label4;
     }
 }
