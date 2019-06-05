@@ -96,6 +96,7 @@
             this.btnAssign.Size = new System.Drawing.Size(75, 75);
             this.btnAssign.TabIndex = 4;
             this.btnAssign.UseVisualStyleBackColor = false;
+            this.btnAssign.Click += new System.EventHandler(this.btnAssign_Click);
             // 
             // btnReset
             // 
@@ -174,7 +175,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1342, 1048);
+            this.ClientSize = new System.Drawing.Size(1342, 1066);
             this.Controls.Add(this.txtCalcTagName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtDescription);

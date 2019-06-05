@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IEW.ObjectManager;
+using System.Collections.Concurrent;
 
 namespace IEW.GatewayService.GUI
 {
@@ -18,7 +19,7 @@ namespace IEW.GatewayService.GUI
     {
         bool isEdit;
         cls_CalcTag calc_tag_data;
-        List<cls_Tag> tag_list_data = new List<cls_Tag>();
+        ConcurrentDictionary<string, cls_Tag> tag_list_data = new ConcurrentDictionary<string, cls_Tag>();
         public SetCalcTag delgSetCalcTag;
         public CheckDuplicateCalcTag delgCheckDuplicateCalc;
         public Dictionary<string, int> dicSequence = new Dictionary<string, int> { { "A", 1 }, { "B", 2 }, { "C", 3 }, { "D", 4 }, { "E", 5 }, { "F", 6 }, { "G", 7 }, { "H", 8 } };
@@ -29,7 +30,8 @@ namespace IEW.GatewayService.GUI
             this.isEdit = false;
         }
 
-        public frmEditCalcTag(SetCalcTag set_calc_tag, List<cls_Tag> tag_list, cls_CalcTag calc_tag)
+        //Constructor to Edit Calculation Tag
+        public frmEditCalcTag(SetCalcTag set_calc_tag, ConcurrentDictionary<string, cls_Tag> tag_list, cls_CalcTag calc_tag)
         {
             InitializeComponent();
             this.isEdit = true;
@@ -38,7 +40,8 @@ namespace IEW.GatewayService.GUI
             this.tag_list_data = tag_list;
         }
 
-        public frmEditCalcTag(SetCalcTag set_calc_tag, CheckDuplicateCalcTag check_calc_tag, List<cls_Tag> tag_list, bool edit)
+        //Constructor to Add New Calculation Tag
+        public frmEditCalcTag(SetCalcTag set_calc_tag, CheckDuplicateCalcTag check_calc_tag, ConcurrentDictionary<string, cls_Tag> tag_list, bool edit)
         {
 
             InitializeComponent();
@@ -51,23 +54,23 @@ namespace IEW.GatewayService.GUI
         private void frmEditCalcTag_Load(object sender, EventArgs e)
         {
             lvTagList.Columns.Clear();
-            lvTagList.Columns.Add("Seq.", 20);
-            lvTagList.Columns.Add("Tag Name", 60);
+            lvTagList.Columns.Add("Seq.", 50);
+            lvTagList.Columns.Add("Tag Name", 80);
             lvTagList.Columns.Add("Type", 60);
 
             if(tag_list_data.Count > 0)
             {
-                foreach(cls_Tag tag in tag_list_data)
+                foreach(KeyValuePair<string, cls_Tag> tag in tag_list_data)
                 {
-                    if(tag.Expression == "BIT" || tag.Expression == "ASC")
+                    if(tag.Value.Expression == "BIT" || tag.Value.Expression == "ASC")
                     {
                         //do not add to tag list
                     }
                     else
                     {
                         ListViewItem lvItem = new ListViewItem("");
-                        lvItem.SubItems.Add(tag.TagName);
-                        lvItem.SubItems.Add(tag.Expression);
+                        lvItem.SubItems.Add(tag.Value.TagName);
+                        lvItem.SubItems.Add(tag.Value.Expression);
                         lvTagList.Items.Add(lvItem);
                     }
                 }
@@ -147,6 +150,12 @@ namespace IEW.GatewayService.GUI
             if (pnlCalcExpression.Controls.Count > 0)
             {
                 frmCalc = (frmCalcExpression)pnlCalcExpression.Controls[0];
+                if(frmCalc.GetExpression() == "")
+                {
+                    MessageBox.Show("Calculation Expressiom must not be empty!", "Error");
+                    return;
+                }
+
                 tmpCalcTag.Expression = frmCalc.GetExpression();
                 tag_name_list = frmCalc.GetTagNameList();
                 if(tag_name_list.Count > 0)
@@ -242,37 +251,95 @@ namespace IEW.GatewayService.GUI
                 strSequence = "A";
             }
 
-            
             return strSequence;
+        }
+
+        private void RefreshSequence(string sequence)
+        {
+            int index;
+            KeyValuePair<string, int> kvp = dicSequence.Where(p => p.Key == sequence).FirstOrDefault();
+            index = kvp.Value;
+
+            lvTagList.BeginUpdate();
+
+            foreach(ListViewItem item in lvTagList.Items)
+            {
+                if(item.Text.Trim() == "")
+                {
+                    continue;
+                }
+
+                if(item.Text == sequence)
+                {
+                    item.Text = "";
+                }
+                else
+                {
+                    KeyValuePair<string, int> tmp = dicSequence.Where(p => p.Key == item.Text.Trim()).FirstOrDefault();
+                    if(tmp.Value > index)
+                    {
+                        item.Text = dicSequence.ElementAt(index - 1).Key;
+                    }
+                }
+            }
+
+            lvTagList.EndUpdate();
+        }
+
+        private void btnAssign_Click(object sender, EventArgs e)
+        {
+            frmCalcExpression frmCalc;
+            Dictionary<string, string> dicTagList = new Dictionary<string, string>();
+            foreach(ListViewItem item in lvTagList.Items)
+            {
+                if(item.Text.Trim() != "")
+                {
+                    dicTagList.Add(item.Text.Trim(), item.SubItems[1].Text.Trim());
+                }
+            }
+
+            if(dicTagList.Count == 0)
+            {
+                MessageBox.Show("No tag seleced, please select again!", "Information");
+                return;
+            }
+
+            if (pnlCalcExpression.Controls.Count > 0)
+            {
+                frmCalc = (frmCalcExpression)pnlCalcExpression.Controls[0];
+                frmCalc.SetNewTag(dicTagList);
+            }
+
         }
 
         private void lvTagList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            if(lvTagList.Items.Count > 0)
+            int count = 0;
+            if (lvTagList.SelectedItems.Count > 0)
             {
-                int count = 0;
-                foreach(ListViewItem item in lvTagList.Items)
+                foreach (ListViewItem item in lvTagList.Items)
                 {
-                    if(item.Text.Trim() != "")
+                    if (item.Text.Trim() != "")
                     {
                         count++;
                     }
                 }
 
-                if(count >= 8)
+                if (count >= 8)
                 {
                     MessageBox.Show("Selected Tags should be less than 8!", "Error");
                     return;
                 }
-            }
 
-            if(lvTagList.SelectedItems[0].Text.Trim() == "")
-            {
-                lvTagList.SelectedItems[0].Text = GetNextSequence();
+                if (lvTagList.SelectedItems[0].Text.Trim() == "")
+                {
+                    lvTagList.SelectedItems[0].Text = GetNextSequence();
+                }
+                else
+                {
+                    RefreshSequence(lvTagList.SelectedItems[0].Text.Trim());
+                }
             }
-
-            
         }
     }
 }

@@ -282,14 +282,15 @@
             this.lvCalcTagList.GridLines = true;
             this.lvCalcTagList.Location = new System.Drawing.Point(47, 744);
             this.lvCalcTagList.Name = "lvCalcTagList";
-            this.lvCalcTagList.OwnerDraw = true;
             this.lvCalcTagList.Size = new System.Drawing.Size(1316, 193);
             this.lvCalcTagList.TabIndex = 25;
             this.lvCalcTagList.UseCompatibleStateImageBehavior = false;
             this.lvCalcTagList.View = System.Windows.Forms.View.Details;
+            this.lvCalcTagList.DoubleClick += new System.EventHandler(this.lvCalcTagList_DoubleClick);
             // 
             // lvTagList
             // 
+            this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagList.FullRowSelect = true;
             this.lvTagList.GridLines = true;
             this.lvTagList.Location = new System.Drawing.Point(47, 329);
@@ -312,6 +313,7 @@
             this.btnCalcTagRemove.Size = new System.Drawing.Size(45, 45);
             this.btnCalcTagRemove.TabIndex = 29;
             this.btnCalcTagRemove.UseVisualStyleBackColor = true;
+            this.btnCalcTagRemove.Click += new System.EventHandler(this.btnCalcTagRemove_Click);
             // 
             // btnCalcTagAdd
             // 
@@ -325,6 +327,7 @@
             this.btnCalcTagAdd.Size = new System.Drawing.Size(45, 45);
             this.btnCalcTagAdd.TabIndex = 28;
             this.btnCalcTagAdd.UseVisualStyleBackColor = true;
+            this.btnCalcTagAdd.Click += new System.EventHandler(this.btnCalcTagAdd_Click);
             // 
             // frmEditDevice
             // 

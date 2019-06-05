@@ -32,7 +32,16 @@ namespace IEW.GatewayService.GUI
 
         private void frmCalcExpression_Load(object sender, EventArgs e)
         {
-            if(isEdit)
+            txtA.Enabled = false;
+            txtB.Enabled = false;
+            txtC.Enabled = false;
+            txtD.Enabled = false;
+            txtE.Enabled = false;
+            txtF.Enabled = false;
+            txtG.Enabled = false;
+            txtH.Enabled = false;
+
+            if (isEdit)
             {
                 txtA.Text = calc_tag_data.ParamA;
                 txtB.Text = calc_tag_data.ParamB;
@@ -159,9 +168,57 @@ namespace IEW.GatewayService.GUI
             return name_list;
         }
 
-        public void SetNewTag()
+        public void SetNewTag(Dictionary<string, string> new_tag_list)
         {
+            txtCalcExpression.Text = "";
+            txtA.Text = "";
+            txtB.Text = "";
+            txtC.Text = "";
+            txtD.Text = "";
+            txtE.Text = "";
+            txtF.Text = "";
+            txtG.Text = "";
+            txtH.Text = "";
 
+            foreach(KeyValuePair<string, string> kvp in new_tag_list)
+            {
+                switch(kvp.Key)
+                {
+                    case "A":
+                        txtA.Text = kvp.Value;
+                        break;
+                    case "B":
+                        txtB.Text = kvp.Value;
+                        break;
+
+                    case "C":
+                        txtC.Text = kvp.Value;
+                        break;
+
+                    case "D":
+                        txtD.Text = kvp.Value;
+                        break;
+
+                    case "E":
+                        txtE.Text = kvp.Value;
+                        break;
+
+                    case "F":
+                        txtF.Text = kvp.Value;
+                        break;
+
+                    case "G":
+                        txtG.Text = kvp.Value;
+                        break;
+
+                    case "H":
+                        txtH.Text = kvp.Value;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
     }
 }
