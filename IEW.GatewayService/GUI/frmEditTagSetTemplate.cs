@@ -20,6 +20,7 @@ namespace IEW.GatewayService.GUI
         public bool isEdit;
         public cls_Tag_Set tag_set_data;
         public List<cls_Tag> tag_list = new List<cls_Tag>();
+        public List<cls_CalcTag> calc_tag_list = new List<cls_CalcTag>();
         public int tag_set_index;
         int tag_index;
         public SetTagSetInfo delgSetTagSet;
@@ -37,20 +38,22 @@ namespace IEW.GatewayService.GUI
         {
             InitializeComponent();
             this.isEdit = true;
-            tag_set_data = tag_set;
-            tag_list = tag_set.tag_set;
-            tag_set_index = index;
+            this.tag_set_data = tag_set;
+            this.tag_list = tag_set.tag_set;
+            this.calc_tag_list = tag_set.calc_tag_set;
+            this.tag_set_index = index;
         }
+
         public frmEditTagSetTemplate(SetTagSetInfo set_ts, cls_Tag_Set tag_set, int index)
         {
             InitializeComponent();
             this.isEdit = true;
-            tag_set_data = tag_set;
-            tag_list = tag_set.tag_set;
-            tag_set_index = index;
+            this.tag_set_data = tag_set;
+            this.tag_list = tag_set.tag_set;
+            this.calc_tag_list = tag_set.calc_tag_set;
+            this.tag_set_index = index;
             this.delgSetTagSet = set_ts;
         }
-
 
         public frmEditTagSetTemplate(SetTagSetInfo set_ts, CheckDuplicateTagSet check, bool edit_flag)
         {
@@ -60,6 +63,7 @@ namespace IEW.GatewayService.GUI
             this.delgCheckDuplicate = check;
         }
 
+        //Delegate function to receive tag set data from frmEditTag form
         void SetTagInformation(cls_Tag tag, bool edit)
         {
             if(edit)
@@ -74,16 +78,37 @@ namespace IEW.GatewayService.GUI
             }
         }
 
-        bool CheckDuplicateTag(string tag_name)
+        //Delegate function to check duplicated Tag/CalcTag ID from frmEditTag form
+        bool CheckDuplicateTag(string tag_name, string type)
         {
-            if (tag_list.Count > 0)
+            if(type == "TAG")
             {
-                cls_Tag tag = tag_list.Where(p => p.TagName == tag_name).FirstOrDefault();
-                if (tag != null)
+                if (tag_list.Count > 0)
                 {
-                    MessageBox.Show("Duplicate Tag Name!", "Error");
-                    return false;
+                    cls_Tag tag = tag_list.Where(p => p.TagName == tag_name).FirstOrDefault();
+                    if (tag != null)
+                    {
+                        MessageBox.Show("Duplicate Tag Name!", "Error");
+                        return false;
+                    }
                 }
+            }
+            else if(type == "CALC_TAG")
+            {
+                if (calc_tag_list.Count > 0)
+                {
+                    cls_CalcTag calc_tag = calc_tag_list.Where(p => p.TagName == tag_name).FirstOrDefault();
+                    if (calc_tag != null)
+                    {
+                        MessageBox.Show("Duplicate Calculation Tag Name!", "Error");
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Wrong type string to check duplicated tag name!", "Error");
+                return false;
             }
 
             return true;
@@ -110,14 +135,11 @@ namespace IEW.GatewayService.GUI
 
         private void btnTemplateCancel_Click(object sender, EventArgs e)
         {
-            //Gateway lgateway = (Gateway)this.Owner;
-            //lgateway.RefreshGatewayConfig();
             this.Close();
         }
 
         private void btnTemplateSave_Click(object sender, EventArgs e)
         {
-            //Gateway lgateway = (Gateway)this.Owner;
             cls_Tag_Set tmpTagSet = new cls_Tag_Set();
 
             if(txtTagSetName.Text.Trim() == "")
@@ -133,48 +155,21 @@ namespace IEW.GatewayService.GUI
                     {
                         return;
                     }
-                    /*
-                    if(lgateway.ObjectManager.TagSetManager.tag_set_list.Count > 0)
-                    {
-                        foreach (cls_Tag_Set tag_set in lgateway.ObjectManager.TagSetManager.tag_set_list)
-                        {
-                            if (tag_set.TagSetName == txtTagSetName.Text.Trim())
-                            {
-                                MessageBox.Show("Gateway ID duplicated!", "Error");
-                                return;
-                            }
-                        }
-                    }
-                    */
                 }
             }
 
             tmpTagSet.TagSetName = txtTagSetName.Text.Trim();
             tmpTagSet.TagSetDescription = txtTagSetDescription.Text.Trim();
             tmpTagSet.tag_set = this.tag_list;
-            /*
-            if (!this.isEdit)
-            {
-                lgateway.ObjectManager.TagSetManager.tag_set_list.Add(tmpTagSet);
-            }
-            else
-            {
-                lgateway.ObjectManager.TagSetManager.tag_set_list[this.tag_set_index] = tmpTagSet;
-                lgateway.RefreshGatewayConfig();
-            }
-            */
 
             delgSetTagSet(tmpTagSet, this.isEdit);
             tmpTagSet = null;
-
-           // lgateway.RefreshGatewayConfig();
 
             this.Close();
         }
 
         private void btnTemplateAddTag_Click(object sender, EventArgs e)
         {
-            //frmEditTag frm = new frmEditTag();
             frmEditTag frm = new frmEditTag(SetTagInformation, CheckDuplicateTag, false);
             frm.Owner = this;
             frm.ShowDialog();

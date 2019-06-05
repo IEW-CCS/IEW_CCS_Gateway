@@ -23,6 +23,7 @@ namespace IEW.GatewayService.GUI
         cls_Device_Info device_data;
         cls_Gateway_Info gw_data;
         ConcurrentDictionary<string, cls_Tag> taglist_data = new ConcurrentDictionary<string, cls_Tag>();
+        ConcurrentDictionary<string, cls_CalcTag> calc_taglist_data = new ConcurrentDictionary<string, cls_CalcTag>();
         int iDeviceIndex;
 
         public frmEditDevice()
@@ -40,6 +41,7 @@ namespace IEW.GatewayService.GUI
             this.device_data = device;
             this.iDeviceIndex = index;
             this.taglist_data = device.tag_info;
+            this.calc_taglist_data = device.calc_tag_info;
         }
 
         public frmEditDevice(cls_Gateway_Info gw, cls_Device_Info device, int index)
@@ -51,6 +53,7 @@ namespace IEW.GatewayService.GUI
             this.device_data = device;
             this.iDeviceIndex = index;
             this.taglist_data = device.tag_info;
+            this.calc_taglist_data = device.calc_tag_info;
         }
 
         private void frmEditDevice_Load(object sender, EventArgs e)
@@ -68,6 +71,18 @@ namespace IEW.GatewayService.GUI
             lvTagList.Columns.Add("Offset", 80);
             lvTagList.Columns.Add("Update Time", 180);
 
+            lvCalcTagList.Columns.Clear();
+            lvCalcTagList.Columns.Add("Tag Name", 80);
+            lvCalcTagList.Columns.Add("A", 60);
+            lvCalcTagList.Columns.Add("B", 60);
+            lvCalcTagList.Columns.Add("C", 60);
+            lvCalcTagList.Columns.Add("D", 60);
+            lvCalcTagList.Columns.Add("E", 60);
+            lvCalcTagList.Columns.Add("F", 60);
+            lvCalcTagList.Columns.Add("G", 60);
+            lvCalcTagList.Columns.Add("H", 60);
+            lvCalcTagList.Columns.Add("Expression", 180);
+
             if (this.isEdit)
             {
                 txtDeviceID.Text = device_data.device_name;
@@ -83,6 +98,7 @@ namespace IEW.GatewayService.GUI
                 txtDeviceID.Enabled = true;
             }
             RefreshDeviceTagList();
+            RefreshDeviceCalcTagList();
         }
 
         private void cmbType_SelectedIndexChanged(object sender, EventArgs e)
@@ -194,13 +210,8 @@ namespace IEW.GatewayService.GUI
                 diTemp.ble_service_uuid.Add(txtBLE_Service_UUID.Text.Trim());
             }
           
-            if (lvTagList.Items.Count > 0)
-            {
-                //foreach(ListViewItem item in lvTagList.Items)
-                //{
-                  diTemp.tag_info = taglist_data;
-                //}
-            }
+            diTemp.tag_info = taglist_data;
+            diTemp.calc_tag_info = calc_taglist_data;
 
             this.device_data = diTemp;
 
@@ -245,7 +256,7 @@ namespace IEW.GatewayService.GUI
                 lvTagList.BeginUpdate();
                 lvTagList.Items.Clear();
 
-                foreach (KeyValuePair<string, cls_Tag> kvp in taglist_data)
+                foreach (KeyValuePair<string, cls_Tag> kvp in this.taglist_data)
                 {
                     ListViewItem lvItem = new ListViewItem(kvp.Value.TagName);
                     lvItem.SubItems.Add(kvp.Value.Expression);
@@ -259,6 +270,34 @@ namespace IEW.GatewayService.GUI
             }
         }
 
+        private void RefreshDeviceCalcTagList()
+        {
+            lvCalcTagList.Items.Clear();
+
+            if (this.calc_taglist_data.Count > 0)
+            {
+                lvCalcTagList.BeginUpdate();
+                lvCalcTagList.Items.Clear();
+
+                foreach (KeyValuePair<string, cls_CalcTag> kvp in this.calc_taglist_data)
+                {
+                    ListViewItem lvItem = new ListViewItem(kvp.Value.TagName);
+                    lvItem.SubItems.Add(kvp.Value.ParamA);
+                    lvItem.SubItems.Add(kvp.Value.ParamB);
+                    lvItem.SubItems.Add(kvp.Value.ParamC);
+                    lvItem.SubItems.Add(kvp.Value.ParamD);
+                    lvItem.SubItems.Add(kvp.Value.ParamE);
+                    lvItem.SubItems.Add(kvp.Value.ParamF);
+                    lvItem.SubItems.Add(kvp.Value.ParamG);
+                    lvItem.SubItems.Add(kvp.Value.ParamH);
+                    lvItem.SubItems.Add(kvp.Value.Expression);
+                    lvCalcTagList.Items.Add(lvItem);
+                }
+                lvCalcTagList.EndUpdate();
+            }
+        }
+
+        //Delegate function to recieve tag data from frmEditTag form
         void SetTagInformation(cls_Tag tag, bool edit)
         {
             if (edit)
@@ -284,23 +323,77 @@ namespace IEW.GatewayService.GUI
             }
         }
 
-        bool CheckDuplicateTag(string tag_name)
+        //Delegate function to recieve calculation tag data from frmEditCalcTag form
+        void SetCalcTagInformation(cls_CalcTag calc_tag, bool edit)
         {
-            if (taglist_data.Count > 0)
+            if (edit)
             {
-                if(taglist_data.ContainsKey(tag_name))
+                cls_CalcTag tmp = new cls_CalcTag();
+
+                if (calc_taglist_data.TryGetValue(calc_tag.TagName, out tmp))
                 {
-                    MessageBox.Show("Duplicate Tag Name!", "Error");
-                    return false;
+                    if (!calc_taglist_data.TryUpdate(calc_tag.TagName, calc_tag, tmp))
+                    {
+                        MessageBox.Show("Calculation Tag Update failed!", "Error");
+                        return;
+                    }
                 }
+            }
+            else
+            {
+                if (!calc_taglist_data.TryAdd(calc_tag.TagName, calc_tag))
+                {
+                    MessageBox.Show("Calculation Tag Add failed!", "Error");
+                    return;
+                }
+            }
+            //RefreshDeviceCalcTagList();
+        }
+
+        //Delegate function to check duplicated Tag ID
+        bool CheckDuplicateTag(string tag_name, string type)
+        {
+            if (type == "TAG")
+            {
+                if (taglist_data.Count > 0)
+                {
+                    if (taglist_data.ContainsKey(tag_name))
+                    {
+                        MessageBox.Show("Duplicate Tag Name!", "Error");
+                        return false;
+                    }
+                }
+            }
+            else if (type == "CALC_TAG")
+            {
+                if (calc_taglist_data.Count > 0)
+                {
+                    if (calc_taglist_data.ContainsKey(tag_name))
+                    {
+                        MessageBox.Show("Duplicate Calculation Tag Name!", "Error");
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Wrong type string to check duplicated tag name!", "Error");
+                return false;
             }
 
             return true;
         }
 
+        //Delegate function to receive tag data from frmLoadTagSetTemplate form
         void SetTagListFromTamplate(ConcurrentDictionary<string, cls_Tag> tag_list)
         {
             this.taglist_data = tag_list;
+        }
+
+        //Delegate function to receive calculation tag data from frmLoadTagSetTemplate form
+        void SetCalcTagListFromTamplate(ConcurrentDictionary<string, cls_CalcTag> calc_tag_list)
+        {
+            this.calc_taglist_data = calc_tag_list;
         }
 
         private void btnTagAdd_Click(object sender, EventArgs e)
@@ -363,11 +456,64 @@ namespace IEW.GatewayService.GUI
             RefreshDeviceTagList();
         }
 
-        private void lvTagList_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        private void btnCalcTagAdd_Click(object sender, EventArgs e)
         {
-            e.Graphics.FillRectangle(Brushes.LightSkyBlue, e.Bounds);
-            e.DrawText();
+            frmEditCalcTag frm = new frmEditCalcTag(SetCalcTagInformation, CheckDuplicateTag, this.taglist_data, false);
+            frm.Owner = this;
+            frm.ShowDialog();
+            RefreshDeviceCalcTagList();
         }
 
+        private void btnCalcTagRemove_Click(object sender, EventArgs e)
+        {
+            string strCalcTagName;
+            cls_CalcTag tmp = new cls_CalcTag();
+
+            if (lvCalcTagList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the calculation tag first!", "Error");
+                return;
+            }
+
+            if (MessageBox.Show("Are you sure to delete the calculation tag?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                lvTagList.Focus();
+                return;
+            }
+
+            strCalcTagName = lvCalcTagList.SelectedItems[0].Text;
+
+            if (!calc_taglist_data.TryRemove(strCalcTagName, out tmp))
+            {
+                MessageBox.Show("Calculation Tag Remove failed", "Error");
+                return;
+            }
+
+            RefreshDeviceCalcTagList();
+        }
+
+        private void lvCalcTagList_DoubleClick(object sender, EventArgs e)
+        {
+            string strCalcTagName;
+            cls_CalcTag calc_tag = new cls_CalcTag();
+
+            if (lvCalcTagList.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Please select the calculation tag first!", "Error");
+                return;
+            }
+
+            strCalcTagName = lvCalcTagList.SelectedItems[0].Text;
+            if (!calc_taglist_data.TryGetValue(strCalcTagName, out calc_tag))
+            {
+                MessageBox.Show("Get tag[" + strCalcTagName + "] information error", "Error");
+                return;
+            }
+
+            frmEditCalcTag frm = new frmEditCalcTag(SetCalcTagInformation, this.taglist_data, calc_tag);
+            frm.Owner = this;
+            frm.ShowDialog();
+            RefreshDeviceCalcTagList();
+        }
     }
 }

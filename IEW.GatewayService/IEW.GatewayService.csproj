@@ -77,6 +77,12 @@
     <Compile Include="GUI\frmCalcExpression.Designer.cs">
       <DependentUpon>frmCalcExpression.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmEditCalcTag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditCalcTag.Designer.cs">
+      <DependentUpon>frmEditCalcTag.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmEditEDCHeader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +159,9 @@
     <EmbeddedResource Include="GUI\frmCalcExpression.resx">
       <DependentUpon>frmCalcExpression.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmEditCalcTag.resx">
+      <DependentUpon>frmEditCalcTag.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmEditEDCHeader.resx">
       <DependentUpon>frmEditEDCHeader.cs</DependentUpon>
     </EmbeddedResource>
@@ -192,6 +201,8 @@
     <None Include="images\icons\plus.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="images\icons\arrow-right.png" />
+    <Content Include="images\icons\arrow-left.png" />
     <Content Include="images\icons\device.png" />
     <Content Include="images\icons\edc_set.png" />
     <Content Include="images\icons\edc_set_list.png" />

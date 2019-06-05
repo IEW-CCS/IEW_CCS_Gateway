@@ -12,13 +12,12 @@ using IEW.ObjectManager;
 namespace IEW.GatewayService.GUI
 {
     public delegate void SetTag(cls_Tag tag, bool edit);
-    public delegate bool CheckDuplicateTag(string tag_name);
+    public delegate bool CheckDuplicateTag(string tag_name, string type);
 
     public partial class frmEditTag : Form
     {
         bool isEdit;
         cls_Tag tag_data;
-        cls_Tag_Set tag_list;
         public SetTag delgSetTag;
         public CheckDuplicateTag delgCheckDuplicate;
 
@@ -26,7 +25,6 @@ namespace IEW.GatewayService.GUI
         {
             InitializeComponent();
             this.isEdit = false;
-            tag_list = new cls_Tag_Set();
         }
 
         public frmEditTag(SetTag set_tag, cls_Tag tag)
@@ -188,7 +186,7 @@ namespace IEW.GatewayService.GUI
             {
                 if(!this.isEdit) //Check duplicated id
                 {
-                    if(!delgCheckDuplicate(txtTagName.Text.Trim()))
+                    if(!delgCheckDuplicate(txtTagName.Text.Trim(), "TAG"))
                     {
                         return;
                     }

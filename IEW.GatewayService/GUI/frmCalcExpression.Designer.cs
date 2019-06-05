@@ -68,7 +68,7 @@
             // txtA
             // 
             this.txtA.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtA.Location = new System.Drawing.Point(73, 329);
+            this.txtA.Location = new System.Drawing.Point(86, 329);
             this.txtA.Name = "txtA";
             this.txtA.Size = new System.Drawing.Size(201, 38);
             this.txtA.TabIndex = 1;
@@ -77,7 +77,7 @@
             // txtC
             // 
             this.txtC.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtC.Location = new System.Drawing.Point(73, 383);
+            this.txtC.Location = new System.Drawing.Point(86, 383);
             this.txtC.Name = "txtC";
             this.txtC.Size = new System.Drawing.Size(202, 38);
             this.txtC.TabIndex = 2;
@@ -86,7 +86,7 @@
             // txtE
             // 
             this.txtE.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtE.Location = new System.Drawing.Point(73, 437);
+            this.txtE.Location = new System.Drawing.Point(86, 437);
             this.txtE.Name = "txtE";
             this.txtE.Size = new System.Drawing.Size(202, 38);
             this.txtE.TabIndex = 3;
@@ -95,7 +95,7 @@
             // txtG
             // 
             this.txtG.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtG.Location = new System.Drawing.Point(73, 491);
+            this.txtG.Location = new System.Drawing.Point(86, 491);
             this.txtG.Name = "txtG";
             this.txtG.Size = new System.Drawing.Size(201, 38);
             this.txtG.TabIndex = 4;
@@ -104,7 +104,7 @@
             // txtB
             // 
             this.txtB.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtB.Location = new System.Drawing.Point(384, 329);
+            this.txtB.Location = new System.Drawing.Point(394, 329);
             this.txtB.Name = "txtB";
             this.txtB.Size = new System.Drawing.Size(201, 38);
             this.txtB.TabIndex = 5;
@@ -113,7 +113,7 @@
             // txtD
             // 
             this.txtD.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtD.Location = new System.Drawing.Point(384, 383);
+            this.txtD.Location = new System.Drawing.Point(394, 383);
             this.txtD.Name = "txtD";
             this.txtD.Size = new System.Drawing.Size(201, 38);
             this.txtD.TabIndex = 6;
@@ -122,7 +122,7 @@
             // txtF
             // 
             this.txtF.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtF.Location = new System.Drawing.Point(384, 437);
+            this.txtF.Location = new System.Drawing.Point(394, 437);
             this.txtF.Name = "txtF";
             this.txtF.Size = new System.Drawing.Size(201, 38);
             this.txtF.TabIndex = 7;
@@ -131,7 +131,7 @@
             // txtH
             // 
             this.txtH.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtH.Location = new System.Drawing.Point(384, 491);
+            this.txtH.Location = new System.Drawing.Point(394, 491);
             this.txtH.Name = "txtH";
             this.txtH.Size = new System.Drawing.Size(201, 38);
             this.txtH.TabIndex = 8;
@@ -407,6 +407,7 @@
             this.Controls.Add(this.txtCalcExpression);
             this.Name = "frmCalcExpression";
             this.Text = "Calc Expression";
+            this.Load += new System.EventHandler(this.frmCalcExpression_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
