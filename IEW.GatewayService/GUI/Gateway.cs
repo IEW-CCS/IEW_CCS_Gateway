@@ -83,33 +83,20 @@ namespace IEW.GatewayService.UI
 
         private void btnCmdDownload_Click(object sender, EventArgs e)
         {
+            string GateWayID = @"gateway001";
+            cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+            if (gateway != null)
+            {
 
-            //Json.cls_Collect_Json Json = new Json.cls_Collect_Json();
-            /*
-            Json.Collect_JSON_OBJECT.Cmd_Type = "Collect";
-            Json.Collect_JSON_OBJECT.Report_Interval = "10";
-            Json.Collect_JSON_OBJECT.Trace_ID = "123456";
+                foreach(cls_Device_Info Device in gateway.device_info)
+                {
+                   
+                    string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "10", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, Device.device_name);
+                    IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, Device.device_name, tmp_json });
+                }
 
-            Json.cls_Device_Info Info = new Json.cls_Device_Info();
-            Info.MAC = "ABCDE";
-            Info.Service_UUID.Add("UUID12345677");
-            Info.Service_UUID.Add("UUID12345677");
-            Json.Collect_JSON_OBJECT.Device_Info.Add(Info);
-        
-            //---------------------------------------------------
-            Json.cls_Device_Info Info2 = new Json.cls_Device_Info();
-            Info2.MAC = "MC2";
-            Info2.Service_UUID.Add("UUID55556666");
-            Info2.Service_UUID.Add("UUID77778888");
-            Json.Collect_JSON_OBJECT.Device_Info.Add(Info2);
-            */
-            //string tmp_json = Json.To_Json_String();
-
-            // 以下程式碼是反向檢查是否字串塞進物件可以使用
-            // Json.cls_Collect_Json JsonOut = new Json.cls_Collect_Json(tmp_json);
-
-
-            //IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { tmp_json });
+            }
+                         
         }
 
         public void Init()

@@ -228,7 +228,7 @@ namespace IEW.ObjectManager
         public string TAG_VALUE { get; set; }
     }
 
-    public class cls_Collect_Reply
+    public class cls_read_data_reply
     {
         public string Device_ID { get; set; }
         public string IP_Address { get; set; }

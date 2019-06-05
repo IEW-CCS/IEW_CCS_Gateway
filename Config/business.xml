@@ -8,7 +8,9 @@
     <property name="ObjectManager" ref="ObjectManager" />
   </object>
 
-
+  <object id="EDCService" type="IEW.IOTEDCService.IOTEDCService,IEW.EDCService" init-method="Init" destroy-method="Destroy" parent="AbstractService">
+    <property name="LogName" value="Service" />
+  </object>
 
 
 
