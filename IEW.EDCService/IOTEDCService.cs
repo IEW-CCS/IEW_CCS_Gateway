@@ -19,16 +19,20 @@ using System.IO;
 using System.IO.Ports;
 using System.Xml;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 using IEW.ObjectManager;
 
 namespace IEW.IOTEDCService
 {
     public class IOTEDCService : AbstractService
     {
-        private System.Threading.Timer timer_routine;
+       
         internal static ConcurrentQueue<Tuple<string, string>> _Write_EDC_File = new ConcurrentQueue<Tuple<string, string>>();
-        private int routine_interval = 1;
         private bool _run = false;
+
+        private Thread th_ReportEDC = null;
 
         public override bool Init()
         {
@@ -36,29 +40,39 @@ namespace IEW.IOTEDCService
             try
             {
                 _run = true;
-                Timer_Routine_Job(routine_interval);
+                this.th_ReportEDC = new Thread(new ThreadStart(EDC_Writter));
+                this.th_ReportEDC.Start();
                 NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Initial Finished");
                 ret = true;
             }
             catch (Exception ex)
             {
                 NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", ex);
-                Destory();
+                Destroy();
                 ret = false;
             }
             NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "MQTT_Service_Initial Finished");
             return ret;
         }
 
-        public void Destory()
+        public void Destroy()
         {
             NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Begin");
+          
             try
             {
                 if (_run)
                 {
                     _run = false;
                 }
+
+                if (this.th_ReportEDC != null && this.th_ReportEDC.IsAlive)
+                {
+                    this.th_ReportEDC.Abort();
+                    this.th_ReportEDC.Join();
+                   
+                }
+
             }
             catch (Exception ex)
             {
@@ -67,62 +81,51 @@ namespace IEW.IOTEDCService
             NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "End");
         }
 
-        private void Timer_Routine_Job(int interval)
+        private void EDC_Writter()
         {
-            if (interval == 0)
-                interval = 10000;  // 10s
-
-            //使用匿名方法，建立帶有參數的委派
-            System.Threading.Thread Thread_Timer_Routine_Job = new System.Threading.Thread
-            (
-               delegate (object value)
-               {
-                   int Interval = Convert.ToInt32(value);
-                   timer_routine = new System.Threading.Timer(new System.Threading.TimerCallback(EDC_TimerTask), null, 1000, Interval);
-               }
-            );
-            Thread_Timer_Routine_Job.Start(interval);
-        }
-
-        private void EDC_TimerTask(object timerState)
-        {
-
-            if (_Write_EDC_File.Count > 0)
+            while(_run)
             {
-                Tuple<string, string> _msg = null;
-                while (_Write_EDC_File.TryDequeue(out _msg))
+                if (_Write_EDC_File.Count > 0)
                 {
-                    string save_file_path = _msg.Item1;
-                    string EDC_Data = _msg.Item2;
-
-                    try
+                    Tuple<string, string> _msg = null;
+                    while (_Write_EDC_File.TryDequeue(out _msg))
                     {
-                        if (!Directory.Exists(Path.GetDirectoryName(save_file_path)))
+
+                        string Timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        string save_file_path = _msg.Item1.Replace("{Datetime}", Timestamp);
+
+
+                        string EDC_Data = _msg.Item2;
+
+                        try
                         {
-                            Directory.CreateDirectory(Path.GetDirectoryName(save_file_path));
-                        }
-                        string temp_name = save_file_path + ".tmp";
-                        using (FileStream fs = System.IO.File.Open(temp_name, FileMode.Create))
-                        {
-                            using (StreamWriter EDCWriter = new StreamWriter(fs, Encoding.UTF8))
+                            if (!Directory.Exists(Path.GetDirectoryName(save_file_path)))
                             {
-                                EDCWriter.Write(EDC_Data);
-                                EDCWriter.Flush();
-                                fs.Flush();
+                                Directory.CreateDirectory(Path.GetDirectoryName(save_file_path));
                             }
+                            string temp_name = save_file_path + ".tmp";
+                            using (FileStream fs = System.IO.File.Open(temp_name, FileMode.Create))
+                            {
+                                using (StreamWriter EDCWriter = new StreamWriter(fs, Encoding.UTF8))
+                                {
+                                    EDCWriter.Write(EDC_Data);
+                                    EDCWriter.Flush();
+                                    fs.Flush();
+                                }
+                            }
+
+                            if (System.IO.File.Exists(save_file_path))
+                                System.IO.File.Delete(save_file_path);
+                            while (System.IO.File.Exists(save_file_path))
+                                Thread.Sleep(1);
+                            System.IO.File.Move(temp_name, save_file_path);
+                            NLogManager.Logger.LogInfo("Service", "EDC_Writter", MethodInfo.GetCurrentMethod().Name + "()", string.Format("Save EDC File Successful Path: {0}.", save_file_path));
+
                         }
-
-                        if (System.IO.File.Exists(save_file_path))
-                            System.IO.File.Delete(save_file_path);
-                        while (System.IO.File.Exists(save_file_path))
-                            Thread.Sleep(1);
-                        System.IO.File.Move(temp_name, save_file_path);
-                        NLogManager.Logger.LogInfo("Service", GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", string.Format("Save EDC File Successful Path: {0}.", save_file_path));
-
-                    }
-                    catch (Exception ex)
-                    {
-                        NLogManager.Logger.LogError("Service", GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", string.Format("Write EDC File Faild Exception Msg : {0}. ", ex.Message));
+                        catch (Exception ex)
+                        {
+                            NLogManager.Logger.LogError("Service", "EDC_Writter", MethodInfo.GetCurrentMethod().Name + "()", string.Format("Write EDC File Faild Exception Msg : {0}. ", ex.Message));
+                        }
                     }
                 }
 
@@ -150,8 +153,15 @@ namespace IEW.IOTEDCService
         EDCPartaker objEDC = null;
         public ProcEDCData(string inputdata)
         {
-            //反序列畫 Obj 建構子，建構物件
-            // 使用try catch
+            try
+            {
+                this.objEDC =  JsonConvert.DeserializeObject<EDCPartaker>(inputdata.ToString());
+            }
+            catch(Exception ex)
+            {
+                this.objEDC = null;
+
+            }
 
         }
         public void ThreadPool_Proc()
@@ -168,21 +178,22 @@ namespace IEW.IOTEDCService
 
                         if (EDC_string != string.Empty)
                         {
-                            IOTEDCService._Write_EDC_File.Enqueue(Tuple.Create(objEDC.ReportEDCPath, EDC_string));
+
+                            string SavePath = objEDC.ReportEDCPath;
+                            IOTEDCService._Write_EDC_File.Enqueue(Tuple.Create(SavePath, EDC_string));
                         }
 
                         break;
 
                     case "interval":
+
+                        // keep interval report 需要討論要上報什麼內容 (MAX, Min, AVG or others...)
                         break;
 
                     default:
                         break;
 
                 }
-
-                    
-
             }
             catch (Exception ex)
             {

@@ -44,10 +44,9 @@ namespace IEW.GatewayService
             }
         }
 
-        //----- 設定 Routine Job
-        private System.Threading.Timer timer_routine;
-        private int routine_interval = 5000;  // 5秒掃描一次
-
+      
+        private Thread th_Proc_Flow = null;
+        private bool _run = false;
 
         //----暫時存放到Queue中在慢慢Update到ObjectManager去
         internal static ConcurrentQueue<cls_ProcRecv_CollectData> _Update_TagValue_Queue = new ConcurrentQueue<cls_ProcRecv_CollectData>();
@@ -59,21 +58,69 @@ namespace IEW.GatewayService
             {
                 // 以下建構子 讀取 gateway json string from file 
                 // ObjectManager.GatewayManager_Initial(InputData.MQTTPayload.ToString());
+               
+                _run = true;
+                this.th_Proc_Flow = new Thread(new ThreadStart(Proc_Flow));
+                this.th_Proc_Flow.Start();
 
-                Timer_Routine_Job(routine_interval);
+                // Timer_Routine_Job(routine_interval);
+
+
+                ObjectManager.EDCManager_Initial();
+                cls_EDC_Info EDC = new cls_EDC_Info();
+                EDC.serial_id = "1";
+                EDC.gateway_id = "gateway001";
+                EDC.device_id = "sensor001";
+                EDC.report_tpye = "trigger";
+                EDC.ReportEDCPath = @"C:\EDC\Test_{Datetime}.xml";
+                EDC.enable = true;
+
+                cls_EDC_Head_Item hitem = new cls_EDC_Head_Item();
+                hitem.head_name = "GlassID";
+                hitem.value = "T8XXXX";
+
+                EDC.edchead_info.Add(hitem);
+
+                EDC.tag_info.Add(Tuple.Create("WordTestItem1", "tag_001"));
+                EDC.tag_info.Add(Tuple.Create("BitTestItem2", "tag_002"));
+
+
+
+                ObjectManager.EDCManager.gateway_edc.Add(EDC);
                 NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Initial Finished");
                 ret = true;
             }
             catch
             {
                 NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Initial Failed");
+                Destroy();
                 ret = false;
             }
             return ret;
         }
 
-        public void Destory()
+        public void Destroy()
         {
+            try
+            {
+                if (_run)
+                {
+                    _run = false;
+                }
+
+                if (this.th_Proc_Flow != null && this.th_Proc_Flow.IsAlive)
+                {
+                    this.th_Proc_Flow.Abort();
+                    this.th_Proc_Flow.Join();
+                    
+                }
+
+            }
+            catch (Exception ex)
+            {
+                NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", ex);
+            }
+           
             NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Destory");
         }
 
@@ -84,36 +131,18 @@ namespace IEW.GatewayService
         }
 
         // From GUI Trigger Msg 
-        public void GateWay_Collect_Cmd_Download(string msg)
+        public void GateWay_Collect_Cmd_Download(string gatewayid, string deviceid, string msg)
         {
-          //  xmlMessage SendOutMsg = new xmlMessage();
-          //  SendOutMsg.LineID = "ABCD";
-          //  SendOutMsg.DeviceID = "BLE";
-          //  SendOutMsg.MQTTTopic = "Collect_Cmd";
-          //  SendOutMsg.MQTTPayload = msg;
-          //  SendMQTTData(SendOutMsg);
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = gatewayid;
+            SendOutMsg.DeviceID = deviceid;
+            SendOutMsg.MQTTTopic = "Collect_Cmd";
+            SendOutMsg.MQTTPayload = msg;
+            SendMQTTData(SendOutMsg);
 
         }
 
-        // ----- Sample to insert gateway
-
-        private void Timer_Routine_Job(int interval)
-        {
-            if (interval == 0)
-                interval = 5000;  // 5s
-
-            //使用匿名方法，建立帶有參數的委派
-            System.Threading.Thread Thread_Timer_Routine_Job = new System.Threading.Thread
-            (
-               delegate (object value)
-               {
-                   int Interval = Convert.ToInt32(value);
-                   timer_routine = new System.Threading.Timer(new System.Threading.TimerCallback(TimerTask), null, 1000, Interval);
-               }
-            );
-            Thread_Timer_Routine_Job.Start(interval);
-        }
-
+     
         private void TimerTask(object timerState)
         {
             if (_Update_TagValue_Queue.Count > 0)
@@ -121,11 +150,39 @@ namespace IEW.GatewayService
                 cls_ProcRecv_CollectData _msg = null;
                 while (_Update_TagValue_Queue.TryDequeue(out _msg))
                 {
-                    // Update GUI 
+                    string Gateway_ID = _msg.GateWayID;
+                    string Device_ID = _msg.Device_ID;
+                    // Update Normal Tag
                     UpdateGatewayTagInfo(_msg);
 
+                    // Update Calculate Tag
+                    ProcCalcTag(Gateway_ID, Device_ID);
+
                     // 結合EDC and other Information 送MQTT
-                    Organize_EDCPartaker(_msg);
+                    Organize_EDCPartaker(Gateway_ID, Device_ID);
+                }
+            }
+        }
+        public void Proc_Flow()
+        {
+            while (_run)
+            {
+                if (_Update_TagValue_Queue.Count > 0)
+                {
+                    cls_ProcRecv_CollectData _msg = null;
+                    while (_Update_TagValue_Queue.TryDequeue(out _msg))
+                    {
+                        string Gateway_ID = _msg.GateWayID;
+                        string Device_ID = _msg.Device_ID;
+                        // Update Normal Tag
+                        UpdateGatewayTagInfo(_msg);
+
+                        // Update Calculate Tag
+                        ProcCalcTag(Gateway_ID, Device_ID);
+
+                        // 結合EDC and other Information 送MQTT
+                        Organize_EDCPartaker(Gateway_ID, Device_ID);
+                    }
                 }
             }
         }
@@ -136,152 +193,159 @@ namespace IEW.GatewayService
             ObjectManager.GatewayManager_Set_TagValue(ProcData);
         }
 
-        public void Organize_EDCPartaker(cls_ProcRecv_CollectData ProcData)
+        public void ProcCalcTag(string GateWayID, string Device_ID)
         {
-            List<cls_EDC_Info> lst_EDCInfo = ObjectManager.EDCManager.gateway_edc.Where(p => p.gateway_id == ProcData.GateWayID && p.device_id == ProcData.Device_ID).ToList();
-            //找出對應的EDC Information
+            cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+            if (gateway != null)
+            {
+                cls_Device_Info device = gateway.device_info.Where(p => p.device_name == Device_ID).FirstOrDefault();
+                if (device != null)
+                {
+                    foreach (KeyValuePair<string, cls_CalcTag> kvp in device.calc_tag_info)
+                    {
+                        cls_Tag tagA = null;
+                        cls_Tag tagB = null;
+                        cls_Tag tagC = null;
+                        cls_Tag tagD = null;
+                        cls_Tag tagE = null;
+                        cls_Tag tagF = null;
+                        cls_Tag tagG = null;
+                        cls_Tag tagH = null;
+
+                        Double douA = -1;
+                        Double douB = -1;
+                        Double douC = -1;
+                        Double douD = -1;
+                        Double douE = -1;
+                        Double douF = -1;
+                        Double douG = -1;
+                        Double douH = -1;
+                        Double douResult = -999999.999;
+
+                        if (kvp.Value.ParamA.Trim() != "")
+                        {
+                            // for vic verify dictionary key exist or not.
+                           if( device.tag_info.ContainsKey(kvp.Value.ParamA))
+                               tagA = device.tag_info[kvp.Value.ParamA];
+                        }
+
+                        if (kvp.Value.ParamB.Trim() != "")
+                        {
+                            tagB = device.tag_info[kvp.Value.ParamB];
+                        }
+
+                        if (kvp.Value.ParamC.Trim() != "")
+                        {
+                            tagC = device.tag_info[kvp.Value.ParamC];
+                        }
+
+                        if (kvp.Value.ParamD.Trim() != "")
+                        {
+                            tagD = device.tag_info[kvp.Value.ParamD];
+                        }
+
+                        if (kvp.Value.ParamE.Trim() != "")
+                        {
+                            tagE = device.tag_info[kvp.Value.ParamE];
+                        }
+
+                        if (kvp.Value.ParamF.Trim() != "")
+                        {
+                            tagF = device.tag_info[kvp.Value.ParamF];
+                        }
+
+                        if (kvp.Value.ParamG.Trim() != "")
+                        {
+                            tagG = device.tag_info[kvp.Value.ParamG];
+                        }
+
+                        if (kvp.Value.ParamH.Trim() != "")
+                        {
+                            tagH = device.tag_info[kvp.Value.ParamH];
+                        }
+
+                        try
+                        {
+                            douA = Convert.ToDouble(tagA.Value);
+                            douB = Convert.ToDouble(tagB.Value);
+                            douC = Convert.ToDouble(tagC.Value);
+                            douD = Convert.ToDouble(tagD.Value);
+                            douE = Convert.ToDouble(tagE.Value);
+                            douF = Convert.ToDouble(tagF.Value);
+                            douG = Convert.ToDouble(tagG.Value);
+                            douH = Convert.ToDouble(tagH.Value);
+
+                            ExpressionCalculator exp_calc = new ExpressionCalculator(kvp.Value.Expression, douA, douB, douC, douD, douE, douF, douG, douH);
+                            douResult = exp_calc.Evaluate();
+                            kvp.Value.Value = douResult.ToString();
+
+                        }
+                        catch (Exception ex)
+                        {
+                            douResult = -999999.999;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        public void Organize_EDCPartaker(string GateWayID, string Device_ID)
+        {
+            //--- 等待EDC List information 
+            List<cls_EDC_Info> lst_EDCInfo = ObjectManager.EDCManager.gateway_edc.Where(p => p.gateway_id == GateWayID && p.device_id == Device_ID && p.enable == true).ToList();
+            
             foreach (cls_EDC_Info _EDC in lst_EDCInfo)
             {
                 EDCPartaker EDCReporter = new EDCPartaker(_EDC);
+                EDCReporter.timestapm = DateTime.Now;
 
-                // 整理Normal EDC Info
-                foreach (Tuple<string, string> _Items in _EDC.tag_info)
-                {
 
-                    // Prod_EDC_Data Item1  = class name    Item2 = value
-                    // tag_info      Item1  = Report Name    Item2 = class name
-
-                    cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
-                    edctiem.item_name = _Items.Item1;
-                    edctiem.item_type = "X";
-                    Tuple<string, string> item_obj = ProcData.Prod_EDC_Data.Where(p => p.Item1 == _Items.Item2).FirstOrDefault();
-                    if (item_obj != null)
-                        edctiem.item_value = item_obj.Item2;
-                    else
-                        edctiem.item_value = string.Empty;
-
-                    EDCReporter.edcitem_info.Add(edctiem);
-
-                }
-
-                // ------整理 calculation Tag
-                cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == ProcData.GateWayID).FirstOrDefault();
+                cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
                 if (gateway != null)
                 {
-                    cls_Device_Info device = gateway.device_info.Where(p => p.device_name == ProcData.Device_ID).FirstOrDefault();
+                    cls_Device_Info device = gateway.device_info.Where(p => p.device_name == Device_ID).FirstOrDefault();
                     if (device != null)
                     {
-                        foreach (KeyValuePair<string, cls_CalcTag> kvp in device.calc_tag_info)
+                        // Assembly Normal Tag info
+                        foreach (Tuple<string, string> _Items in _EDC.tag_info)
                         {
-                            cls_Tag tagA = null;
-                            cls_Tag tagB = null;
-                            cls_Tag tagC = null;
-                            cls_Tag tagD = null;
-                            cls_Tag tagE = null;
-                            cls_Tag tagF = null;
-                            cls_Tag tagG = null;
-                            cls_Tag tagH = null;
-
-                            Double douA = -1;
-                            Double douB = -1;
-                            Double douC = -1;
-                            Double douD = -1;
-                            Double douE = -1;
-                            Double douF = -1;
-                            Double douG = -1;
-                            Double douH = -1;
-                            Double douResult = -999999.999;
-
-                            if (kvp.Value.ParamA.Trim() != "")
-                            {
-                                tagA = device.tag_info[kvp.Value.ParamA];
-                            }
-
-                            if (kvp.Value.ParamB.Trim() != "")
-                            {
-                                tagB = device.tag_info[kvp.Value.ParamB];
-                            }
-
-                            if (kvp.Value.ParamC.Trim() != "")
-                            {
-                                tagC = device.tag_info[kvp.Value.ParamC];
-                            }
-
-                            if (kvp.Value.ParamD.Trim() != "")
-                            {
-                                tagD = device.tag_info[kvp.Value.ParamD];
-                            }
-
-                            if (kvp.Value.ParamE.Trim() != "")
-                            {
-                                tagE = device.tag_info[kvp.Value.ParamE];
-                            }
-
-                            if (kvp.Value.ParamF.Trim() != "")
-                            {
-                                tagF = device.tag_info[kvp.Value.ParamF];
-                            }
-
-                            if (kvp.Value.ParamG.Trim() != "")
-                            {
-                                tagG = device.tag_info[kvp.Value.ParamG];
-                            }
-
-                            if (kvp.Value.ParamH.Trim() != "")
-                            {
-                                tagH = device.tag_info[kvp.Value.ParamH];
-                            }
-
-                            try
-                            {
-                                douA = Convert.ToDouble(tagA.Value);
-                                douB = Convert.ToDouble(tagB.Value);
-                                douC = Convert.ToDouble(tagC.Value);
-                                douD = Convert.ToDouble(tagD.Value);
-                                douE = Convert.ToDouble(tagE.Value);
-                                douF = Convert.ToDouble(tagF.Value);
-                                douG = Convert.ToDouble(tagG.Value);
-                                douH = Convert.ToDouble(tagH.Value);
-
-                                ExpressionCalculator exp_calc = new ExpressionCalculator(kvp.Value.Expression, douA, douB, douC, douD, douE, douF, douG, douH);
-                                douResult = exp_calc.Evaluate();
-
-                                kvp.Value.Value = douResult.ToString();
-                            }
-                            catch (Exception ex)
-                            {
-                                douResult = -999999.999;
-                            }
-
-                            //Add EDC
                             cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
-                            edctiem.item_name = kvp.Value.TagName;
+                            edctiem.item_name = _Items.Item1;
                             edctiem.item_type = "X";
-                            edctiem.item_value = kvp.Value.Value;
+                            if (device.tag_info.ContainsKey(_Items.Item2))
+                                edctiem.item_value = device.tag_info[_Items.Item2].Value;
+                            else
+                                edctiem.item_value = string.Empty;
 
                             EDCReporter.edcitem_info.Add(edctiem);
                         }
-                        //  device.tag_info["vic"].Value;
 
+                        // Assembly Calc Tag info
+                        foreach (Tuple<string, string> _Items in _EDC.calc_tag_info)
+                        {
+                            cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
+                            edctiem.item_name = _Items.Item1;
+                            edctiem.item_type = "X";
 
-                        //  cls_EDC_Body_Item edctiem = new cls_EDC_Body_Item();
-                        // edctiem.item_name = itemname
-                        // edctiem.item_type = "X";
-                        // edctiem.item_value =itemvalue
+                            if (device.calc_tag_info.ContainsKey(_Items.Item2))
+                                edctiem.item_value = device.calc_tag_info[_Items.Item2].Value;
+                            else
+                                edctiem.item_value = string.Empty;
 
-                        // EDCReporter.edcitem_info.Add(edctiem);
-
+                            EDCReporter.edcitem_info.Add(edctiem);
+                        }
                     }
+                }
 
-
-                    }
-
-                // ------Send out EDCReporter to MQTT
-                
+                //----- Send MQTT-----
+                xmlMessage SendOutMsg = new xmlMessage();
+                SendOutMsg.LineID = GateWayID;     // GateID
+                SendOutMsg.DeviceID = Device_ID;   // DeviceID
+                SendOutMsg.MQTTTopic = "EDCService";
+                SendOutMsg.MQTTPayload = JsonConvert.SerializeObject(EDCReporter, Newtonsoft.Json.Formatting.Indented);
+                SendMQTTData(SendOutMsg);
             }
-
-
-
 
         }
 
@@ -289,24 +353,27 @@ namespace IEW.GatewayService
         public void ReceiveMQTTData(xmlMessage InputData)
         {
             // Parse Mqtt Topic
-            string[] Topic = InputData.MQTTTopic.Split('/');    // IEW/GateWay/Device/ReplyData
-            string GateWayID = Topic[1].ToString();
-            string DeviceID = Topic[2].ToString() ;
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/ReplyData
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString() ;
 
-            cls_Gateway_Info Gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
-            if (Gateway != null)
+            if (ObjectManager.GatewayManager != null)
             {
-                cls_Device_Info Device = Gateway.device_info.Where(p => p.device_name == DeviceID).FirstOrDefault();
-                if (Device != null)
+                cls_Gateway_Info Gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                if (Gateway != null)
                 {
-                    try
+                    cls_Device_Info Device = Gateway.device_info.Where(p => p.device_name == DeviceID).FirstOrDefault();
+                    if (Device != null)
                     {
-                        ProcCollectData Function = new ProcCollectData(Device,GateWayID, DeviceID);
-                        ThreadPool.QueueUserWorkItem(o => Function.ThreadPool_Proc(InputData.MQTTPayload.ToString()));
-                    }
-                    catch (Exception ex)
-                    {
-                        NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", ex);
+                        try
+                        {
+                            ProcCollectData Function = new ProcCollectData(Device, GateWayID, DeviceID);
+                            ThreadPool.QueueUserWorkItem(o => Function.ThreadPool_Proc(InputData.MQTTPayload.ToString()));
+                        }
+                        catch (Exception ex)
+                        {
+                            NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", ex);
+                        }
                     }
                 }
             }
@@ -320,6 +387,9 @@ namespace IEW.GatewayService
         private string _DeviceID = string.Empty;
         private cls_Device_Info _Device = null;
         private const string _LogName = "Service";
+
+        private string[] CheckWordType = { "W", "D", "ZR" };
+
         public ProcCollectData(cls_Device_Info Device, string GatewayID, string DeviceID)
         {
             _GatewayID = GatewayID;
@@ -331,8 +401,8 @@ namespace IEW.GatewayService
         {
             try
             {
-                cls_Collect_Reply CollectData = null;
-                CollectData = JsonConvert.DeserializeObject<cls_Collect_Reply>(msg.ToString());
+                cls_read_data_reply CollectData = null;
+                CollectData = JsonConvert.DeserializeObject<cls_read_data_reply>(msg.ToString());
     
                 cls_ProcRecv_CollectData ProcRecv_CollectData = new cls_ProcRecv_CollectData();
                 ProcRecv_CollectData.GateWayID = _GatewayID;
@@ -351,48 +421,53 @@ namespace IEW.GatewayService
 
                         if (Device_Tag.Type == "PLC")
                         {
-                            switch (Device_Tag.Expression)
+                            if (CheckWordType.Any(x => Device_Tag.UUID_Address.Contains(x)))
                             {
-                                case "BIT":
-                                    BitPoints = CalcBitPoints(Device_Tag.UUID_Address);
-                                    if (BitPoints != 0)
-                                        Output = HexToBit(0, BitPoints, Tag_Value);
-                                    else
+                                if (Tag_Value.Length % 4 != 0)
+                                    return;
+                                switch (Device_Tag.Expression)
+                                {
+                                    case "BIT":
+                                        BitPoints = CalcBitPoints(Device_Tag.UUID_Address);
+                                        if (BitPoints != 0)
+                                            Output = HexToBit(0, BitPoints, Tag_Value);
+                                        else
+                                            Output = string.Empty;
+                                        break;
+
+                                    case "UINT":
+                                        BitPoints = 16;   // Int固定16 bit ;
+                                        tmp_output = HexToInt(BitPoints, Tag_Value);
+                                        tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
+                                        Output = tmp_output.ToString();
+                                        break;
+
+                                    case "ULONG":
+                                        BitPoints = 32;
+                                        tmp_output = HexToLong(BitPoints, Tag_Value);
+                                        tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
+                                        Output = tmp_output.ToString();
+                                        break;
+                                    case "SINT":
+                                        BitPoints = 16;
+                                        tmp_output = HexToSInt(BitPoints, Tag_Value);
+                                        tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
+                                        Output = tmp_output.ToString();
+                                        break;
+                                    case "SLONG":
+                                        BitPoints = 32;
+                                        tmp_output = HexToSLong(BitPoints, Tag_Value);
+                                        tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
+                                        Output = tmp_output.ToString();
+                                        break;
+
+                                    case "ASC":
+                                        Output = HexToASCII(Tag_Value);  //  目前Decode 全部都解析解析完再考慮長度
+                                        break;
+                                    default:
                                         Output = string.Empty;
-                                    break;
-
-                                case "UINT":
-                                    BitPoints = 16;   // Int固定16 bit ;
-                                    tmp_output = HexToInt(BitPoints, Tag_Value);
-                                    tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
-                                    Output = tmp_output.ToString();
-                                    break;
-
-                                case "ULONG":
-                                    BitPoints = 32;
-                                    tmp_output = HexToLong(BitPoints, Tag_Value);
-                                    tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
-                                    Output = tmp_output.ToString();
-                                    break;
-                                case "SINT":
-                                    BitPoints = 16;
-                                    tmp_output = HexToSInt(BitPoints, Tag_Value);
-                                    tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
-                                    Output = tmp_output.ToString();
-                                    break;
-                                case "SLONG":
-                                    BitPoints = 32;
-                                    tmp_output = HexToSLong(BitPoints, Tag_Value);
-                                    tmp_output = (Device_Tag.scale * tmp_output) + Device_Tag.offset;
-                                    Output = tmp_output.ToString();
-                                    break;
-
-                                case "ASC":
-                                    Output = HexToASCII(Tag_Value);  //  目前Decode 全部都解析解析完再考慮長度
-                                    break;
-                                default:
-                                    Output = string.Empty;
-                                    break;
+                                        break;
+                                }
                             }
                         }
 
@@ -412,7 +487,7 @@ namespace IEW.GatewayService
             }
         }
 
-        //decode method
+        // -----  decode method  -----
 
         public byte[] HexToByte(string hexString)
         {
@@ -553,8 +628,8 @@ namespace IEW.GatewayService
             else if( first_dot_index < first_colon_index)          //W1000.3:5   
             {
                 string[] tempSplit_Words = UUID_Address.Substring(first_dot_index).Split(delimiterChars);
-                int start = int.Parse(tempSplit_Words[0]);
-                int end = int.Parse(tempSplit_Words[1]);
+                int start = int.Parse(tempSplit_Words[1]);
+                int end = int.Parse(tempSplit_Words[2]);
                 int diff = (end - start) + 1;
                 return diff ;
             }

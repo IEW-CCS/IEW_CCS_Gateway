@@ -38,6 +38,18 @@ namespace IEW.ObjectManager
         }
         #endregion
 
+        #region EDCManager Constructor
+        public void EDCManager_Initial()
+        {
+            this.EDCManager = new EDCManager();
+        }
+        public void EDCManager_Initial(string Json)
+        {
+            this.EDCManager = JsonConvert.DeserializeObject<EDCManager>(Json);
+        }
+        #endregion
+
+
         #region Gateway Method
         public void GatewayManager_Set_TagValue(cls_ProcRecv_CollectData ProcRecv_CollectData)
         {
