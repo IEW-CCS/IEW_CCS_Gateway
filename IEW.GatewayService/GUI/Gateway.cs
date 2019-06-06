@@ -525,7 +525,16 @@ namespace IEW.GatewayService.UI
 
         private void DisplayEDCXMLList(int index)
         {
-
+            frmListEDCXml frm = new frmListEDCXml(EDCManager, ObjectManager.EDCManager, ObjectManager.GatewayManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                pnlMain.Controls.RemoveAt(0);
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
         }
 
         private void DisplayEDCXMLInfo(int index)

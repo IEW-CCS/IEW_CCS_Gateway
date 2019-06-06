@@ -65,7 +65,7 @@ namespace IEW.GatewayService
 
                 // Timer_Routine_Job(routine_interval);
 
-
+                /*
                 ObjectManager.EDCManager_Initial();
                 cls_EDC_Info EDC = new cls_EDC_Info();
                 EDC.serial_id = "1";
@@ -84,9 +84,9 @@ namespace IEW.GatewayService
                 EDC.tag_info.Add(Tuple.Create("WordTestItem1", "tag_001"));
                 EDC.tag_info.Add(Tuple.Create("BitTestItem2", "tag_002"));
 
-
-
                 ObjectManager.EDCManager.gateway_edc.Add(EDC);
+                */
+
                 NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Initial Finished");
                 ret = true;
             }
@@ -184,6 +184,7 @@ namespace IEW.GatewayService
                         Organize_EDCPartaker(Gateway_ID, Device_ID);
                     }
                 }
+                Thread.Sleep(10);
             }
         }
 

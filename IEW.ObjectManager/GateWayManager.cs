@@ -61,6 +61,7 @@ namespace IEW.ObjectManager
         public string Value { get; set; }
         public double scale { get; set; }
         public double offset { get; set; }
+        public string report_flag { get; set; }
         public string LastUpdateTime { get; set; }
         public string Description { get; set; }
     }

@@ -17,13 +17,15 @@ namespace IEW.GatewayService.GUI
     public partial class frmListEDCXml : Form
     {
         public EDCManager edcm = new EDCManager();
+        public GateWayManager gateway_mgr = new GateWayManager();
         public SetEDCManager delgEDCManager;
 
-        public frmListEDCXml(SetEDCManager set_edc_mgrr, EDCManager edc_mgr)
+        public frmListEDCXml(SetEDCManager set_edc_mgrr, EDCManager edc_mgr, GateWayManager gwm)
         {
             InitializeComponent();
             this.delgEDCManager = set_edc_mgrr;
-            this.edcm = edc_mgr;
+            this.edcm = (EDCManager)edc_mgr.Clone();
+            this.gateway_mgr = (GateWayManager)gwm.Clone();
         }
 
         private void frmListEDCXml_Load(object sender, EventArgs e)
@@ -111,7 +113,7 @@ namespace IEW.GatewayService.GUI
 
         private void btnAddXml_Click(object sender, EventArgs e)
         {
-            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, false);
+            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, this.gateway_mgr);
             frm.Owner = this;
             frm.ShowDialog();
 
@@ -176,6 +178,7 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
+            /*
             frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, edcTemp, i);
             frm.Owner = this;
             frm.ShowDialog();
@@ -184,6 +187,7 @@ namespace IEW.GatewayService.GUI
 
             RefreshEDCXmlList();
             lvEDCXmlList.Focus();
+            */
         }
     }
 }

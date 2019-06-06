@@ -200,6 +200,7 @@
             this.btnBrowse.TabIndex = 12;
             this.btnBrowse.Text = "Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // chkEnable
             // 
@@ -255,6 +256,7 @@
             // 
             // lvTagList
             // 
+            this.lvTagList.CheckBoxes = true;
             this.lvTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvTagList.FullRowSelect = true;
             this.lvTagList.GridLines = true;
@@ -297,6 +299,7 @@
             this.btnCancelEDCXml.TabIndex = 34;
             this.btnCancelEDCXml.Text = "Cancel";
             this.btnCancelEDCXml.UseVisualStyleBackColor = true;
+            this.btnCancelEDCXml.Click += new System.EventHandler(this.btnCancelEDCXml_Click);
             // 
             // btnSaveEDCXml
             // 
@@ -308,12 +311,13 @@
             this.btnSaveEDCXml.TabIndex = 33;
             this.btnSaveEDCXml.Text = "Save";
             this.btnSaveEDCXml.UseVisualStyleBackColor = true;
+            this.btnSaveEDCXml.Click += new System.EventHandler(this.btnSaveEDCXml_Click);
             // 
             // frmEditEDCXml
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1364, 1102);
+            this.ClientSize = new System.Drawing.Size(1364, 1130);
             this.Controls.Add(this.btnCancelEDCXml);
             this.Controls.Add(this.btnSaveEDCXml);
             this.Controls.Add(this.lvCalcTagList);
