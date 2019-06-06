@@ -36,6 +36,7 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.btnStart = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCmdDownload
@@ -50,7 +51,7 @@
             this.btnCmdDownload.Name = "btnCmdDownload";
             this.btnCmdDownload.Size = new System.Drawing.Size(234, 60);
             this.btnCmdDownload.TabIndex = 0;
-            this.btnCmdDownload.Text = "CMD_Download";
+            this.btnCmdDownload.Text = "CMD ReadData";
             this.btnCmdDownload.UseVisualStyleBackColor = true;
             this.btnCmdDownload.Click += new System.EventHandler(this.btnCmdDownload_Click);
             // 
@@ -118,11 +119,28 @@
             this.pnlMain.Size = new System.Drawing.Size(1586, 1076);
             this.pnlMain.TabIndex = 8;
             // 
+            // btnStart
+            // 
+            this.btnStart.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
+            this.btnStart.FlatAppearance.BorderSize = 2;
+            this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnStart.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStart.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnStart.Location = new System.Drawing.Point(1263, 38);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(234, 60);
+            this.btnStart.TabIndex = 9;
+            this.btnStart.Text = "CMD Start";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
             // Gateway
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2064, 1286);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.tvNodeList);
@@ -146,5 +164,6 @@
         private System.Windows.Forms.Button btnSaveConfig;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Panel pnlMain;
+        private System.Windows.Forms.Button btnStart;
     }
 }

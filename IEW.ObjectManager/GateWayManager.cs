@@ -139,14 +139,14 @@ namespace IEW.ObjectManager
         {
 
         }
-        public cls_Collect (string _Cmd_Type, string _Report_Interval, string _Trace_ID, cls_Device_Info _DeviceInfo)
+        public cls_Collect(string _Cmd_Type, string _Report_Interval, string _Trace_ID, cls_Device_Info _DeviceInfo)
         {
             Cmd_Type = _Cmd_Type;
             Report_Interval = _Report_Interval;
             Trace_ID = _Trace_ID;
 
             //-------運算使用 ------
-            char[] delimiterChars = {'.', ':'};
+            char[] delimiterChars = { '.', ':' };
             int first_colon_index = -1;
             int first_dot_index = -1;
 
@@ -247,5 +247,28 @@ namespace IEW.ObjectManager
         public ConcurrentQueue<Tuple<string, string>> Prod_EDC_Data = new ConcurrentQueue<Tuple<string, string>>();
     }
     #endregion
+
+
+
+    public class cls_DeviceInfo_start
+    {
+        public string IP_ADDR { get; set; }
+        public string PORT_ID { get; set; }
+
+    }
+
+    public class cls_Collect_start
+    {
+        // [JsonIgnore] 如果Class中不要轉進去Json file 要加這個屬性上去
+        public string Cmd_Type { get; set; }
+        public string Trace_ID { get; set; }
+        public List<cls_DeviceInfo_start> Device_Info = new List<cls_DeviceInfo_start>();
+
+        public cls_Collect_start()
+        {
+
+        }
+
+    }
 
 }

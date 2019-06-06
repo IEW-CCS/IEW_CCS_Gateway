@@ -142,7 +142,19 @@ namespace IEW.GatewayService
 
         }
 
-     
+        // From GUI Trigger Msg 
+        public void GateWay_Collect_Cmd_Start(string gatewayid, string deviceid, string msg)
+        {
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = gatewayid;
+            SendOutMsg.DeviceID = deviceid;
+            SendOutMsg.MQTTTopic = "Collect_Start";
+            SendOutMsg.MQTTPayload = msg;
+            SendMQTTData(SendOutMsg);
+
+        }
+
+
         private void TimerTask(object timerState)
         {
             if (_Update_TagValue_Queue.Count > 0)
