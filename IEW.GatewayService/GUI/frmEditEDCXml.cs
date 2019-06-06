@@ -71,28 +71,28 @@ namespace IEW.GatewayService.GUI
 
             lvTagList.Columns.Clear();
             lvTagList.Columns.Add("Tag Name", 80);
-            lvTagList.Columns.Add("Data Type", 80);
-            lvTagList.Columns.Add("Address", 120);
-            lvTagList.Columns.Add("Scale", 80);
-            lvTagList.Columns.Add("Offset", 80);
-            lvTagList.Columns.Add("Update Time", 180);
+            lvTagList.Columns.Add("Data Type", 60);
+            lvTagList.Columns.Add("Address", 80);
+            lvTagList.Columns.Add("Scale", 40);
+            lvTagList.Columns.Add("Offset", 40);
+            lvTagList.Columns.Add("Update Time", 120);
 
             lvCalcTagList.Columns.Clear();
             lvCalcTagList.Columns.Add("Tag Name", 80);
-            lvCalcTagList.Columns.Add("A", 60);
-            lvCalcTagList.Columns.Add("B", 60);
-            lvCalcTagList.Columns.Add("C", 60);
-            lvCalcTagList.Columns.Add("D", 60);
-            lvCalcTagList.Columns.Add("E", 60);
-            lvCalcTagList.Columns.Add("F", 60);
-            lvCalcTagList.Columns.Add("G", 60);
-            lvCalcTagList.Columns.Add("H", 60);
+            lvCalcTagList.Columns.Add("A", 50);
+            lvCalcTagList.Columns.Add("B", 50);
+            lvCalcTagList.Columns.Add("C", 50);
+            lvCalcTagList.Columns.Add("D", 50);
+            lvCalcTagList.Columns.Add("E", 50);
+            lvCalcTagList.Columns.Add("F", 50);
+            lvCalcTagList.Columns.Add("G", 50);
+            lvCalcTagList.Columns.Add("H", 50);
             lvCalcTagList.Columns.Add("Expression", 180);
 
             lvHeaderItemList.Columns.Clear();
-            lvHeaderItemList.Columns.Add("Item Name", 80);
-            lvHeaderItemList.Columns.Add("Value", 80);
-            lvHeaderItemList.Columns.Add("Length", 80);
+            lvHeaderItemList.Columns.Add("Item Name", 60);
+            lvHeaderItemList.Columns.Add("Value", 60);
+            lvHeaderItemList.Columns.Add("Length", 60);
 
             cmbEDCHeaderSet.Items.Clear();
             if (LoadHeaderSetConfig())
@@ -117,14 +117,45 @@ namespace IEW.GatewayService.GUI
                 cmbGateway.Enabled = false;
                 cmbDevice.Enabled = false;
 
-                txtSerial.Text = edc_data.serial_id;
-                cmbGateway.Text = edc_data.gateway_id;
-                cmbDevice.Text = edc_data.device_id;
+                txtSerial.Text = this.edc_data.serial_id;
+                cmbGateway.Text = this.edc_data.gateway_id;
+                cmbDevice.Text = this.edc_data.device_id;
+                cmbReportType.Text = this.edc_data.report_tpye;
+                //txtReportInterval.Text = edc_data.report_interval.ToString();
+                txtReportPath.Text = this.edc_data.ReportEDCPath;
+                if(this.edc_data.enable)
+                {
+                    chkEnable.Checked = true;
+                }
+                else
+                {
+                    chkEnable.Checked = false;
+                }
 
                 cls_Gateway_Info gi = this.gateway_mgr.gateway_list.Where(p => p.gateway_id == this.gateway_id).FirstOrDefault();
                 if(gi != null)
                 {
-
+                    gateway_index = this.gateway_mgr.gateway_list.FindIndex(c => c.gateway_id == this.gateway_id);
+                    cls_Device_Info di = gi.device_info.Where(a => a.device_name == this.device_id).FirstOrDefault();
+                    if(di != null)
+                    {
+                        DisplayTagList(di);
+                        DisplayCalcTagList(di);
+                        device_index = gi.device_info.FindIndex(b => b.device_name == cmbDevice.Text.Trim());
+                    }
+                }
+                if(edc_data.edchead_info.Count > 0)
+                {
+                    lvHeaderItemList.BeginUpdate();
+                    lvHeaderItemList.Items.Clear();
+                    foreach (cls_EDC_Head_Item hi in edc_data.edchead_info)
+                    {
+                        ListViewItem item = new ListViewItem(hi.head_name);
+                        item.SubItems.Add(hi.value);
+                        item.SubItems.Add(hi.length.ToString());
+                        lvHeaderItemList.Items.Add(item);
+                    }
+                    lvHeaderItemList.EndUpdate();
                 }
             }
         }
@@ -209,6 +240,7 @@ namespace IEW.GatewayService.GUI
         private void DisplayTagList(cls_Device_Info device)
         {
             lvTagList.BeginUpdate();
+            lvTagList.Items.Clear();
             foreach(KeyValuePair<string, cls_Tag> tag in device.tag_info)
             {
                 ListViewItem item = new ListViewItem(tag.Value.TagName);
@@ -221,6 +253,11 @@ namespace IEW.GatewayService.GUI
                 {
                     item.Checked = true;
                 }
+                else
+                {
+                    item.Checked = false;
+                }
+
                 lvTagList.Items.Add(item);
             }
             lvTagList.EndUpdate();
@@ -229,6 +266,7 @@ namespace IEW.GatewayService.GUI
         private void DisplayCalcTagList(cls_Device_Info device)
         {
             lvCalcTagList.BeginUpdate();
+            lvCalcTagList.Items.Clear();
             foreach (KeyValuePair<string, cls_CalcTag> calc_tag in device.calc_tag_info)
             {
                 ListViewItem item = new ListViewItem(calc_tag.Value.TagName);
@@ -249,7 +287,8 @@ namespace IEW.GatewayService.GUI
         private void DisplayHeaderSetList(cls_EDC_Header header)
         {
             lvHeaderItemList.BeginUpdate();
-            foreach(cls_EDC_Head_Item hi in header.head_set)
+            lvHeaderItemList.Items.Clear();
+            foreach (cls_EDC_Head_Item hi in header.head_set)
             {
                 ListViewItem item = new ListViewItem(hi.head_name);
                 item.SubItems.Add(hi.value);
@@ -332,10 +371,13 @@ namespace IEW.GatewayService.GUI
                 return;
             }
 
-            if(cmbEDCHeaderSet.Text.Trim() == "")
+            if(!this.isEdit)
             {
-                MessageBox.Show("Please select the EDC Header set first!", "Error");
-                return;
+                if (cmbEDCHeaderSet.Text.Trim() == "")
+                {
+                    MessageBox.Show("Please select the EDC Header set first!", "Error");
+                    return;
+                }
             }
 
             tmpEDC.serial_id = txtSerial.Text.Trim();
@@ -353,15 +395,22 @@ namespace IEW.GatewayService.GUI
                 tmpEDC.enable = false;
             }
 
-            foreach(cls_EDC_Header h in this.edc_header_list.head_set_list)
+            if(this.isEdit)
             {
-                if(h.set_name == cmbEDCHeaderSet.Text.Trim())
+                tmpEDC.edchead_info = this.edc_data.edchead_info;
+            }
+            else
+            {
+                foreach (cls_EDC_Header h in this.edc_header_list.head_set_list)
                 {
-                    tmpEDC.edchead_info = h.head_set;
+                    if (h.set_name == cmbEDCHeaderSet.Text.Trim())
+                    {
+                        tmpEDC.edchead_info = h.head_set;
+                    }
                 }
             }
 
-            foreach(ListViewItem item in lvTagList.Items)
+            foreach (ListViewItem item in lvTagList.Items)
             {
                 cls_Tag t = this.gateway_mgr.gateway_list[gateway_index].device_info[device_index].tag_info[item.Text.Trim()];
                 if(t != null)
@@ -393,7 +442,7 @@ namespace IEW.GatewayService.GUI
             tmpEDC.tag_info = tmp_tag_info;
             tmpEDC.calc_tag_info = tmp_calc_tag_info;
 
-            delgSetEDCXmlInfo(tmpEDC, false);
+            delgSetEDCXmlInfo(tmpEDC, this.isEdit);
 
             this.Close();
         }
@@ -432,7 +481,5 @@ namespace IEW.GatewayService.GUI
 
             return true;
         }
-
-
     }
 }

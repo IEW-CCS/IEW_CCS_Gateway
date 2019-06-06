@@ -245,6 +245,7 @@ namespace IEW.GatewayService.GUI
             var frm = new frmLoadTagSetTemplate(SetTagListFromTamplate, SetCalcTagListFromTamplate);
             frm.ShowDialog();
             RefreshDeviceTagList();
+            RefreshDeviceCalcTagList();
         }
 
         private void RefreshDeviceTagList()

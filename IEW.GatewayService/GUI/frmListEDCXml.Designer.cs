@@ -50,6 +50,7 @@
             this.lvEDCXmlList.FullRowSelect = true;
             this.lvEDCXmlList.GridLines = true;
             this.lvEDCXmlList.Location = new System.Drawing.Point(18, 70);
+            this.lvEDCXmlList.MultiSelect = false;
             this.lvEDCXmlList.Name = "lvEDCXmlList";
             this.lvEDCXmlList.Size = new System.Drawing.Size(1301, 773);
             this.lvEDCXmlList.TabIndex = 1;

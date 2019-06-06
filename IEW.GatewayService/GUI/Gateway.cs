@@ -73,12 +73,10 @@ namespace IEW.GatewayService.UI
             tNode = tvNodeList.Nodes.Add("Tag Set List");
             tNode.Tag = TABPAGE_INDEX_TAGSET_LIST;
             tNode.ImageIndex = 3;
-            tvNodeList.EndUpdate();
 
             tNode = tvNodeList.Nodes.Add("EDC Header Set List");
             tNode.Tag = TABPAGE_INDEX_EDCHEADERSET_LIST;
             tNode.ImageIndex = 8;
-            tvNodeList.EndUpdate();
 
             tNode = tvNodeList.Nodes.Add("EDC XML Output Config List");
             tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_LIST;
@@ -170,6 +168,13 @@ namespace IEW.GatewayService.UI
                 tNode = tvNodeList.Nodes[NODE_INDEX_EDC_HEADER_SET_LIST].Nodes.Add(hs.set_name);
                 tNode.Tag = TABPAGE_INDEX_EDCHEADERSET_INFO;
                 tNode.ImageIndex = 7;
+            }
+
+            foreach(cls_EDC_Info edc_info in ObjectManager.EDCManager.gateway_edc)
+            {
+                tNode = tvNodeList.Nodes[NODE_INDEX_EDC_OUTPUT_LIST].Nodes.Add(edc_info.serial_id + "." + edc_info.gateway_id + "." + edc_info.device_id);
+                tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_INFO;
+                tNode.ImageIndex = 10;
             }
 
             tvNodeList.ExpandAll();
@@ -543,7 +548,41 @@ namespace IEW.GatewayService.UI
 
         private void DisplayEDCXMLInfo(int index)
         {
+            string strSerial;
+            string strGatewayID;
+            string strDeviceID;
+            string[] tmp;
+            int i;
 
+            TreeNode tNode = tvNodeList.SelectedNode;  // EDC XML Information Node
+
+            //Get gateway id and device id from tNode.Text
+            tmp = tNode.Text.Split('.');
+            strSerial = tmp[0];
+            strGatewayID = tmp[1];
+            strDeviceID = tmp[2];
+
+            i = 0;
+            foreach(cls_EDC_Info edc in ObjectManager.EDCManager.gateway_edc)
+            {
+                if(edc.serial_id == strSerial)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, ObjectManager.GatewayManager, ObjectManager.EDCManager.gateway_edc[i], strGatewayID, strDeviceID);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                pnlMain.Controls.RemoveAt(0);
+            }
+            pnlMain.Controls.Add(frm);
+
+            frm.Show();
         }
 
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
