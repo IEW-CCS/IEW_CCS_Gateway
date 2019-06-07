@@ -272,14 +272,17 @@ namespace IEW.GatewayService.GUI
                 if(item.Text == sequence)
                 {
                     item.Text = "";
+                    continue;
                 }
                 else
                 {
                     KeyValuePair<string, int> tmp = dicSequence.Where(p => p.Key == item.Text.Trim()).FirstOrDefault();
                     if(tmp.Value > index)
                     {
-                        item.Text = dicSequence.ElementAt(index - 1).Key;
+                        KeyValuePair<string, int> pair = dicSequence.ElementAt(tmp.Value - 2);
+                        item.Text = pair.Key;
                     }
+                    continue;
                 }
             }
 
@@ -309,7 +312,6 @@ namespace IEW.GatewayService.GUI
                 frmCalc = (frmCalcExpression)pnlCalcExpression.Controls[0];
                 frmCalc.SetNewTag(dicTagList);
             }
-
         }
 
         private void lvTagList_SelectedIndexChanged(object sender, EventArgs e)
@@ -325,7 +327,7 @@ namespace IEW.GatewayService.GUI
                     }
                 }
 
-                if (count >= 8)
+                if (lvTagList.SelectedItems[0].Text.Trim() == "" && count >= 8)
                 {
                     MessageBox.Show("Selected Tags should be less than 8!", "Error");
                     return;

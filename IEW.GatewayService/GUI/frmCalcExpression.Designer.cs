@@ -222,7 +222,7 @@
             this.cboConstrant.Name = "cboConstrant";
             this.cboConstrant.Size = new System.Drawing.Size(189, 39);
             this.cboConstrant.TabIndex = 14;
-            this.cboConstrant.Text = "Constrant";
+            this.cboConstrant.Text = "Constant";
             this.cboConstrant.SelectedIndexChanged += new System.EventHandler(this.cboConstrant_SelectedIndexChanged);
             // 
             // cboBooleanLogic
