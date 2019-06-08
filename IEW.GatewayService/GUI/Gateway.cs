@@ -170,11 +170,14 @@ namespace IEW.GatewayService.UI
                 tNode.ImageIndex = 7;
             }
 
-            foreach(cls_EDC_Info edc_info in ObjectManager.EDCManager.gateway_edc)
+            if(ObjectManager.EDCManager.gateway_edc.Count > 0)
             {
-                tNode = tvNodeList.Nodes[NODE_INDEX_EDC_OUTPUT_LIST].Nodes.Add(edc_info.serial_id + "." + edc_info.gateway_id + "." + edc_info.device_id);
-                tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_INFO;
-                tNode.ImageIndex = 10;
+                foreach (cls_EDC_Info edc_info in ObjectManager.EDCManager.gateway_edc)
+                {
+                    tNode = tvNodeList.Nodes[NODE_INDEX_EDC_OUTPUT_LIST].Nodes.Add(edc_info.serial_id + "." + edc_info.gateway_id + "." + edc_info.device_id);
+                    tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_INFO;
+                    tNode.ImageIndex = 10;
+                }
             }
 
             tvNodeList.ExpandAll();
@@ -345,6 +348,7 @@ namespace IEW.GatewayService.UI
         void EDCManager(EDCManager edcMgr)
         {
             ObjectManager.EDCManager.gateway_edc = edcMgr.gateway_edc;
+            ObjectManager.EDCManager.serial_id_index = edcMgr.serial_id_index;
             RefreshGatewayConfig();
         }
 
@@ -710,7 +714,7 @@ namespace IEW.GatewayService.UI
                 if (!System.IO.File.Exists("C:\\Gateway\\Config\\EDC_Xml_Config.json"))
                 {
                     //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
-                    //ObjectManager.TagSetManager_Initial();
+                    ObjectManager.EDCManager_Initial();
                     return true;
                 }
 

@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 namespace IEW.GatewayService.GUI
 {
     public delegate void SetEDCXmlInfo(cls_EDC_Info edc_info, bool edit_flag);
+    public delegate void SetSerial(int index);
 
     public partial class frmEditEDCXml : Form
     {
@@ -22,12 +23,14 @@ namespace IEW.GatewayService.GUI
         EDCHeaderSet edc_header_list;
         int gateway_index;
         int device_index;
+        int serial_index;
         string gateway_id;
         string device_id;
 
         public GateWayManager gateway_mgr;
         public cls_EDC_Info edc_data;
         public SetEDCXmlInfo delgSetEDCXmlInfo;
+        public SetSerial delgSetSerial;
 
 
         public frmEditEDCXml()
@@ -37,12 +40,14 @@ namespace IEW.GatewayService.GUI
         }
 
         //Constructor to Add New EDC Xml Information
-        public frmEditEDCXml(SetEDCXmlInfo set_xml, GateWayManager gwm)
+        public frmEditEDCXml(SetEDCXmlInfo set_xml, SetSerial set_serial, GateWayManager gwm, int index)
         {
             InitializeComponent();
             this.isEdit = false;
             this.gateway_mgr = gwm; ;
+            this.serial_index = index;
             this.delgSetEDCXmlInfo = set_xml;
+            this.delgSetSerial = set_serial;
         }
 
         //Constructor to Edit EDC Xml Information
@@ -111,9 +116,13 @@ namespace IEW.GatewayService.GUI
             cmbReportType.Items.Add("trigger");
             //cmbReportType.Items.Add("interval");
 
+            txtSerial.Enabled = false;
+            this.serial_index = this.serial_index + 1;
+            txtSerial.Text = this.serial_index.ToString("D8");
+
+
             if (isEdit)
             {
-                txtSerial.Enabled = false;
                 cmbGateway.Enabled = false;
                 cmbDevice.Enabled = false;
 
@@ -442,6 +451,7 @@ namespace IEW.GatewayService.GUI
             tmpEDC.tag_info = tmp_tag_info;
             tmpEDC.calc_tag_info = tmp_calc_tag_info;
 
+            delgSetSerial(this.serial_index);
             delgSetEDCXmlInfo(tmpEDC, this.isEdit);
 
             this.Close();

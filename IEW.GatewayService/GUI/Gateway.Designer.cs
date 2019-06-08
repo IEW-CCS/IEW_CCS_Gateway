@@ -116,7 +116,7 @@
             this.pnlMain.Location = new System.Drawing.Point(436, 126);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1586, 1076);
+            this.pnlMain.Size = new System.Drawing.Size(1540, 1076);
             this.pnlMain.TabIndex = 8;
             // 
             // btnStart
@@ -139,7 +139,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2064, 1286);
+            this.ClientSize = new System.Drawing.Size(2030, 1252);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.btnSaveConfig);

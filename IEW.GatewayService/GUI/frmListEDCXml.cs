@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using IEW.ObjectManager;
 
-
 namespace IEW.GatewayService.GUI
 {
     public delegate void SetEDCManager(EDCManager edc_manager);
@@ -111,9 +110,15 @@ namespace IEW.GatewayService.GUI
             }
         }
 
+        //Delegate function to setup global serial id index
+        void SetupSerialIDIndex(int index)
+        {
+            edcm.serial_id_index = index;
+        }
+
         private void btnAddXml_Click(object sender, EventArgs e)
         {
-            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, this.gateway_mgr);
+            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, SetupSerialIDIndex, this.gateway_mgr, this.edcm.serial_id_index);
             frm.Owner = this;
             frm.ShowDialog();
 
@@ -183,12 +188,12 @@ namespace IEW.GatewayService.GUI
             }
 
             frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, this.gateway_mgr, edcTemp, strGatewayID, strDeviceID);
-            //frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, edcTemp, i);
             frm.Owner = this;
             frm.ShowDialog();
 
             edcTemp = null;
 
+            delgEDCManager(edcm);
             RefreshEDCXmlList();
             lvEDCXmlList.Focus();
         }
