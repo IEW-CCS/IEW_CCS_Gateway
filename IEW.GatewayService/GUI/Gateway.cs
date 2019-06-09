@@ -38,6 +38,8 @@ namespace IEW.GatewayService.UI
         static int NODE_INDEX_TAG_SET_LIST = 1;
         static int NODE_INDEX_EDC_HEADER_SET_LIST = 2;
         static int NODE_INDEX_EDC_OUTPUT_LIST = 3;
+        static int NODE_INDEX_ON_LINE_MONITOR = 4;
+
 
         //Define TabPages Index
         const int TABPAGE_INDEX_GATEWAY_LIST = 0;
@@ -49,7 +51,7 @@ namespace IEW.GatewayService.UI
         const int TABPAGE_INDEX_EDCHEADERSET_INFO = 6;
         const int TABPAGE_INDEX_EDC_OUTPUT_LIST = 7;
         const int TABPAGE_INDEX_EDC_OUTPUT_INFO = 8;
-
+        const int TABPAGE_INDEX_ON_LINE_MONITOR = 9;
 
         TreeNode objSelectedNode;
         public cls_Gateway_Info gw;
@@ -81,33 +83,15 @@ namespace IEW.GatewayService.UI
             tNode = tvNodeList.Nodes.Add("EDC XML Output Config List");
             tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_LIST;
             tNode.ImageIndex = 9;
+
+            tNode = tvNodeList.Nodes.Add("On-Line Monitor");
+            tNode.Tag = TABPAGE_INDEX_ON_LINE_MONITOR;
+            tNode.ImageIndex = 11;
             tvNodeList.EndUpdate();
 
             this.isLoadConfig = false;
 
             pnlMain.Height = tvNodeList.Height;
-        }
-
-        private void btnCmdDownload_Click(object sender, EventArgs e)
-        {
-            string GateWayID = @"gateway001";
-            string DeviceID =  @"device001";
-            string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "10", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, DeviceID);
-            IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, DeviceID, tmp_json });
-
-            /*  cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
-              if (gateway != null)
-              {
-
-                  foreach(cls_Device_Info Device in gateway.device_info)
-                  {
-
-                      string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "10", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, Device.device_name);
-                      IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, Device.device_name, tmp_json });
-                  }
-
-              }*/
-
         }
 
         public void Init()
@@ -128,10 +112,10 @@ namespace IEW.GatewayService.UI
             LoadTagSetConfig();
             LoadHeaderSetConfig();
             LoadEDCXmlConfig();
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
-        public void RefreshGatewayConfig()
+        public void RefreshGatewayConfig(int display_index)
         {
             foreach (TreeNode node in tvNodeList.Nodes)
             {
@@ -183,7 +167,7 @@ namespace IEW.GatewayService.UI
             tvNodeList.ExpandAll();
             tvNodeList.EndUpdate();
 
-            DisplayPanel(TABPAGE_INDEX_GATEWAY_LIST);
+            DisplayPanel(display_index);
         }
 
         private void tvNodeList_AfterSelect(object sender, TreeViewEventArgs e)
@@ -215,35 +199,39 @@ namespace IEW.GatewayService.UI
                     break;
 
                 case TABPAGE_INDEX_GATEWAY_INFO:
-                    DisplayGatewayInfo(index);
+                    DisplayGatewayInfo();
                     break;
 
                 case TABPAGE_INDEX_DEVICE_INFO:
-                    DisplayDeviceInfo(index);
+                    DisplayDeviceInfo();
                     break;
 
                 case TABPAGE_INDEX_TAGSET_LIST:
-                    DispalyTagSetList(index);
+                    DispalyTagSetList();
                     break;
 
                 case TABPAGE_INDEX_TAGSET_INFO:
-                    DisplayTagSetInfo(index);
+                    DisplayTagSetInfo();
                     break;
 
                 case TABPAGE_INDEX_EDCHEADERSET_LIST:
-                    DisplayEDCHeaderSetList(index);
+                    DisplayEDCHeaderSetList();
                     break;
 
                 case TABPAGE_INDEX_EDCHEADERSET_INFO:
-                    DisplayEDCHeaderSetInfo(index);
+                    DisplayEDCHeaderSetInfo();
                     break;
 
                 case TABPAGE_INDEX_EDC_OUTPUT_LIST:
-                    DisplayEDCXMLList(index);
+                    DisplayEDCXMLList();
                     break;
 
                 case TABPAGE_INDEX_EDC_OUTPUT_INFO:
-                    DisplayEDCXMLInfo(index);
+                    DisplayEDCXMLInfo();
+                    break;
+
+                case TABPAGE_INDEX_ON_LINE_MONITOR:
+                    DisplayOnlineMonitor();
                     break;
 
                 default:
@@ -255,7 +243,7 @@ namespace IEW.GatewayService.UI
         void SetGatewayManager(GateWayManager g_manager)
         {
             ObjectManager.GatewayManager.gateway_list = g_manager.gateway_list;
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
         //Delegate function to set Gateway Information
@@ -279,14 +267,14 @@ namespace IEW.GatewayService.UI
                 ObjectManager.GatewayManager.gateway_list.Add(g_info);
             }
 
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
         //Delegate function to update TagSetManager information
         void SetTagSetManager(TagSetManager tsManager)
         {
             ObjectManager.TagSetManager.tag_set_list = tsManager.tag_set_list;
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_TAGSET_LIST);
         }
 
         //Delegate function to update Tag Set Information
@@ -310,14 +298,14 @@ namespace IEW.GatewayService.UI
                 ObjectManager.TagSetManager.tag_set_list.Add(tag_set);
             }
 
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_TAGSET_LIST);
         }
 
         //Delegate function to update EDC Header Set List
         void SetEDCHeaderSetList(EDCHeaderSet edc_set_list)
         {
             this.header_set = edc_set_list;
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_EDCHEADERSET_LIST);
         }
 
         //Delegate function to set EDC Header Set information
@@ -341,7 +329,7 @@ namespace IEW.GatewayService.UI
                 this.header_set.head_set_list.Add(edc_set);
             }
 
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_EDCHEADERSET_LIST);
         }
 
         //Delegate function to update EDCManager information
@@ -349,7 +337,7 @@ namespace IEW.GatewayService.UI
         {
             ObjectManager.EDCManager.gateway_edc = edcMgr.gateway_edc;
             ObjectManager.EDCManager.serial_id_index = edcMgr.serial_id_index;
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_EDC_OUTPUT_LIST);
         }
 
         //Delegate function to update EDC XML Information
@@ -373,7 +361,7 @@ namespace IEW.GatewayService.UI
                 ObjectManager.EDCManager.gateway_edc.Add(edc_info);
             }
 
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_EDC_OUTPUT_LIST);
         }
 
         private void DisplayGatewayList()
@@ -390,7 +378,7 @@ namespace IEW.GatewayService.UI
             gwList.Show();
         }
 
-        private void DisplayGatewayInfo(int index)
+        private void DisplayGatewayInfo()
         {
             TreeNode tNode = tvNodeList.SelectedNode;
 
@@ -417,7 +405,7 @@ namespace IEW.GatewayService.UI
             gwForm.Show();
         }
 
-        private void DisplayDeviceInfo(int index)
+        private void DisplayDeviceInfo()
         {
             TreeNode tNode = tvNodeList.SelectedNode;  // Device Node
             TreeNode pNode = tNode.Parent;                    // Gateway Node
@@ -454,7 +442,7 @@ namespace IEW.GatewayService.UI
             deviceForm.Show();
         }
 
-        private void DispalyTagSetList(int index)
+        private void DispalyTagSetList()
         {
             frmListTagSet setList = new frmListTagSet(SetTagSetManager, ObjectManager.TagSetManager);
             setList.Owner = this;
@@ -468,7 +456,7 @@ namespace IEW.GatewayService.UI
             setList.Show();
         }
 
-        private void DisplayTagSetInfo(int index)
+        private void DisplayTagSetInfo()
         {
             TreeNode tNode = tvNodeList.SelectedNode;  // Tag Set Node
 
@@ -495,7 +483,7 @@ namespace IEW.GatewayService.UI
             frm.Show();
         }
 
-        private void DisplayEDCHeaderSetList(int index)
+        private void DisplayEDCHeaderSetList()
         {
             frmListEDCHeaderSet headerList = new frmListEDCHeaderSet(SetEDCHeaderSetList, this.header_set);
             headerList.Owner = this;
@@ -509,7 +497,7 @@ namespace IEW.GatewayService.UI
             headerList.Show();
         }
 
-        private void DisplayEDCHeaderSetInfo(int index)
+        private void DisplayEDCHeaderSetInfo()
         {
             TreeNode tNode = tvNodeList.SelectedNode;  // Header Set Info Node
 
@@ -536,7 +524,7 @@ namespace IEW.GatewayService.UI
             frm.Show();
         }
 
-        private void DisplayEDCXMLList(int index)
+        private void DisplayEDCXMLList()
         {
             frmListEDCXml frm = new frmListEDCXml(EDCManager, ObjectManager.EDCManager, ObjectManager.GatewayManager);
             frm.Owner = this;
@@ -550,7 +538,7 @@ namespace IEW.GatewayService.UI
             frm.Show();
         }
 
-        private void DisplayEDCXMLInfo(int index)
+        private void DisplayEDCXMLInfo()
         {
             string strSerial;
             string strGatewayID;
@@ -589,6 +577,20 @@ namespace IEW.GatewayService.UI
             frm.Show();
         }
 
+        private void DisplayOnlineMonitor()
+        {
+            frmOnlineMonitor frm = new frmOnlineMonitor(ObjectManager.GatewayManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                pnlMain.Controls.RemoveAt(0);
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
         {
             gi.device_info[index] = di;
@@ -601,7 +603,7 @@ namespace IEW.GatewayService.UI
             frm.ShowDialog();
 
             gw = null;
-            RefreshGatewayConfig();
+            RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
         private bool LoadGatewayConfig()
@@ -791,7 +793,6 @@ namespace IEW.GatewayService.UI
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-
             cls_Collect_start cmd_start = new cls_Collect_start();
             cls_DeviceInfo_start device_info = new cls_DeviceInfo_start();
             device_info.PORT_ID = @"6001";
@@ -802,6 +803,26 @@ namespace IEW.GatewayService.UI
 
              string tmp_json = JsonConvert.SerializeObject(cmd_start, Newtonsoft.Json.Formatting.Indented);
             IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Start", new object[] {  "gateway001", "device001", tmp_json });
+        }
+
+        private void btnCmdDownload_Click(object sender, EventArgs e)
+        {
+            string GateWayID = @"gateway001";
+            string DeviceID = @"device001";
+            string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "10", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, DeviceID);
+            IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, DeviceID, tmp_json });
+
+            /*  
+            cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+            if (gateway != null)
+            {
+                foreach(cls_Device_Info Device in gateway.device_info)
+                {
+                    string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "10", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, Device.device_name);
+                    IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, Device.device_name, tmp_json });
+                }
+            }
+            */
         }
     }
 }

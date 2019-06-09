@@ -232,7 +232,7 @@ namespace IEW.GatewayService.GUI
             {
                 Gateway p = (Gateway)this.Owner;
                 p.SetDeviceInfo(gw_data, device_data, iDeviceIndex);
-                p.RefreshGatewayConfig();
+                p.RefreshGatewayConfig(0);
             }
 
             diTemp = null;

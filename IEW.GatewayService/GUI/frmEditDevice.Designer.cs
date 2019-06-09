@@ -211,9 +211,9 @@
             this.pnlPLC.Controls.Add(this.txtPLC_IP);
             this.pnlPLC.Controls.Add(this.lblPLC_Port);
             this.pnlPLC.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlPLC.Location = new System.Drawing.Point(27, 132);
+            this.pnlPLC.Location = new System.Drawing.Point(47, 132);
             this.pnlPLC.Name = "pnlPLC";
-            this.pnlPLC.Size = new System.Drawing.Size(638, 150);
+            this.pnlPLC.Size = new System.Drawing.Size(618, 150);
             this.pnlPLC.TabIndex = 18;
             // 
             // btnTagRemove

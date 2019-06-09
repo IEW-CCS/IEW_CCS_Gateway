@@ -96,6 +96,7 @@
             this.imageList1.Images.SetKeyName(8, "edc_set_list.png");
             this.imageList1.Images.SetKeyName(9, "edc_xml_list.png");
             this.imageList1.Images.SetKeyName(10, "edc_xml_info.png");
+            this.imageList1.Images.SetKeyName(11, "online_monitor.png");
             // 
             // btnSaveConfig
             // 
@@ -139,7 +140,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2030, 1252);
+            this.ClientSize = new System.Drawing.Size(2016, 1252);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.btnSaveConfig);

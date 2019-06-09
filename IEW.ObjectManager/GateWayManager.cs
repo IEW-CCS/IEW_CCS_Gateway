@@ -268,7 +268,41 @@ namespace IEW.ObjectManager
         {
 
         }
-
     }
+
+    #region Monitor Class definition
+    public class cls_Monitor_Device_info
+    {
+        public string device_id { get; set; }
+        public string plc_ip { get; set; }
+        public string plc_port { get; set; }
+        public string device_status { get; set; }
+        public DateTime last_edc_time { get; set; }
+        public string hb_status { get; set; }
+        public DateTime hb_report_time { get; set; }
+    }
+
+    public class cls_Monitor_Gateway_Info
+    {
+        public string gateway_id { get; set; }
+        public string gateway_ip { get; set; }
+        public string gateway_status { get; set; }
+        public DateTime last_edc_time { get; set; }
+        public string hb_status { get; set; }
+        public DateTime hb_report_time { get; set; }
+        public List<cls_Monitor_Device_info> device_list = new List<cls_Monitor_Device_info>();
+    }
+
+    public class MonitorManager
+    {
+        public List<cls_Monitor_Gateway_Info> monitor_list = new List<cls_Monitor_Gateway_Info>();
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+    }
+    #endregion
+
 
 }
