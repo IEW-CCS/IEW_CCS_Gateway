@@ -184,6 +184,8 @@ namespace IEW.GatewayService
                         Organize_EDCPartaker(Gateway_ID, Device_ID);
                     }
                 }
+
+                // call sleep ~~~ wait to do 
             }
         }
 

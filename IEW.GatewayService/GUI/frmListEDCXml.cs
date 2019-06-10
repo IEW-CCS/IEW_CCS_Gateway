@@ -111,7 +111,7 @@ namespace IEW.GatewayService.GUI
 
         private void btnAddXml_Click(object sender, EventArgs e)
         {
-            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, false);
+            frmEditEDCXml frm = new frmEditEDCXml();
             frm.Owner = this;
             frm.ShowDialog();
 
@@ -176,7 +176,7 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
-            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, edcTemp, i);
+            frmEditEDCXml frm = new frmEditEDCXml();
             frm.Owner = this;
             frm.ShowDialog();
 
