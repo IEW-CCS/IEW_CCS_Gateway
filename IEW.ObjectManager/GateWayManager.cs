@@ -155,7 +155,7 @@ namespace IEW.ObjectManager
             {
                 cls_Collect_Tag temp = new cls_Collect_Tag();
                 temp.DATA_NAME = kvp.Value.TagName;
-                temp.DATA_TYPE = kvp.Value.Expression;
+                temp.DATA_TYPE = "BLOCK";// kvp.Value.Expression;
                 string[] Split_Words = kvp.Value.UUID_Address.Split(delimiterChars);
                 temp.DATA_ADDR = Split_Words[0];
 
