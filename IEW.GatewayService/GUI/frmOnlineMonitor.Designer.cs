@@ -41,6 +41,7 @@
             this.hb_statusColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.hb_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.gw_locationColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.lvoStatus)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,6 +85,8 @@
             this.lvoStatus.AllColumns.Add(this.edc_timeColumn);
             this.lvoStatus.AllColumns.Add(this.hb_statusColumn);
             this.lvoStatus.AllColumns.Add(this.hb_timeColumn);
+            this.lvoStatus.AllColumns.Add(this.gw_locationColumn);
+            this.lvoStatus.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.lvoStatus.CheckBoxes = true;
             this.lvoStatus.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.gw_idColumn,
@@ -91,7 +94,8 @@
             this.gw_statusColumn,
             this.edc_timeColumn,
             this.hb_statusColumn,
-            this.hb_timeColumn});
+            this.hb_timeColumn,
+            this.gw_locationColumn});
             this.lvoStatus.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvoStatus.FullRowSelect = true;
             this.lvoStatus.GridLines = true;
@@ -101,7 +105,6 @@
             this.lvoStatus.MenuLabelGroupBy = "";
             this.lvoStatus.MenuLabelLockGroupingOn = "";
             this.lvoStatus.Name = "lvoStatus";
-            this.lvoStatus.ShowGroups = false;
             this.lvoStatus.ShowImagesOnSubItems = true;
             this.lvoStatus.Size = new System.Drawing.Size(1367, 850);
             this.lvoStatus.SmallImageList = this.imageList1;
@@ -159,11 +162,16 @@
             this.imageList1.Images.SetKeyName(3, "Down");
             this.imageList1.Images.SetKeyName(4, "Idle");
             // 
+            // gw_locationColumn
+            // 
+            this.gw_locationColumn.AspectName = "gateway_location";
+            this.gw_locationColumn.Text = "Location";
+            // 
             // frmOnlineMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1418, 1038);
+            this.ClientSize = new System.Drawing.Size(1419, 1038);
             this.Controls.Add(this.lvoStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnReadData);
@@ -189,5 +197,6 @@
         private BrightIdeasSoftware.OLVColumn hb_statusColumn;
         private BrightIdeasSoftware.OLVColumn hb_timeColumn;
         private System.Windows.Forms.ImageList imageList1;
+        private BrightIdeasSoftware.OLVColumn gw_locationColumn;
     }
 }

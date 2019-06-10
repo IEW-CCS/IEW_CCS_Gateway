@@ -31,6 +31,7 @@ namespace IEW.GatewayService.GUI
                     cls_Monitor_Gateway_Info mgi = new cls_Monitor_Gateway_Info();
                     mgi.gateway_id = gi.gateway_id;
                     mgi.gateway_ip = gi.gateway_ip;
+                    mgi.gateway_location = gi.location;
                     mgi.gateway_status = "Off";
                     if(gi.device_info.Count > 0)
                     {

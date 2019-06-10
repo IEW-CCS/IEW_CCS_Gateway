@@ -34,6 +34,8 @@ namespace IEW.GatewayService.GUI
             lvGatewayList.Columns.Add("Gateway ID", 100);
             lvGatewayList.Columns.Add("Gateway IP", 100);
             lvGatewayList.Columns.Add("Device Count", 100);
+            lvGatewayList.Columns.Add("Location", 80);
+
             lvGatewayList.EndUpdate();
             RefreshGatewayList();
         }
@@ -54,6 +56,7 @@ namespace IEW.GatewayService.GUI
                 ListViewItem lvItem = new ListViewItem(gi.gateway_id);
                 lvItem.SubItems.Add(gi.gateway_ip);
                 lvItem.SubItems.Add(gi.device_info.Count().ToString());
+                lvItem.SubItems.Add(gi.location);
                 lvGatewayList.Items.Add(lvItem);
             }
             lvGatewayList.EndUpdate();

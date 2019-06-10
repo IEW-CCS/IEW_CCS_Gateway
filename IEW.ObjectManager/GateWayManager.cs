@@ -30,6 +30,7 @@ namespace IEW.ObjectManager
     {
         public string gateway_id { get; set; }
         public string gateway_ip { get; set; }
+        public string location { get; set; }
         public List<cls_Device_Info> device_info = new List<cls_Device_Info>();
 
         public object Clone()
@@ -286,6 +287,7 @@ namespace IEW.ObjectManager
     {
         public string gateway_id { get; set; }
         public string gateway_ip { get; set; }
+        public string gateway_location { get; set; }
         public string gateway_status { get; set; }
         public DateTime last_edc_time { get; set; }
         public string hb_status { get; set; }

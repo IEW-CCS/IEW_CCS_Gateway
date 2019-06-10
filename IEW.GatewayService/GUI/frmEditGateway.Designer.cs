@@ -39,6 +39,8 @@
             this.btnDeviceAdd = new System.Windows.Forms.Button();
             this.btnGWSave = new System.Windows.Forms.Button();
             this.btnGWCancel = new System.Windows.Forms.Button();
+            this.txtLocation = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblGatewayID
@@ -150,11 +152,31 @@
             this.btnGWCancel.UseVisualStyleBackColor = true;
             this.btnGWCancel.Click += new System.EventHandler(this.btnGWCancel_Click);
             // 
+            // txtLocation
+            // 
+            this.txtLocation.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLocation.Location = new System.Drawing.Point(732, 33);
+            this.txtLocation.Name = "txtLocation";
+            this.txtLocation.Size = new System.Drawing.Size(272, 38);
+            this.txtLocation.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(583, 40);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 31);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Location: ";
+            // 
             // frmEditGateway
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1328, 838);
+            this.ClientSize = new System.Drawing.Size(1328, 854);
+            this.Controls.Add(this.txtLocation);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnGWCancel);
             this.Controls.Add(this.btnGWSave);
             this.Controls.Add(this.btnDeviceRemove);
@@ -186,5 +208,7 @@
         private System.Windows.Forms.Button btnDeviceAdd;
         private System.Windows.Forms.Button btnGWSave;
         private System.Windows.Forms.Button btnGWCancel;
+        private System.Windows.Forms.TextBox txtLocation;
+        private System.Windows.Forms.Label label1;
     }
 }

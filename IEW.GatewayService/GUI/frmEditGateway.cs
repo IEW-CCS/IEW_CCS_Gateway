@@ -72,6 +72,7 @@ namespace IEW.GatewayService.GUI
                 txtGatewayID.Text = this.gateway_Info.gateway_id;
                 txtGatewayID.Enabled = false;
                 txtGatewayIP.Text = this.gateway_Info.gateway_ip;
+                txtLocation.Text = this.gateway_Info.location;
                 DisplayDeviceList();
             }
             else
@@ -133,16 +134,6 @@ namespace IEW.GatewayService.GUI
                     {
                         return;
                     }
-                    /*
-                    foreach (cls_Gateway_Info gi in lgateway.ObjectManager.GatewayManager.gateway_list)
-                    {
-                        if (gi.gateway_id.Trim() == txtGatewayID.Text.Trim())
-                        {
-                            MessageBox.Show("Gateway ID duplicated!", "Error");
-                            return;
-                        }
-                    }
-                    */
                 }
             }
 
@@ -170,19 +161,8 @@ namespace IEW.GatewayService.GUI
 
             giTemp.gateway_id = txtGatewayID.Text.Trim();
             giTemp.gateway_ip = txtGatewayIP.Text.Trim();
+            giTemp.location = txtLocation.Text.Trim();
             giTemp.device_info = this.device_list;
-
-            /*
-            if (!this.isEdit)
-            {
-                lgateway.ObjectManager.GatewayManager.gateway_list.Add(giTemp);
-            }
-            else
-            {
-                lgateway.ObjectManager.GatewayManager.gateway_list[iGatewayIndex] = giTemp;
-                lgateway.RefreshGatewayConfig();
-            }
-            */
 
             delgSetGateway(giTemp, this.isEdit);
             giTemp = null;
@@ -255,6 +235,5 @@ namespace IEW.GatewayService.GUI
             DisplayDeviceList();
             lvGWDevice.Focus();
         }
-
     }
 }
