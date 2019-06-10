@@ -34,7 +34,7 @@
     <property name="Name" value="MQTTManager" /> 
     <property name="MessageManager" ref="MessageManager"/>
     <property name="QueueManager" ref="QueueManager"/>
-    <property name="ConnectionString" value="tcp://127.0.0.1:1883"/>
+    <property name="ConnectionString" value="tcp://10.0.1.4:1883"/>
     <property name="ClientId" value="{ComputerName}_{ServerName}"/>
     <property name="Receive_Topic">
       <dictionary>
@@ -46,7 +46,8 @@
     </property>
     <property name="Publish_Topic">
       <dictionary>
-        <entry key="Collect_Cmd" value="/IEW/{LineID}/{DeviceID}/Cmd/Collect" /> 
+        <entry key="Collect_Cmd" value="/IEW/{LineID}/{DeviceID}/Cmd/ReadData" /> 
+        <entry key="Collect_Start" value="/IEW/{LineID}/{DeviceID}/Cmd/Start" /> 
         <entry key="EDCService" value="/IEW/EDCService" />
       </dictionary>
     </property>

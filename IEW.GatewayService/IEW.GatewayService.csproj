@@ -45,6 +45,10 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\IEW.Lanucher\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="ObjectListView, Version=2.8.0.21786, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLL\ObjectListView.dll</HintPath>
+    </Reference>
     <Reference Include="Spring.Core">
       <HintPath>..\IEW.kernel\DLL\Spring.Core.dll</HintPath>
     </Reference>
@@ -54,6 +58,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
@@ -149,6 +154,12 @@
     <Compile Include="GUI\frmLoadTagSetTemplate.Designer.cs">
       <DependentUpon>frmLoadTagSetTemplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmOnlineMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmOnlineMonitor.Designer.cs">
+      <DependentUpon>frmOnlineMonitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Gateway.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,6 +218,9 @@
     <EmbeddedResource Include="GUI\frmLoadTagSetTemplate.resx">
       <DependentUpon>frmLoadTagSetTemplate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmOnlineMonitor.resx">
+      <DependentUpon>frmOnlineMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Gateway.resx">
       <DependentUpon>Gateway.cs</DependentUpon>
     </EmbeddedResource>
@@ -226,9 +240,14 @@
     <Content Include="images\icons\edc_set_list.png" />
     <Content Include="images\icons\gateway.png" />
     <Content Include="images\icons\gateway_list.png" />
+    <Content Include="images\icons\Down.png" />
+    <Content Include="images\icons\Idle.png" />
     <Content Include="images\icons\load.png" />
     <Content Include="images\icons\minus2.png" />
     <Content Include="images\icons\network_card.png" />
+    <Content Include="images\icons\Off.png" />
+    <Content Include="images\icons\Ready.png" />
+    <Content Include="images\icons\Run.png" />
     <Content Include="images\icons\save.png" />
     <Content Include="images\icons\tag.png" />
     <Content Include="images\icons\tag_list.png" />

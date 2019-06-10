@@ -65,7 +65,7 @@ namespace IEW.GatewayService
 
                 // Timer_Routine_Job(routine_interval);
 
-
+                /*
                 ObjectManager.EDCManager_Initial();
                 cls_EDC_Info EDC = new cls_EDC_Info();
                 EDC.serial_id = "1";
@@ -84,9 +84,9 @@ namespace IEW.GatewayService
                 EDC.tag_info.Add(Tuple.Create("WordTestItem1", "tag_001"));
                 EDC.tag_info.Add(Tuple.Create("BitTestItem2", "tag_002"));
 
-
-
                 ObjectManager.EDCManager.gateway_edc.Add(EDC);
+                */
+
                 NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Initial Finished");
                 ret = true;
             }
@@ -142,7 +142,19 @@ namespace IEW.GatewayService
 
         }
 
-     
+        // From GUI Trigger Msg 
+        public void GateWay_Collect_Cmd_Start(string gatewayid, string deviceid, string msg)
+        {
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = gatewayid;
+            SendOutMsg.DeviceID = deviceid;
+            SendOutMsg.MQTTTopic = "Collect_Start";
+            SendOutMsg.MQTTPayload = msg;
+            SendMQTTData(SendOutMsg);
+
+        }
+
+
         private void TimerTask(object timerState)
         {
             if (_Update_TagValue_Queue.Count > 0)
@@ -184,8 +196,7 @@ namespace IEW.GatewayService
                         Organize_EDCPartaker(Gateway_ID, Device_ID);
                     }
                 }
-
-                // call sleep ~~~ wait to do 
+                Thread.Sleep(10);
             }
         }
 

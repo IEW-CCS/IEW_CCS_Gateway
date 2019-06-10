@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using IEW.ObjectManager;
 
-
 namespace IEW.GatewayService.GUI
 {
     public delegate void SetEDCManager(EDCManager edc_manager);
@@ -17,13 +16,15 @@ namespace IEW.GatewayService.GUI
     public partial class frmListEDCXml : Form
     {
         public EDCManager edcm = new EDCManager();
+        public GateWayManager gateway_mgr = new GateWayManager();
         public SetEDCManager delgEDCManager;
 
-        public frmListEDCXml(SetEDCManager set_edc_mgrr, EDCManager edc_mgr)
+        public frmListEDCXml(SetEDCManager set_edc_mgrr, EDCManager edc_mgr, GateWayManager gwm)
         {
             InitializeComponent();
             this.delgEDCManager = set_edc_mgrr;
-            this.edcm = edc_mgr;
+            this.edcm = (EDCManager)edc_mgr.Clone();
+            this.gateway_mgr = (GateWayManager)gwm.Clone();
         }
 
         private void frmListEDCXml_Load(object sender, EventArgs e)
@@ -109,9 +110,15 @@ namespace IEW.GatewayService.GUI
             }
         }
 
+        //Delegate function to setup global serial id index
+        void SetupSerialIDIndex(int index)
+        {
+            edcm.serial_id_index = index;
+        }
+
         private void btnAddXml_Click(object sender, EventArgs e)
         {
-            frmEditEDCXml frm = new frmEditEDCXml();
+            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, SetupSerialIDIndex, this.gateway_mgr, this.edcm.serial_id_index);
             frm.Owner = this;
             frm.ShowDialog();
 
@@ -155,6 +162,8 @@ namespace IEW.GatewayService.GUI
         private void lvEDCXmlList_DoubleClick(object sender, EventArgs e)
         {
             string strSerial;
+            string strGatewayID;
+            string strDeviceID;
             cls_EDC_Info edcTemp = new cls_EDC_Info();
 
             if (lvEDCXmlList.SelectedItems.Count == 0)
@@ -164,6 +173,8 @@ namespace IEW.GatewayService.GUI
             }
 
             strSerial = lvEDCXmlList.SelectedItems[0].Text.Trim();
+            strGatewayID = lvEDCXmlList.SelectedItems[0].SubItems[1].Text.Trim();
+            strDeviceID = lvEDCXmlList.SelectedItems[0].SubItems[2].Text.Trim();
 
             int i = 0;
             foreach (cls_EDC_Info edc in this.edcm.gateway_edc)
@@ -176,12 +187,13 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
-            frmEditEDCXml frm = new frmEditEDCXml();
+            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, this.gateway_mgr, edcTemp, strGatewayID, strDeviceID);
             frm.Owner = this;
             frm.ShowDialog();
 
             edcTemp = null;
 
+            delgEDCManager(edcm);
             RefreshEDCXmlList();
             lvEDCXmlList.Focus();
         }

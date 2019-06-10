@@ -28,6 +28,7 @@ namespace IEW.GatewayService.GUI
 
         IEW.ObjectManager.ObjectManager objManager = new IEW.ObjectManager.ObjectManager();
         int set_index;
+        int calc_set_index;
 
         public frmLoadTagSetTemplate()
         {
@@ -193,7 +194,7 @@ namespace IEW.GatewayService.GUI
                     lvItem.SubItems.Add(calc_tag.Expression);
                     lvCalcTagList.Items.Add(lvItem);
                 }
-                lvTagList.EndUpdate();
+                lvCalcTagList.EndUpdate();
             }
 
         }

@@ -8,13 +8,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.Collections.Concurrent;
-
 using System.Threading;
-
 using System.Xml.Serialization;
 using System.Xml;
-
-
 using IEW.Platform.Kernel.Log;
 
 
@@ -25,16 +21,29 @@ namespace IEW.ObjectManager
         public GateWayManager GatewayManager = null;
         public TagSetManager TagSetManager = null;
         public EDCManager EDCManager = null;
-
+        public MonitorManager MonitorManager = null;
        
         #region Gateway Constructor
         public void GatewayManager_Initial()
         {
             this.GatewayManager = new GateWayManager();
         }
+
         public void GatewayManager_Initial(string Json)
         {
             this.GatewayManager = JsonConvert.DeserializeObject<GateWayManager>(Json);
+        }
+        #endregion
+
+        #region Tagset Constructor
+        public void TagSetManager_Initial()
+        {
+            this.TagSetManager = new TagSetManager();
+        }
+
+        public void TagSetManager_Initial(string Json)
+        {
+            this.TagSetManager = JsonConvert.DeserializeObject<TagSetManager>(Json);
         }
         #endregion
 
@@ -43,12 +52,24 @@ namespace IEW.ObjectManager
         {
             this.EDCManager = new EDCManager();
         }
+
         public void EDCManager_Initial(string Json)
         {
             this.EDCManager = JsonConvert.DeserializeObject<EDCManager>(Json);
         }
         #endregion
 
+        #region MonitorManager Constructor
+        public void MonitorManager_Initial()
+        {
+            this.MonitorManager = new MonitorManager();
+        }
+
+        public void MonitorManager_Initial(string Json)
+        {
+            this.MonitorManager = JsonConvert.DeserializeObject<MonitorManager>(Json);
+        }
+        #endregion
 
         #region Gateway Method
         public void GatewayManager_Set_TagValue(cls_ProcRecv_CollectData ProcRecv_CollectData)
@@ -112,6 +133,18 @@ namespace IEW.ObjectManager
             }
         }
 
+        public string MonitorManager_ToJson_String()
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(MonitorManager, Newtonsoft.Json.Formatting.Indented);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public string GatewayCommand_Json(string _Cmd_Type, string _Report_Interval, string _Trace_ID, string _GateWayID, string _DeviceID)
         {
             cls_Gateway_Info Gateway = GatewayManager.gateway_list.Where(p => p.gateway_id == _GateWayID).FirstOrDefault();
@@ -135,17 +168,5 @@ namespace IEW.ObjectManager
             }
         }
         #endregion
-
-        #region Tagset Constructor
-        public void TagSetManager_Initial()
-        {
-            this.TagSetManager = new TagSetManager();
-        }
-        public void TagSetManager_Initial(string Json)
-        {
-            this.TagSetManager = JsonConvert.DeserializeObject<TagSetManager>(Json);
-        }
-        #endregion
-
     }
 }

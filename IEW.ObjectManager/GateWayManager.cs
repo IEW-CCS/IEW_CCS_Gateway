@@ -61,6 +61,7 @@ namespace IEW.ObjectManager
         public string Value { get; set; }
         public double scale { get; set; }
         public double offset { get; set; }
+        public string report_flag { get; set; }
         public string LastUpdateTime { get; set; }
         public string Description { get; set; }
     }
@@ -138,14 +139,14 @@ namespace IEW.ObjectManager
         {
 
         }
-        public cls_Collect (string _Cmd_Type, string _Report_Interval, string _Trace_ID, cls_Device_Info _DeviceInfo)
+        public cls_Collect(string _Cmd_Type, string _Report_Interval, string _Trace_ID, cls_Device_Info _DeviceInfo)
         {
             Cmd_Type = _Cmd_Type;
             Report_Interval = _Report_Interval;
             Trace_ID = _Trace_ID;
 
             //-------運算使用 ------
-            char[] delimiterChars = {'.', ':'};
+            char[] delimiterChars = { '.', ':' };
             int first_colon_index = -1;
             int first_dot_index = -1;
 
@@ -246,5 +247,62 @@ namespace IEW.ObjectManager
         public ConcurrentQueue<Tuple<string, string>> Prod_EDC_Data = new ConcurrentQueue<Tuple<string, string>>();
     }
     #endregion
+
+
+
+    public class cls_DeviceInfo_start
+    {
+        public string IP_ADDR { get; set; }
+        public string PORT_ID { get; set; }
+
+    }
+
+    public class cls_Collect_start
+    {
+        // [JsonIgnore] 如果Class中不要轉進去Json file 要加這個屬性上去
+        public string Cmd_Type { get; set; }
+        public string Trace_ID { get; set; }
+        public List<cls_DeviceInfo_start> Device_Info = new List<cls_DeviceInfo_start>();
+
+        public cls_Collect_start()
+        {
+
+        }
+    }
+
+    #region Monitor Class definition
+    public class cls_Monitor_Device_info
+    {
+        public string device_id { get; set; }
+        public string plc_ip { get; set; }
+        public string plc_port { get; set; }
+        public string device_status { get; set; }
+        public DateTime last_edc_time { get; set; }
+        public string hb_status { get; set; }
+        public DateTime hb_report_time { get; set; }
+    }
+
+    public class cls_Monitor_Gateway_Info
+    {
+        public string gateway_id { get; set; }
+        public string gateway_ip { get; set; }
+        public string gateway_status { get; set; }
+        public DateTime last_edc_time { get; set; }
+        public string hb_status { get; set; }
+        public DateTime hb_report_time { get; set; }
+        public List<cls_Monitor_Device_info> device_list = new List<cls_Monitor_Device_info>();
+    }
+
+    public class MonitorManager
+    {
+        public List<cls_Monitor_Gateway_Info> monitor_list = new List<cls_Monitor_Gateway_Info>();
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+    }
+    #endregion
+
 
 }

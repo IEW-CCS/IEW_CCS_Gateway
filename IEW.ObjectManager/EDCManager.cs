@@ -99,6 +99,7 @@ namespace IEW.ObjectManager
 
     public class EDCManager
     {
+        public int serial_id_index;
         public List<cls_EDC_Info> gateway_edc = new List<cls_EDC_Info>();
         public object Clone()
         {
