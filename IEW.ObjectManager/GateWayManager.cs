@@ -159,7 +159,7 @@ namespace IEW.ObjectManager
                 string[] Split_Words = kvp.Value.UUID_Address.Split(delimiterChars);
                 temp.DATA_ADDR = Split_Words[0];
 
-                switch (temp.DATA_TYPE)
+                switch (kvp.Value.Expression)
                 {
                     case "BIT":
                         temp.DATA_LENGTH = "1";
@@ -226,8 +226,8 @@ namespace IEW.ObjectManager
 
     public class cls_Collect_Reply_Tag
     {
-        public string TAG_NAME { get; set; }
-        public string TAG_VALUE { get; set; }
+        public string DATA_NAME { get; set; }
+        public string DATA_VALUE { get; set; }
     }
 
     public class cls_read_data_reply

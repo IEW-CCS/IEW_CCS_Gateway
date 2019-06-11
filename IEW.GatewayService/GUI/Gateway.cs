@@ -809,7 +809,7 @@ namespace IEW.GatewayService.UI
         {
             string GateWayID = @"gateway001";
             string DeviceID = @"device001";
-            string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "10", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, DeviceID);
+            string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "3", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, DeviceID);
             IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, DeviceID, tmp_json });
 
             /*  

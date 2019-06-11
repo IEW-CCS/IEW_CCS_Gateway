@@ -40,8 +40,8 @@
             this.edc_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.hb_statusColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.hb_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.gw_locationColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.lvoStatus)).BeginInit();
             this.SuspendLayout();
             // 
@@ -138,19 +138,24 @@
             // 
             this.edc_timeColumn.AspectName = "last_edc_time";
             this.edc_timeColumn.Text = "Last EDC Time";
-            this.edc_timeColumn.Width = 140;
+            this.edc_timeColumn.Width = 130;
             // 
             // hb_statusColumn
             // 
             this.hb_statusColumn.AspectName = "hb_status";
             this.hb_statusColumn.Text = "H/B Status";
-            this.hb_statusColumn.Width = 80;
+            this.hb_statusColumn.Width = 70;
             // 
             // hb_timeColumn
             // 
             this.hb_timeColumn.AspectName = "hb_report_time";
             this.hb_timeColumn.Text = "H/B Time";
-            this.hb_timeColumn.Width = 140;
+            this.hb_timeColumn.Width = 130;
+            // 
+            // gw_locationColumn
+            // 
+            this.gw_locationColumn.AspectName = "gateway_location";
+            this.gw_locationColumn.Text = "Location";
             // 
             // imageList1
             // 
@@ -161,11 +166,6 @@
             this.imageList1.Images.SetKeyName(2, "Run");
             this.imageList1.Images.SetKeyName(3, "Down");
             this.imageList1.Images.SetKeyName(4, "Idle");
-            // 
-            // gw_locationColumn
-            // 
-            this.gw_locationColumn.AspectName = "gateway_location";
-            this.gw_locationColumn.Text = "Location";
             // 
             // frmOnlineMonitor
             // 

@@ -92,7 +92,7 @@ namespace IEW.IOTEDCService
                     {
 
                         string Timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                        string save_file_path = _msg.Item1.Replace("{Datetime}", Timestamp);
+                        string save_file_path = _msg.Item1.Replace("{datetime}", Timestamp);
 
 
                         string EDC_Data = _msg.Item2;

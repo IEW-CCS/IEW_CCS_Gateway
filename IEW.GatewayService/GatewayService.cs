@@ -426,8 +426,8 @@ namespace IEW.GatewayService
                     // 直接平行處理對應所有Tag
                     Parallel.ForEach(CollectData.EDC_Data, p =>
                     {
-                        cls_Tag Device_Tag = _Device.tag_info[p.TAG_NAME];
-                        string Tag_Value = p.TAG_VALUE;
+                        cls_Tag Device_Tag = _Device.tag_info[p.DATA_NAME];
+                        string Tag_Value = p.DATA_VALUE;
                         int BitPoints = 0;
                         double tmp_output = 0;
                         string Output = string.Empty;
@@ -486,7 +486,7 @@ namespace IEW.GatewayService
 
                         if (Output != string.Empty)
                         {
-                            ProcRecv_CollectData.Prod_EDC_Data.Enqueue(Tuple.Create(p.TAG_NAME, Output));
+                            ProcRecv_CollectData.Prod_EDC_Data.Enqueue(Tuple.Create(p.DATA_NAME, Output));
                         }
 
                     });

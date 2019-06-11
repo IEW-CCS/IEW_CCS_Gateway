@@ -242,6 +242,7 @@
     <Content Include="images\icons\gateway_list.png" />
     <Content Include="images\icons\Down.png" />
     <Content Include="images\icons\Idle.png" />
+    <Content Include="images\icons\Image1.png" />
     <Content Include="images\icons\load.png" />
     <Content Include="images\icons\minus2.png" />
     <Content Include="images\icons\network_card.png" />

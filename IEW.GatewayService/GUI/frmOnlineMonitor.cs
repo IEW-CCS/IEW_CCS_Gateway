@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IEW.ObjectManager;
+using BrightIdeasSoftware;
 
 namespace IEW.GatewayService.GUI
 {
@@ -52,45 +53,34 @@ namespace IEW.GatewayService.GUI
             gw_list[1].gateway_status = "Ready";
             gw_list[2].gateway_status = "Run";
 
-            this.gw_statusColumn.ImageGetter = delegate (object rowObject) {
-                cls_Monitor_Gateway_Info g_info = (cls_Monitor_Gateway_Info)rowObject;
-                switch (g_info.gateway_status)
-                {
-                    case "Off":
-                        return "Off";
-
-                    case "Ready":
-                        return "Ready";
-
-                    case "Run":
-                        return "Run";
-
-                    case "Idle":
-                        return "Idle";
-
-                    case "Down":
-                        return "Down";
-
-                    default:
-                        return "Off";
-                }
-            };
-
+            this.gw_statusColumn.ImageGetter = new BrightIdeasSoftware.ImageGetterDelegate(this.GWStatusImageGetter);
             lvoStatus.SetObjects(gw_list);
+            lvoStatus.RefreshObjects(gw_list);
 
-            /*
-            lvoStatus.BeginUpdate();
-            lvoStatus.Columns.Clear();
-            lvoStatus.Columns.Add("", 20);
-            lvoStatus.Columns.Add("Gateway ID", 80);
-            lvoStatus.Columns.Add("Gateway IP", 100);
-            lvoStatus.Columns.Add("Status", 60);
-            lvoStatus.Columns.Add("Last EDC Time", 60);
-            lvoStatus.Columns.Add("Heart Beat", 60);
-            lvoStatus.Columns.Add("Last HB Time", 60);
-            lvoStatus.EndUpdate();
-            */
+        }
+        public object GWStatusImageGetter(object rawObject)
+        {
+            cls_Monitor_Gateway_Info mgi = (cls_Monitor_Gateway_Info)rawObject;
+            switch (mgi.gateway_status)
+            {
+                case "Off":
+                    return "Off";
 
+                case "Ready":
+                    return "Ready";
+
+                case "Run":
+                    return "Run";
+
+                case "Idle":
+                    return "Idle";
+
+                case "Down":
+                    return "Down";
+
+                default:
+                    return "Off";
+            }
         }
 
         private void btnStart_Click(object sender, EventArgs e)
