@@ -42,6 +42,8 @@
             this.hb_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.gw_locationColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtInterval = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.lvoStatus)).BeginInit();
             this.SuspendLayout();
             // 
@@ -167,11 +169,31 @@
             this.imageList1.Images.SetKeyName(3, "Down");
             this.imageList1.Images.SetKeyName(4, "Idle");
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(1122, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(162, 31);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Report Interval:";
+            // 
+            // txtInterval
+            // 
+            this.txtInterval.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtInterval.Location = new System.Drawing.Point(1290, 22);
+            this.txtInterval.Name = "txtInterval";
+            this.txtInterval.Size = new System.Drawing.Size(100, 38);
+            this.txtInterval.TabIndex = 6;
+            // 
             // frmOnlineMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1419, 1038);
+            this.Controls.Add(this.txtInterval);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lvoStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnReadData);
@@ -198,5 +220,7 @@
         private BrightIdeasSoftware.OLVColumn hb_timeColumn;
         private System.Windows.Forms.ImageList imageList1;
         private BrightIdeasSoftware.OLVColumn gw_locationColumn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtInterval;
     }
 }

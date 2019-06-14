@@ -362,6 +362,35 @@ namespace IEW.GatewayService
 
         }
 
+        
+        public void ReceiveHeartBeat(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/ReplyData
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            if (ObjectManager.GatewayManager != null)
+            {
+                cls_Gateway_Info Gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                if (Gateway != null)
+                {
+                    cls_Device_Info Device = Gateway.device_info.Where(p => p.device_name == DeviceID).FirstOrDefault();
+                    if (Device != null)
+                    {
+                        try
+                        {
+                            ProcCollectData Function = new ProcCollectData(Device, GateWayID, DeviceID);
+                            ThreadPool.QueueUserWorkItem(o => Function.ThreadPool_Proc(InputData.MQTTPayload.ToString()));
+                        }
+                        catch (Exception ex)
+                        {
+                            NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", ex);
+                        }
+                    }
+                }
+            }
+        }
 
         public void ReceiveMQTTData(xmlMessage InputData)
         {

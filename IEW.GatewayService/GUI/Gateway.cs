@@ -579,7 +579,7 @@ namespace IEW.GatewayService.UI
 
         private void DisplayOnlineMonitor()
         {
-            frmOnlineMonitor frm = new frmOnlineMonitor(ObjectManager.GatewayManager);
+            frmOnlineMonitor frm = new frmOnlineMonitor(this.ObjectManager);
             frm.Owner = this;
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
@@ -789,40 +789,6 @@ namespace IEW.GatewayService.UI
             SaveTagSetConfig();
             SaveEDCHeaderSetConfig();
             SaveEDCXmlConfig();
-        }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            cls_Collect_start cmd_start = new cls_Collect_start();
-            cls_DeviceInfo_start device_info = new cls_DeviceInfo_start();
-            device_info.PORT_ID = @"6001";
-            device_info.IP_ADDR = @"192.168.0.100";
-            cmd_start.Cmd_Type = "Start";
-            cmd_start.Trace_ID = DateTime.Now.ToString("yyyyMMddhhmmss");
-            cmd_start.Device_Info.Add(device_info);
-
-             string tmp_json = JsonConvert.SerializeObject(cmd_start, Newtonsoft.Json.Formatting.Indented);
-            IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Start", new object[] {  "gateway001", "device001", tmp_json });
-        }
-
-        private void btnCmdDownload_Click(object sender, EventArgs e)
-        {
-            string GateWayID = @"gateway001";
-            string DeviceID = @"device001";
-            string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "3", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, DeviceID);
-            IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, DeviceID, tmp_json });
-
-            /*  
-            cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
-            if (gateway != null)
-            {
-                foreach(cls_Device_Info Device in gateway.device_info)
-                {
-                    string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "10", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, Device.device_name);
-                    IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, Device.device_name, tmp_json });
-                }
-            }
-            */
         }
     }
 }

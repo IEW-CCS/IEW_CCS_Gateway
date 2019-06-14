@@ -42,6 +42,8 @@
         <entry key="Test_Ack" value="/IEW/AA/BB/Cmd/#" />
         <entry key="PLC_Reply_Data" value="/IEW/+/+/ReplyData" />
         <entry key="EDCService" value="/IEW/EDCService" />
+        <entry key="HeartBeat" value ="/IEW/+/+/Status/HeartBeat" />
+        <entry key="Alarm" value ="/IEW/+/+/Status/Alarm" />
       </dictionary>
     </property>
     <property name="Publish_Topic">
