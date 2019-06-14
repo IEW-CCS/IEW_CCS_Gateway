@@ -59,7 +59,7 @@
             this.tvNodeList.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.tvNodeList.Name = "tvNodeList";
             this.tvNodeList.SelectedImageIndex = 0;
-            this.tvNodeList.Size = new System.Drawing.Size(174, 540);
+            this.tvNodeList.Size = new System.Drawing.Size(174, 574);
             this.tvNodeList.TabIndex = 3;
             this.tvNodeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNodeList_AfterSelect);
             // 
@@ -99,14 +99,13 @@
             this.pnlMain.Location = new System.Drawing.Point(202, 63);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(720, 539);
+            this.pnlMain.Size = new System.Drawing.Size(767, 573);
             this.pnlMain.TabIndex = 8;
             // 
             // Gateway
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(938, 620);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1000, 659);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.tvNodeList);
