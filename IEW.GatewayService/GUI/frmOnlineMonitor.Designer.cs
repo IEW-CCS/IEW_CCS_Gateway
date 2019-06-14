@@ -48,9 +48,10 @@
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(969, 950);
+            this.btnStart.Location = new System.Drawing.Point(570, 479);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(151, 55);
+            this.btnStart.Size = new System.Drawing.Size(76, 28);
             this.btnStart.TabIndex = 1;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -59,9 +60,10 @@
             // btnReadData
             // 
             this.btnReadData.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReadData.Location = new System.Drawing.Point(1155, 950);
+            this.btnReadData.Location = new System.Drawing.Point(664, 479);
+            this.btnReadData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnReadData.Name = "btnReadData";
-            this.btnReadData.Size = new System.Drawing.Size(151, 55);
+            this.btnReadData.Size = new System.Drawing.Size(76, 28);
             this.btnReadData.TabIndex = 2;
             this.btnReadData.Text = "Read Data";
             this.btnReadData.UseVisualStyleBackColor = true;
@@ -71,9 +73,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(17, 28);
+            this.label1.Location = new System.Drawing.Point(8, 14);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(223, 31);
+            this.label1.Size = new System.Drawing.Size(112, 17);
             this.label1.TabIndex = 3;
             this.label1.Text = "Online Status Monitor";
             // 
@@ -100,13 +103,14 @@
             this.lvoStatus.FullRowSelect = true;
             this.lvoStatus.GridLines = true;
             this.lvoStatus.HasCollapsibleGroups = false;
-            this.lvoStatus.Location = new System.Drawing.Point(23, 76);
+            this.lvoStatus.Location = new System.Drawing.Point(12, 38);
+            this.lvoStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lvoStatus.MenuLabelColumns = "";
             this.lvoStatus.MenuLabelGroupBy = "";
             this.lvoStatus.MenuLabelLockGroupingOn = "";
             this.lvoStatus.Name = "lvoStatus";
             this.lvoStatus.ShowImagesOnSubItems = true;
-            this.lvoStatus.Size = new System.Drawing.Size(1367, 850);
+            this.lvoStatus.Size = new System.Drawing.Size(728, 427);
             this.lvoStatus.SmallImageList = this.imageList1;
             this.lvoStatus.SortGroupItemsByPrimaryColumn = false;
             this.lvoStatus.TabIndex = 4;
@@ -169,13 +173,13 @@
             // 
             // frmOnlineMonitor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1419, 1038);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(742, 556);
             this.Controls.Add(this.lvoStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnReadData);
             this.Controls.Add(this.btnStart);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmOnlineMonitor";
             this.Text = "frmOnlineMonitor";
             this.Load += new System.EventHandler(this.frmOnlineMonitor_Load);

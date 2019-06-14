@@ -516,5 +516,10 @@ namespace IEW.GatewayService.GUI
             frm.ShowDialog();
             RefreshDeviceCalcTagList();
         }
+
+        private void lblDeviceType_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

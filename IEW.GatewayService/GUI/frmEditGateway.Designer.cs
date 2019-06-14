@@ -47,9 +47,10 @@
             // 
             this.lblGatewayID.AutoSize = true;
             this.lblGatewayID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGatewayID.Location = new System.Drawing.Point(47, 40);
+            this.lblGatewayID.Location = new System.Drawing.Point(24, 20);
+            this.lblGatewayID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGatewayID.Name = "lblGatewayID";
-            this.lblGatewayID.Size = new System.Drawing.Size(140, 31);
+            this.lblGatewayID.Size = new System.Drawing.Size(71, 17);
             this.lblGatewayID.TabIndex = 0;
             this.lblGatewayID.Text = "Gateway ID: ";
             // 
@@ -57,35 +58,39 @@
             // 
             this.lblGatewayIP.AutoSize = true;
             this.lblGatewayIP.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGatewayIP.Location = new System.Drawing.Point(47, 100);
+            this.lblGatewayIP.Location = new System.Drawing.Point(24, 50);
+            this.lblGatewayIP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGatewayIP.Name = "lblGatewayIP";
-            this.lblGatewayIP.Size = new System.Drawing.Size(139, 31);
+            this.lblGatewayIP.Size = new System.Drawing.Size(71, 17);
             this.lblGatewayIP.TabIndex = 1;
             this.lblGatewayIP.Text = "Gateway IP: ";
             // 
             // txtGatewayID
             // 
             this.txtGatewayID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGatewayID.Location = new System.Drawing.Point(221, 33);
+            this.txtGatewayID.Location = new System.Drawing.Point(110, 16);
+            this.txtGatewayID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtGatewayID.Name = "txtGatewayID";
-            this.txtGatewayID.Size = new System.Drawing.Size(272, 38);
+            this.txtGatewayID.Size = new System.Drawing.Size(138, 23);
             this.txtGatewayID.TabIndex = 2;
             // 
             // txtGatewayIP
             // 
             this.txtGatewayIP.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGatewayIP.Location = new System.Drawing.Point(221, 93);
+            this.txtGatewayIP.Location = new System.Drawing.Point(110, 46);
+            this.txtGatewayIP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtGatewayIP.Name = "txtGatewayIP";
-            this.txtGatewayIP.Size = new System.Drawing.Size(272, 38);
+            this.txtGatewayIP.Size = new System.Drawing.Size(138, 23);
             this.txtGatewayIP.TabIndex = 3;
             // 
             // lblDeviceList
             // 
             this.lblDeviceList.AutoSize = true;
             this.lblDeviceList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeviceList.Location = new System.Drawing.Point(47, 162);
+            this.lblDeviceList.Location = new System.Drawing.Point(24, 81);
+            this.lblDeviceList.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDeviceList.Name = "lblDeviceList";
-            this.lblDeviceList.Size = new System.Drawing.Size(121, 31);
+            this.lblDeviceList.Size = new System.Drawing.Size(61, 17);
             this.lblDeviceList.TabIndex = 4;
             this.lblDeviceList.Text = "Device List";
             // 
@@ -94,9 +99,10 @@
             this.lvGWDevice.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvGWDevice.FullRowSelect = true;
             this.lvGWDevice.GridLines = true;
-            this.lvGWDevice.Location = new System.Drawing.Point(53, 210);
+            this.lvGWDevice.Location = new System.Drawing.Point(26, 105);
+            this.lvGWDevice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lvGWDevice.Name = "lvGWDevice";
-            this.lvGWDevice.Size = new System.Drawing.Size(1233, 521);
+            this.lvGWDevice.Size = new System.Drawing.Size(696, 399);
             this.lvGWDevice.TabIndex = 5;
             this.lvGWDevice.UseCompatibleStateImageBehavior = false;
             this.lvGWDevice.View = System.Windows.Forms.View.Details;
@@ -109,9 +115,10 @@
             this.btnDeviceRemove.FlatAppearance.BorderSize = 0;
             this.btnDeviceRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeviceRemove.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeviceRemove.Location = new System.Drawing.Point(1238, 750);
+            this.btnDeviceRemove.Location = new System.Drawing.Point(698, 508);
+            this.btnDeviceRemove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnDeviceRemove.Name = "btnDeviceRemove";
-            this.btnDeviceRemove.Size = new System.Drawing.Size(48, 48);
+            this.btnDeviceRemove.Size = new System.Drawing.Size(24, 24);
             this.btnDeviceRemove.TabIndex = 7;
             this.btnDeviceRemove.UseVisualStyleBackColor = true;
             this.btnDeviceRemove.Click += new System.EventHandler(this.btnDeviceRemove_Click);
@@ -123,9 +130,10 @@
             this.btnDeviceAdd.FlatAppearance.BorderSize = 0;
             this.btnDeviceAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeviceAdd.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeviceAdd.Location = new System.Drawing.Point(1187, 750);
+            this.btnDeviceAdd.Location = new System.Drawing.Point(673, 508);
+            this.btnDeviceAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnDeviceAdd.Name = "btnDeviceAdd";
-            this.btnDeviceAdd.Size = new System.Drawing.Size(48, 48);
+            this.btnDeviceAdd.Size = new System.Drawing.Size(24, 24);
             this.btnDeviceAdd.TabIndex = 6;
             this.btnDeviceAdd.UseVisualStyleBackColor = true;
             this.btnDeviceAdd.Click += new System.EventHandler(this.btnDeviceAdd_Click);
@@ -133,9 +141,10 @@
             // btnGWSave
             // 
             this.btnGWSave.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGWSave.Location = new System.Drawing.Point(487, 755);
+            this.btnGWSave.Location = new System.Drawing.Point(295, 511);
+            this.btnGWSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnGWSave.Name = "btnGWSave";
-            this.btnGWSave.Size = new System.Drawing.Size(158, 69);
+            this.btnGWSave.Size = new System.Drawing.Size(79, 34);
             this.btnGWSave.TabIndex = 8;
             this.btnGWSave.Text = "Save";
             this.btnGWSave.UseVisualStyleBackColor = true;
@@ -144,9 +153,10 @@
             // btnGWCancel
             // 
             this.btnGWCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGWCancel.Location = new System.Drawing.Point(683, 757);
+            this.btnGWCancel.Location = new System.Drawing.Point(393, 511);
+            this.btnGWCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnGWCancel.Name = "btnGWCancel";
-            this.btnGWCancel.Size = new System.Drawing.Size(158, 69);
+            this.btnGWCancel.Size = new System.Drawing.Size(79, 34);
             this.btnGWCancel.TabIndex = 9;
             this.btnGWCancel.Text = "Cancel";
             this.btnGWCancel.UseVisualStyleBackColor = true;
@@ -155,26 +165,27 @@
             // txtLocation
             // 
             this.txtLocation.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLocation.Location = new System.Drawing.Point(732, 33);
+            this.txtLocation.Location = new System.Drawing.Point(366, 16);
+            this.txtLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtLocation.Name = "txtLocation";
-            this.txtLocation.Size = new System.Drawing.Size(272, 38);
+            this.txtLocation.Size = new System.Drawing.Size(138, 23);
             this.txtLocation.TabIndex = 11;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(583, 40);
+            this.label1.Location = new System.Drawing.Point(292, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 31);
+            this.label1.Size = new System.Drawing.Size(54, 17);
             this.label1.TabIndex = 10;
             this.label1.Text = "Location: ";
             // 
             // frmEditGateway
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1328, 854);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(733, 556);
             this.Controls.Add(this.txtLocation);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnGWCancel);
@@ -188,6 +199,7 @@
             this.Controls.Add(this.lblGatewayIP);
             this.Controls.Add(this.lblGatewayID);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmEditGateway";
             this.Text = "Add Gateway";
             this.Load += new System.EventHandler(this.frmEditGateway_Load);
