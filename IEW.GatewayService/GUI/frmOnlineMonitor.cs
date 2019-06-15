@@ -27,47 +27,15 @@ namespace IEW.GatewayService.GUI
             InitializeComponent();
             this.gateway_mgr = obj_mgr.GatewayManager;
             this.object_mgr = obj_mgr;
+            this.object_mgr.HeartBeatEventHandler += new EventHandler(this.StatusUpdate);
+            this.object_mgr.EDCReportEventHandler += new EventHandler(this.StatusUpdate);
         }
 
         private void frmOnlineMonitor_Load(object sender, EventArgs e)
         {
-            List<cls_Monitor_Gateway_Info> gw_list = new List<cls_Monitor_Gateway_Info>();
-
-            if(this.gateway_mgr.gateway_list.Count > 0)
-            {
-                foreach(cls_Gateway_Info gi in this.gateway_mgr.gateway_list)
-                {
-                    cls_Monitor_Gateway_Info mgi = new cls_Monitor_Gateway_Info();
-                    mgi.gateway_id = gi.gateway_id;
-                    mgi.gateway_ip = gi.gateway_ip;
-                    mgi.gateway_location = gi.location;
-                    mgi.gateway_status = "Off";
-
-                    if(gi.device_info.Count > 0)
-                    {
-                        foreach(cls_Device_Info di in gi.device_info)
-                        {
-                            cls_Monitor_Device_info mdi = new cls_Monitor_Device_info();
-                            mdi.device_id = di.device_name;
-                            mdi.device_status = "Off";
-                            mdi.plc_ip = di.plc_ip_address;
-                            mdi.plc_port = di.plc_port_id;
-                            mgi.device_list.Add(mdi);
-                        }
-                        
-                    }
-                    gw_list.Add(mgi);
-                }
-            }
-
-            //Test data
-            gw_list[0].gateway_status = "Ready";
-            gw_list[1].gateway_status = "Ready";
-            gw_list[2].gateway_status = "Run";
-
             this.gw_statusColumn.ImageGetter = new BrightIdeasSoftware.ImageGetterDelegate(this.GWStatusImageGetter);
-            lvoStatus.SetObjects(gw_list);
-            lvoStatus.RefreshObjects(gw_list);
+            lvoStatus.SetObjects(this.object_mgr.MonitorManager.monitor_list);
+            lvoStatus.RefreshObjects(this.object_mgr.MonitorManager.monitor_list);
         }
 
         public object GWStatusImageGetter(object rawObject)
@@ -90,6 +58,13 @@ namespace IEW.GatewayService.GUI
                 default:
                     return "Off";
             }
+        }
+
+        private void StatusUpdate(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Receive a HeartBeat message", "Information");
+            lvoStatus.RefreshObjects(this.object_mgr.MonitorManager.monitor_list);
+            return;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -165,6 +140,16 @@ namespace IEW.GatewayService.GUI
             }
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                this.object_mgr.HeartBeatEventHandler -= new EventHandler(this.StatusUpdate);
+                this.object_mgr.EDCReportEventHandler -= new EventHandler(this.StatusUpdate);
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
     }
 }

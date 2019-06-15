@@ -23,12 +23,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using System.Xml;
+using System.Globalization;
 
 namespace IEW.GatewayService
 {
     public class GatewayService : AbstractService
     {
-        // this is vic testing 
         //-----  依賴注射直接綁進去 取數值方便 ------
         //-----  如果需要在其他地方取得這個數值 copy 下面兩個function & object factory setting 設定 -----
         private IEW.ObjectManager.ObjectManager _ObjectManager;
@@ -44,7 +44,7 @@ namespace IEW.GatewayService
             }
         }
 
-      
+
         private Thread th_Proc_Flow = null;
         private bool _run = false;
 
@@ -58,7 +58,7 @@ namespace IEW.GatewayService
             {
                 // 以下建構子 讀取 gateway json string from file 
                 // ObjectManager.GatewayManager_Initial(InputData.MQTTPayload.ToString());
-               
+
                 _run = true;
                 this.th_Proc_Flow = new Thread(new ThreadStart(Proc_Flow));
                 this.th_Proc_Flow.Start();
@@ -112,7 +112,7 @@ namespace IEW.GatewayService
                 {
                     this.th_Proc_Flow.Abort();
                     this.th_Proc_Flow.Join();
-                    
+
                 }
 
             }
@@ -120,7 +120,7 @@ namespace IEW.GatewayService
             {
                 NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", ex);
             }
-           
+
             NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Destory");
         }
 
@@ -238,8 +238,8 @@ namespace IEW.GatewayService
                         if (kvp.Value.ParamA.Trim() != "")
                         {
                             // for vic verify dictionary key exist or not.
-                           if( device.tag_info.ContainsKey(kvp.Value.ParamA))
-                               tagA = device.tag_info[kvp.Value.ParamA];
+                            if (device.tag_info.ContainsKey(kvp.Value.ParamA))
+                                tagA = device.tag_info[kvp.Value.ParamA];
                         }
 
                         if (kvp.Value.ParamB.Trim() != "")
@@ -307,7 +307,7 @@ namespace IEW.GatewayService
         {
             //--- 等待EDC List information 
             List<cls_EDC_Info> lst_EDCInfo = ObjectManager.EDCManager.gateway_edc.Where(p => p.gateway_id == GateWayID && p.device_id == Device_ID && p.enable == true).ToList();
-            
+
             foreach (cls_EDC_Info _EDC in lst_EDCInfo)
             {
                 EDCPartaker EDCReporter = new EDCPartaker(_EDC);
@@ -359,34 +359,59 @@ namespace IEW.GatewayService
                 SendOutMsg.MQTTPayload = JsonConvert.SerializeObject(EDCReporter, Newtonsoft.Json.Formatting.Indented);
                 SendMQTTData(SendOutMsg);
             }
-
         }
 
-        
         public void ReceiveHeartBeat(xmlMessage InputData)
         {
             // Parse Mqtt Topic
-            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/ReplyData
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/Status/HeartBeat
             string GateWayID = Topic[2].ToString();
             string DeviceID = Topic[3].ToString();
 
-            if (ObjectManager.GatewayManager != null)
+            if (ObjectManager.MonitorManager != null)
             {
-                cls_Gateway_Info Gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
-                if (Gateway != null)
+                cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                if (gw != null)
                 {
-                    cls_Device_Info Device = Gateway.device_info.Where(p => p.device_name == DeviceID).FirstOrDefault();
-                    if (Device != null)
+                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
+                    if (dv != null)
                     {
-                        try
-                        {
-                            ProcCollectData Function = new ProcCollectData(Device, GateWayID, DeviceID);
-                            ThreadPool.QueueUserWorkItem(o => Function.ThreadPool_Proc(InputData.MQTTPayload.ToString()));
-                        }
-                        catch (Exception ex)
-                        {
-                            NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", ex);
-                        }
+                        cls_HeartBeat hb = new cls_HeartBeat();
+
+                        hb = JsonConvert.DeserializeObject<cls_HeartBeat>(InputData.MQTTPayload.ToString());
+                        gw.gateway_status = hb.Status;
+                        gw.hb_report_time = DateTime.ParseExact(hb.HBDatetime, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                        gw.hb_status = hb.Status;
+
+                        dv.device_status = hb.Status;
+                        dv.hb_status = hb.Status;
+                        dv.hb_report_time = DateTime.ParseExact(hb.HBDatetime, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                    }
+
+                    //Raise event to notify Online Monitor form to refresh status
+                    EventArgs e = new EventArgs();
+                    this.ObjectManager.OnHeartBeatEventCall(e);
+                }
+            }
+        }
+
+        public void SetOnlineMonitorEDCReportStatus(string gw_id, string dv_id, string payload)
+        {
+            if (ObjectManager.MonitorManager != null)
+            {
+                cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == gw_id).FirstOrDefault();
+                if (gw != null)
+                {
+                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == dv_id).FirstOrDefault();
+                    if (dv != null)
+                    {
+                        cls_HeartBeat hb = new cls_HeartBeat();
+
+                        cls_read_data_reply CollectData = null;
+                        CollectData = JsonConvert.DeserializeObject<cls_read_data_reply>(payload);
+                        gw.last_edc_time = DateTime.ParseExact(CollectData.Time_Stamp, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+
+                        dv.last_edc_time = DateTime.ParseExact(CollectData.Time_Stamp, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
                     }
                 }
             }
@@ -411,6 +436,11 @@ namespace IEW.GatewayService
                         {
                             ProcCollectData Function = new ProcCollectData(Device, GateWayID, DeviceID);
                             ThreadPool.QueueUserWorkItem(o => Function.ThreadPool_Proc(InputData.MQTTPayload.ToString()));
+
+                            SetOnlineMonitorEDCReportStatus(GateWayID, DeviceID, InputData.MQTTPayload.ToString());
+                            //Raise event to notify Online Monitor form to refresh status
+                            EventArgs e = new EventArgs();
+                            this.ObjectManager.OnEDCReportEventCall(e);
                         }
                         catch (Exception ex)
                         {

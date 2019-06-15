@@ -103,6 +103,7 @@ namespace IEW.GatewayService.UI
             if (LoadGatewayConfig())
             {
                 this.isLoadConfig = true;
+                LoadMonitorConfig();
             }
             else
             {
@@ -372,7 +373,8 @@ namespace IEW.GatewayService.UI
             gwList.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(gwList);
             gwList.Show();
@@ -398,7 +400,8 @@ namespace IEW.GatewayService.UI
             gwForm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(gwForm);
 
@@ -435,7 +438,8 @@ namespace IEW.GatewayService.UI
             deviceForm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(deviceForm);
 
@@ -450,7 +454,8 @@ namespace IEW.GatewayService.UI
             setList.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(setList);
             setList.Show();
@@ -476,7 +481,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
 
@@ -491,7 +497,8 @@ namespace IEW.GatewayService.UI
             headerList.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(headerList);
             headerList.Show();
@@ -517,7 +524,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
 
@@ -532,7 +540,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
             frm.Show();
@@ -570,7 +579,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
 
@@ -585,7 +595,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
             frm.Show();
@@ -741,6 +752,38 @@ namespace IEW.GatewayService.UI
             }
 
             return true;
+        }
+
+        private void LoadMonitorConfig()
+        {
+            ObjectManager.MonitorManager_Initial();
+
+            if (ObjectManager.GatewayManager.gateway_list.Count > 0)
+            {
+                foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+                {
+                    cls_Monitor_Gateway_Info mgi = new cls_Monitor_Gateway_Info();
+                    mgi.gateway_id = gi.gateway_id;
+                    mgi.gateway_ip = gi.gateway_ip;
+                    mgi.gateway_location = gi.location;
+                    mgi.gateway_status = "Off";
+
+                    if (gi.device_info.Count > 0)
+                    {
+                        foreach (cls_Device_Info di in gi.device_info)
+                        {
+                            cls_Monitor_Device_info mdi = new cls_Monitor_Device_info();
+                            mdi.device_id = di.device_name;
+                            mdi.device_status = "Off";
+                            mdi.plc_ip = di.plc_ip_address;
+                            mdi.plc_port = di.plc_port_id;
+                            mgi.device_list.Add(mdi);
+                        }
+
+                    }
+                    ObjectManager.MonitorManager.monitor_list.Add(mgi);
+                }
+            }
         }
 
         private void SaveGatewayConfig()

@@ -11,6 +11,7 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /*
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -19,6 +20,7 @@
             }
             base.Dispose(disposing);
         }
+        */
 
         #region Windows Form Designer generated code
 
@@ -51,7 +53,7 @@
             // 
             this.btnStart.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.Location = new System.Drawing.Point(484, 475);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(76, 28);
             this.btnStart.TabIndex = 1;
@@ -63,7 +65,7 @@
             // 
             this.btnReadData.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReadData.Location = new System.Drawing.Point(578, 475);
-            this.btnReadData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnReadData.Margin = new System.Windows.Forms.Padding(2);
             this.btnReadData.Name = "btnReadData";
             this.btnReadData.Size = new System.Drawing.Size(76, 28);
             this.btnReadData.TabIndex = 2;
@@ -106,7 +108,7 @@
             this.lvoStatus.GridLines = true;
             this.lvoStatus.HasCollapsibleGroups = false;
             this.lvoStatus.Location = new System.Drawing.Point(12, 38);
-            this.lvoStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lvoStatus.Margin = new System.Windows.Forms.Padding(2);
             this.lvoStatus.MenuLabelColumns = "";
             this.lvoStatus.MenuLabelGroupBy = "";
             this.lvoStatus.MenuLabelLockGroupingOn = "";
@@ -188,7 +190,7 @@
             // 
             this.txtInterval.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtInterval.Location = new System.Drawing.Point(645, 11);
-            this.txtInterval.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtInterval.Margin = new System.Windows.Forms.Padding(2);
             this.txtInterval.Name = "txtInterval";
             this.txtInterval.Size = new System.Drawing.Size(52, 23);
             this.txtInterval.TabIndex = 6;
@@ -203,7 +205,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnReadData);
             this.Controls.Add(this.btnStart);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmOnlineMonitor";
             this.Text = "frmOnlineMonitor";
             this.Load += new System.EventHandler(this.frmOnlineMonitor_Load);

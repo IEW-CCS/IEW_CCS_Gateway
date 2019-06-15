@@ -306,5 +306,14 @@ namespace IEW.ObjectManager
     }
     #endregion
 
+    #region Class to define the received HeartBeat MQTT message payload
+    public class cls_HeartBeat
+    {
+        public string Version { get; set; }
+        public string Status { get; set; }
+        public string HBDatetime { get; set; }
+    }
+
+    #endregion
 
 }
