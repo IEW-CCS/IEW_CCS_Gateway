@@ -39,6 +39,7 @@ namespace IEW.GatewayService.UI
         static int NODE_INDEX_EDC_HEADER_SET_LIST = 2;
         static int NODE_INDEX_EDC_OUTPUT_LIST = 3;
         static int NODE_INDEX_ON_LINE_MONITOR = 4;
+        static int NODE_INDEX_DB_CONFIG = 5;
 
 
         //Define TabPages Index
@@ -52,6 +53,8 @@ namespace IEW.GatewayService.UI
         const int TABPAGE_INDEX_EDC_OUTPUT_LIST = 7;
         const int TABPAGE_INDEX_EDC_OUTPUT_INFO = 8;
         const int TABPAGE_INDEX_ON_LINE_MONITOR = 9;
+        const int TABPAGE_INDEX_DB_CONFIG_LIST = 10;
+        const int TABPAGE_INDEX_DB_CONFIG_INFO = 11;
 
         TreeNode objSelectedNode;
         public cls_Gateway_Info gw;
@@ -68,6 +71,7 @@ namespace IEW.GatewayService.UI
             this.objSelectedNode = null;
 
             tvNodeList.BeginUpdate();
+
             TreeNode tNode = tvNodeList.Nodes.Add("Gateway List");
             tNode.Tag = TABPAGE_INDEX_GATEWAY_LIST;
             tNode.ImageIndex = 0;
@@ -87,6 +91,11 @@ namespace IEW.GatewayService.UI
             tNode = tvNodeList.Nodes.Add("On-Line Monitor");
             tNode.Tag = TABPAGE_INDEX_ON_LINE_MONITOR;
             tNode.ImageIndex = 11;
+
+            tNode = tvNodeList.Nodes.Add("Database Config");
+            tNode.Tag = TABPAGE_INDEX_DB_CONFIG_LIST;
+            tNode.ImageIndex = 12;
+
             tvNodeList.EndUpdate();
 
             this.isLoadConfig = false;
@@ -113,6 +122,7 @@ namespace IEW.GatewayService.UI
             LoadTagSetConfig();
             LoadHeaderSetConfig();
             LoadEDCXmlConfig();
+            LoadDBConfig();
             RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
@@ -162,6 +172,16 @@ namespace IEW.GatewayService.UI
                     tNode = tvNodeList.Nodes[NODE_INDEX_EDC_OUTPUT_LIST].Nodes.Add(edc_info.serial_id + "." + edc_info.gateway_id + "." + edc_info.device_id);
                     tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_INFO;
                     tNode.ImageIndex = 10;
+                }
+            }
+
+            if (ObjectManager.DBManager.dbconfig_list.Count > 0)
+            {
+                foreach (cls_DB_Info db_info in ObjectManager.DBManager.dbconfig_list)
+                {
+                    tNode = tvNodeList.Nodes[NODE_INDEX_DB_CONFIG].Nodes.Add(db_info.serial_id + "." + db_info.gateway_id + "." + db_info.device_id);
+                    tNode.Tag = TABPAGE_INDEX_DB_CONFIG_INFO;
+                    tNode.ImageIndex = 13;
                 }
             }
 
@@ -233,6 +253,14 @@ namespace IEW.GatewayService.UI
 
                 case TABPAGE_INDEX_ON_LINE_MONITOR:
                     DisplayOnlineMonitor();
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_LIST:
+                    DisplayDBConfigList();
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_INFO:
+                    DisplayDBConfigInfo();
                     break;
 
                 default:
@@ -363,6 +391,38 @@ namespace IEW.GatewayService.UI
             }
 
             RefreshGatewayConfig(TABPAGE_INDEX_EDC_OUTPUT_LIST);
+        }
+
+        //Delegate function to update DBManager information
+        void SetDBManager(DBManager dbMgr)
+        {
+            ObjectManager.DBManager.dbconfig_list = dbMgr.dbconfig_list;
+            ObjectManager.DBManager.serial_id_index = dbMgr.serial_id_index;
+            RefreshGatewayConfig(TABPAGE_INDEX_DB_CONFIG_LIST);
+        }
+
+        //Delegate function to update DB Config Information
+        void SetDBConfigInfo(cls_DB_Info db_info, bool edit_flag)
+        {
+            if (edit_flag)
+            {
+                int i = 0;
+                foreach (cls_DB_Info db in ObjectManager.DBManager.dbconfig_list)
+                {
+                    if (db.serial_id == db_info.serial_id)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                ObjectManager.DBManager.dbconfig_list[i] = db_info;
+            }
+            else
+            {
+                ObjectManager.DBManager.dbconfig_list.Add(db_info);
+            }
+
+            RefreshGatewayConfig(TABPAGE_INDEX_DB_CONFIG_LIST);
         }
 
         private void DisplayGatewayList()
@@ -602,6 +662,61 @@ namespace IEW.GatewayService.UI
             frm.Show();
         }
 
+        private void DisplayDBConfigList()
+        {
+            frmListDBConfig frm = new frmListDBConfig(SetDBManager, ObjectManager.DBManager, ObjectManager.GatewayManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
+        private void DisplayDBConfigInfo()
+        {
+            string strSerial;
+            string strGatewayID;
+            string strDeviceID;
+            string[] tmp;
+            int i;
+
+            TreeNode tNode = tvNodeList.SelectedNode;  // EDC XML Information Node
+
+            //Get gateway id and device id from tNode.Text
+            tmp = tNode.Text.Split('.');
+            strSerial = tmp[0];
+            strGatewayID = tmp[1];
+            strDeviceID = tmp[2];
+
+            i = 0;
+            foreach (cls_DB_Info db in ObjectManager.DBManager.dbconfig_list)
+            {
+                if (db.serial_id == strSerial)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            frmEditDBConfig frm = new frmEditDBConfig(SetDBConfigInfo, ObjectManager.GatewayManager, ObjectManager.DBManager.dbconfig_list[i], strGatewayID, strDeviceID);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+
+            frm.Show();
+        }
+
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
         {
             gi.device_info[index] = di;
@@ -754,6 +869,40 @@ namespace IEW.GatewayService.UI
             return true;
         }
 
+        private bool LoadDBConfig()
+        {
+            try
+            {
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\Database_Config.json"))
+                {
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    ObjectManager.DBManager_Initial();
+                    return true;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Database_Config.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                ObjectManager.DBManager_Initial(json_string);
+
+                if (ObjectManager.DBManager.dbconfig_list == null)
+                {
+                    MessageBox.Show("No DB Configuration exists!", "Information");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch
+            {
+                MessageBox.Show("DB config file loading error!", "Error");
+                return false;
+            }
+
+            return true;
+        }
+
         private void LoadMonitorConfig()
         {
             ObjectManager.MonitorManager_Initial();
@@ -826,12 +975,23 @@ namespace IEW.GatewayService.UI
             output.Close();
         }
 
+        private void SaveDBConfig()
+        {
+            string json_string;
+
+            json_string = JsonConvert.SerializeObject(ObjectManager.DBManager, Newtonsoft.Json.Formatting.Indented);
+            StreamWriter output = new StreamWriter("C:\\Gateway\\Config\\Database_Config.json");
+            output.Write(json_string);
+            output.Close();
+        }
+
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
             SaveGatewayConfig();
             SaveTagSetConfig();
             SaveEDCHeaderSetConfig();
             SaveEDCXmlConfig();
+            SaveDBConfig();
         }
     }
 }

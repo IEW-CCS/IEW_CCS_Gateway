@@ -389,8 +389,7 @@ namespace IEW.GatewayService
                     }
 
                     //Raise event to notify Online Monitor form to refresh status
-                    EventArgs e = new EventArgs();
-                    this.ObjectManager.OnHeartBeatEventCall(e);
+                    this.ObjectManager.OnHeartBeatEventCall(null);
                 }
             }
         }
@@ -439,8 +438,7 @@ namespace IEW.GatewayService
 
                             SetOnlineMonitorEDCReportStatus(GateWayID, DeviceID, InputData.MQTTPayload.ToString());
                             //Raise event to notify Online Monitor form to refresh status
-                            EventArgs e = new EventArgs();
-                            this.ObjectManager.OnEDCReportEventCall(e);
+                            this.ObjectManager.OnEDCReportEventCall(null);
                         }
                         catch (Exception ex)
                         {

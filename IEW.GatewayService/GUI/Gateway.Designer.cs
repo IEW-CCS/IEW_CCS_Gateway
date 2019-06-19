@@ -79,6 +79,8 @@
             this.imageList1.Images.SetKeyName(9, "edc_xml_list.png");
             this.imageList1.Images.SetKeyName(10, "edc_xml_info.png");
             this.imageList1.Images.SetKeyName(11, "online_monitor.png");
+            this.imageList1.Images.SetKeyName(12, "db_list.png");
+            this.imageList1.Images.SetKeyName(13, "db_node.png");
             // 
             // btnSaveConfig
             // 

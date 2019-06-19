@@ -22,6 +22,7 @@ namespace IEW.ObjectManager
         public TagSetManager TagSetManager = null;
         public EDCManager EDCManager = null;
         public MonitorManager MonitorManager = null;
+        public DBManager DBManager = null;
         public event EventHandler HeartBeatEventHandler;
         public event EventHandler EDCReportEventHandler;
 
@@ -70,6 +71,18 @@ namespace IEW.ObjectManager
         public void MonitorManager_Initial(string Json)
         {
             this.MonitorManager = JsonConvert.DeserializeObject<MonitorManager>(Json);
+        }
+        #endregion
+
+        #region DBManager Constructor
+        public void DBManager_Initial()
+        {
+            this.DBManager = new DBManager();
+        }
+
+        public void DBManager_Initial(string Json)
+        {
+            this.DBManager = JsonConvert.DeserializeObject<DBManager>(Json);
         }
         #endregion
 
