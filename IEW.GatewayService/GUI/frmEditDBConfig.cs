@@ -228,7 +228,7 @@ namespace IEW.GatewayService.GUI
                     strConnectionString = "";
                     strConnectionString = "data source=" + txtDataSource.Text.Trim() + "," + txtPortID.Text.Trim() + "; initial catalog=" + txtConnectDB.Text.Trim();
                     strConnectionString = strConnectionString + "; user id=" + txtUserName.Text.Trim() + "; password=" + txtPassword.Text.Trim();
-                    strConnectionString = strConnectionString + "; MultipleActiveResultSets = True; App = EntityFramework; persist security info = True;";
+                    strConnectionString = strConnectionString + "; MultipleActiveResultSets=True; App=EntityFramework; persist security info=True";
                     break;
 
                 case "MS SQL":
@@ -380,7 +380,16 @@ namespace IEW.GatewayService.GUI
             tmpDB.db_name = txtConnectDB.Text.Trim();
             tmpDB.user_name = txtUserName.Text.Trim();
             tmpDB.password = txtPassword.Text.Trim();
-            if(generate_connection_string(cmbDBType.Text.Trim()) == null)
+
+            /*
+            string encryptPassword = EncryptionHelper.Encrypt(txtPassword.Text.Trim());
+            MessageBox.Show("Encryped Password = " + encryptPassword, "Information");
+
+            string decryptPassword = EncryptionHelper.Decrypt(encryptPassword);
+            MessageBox.Show("Decryped Password = " + decryptPassword, "Information");
+            */
+
+            if (generate_connection_string(cmbDBType.Text.Trim()) == null)
             {
                 MessageBox.Show("DB type not supported yet", "Error");
                 return;
