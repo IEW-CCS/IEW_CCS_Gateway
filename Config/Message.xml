@@ -3,6 +3,9 @@
   <message name="/IEW/+/+/ReplyData">
     <object id="GatewayService" method="ReceiveMQTTData" />
   </message>
+    <message name="/IEW/+/+/Status/HeartBeat">
+    <object id="GatewayService" method="ReceiveHeartBeat" />
+  </message>
   <message name="/IEW/EDCService">
     <object id="EDCService" method="ReceiveMQTTData" />
   </message>

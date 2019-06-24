@@ -50,7 +50,7 @@ namespace IEW.GatewayService.GUI
 
         private void RefreshEDCXmlList()
         {
-            //Setup Tag List
+            //Setup EDC XML List
             lvEDCXmlList.BeginUpdate();
             lvEDCXmlList.Items.Clear();
             if (this.edcm.gateway_edc.Count == 0)

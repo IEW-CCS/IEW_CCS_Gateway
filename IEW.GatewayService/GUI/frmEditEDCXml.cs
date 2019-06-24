@@ -419,11 +419,6 @@ namespace IEW.GatewayService.GUI
                 }
             }
 
-            if(!VerifyTagRelation())
-            {
-                return;
-            }
-
             foreach (ListViewItem item in lvTagList.Items)
             {
                 cls_Tag t = this.gateway_mgr.gateway_list[gateway_index].device_info[device_index].tag_info[item.Text.Trim()];
@@ -463,13 +458,6 @@ namespace IEW.GatewayService.GUI
             delgSetEDCXmlInfo(tmpEDC, this.isEdit);
 
             this.Close();
-        }
-
-        //The tags which included in calculation tag must be a sub-set of report tags
-        private bool VerifyTagRelation()
-        {
-
-            return true;
         }
 
         private bool LoadHeaderSetConfig()

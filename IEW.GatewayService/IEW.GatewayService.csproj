@@ -88,6 +88,12 @@
     <Compile Include="GUI\frmEditCalcTag.Designer.cs">
       <DependentUpon>frmEditCalcTag.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmEditDBConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditDBConfig.Designer.cs">
+      <DependentUpon>frmEditDBConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmEditEDCHeader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +129,12 @@
     </Compile>
     <Compile Include="GUI\frmEditTagSetTemplate.Designer.cs">
       <DependentUpon>frmEditTagSetTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmListDBConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmListDBConfig.Designer.cs">
+      <DependentUpon>frmListDBConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmListEDCHeaderSet.cs">
       <SubType>Form</SubType>
@@ -185,6 +197,9 @@
     <EmbeddedResource Include="GUI\frmEditCalcTag.resx">
       <DependentUpon>frmEditCalcTag.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmEditDBConfig.resx">
+      <DependentUpon>frmEditDBConfig.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmEditEDCHeader.resx">
       <DependentUpon>frmEditEDCHeader.cs</DependentUpon>
     </EmbeddedResource>
@@ -202,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmEditTagSetTemplate.resx">
       <DependentUpon>frmEditTagSetTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmListDBConfig.resx">
+      <DependentUpon>frmListDBConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmListEDCHeaderSet.resx">
       <DependentUpon>frmListEDCHeaderSet.cs</DependentUpon>
@@ -235,6 +253,8 @@
   <ItemGroup>
     <None Include="images\icons\arrow-right.png" />
     <Content Include="images\icons\arrow-left.png" />
+    <Content Include="images\icons\db_list.png" />
+    <Content Include="images\icons\db_node.png" />
     <Content Include="images\icons\device.png" />
     <Content Include="images\icons\edc_set.png" />
     <Content Include="images\icons\edc_set_list.png" />

@@ -22,7 +22,10 @@ namespace IEW.ObjectManager
         public TagSetManager TagSetManager = null;
         public EDCManager EDCManager = null;
         public MonitorManager MonitorManager = null;
-       
+        public DBManager DBManager = null;
+        public event EventHandler HeartBeatEventHandler;
+        public event EventHandler EDCReportEventHandler;
+
         #region Gateway Constructor
         public void GatewayManager_Initial()
         {
@@ -71,6 +74,18 @@ namespace IEW.ObjectManager
         }
         #endregion
 
+        #region DBManager Constructor
+        public void DBManager_Initial()
+        {
+            this.DBManager = new DBManager();
+        }
+
+        public void DBManager_Initial(string Json)
+        {
+            this.DBManager = JsonConvert.DeserializeObject<DBManager>(Json);
+        }
+        #endregion
+
         #region Gateway Method
         public void GatewayManager_Set_TagValue(cls_ProcRecv_CollectData ProcRecv_CollectData)
         {
@@ -107,6 +122,7 @@ namespace IEW.ObjectManager
 
 
         }
+
         public string GatewayManager_ToJson_String()
         {
 
@@ -165,6 +181,24 @@ namespace IEW.ObjectManager
                     cls_Collect collect_cmd = new cls_Collect(_Cmd_Type, _Report_Interval, _Trace_ID, Device);
                     return JsonConvert.SerializeObject(collect_cmd, Newtonsoft.Json.Formatting.Indented);
                 }
+            }
+        }
+        #endregion
+
+        #region Event Handler for Online Monitor
+        public void OnHeartBeatEventCall(EventArgs e)
+        {
+            if(this.HeartBeatEventHandler != null)
+            {
+                HeartBeatEventHandler(this, e);
+            }
+        }
+
+        public void OnEDCReportEventCall(EventArgs e)
+        {
+            if(this.EDCReportEventHandler != null)
+            {
+                EDCReportEventHandler(this, e);
             }
         }
         #endregion

@@ -11,6 +11,7 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /*
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -19,6 +20,7 @@
             }
             base.Dispose(disposing);
         }
+        */
 
         #region Windows Form Designer generated code
 
@@ -42,15 +44,18 @@
             this.hb_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.gw_locationColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtInterval = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.lvoStatus)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(969, 950);
+            this.btnStart.Location = new System.Drawing.Point(484, 475);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(151, 55);
+            this.btnStart.Size = new System.Drawing.Size(76, 28);
             this.btnStart.TabIndex = 1;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -59,9 +64,10 @@
             // btnReadData
             // 
             this.btnReadData.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReadData.Location = new System.Drawing.Point(1155, 950);
+            this.btnReadData.Location = new System.Drawing.Point(578, 475);
+            this.btnReadData.Margin = new System.Windows.Forms.Padding(2);
             this.btnReadData.Name = "btnReadData";
-            this.btnReadData.Size = new System.Drawing.Size(151, 55);
+            this.btnReadData.Size = new System.Drawing.Size(76, 28);
             this.btnReadData.TabIndex = 2;
             this.btnReadData.Text = "Read Data";
             this.btnReadData.UseVisualStyleBackColor = true;
@@ -71,9 +77,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(17, 28);
+            this.label1.Location = new System.Drawing.Point(8, 14);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(223, 31);
+            this.label1.Size = new System.Drawing.Size(112, 17);
             this.label1.TabIndex = 3;
             this.label1.Text = "Online Status Monitor";
             // 
@@ -100,13 +107,14 @@
             this.lvoStatus.FullRowSelect = true;
             this.lvoStatus.GridLines = true;
             this.lvoStatus.HasCollapsibleGroups = false;
-            this.lvoStatus.Location = new System.Drawing.Point(23, 76);
+            this.lvoStatus.Location = new System.Drawing.Point(12, 38);
+            this.lvoStatus.Margin = new System.Windows.Forms.Padding(2);
             this.lvoStatus.MenuLabelColumns = "";
             this.lvoStatus.MenuLabelGroupBy = "";
             this.lvoStatus.MenuLabelLockGroupingOn = "";
             this.lvoStatus.Name = "lvoStatus";
             this.lvoStatus.ShowImagesOnSubItems = true;
-            this.lvoStatus.Size = new System.Drawing.Size(1367, 850);
+            this.lvoStatus.Size = new System.Drawing.Size(686, 427);
             this.lvoStatus.SmallImageList = this.imageList1;
             this.lvoStatus.SortGroupItemsByPrimaryColumn = false;
             this.lvoStatus.TabIndex = 4;
@@ -167,15 +175,37 @@
             this.imageList1.Images.SetKeyName(3, "Down");
             this.imageList1.Images.SetKeyName(4, "Idle");
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(561, 12);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(81, 17);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Report Interval:";
+            // 
+            // txtInterval
+            // 
+            this.txtInterval.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtInterval.Location = new System.Drawing.Point(645, 11);
+            this.txtInterval.Margin = new System.Windows.Forms.Padding(2);
+            this.txtInterval.Name = "txtInterval";
+            this.txtInterval.Size = new System.Drawing.Size(52, 23);
+            this.txtInterval.TabIndex = 6;
+            // 
             // frmOnlineMonitor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1419, 1038);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(710, 519);
+            this.Controls.Add(this.txtInterval);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lvoStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnReadData);
             this.Controls.Add(this.btnStart);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmOnlineMonitor";
             this.Text = "frmOnlineMonitor";
             this.Load += new System.EventHandler(this.frmOnlineMonitor_Load);
@@ -198,5 +228,7 @@
         private BrightIdeasSoftware.OLVColumn hb_timeColumn;
         private System.Windows.Forms.ImageList imageList1;
         private BrightIdeasSoftware.OLVColumn gw_locationColumn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtInterval;
     }
 }

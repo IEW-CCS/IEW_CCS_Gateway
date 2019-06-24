@@ -30,29 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gateway));
-            this.btnCmdDownload = new System.Windows.Forms.Button();
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.tvNodeList = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.btnStart = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // btnCmdDownload
-            // 
-            this.btnCmdDownload.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
-            this.btnCmdDownload.FlatAppearance.BorderSize = 2;
-            this.btnCmdDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnCmdDownload.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCmdDownload.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnCmdDownload.Location = new System.Drawing.Point(755, 19);
-            this.btnCmdDownload.Name = "btnCmdDownload";
-            this.btnCmdDownload.Size = new System.Drawing.Size(108, 30);
-            this.btnCmdDownload.TabIndex = 0;
-            this.btnCmdDownload.Text = "CMD ReadData";
-            this.btnCmdDownload.UseVisualStyleBackColor = true;
-            this.btnCmdDownload.Click += new System.EventHandler(this.btnCmdDownload_Click);
             // 
             // btnLoadConfig
             // 
@@ -76,7 +59,7 @@
             this.tvNodeList.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.tvNodeList.Name = "tvNodeList";
             this.tvNodeList.SelectedImageIndex = 0;
-            this.tvNodeList.Size = new System.Drawing.Size(174, 540);
+            this.tvNodeList.Size = new System.Drawing.Size(174, 574);
             this.tvNodeList.TabIndex = 3;
             this.tvNodeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNodeList_AfterSelect);
             // 
@@ -96,6 +79,8 @@
             this.imageList1.Images.SetKeyName(9, "edc_xml_list.png");
             this.imageList1.Images.SetKeyName(10, "edc_xml_info.png");
             this.imageList1.Images.SetKeyName(11, "online_monitor.png");
+            this.imageList1.Images.SetKeyName(12, "db_list.png");
+            this.imageList1.Images.SetKeyName(13, "db_node.png");
             // 
             // btnSaveConfig
             // 
@@ -116,36 +101,17 @@
             this.pnlMain.Location = new System.Drawing.Point(202, 63);
             this.pnlMain.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(720, 539);
+            this.pnlMain.Size = new System.Drawing.Size(767, 573);
             this.pnlMain.TabIndex = 8;
-            // 
-            // btnStart
-            // 
-            this.btnStart.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
-            this.btnStart.FlatAppearance.BorderSize = 2;
-            this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnStart.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnStart.Location = new System.Drawing.Point(624, 19);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(99, 30);
-            this.btnStart.TabIndex = 9;
-            this.btnStart.Text = "CMD Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // Gateway
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(893, 394);
-            this.Controls.Add(this.btnStart);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1000, 659);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.tvNodeList);
             this.Controls.Add(this.btnLoadConfig);
-            this.Controls.Add(this.btnCmdDownload);
             this.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Gateway";
@@ -156,13 +122,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnCmdDownload;
         private System.Windows.Forms.Button btnLoadConfig;
         private System.Windows.Forms.TreeView tvNodeList;
         private System.Windows.Forms.Button btnSaveConfig;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Panel pnlMain;
-        private System.Windows.Forms.Button btnStart;
     }
 }

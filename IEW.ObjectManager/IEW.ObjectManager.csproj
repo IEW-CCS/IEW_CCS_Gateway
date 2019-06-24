@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBManager.cs" />
     <Compile Include="EDCManager.cs" />
     <Compile Include="GateWayManager.cs" />
     <Compile Include="ObjectManager.cs" />

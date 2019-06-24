@@ -39,6 +39,7 @@ namespace IEW.GatewayService.UI
         static int NODE_INDEX_EDC_HEADER_SET_LIST = 2;
         static int NODE_INDEX_EDC_OUTPUT_LIST = 3;
         static int NODE_INDEX_ON_LINE_MONITOR = 4;
+        static int NODE_INDEX_DB_CONFIG = 5;
 
 
         //Define TabPages Index
@@ -52,6 +53,8 @@ namespace IEW.GatewayService.UI
         const int TABPAGE_INDEX_EDC_OUTPUT_LIST = 7;
         const int TABPAGE_INDEX_EDC_OUTPUT_INFO = 8;
         const int TABPAGE_INDEX_ON_LINE_MONITOR = 9;
+        const int TABPAGE_INDEX_DB_CONFIG_LIST = 10;
+        const int TABPAGE_INDEX_DB_CONFIG_INFO = 11;
 
         TreeNode objSelectedNode;
         public cls_Gateway_Info gw;
@@ -68,6 +71,7 @@ namespace IEW.GatewayService.UI
             this.objSelectedNode = null;
 
             tvNodeList.BeginUpdate();
+
             TreeNode tNode = tvNodeList.Nodes.Add("Gateway List");
             tNode.Tag = TABPAGE_INDEX_GATEWAY_LIST;
             tNode.ImageIndex = 0;
@@ -87,6 +91,11 @@ namespace IEW.GatewayService.UI
             tNode = tvNodeList.Nodes.Add("On-Line Monitor");
             tNode.Tag = TABPAGE_INDEX_ON_LINE_MONITOR;
             tNode.ImageIndex = 11;
+
+            tNode = tvNodeList.Nodes.Add("Database Config");
+            tNode.Tag = TABPAGE_INDEX_DB_CONFIG_LIST;
+            tNode.ImageIndex = 12;
+
             tvNodeList.EndUpdate();
 
             this.isLoadConfig = false;
@@ -103,6 +112,7 @@ namespace IEW.GatewayService.UI
             if (LoadGatewayConfig())
             {
                 this.isLoadConfig = true;
+                LoadMonitorConfig();
             }
             else
             {
@@ -112,6 +122,7 @@ namespace IEW.GatewayService.UI
             LoadTagSetConfig();
             LoadHeaderSetConfig();
             LoadEDCXmlConfig();
+            LoadDBConfig();
             RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
@@ -161,6 +172,16 @@ namespace IEW.GatewayService.UI
                     tNode = tvNodeList.Nodes[NODE_INDEX_EDC_OUTPUT_LIST].Nodes.Add(edc_info.serial_id + "." + edc_info.gateway_id + "." + edc_info.device_id);
                     tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_INFO;
                     tNode.ImageIndex = 10;
+                }
+            }
+
+            if (ObjectManager.DBManager.dbconfig_list.Count > 0)
+            {
+                foreach (cls_DB_Info db_info in ObjectManager.DBManager.dbconfig_list)
+                {
+                    tNode = tvNodeList.Nodes[NODE_INDEX_DB_CONFIG].Nodes.Add(db_info.serial_id + "." + db_info.gateway_id + "." + db_info.device_id);
+                    tNode.Tag = TABPAGE_INDEX_DB_CONFIG_INFO;
+                    tNode.ImageIndex = 13;
                 }
             }
 
@@ -232,6 +253,14 @@ namespace IEW.GatewayService.UI
 
                 case TABPAGE_INDEX_ON_LINE_MONITOR:
                     DisplayOnlineMonitor();
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_LIST:
+                    DisplayDBConfigList();
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_INFO:
+                    DisplayDBConfigInfo();
                     break;
 
                 default:
@@ -364,6 +393,38 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig(TABPAGE_INDEX_EDC_OUTPUT_LIST);
         }
 
+        //Delegate function to update DBManager information
+        void SetDBManager(DBManager dbMgr)
+        {
+            ObjectManager.DBManager.dbconfig_list = dbMgr.dbconfig_list;
+            ObjectManager.DBManager.serial_id_index = dbMgr.serial_id_index;
+            RefreshGatewayConfig(TABPAGE_INDEX_DB_CONFIG_LIST);
+        }
+
+        //Delegate function to update DB Config Information
+        void SetDBConfigInfo(cls_DB_Info db_info, bool edit_flag)
+        {
+            if (edit_flag)
+            {
+                int i = 0;
+                foreach (cls_DB_Info db in ObjectManager.DBManager.dbconfig_list)
+                {
+                    if (db.serial_id == db_info.serial_id)
+                    {
+                        break;
+                    }
+                    i++;
+                }
+                ObjectManager.DBManager.dbconfig_list[i] = db_info;
+            }
+            else
+            {
+                ObjectManager.DBManager.dbconfig_list.Add(db_info);
+            }
+
+            RefreshGatewayConfig(TABPAGE_INDEX_DB_CONFIG_LIST);
+        }
+
         private void DisplayGatewayList()
         {
             frmListGateway gwList = new frmListGateway(SetGatewayManager, ObjectManager.GatewayManager);
@@ -372,7 +433,8 @@ namespace IEW.GatewayService.UI
             gwList.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(gwList);
             gwList.Show();
@@ -398,7 +460,8 @@ namespace IEW.GatewayService.UI
             gwForm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(gwForm);
 
@@ -435,7 +498,8 @@ namespace IEW.GatewayService.UI
             deviceForm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(deviceForm);
 
@@ -450,7 +514,8 @@ namespace IEW.GatewayService.UI
             setList.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(setList);
             setList.Show();
@@ -476,7 +541,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
 
@@ -491,7 +557,8 @@ namespace IEW.GatewayService.UI
             headerList.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(headerList);
             headerList.Show();
@@ -517,7 +584,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
 
@@ -532,7 +600,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
             frm.Show();
@@ -570,7 +639,8 @@ namespace IEW.GatewayService.UI
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
 
@@ -579,15 +649,71 @@ namespace IEW.GatewayService.UI
 
         private void DisplayOnlineMonitor()
         {
-            frmOnlineMonitor frm = new frmOnlineMonitor(ObjectManager.GatewayManager);
+            frmOnlineMonitor frm = new frmOnlineMonitor(this.ObjectManager);
             frm.Owner = this;
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
-                pnlMain.Controls.RemoveAt(0);
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
             }
             pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
+        private void DisplayDBConfigList()
+        {
+            frmListDBConfig frm = new frmListDBConfig(SetDBManager, ObjectManager.DBManager, ObjectManager.GatewayManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
+        private void DisplayDBConfigInfo()
+        {
+            string strSerial;
+            string strGatewayID;
+            string strDeviceID;
+            string[] tmp;
+            int i;
+
+            TreeNode tNode = tvNodeList.SelectedNode;  // EDC XML Information Node
+
+            //Get gateway id and device id from tNode.Text
+            tmp = tNode.Text.Split('.');
+            strSerial = tmp[0];
+            strGatewayID = tmp[1];
+            strDeviceID = tmp[2];
+
+            i = 0;
+            foreach (cls_DB_Info db in ObjectManager.DBManager.dbconfig_list)
+            {
+                if (db.serial_id == strSerial)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            frmEditDBConfig frm = new frmEditDBConfig(SetDBConfigInfo, ObjectManager.GatewayManager, ObjectManager.DBManager.dbconfig_list[i], strGatewayID, strDeviceID);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+
             frm.Show();
         }
 
@@ -743,6 +869,72 @@ namespace IEW.GatewayService.UI
             return true;
         }
 
+        private bool LoadDBConfig()
+        {
+            try
+            {
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\Database_Config.json"))
+                {
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    ObjectManager.DBManager_Initial();
+                    return true;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Database_Config.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                ObjectManager.DBManager_Initial(json_string);
+
+                if (ObjectManager.DBManager.dbconfig_list == null)
+                {
+                    MessageBox.Show("No DB Configuration exists!", "Information");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch
+            {
+                MessageBox.Show("DB config file loading error!", "Error");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void LoadMonitorConfig()
+        {
+            ObjectManager.MonitorManager_Initial();
+
+            if (ObjectManager.GatewayManager.gateway_list.Count > 0)
+            {
+                foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+                {
+                    cls_Monitor_Gateway_Info mgi = new cls_Monitor_Gateway_Info();
+                    mgi.gateway_id = gi.gateway_id;
+                    mgi.gateway_ip = gi.gateway_ip;
+                    mgi.gateway_location = gi.location;
+                    mgi.gateway_status = "Off";
+
+                    if (gi.device_info.Count > 0)
+                    {
+                        foreach (cls_Device_Info di in gi.device_info)
+                        {
+                            cls_Monitor_Device_info mdi = new cls_Monitor_Device_info();
+                            mdi.device_id = di.device_name;
+                            mdi.device_status = "Off";
+                            mdi.plc_ip = di.plc_ip_address;
+                            mdi.plc_port = di.plc_port_id;
+                            mgi.device_list.Add(mdi);
+                        }
+
+                    }
+                    ObjectManager.MonitorManager.monitor_list.Add(mgi);
+                }
+            }
+        }
+
         private void SaveGatewayConfig()
         {
             string json_string;
@@ -783,46 +975,23 @@ namespace IEW.GatewayService.UI
             output.Close();
         }
 
+        private void SaveDBConfig()
+        {
+            string json_string;
+
+            json_string = JsonConvert.SerializeObject(ObjectManager.DBManager, Newtonsoft.Json.Formatting.Indented);
+            StreamWriter output = new StreamWriter("C:\\Gateway\\Config\\Database_Config.json");
+            output.Write(json_string);
+            output.Close();
+        }
+
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
             SaveGatewayConfig();
             SaveTagSetConfig();
             SaveEDCHeaderSetConfig();
             SaveEDCXmlConfig();
-        }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            cls_Collect_start cmd_start = new cls_Collect_start();
-            cls_DeviceInfo_start device_info = new cls_DeviceInfo_start();
-            device_info.PORT_ID = @"6001";
-            device_info.IP_ADDR = @"192.168.0.100";
-            cmd_start.Cmd_Type = "Start";
-            cmd_start.Trace_ID = DateTime.Now.ToString("yyyyMMddhhmmss");
-            cmd_start.Device_Info.Add(device_info);
-
-             string tmp_json = JsonConvert.SerializeObject(cmd_start, Newtonsoft.Json.Formatting.Indented);
-            IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Start", new object[] {  "gateway001", "device001", tmp_json });
-        }
-
-        private void btnCmdDownload_Click(object sender, EventArgs e)
-        {
-            string GateWayID = @"gateway001";
-            string DeviceID = @"device001";
-            string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "3", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, DeviceID);
-            IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, DeviceID, tmp_json });
-
-            /*  
-            cls_Gateway_Info gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
-            if (gateway != null)
-            {
-                foreach(cls_Device_Info Device in gateway.device_info)
-                {
-                    string tmp_json = ObjectManager.GatewayCommand_Json("Collect", "10", DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, Device.device_name);
-                    IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, Device.device_name, tmp_json });
-                }
-            }
-            */
+            SaveDBConfig();
         }
     }
 }
