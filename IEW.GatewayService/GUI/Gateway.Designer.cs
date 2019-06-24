@@ -46,10 +46,9 @@
             this.btnCmdDownload.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnCmdDownload.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCmdDownload.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnCmdDownload.Location = new System.Drawing.Point(1636, 38);
-            this.btnCmdDownload.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.btnCmdDownload.Location = new System.Drawing.Point(755, 19);
             this.btnCmdDownload.Name = "btnCmdDownload";
-            this.btnCmdDownload.Size = new System.Drawing.Size(234, 60);
+            this.btnCmdDownload.Size = new System.Drawing.Size(108, 30);
             this.btnCmdDownload.TabIndex = 0;
             this.btnCmdDownload.Text = "CMD ReadData";
             this.btnCmdDownload.UseVisualStyleBackColor = true;
@@ -59,10 +58,10 @@
             // 
             this.btnLoadConfig.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnLoadConfig.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadConfig.Location = new System.Drawing.Point(41, 38);
-            this.btnLoadConfig.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.btnLoadConfig.Location = new System.Drawing.Point(19, 19);
+            this.btnLoadConfig.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(217, 60);
+            this.btnLoadConfig.Size = new System.Drawing.Size(100, 30);
             this.btnLoadConfig.TabIndex = 1;
             this.btnLoadConfig.Text = "Load Config";
             this.btnLoadConfig.UseVisualStyleBackColor = true;
@@ -73,11 +72,11 @@
             this.tvNodeList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tvNodeList.ImageIndex = 0;
             this.tvNodeList.ImageList = this.imageList1;
-            this.tvNodeList.Location = new System.Drawing.Point(41, 126);
-            this.tvNodeList.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.tvNodeList.Location = new System.Drawing.Point(19, 63);
+            this.tvNodeList.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.tvNodeList.Name = "tvNodeList";
             this.tvNodeList.SelectedImageIndex = 0;
-            this.tvNodeList.Size = new System.Drawing.Size(372, 1076);
+            this.tvNodeList.Size = new System.Drawing.Size(174, 540);
             this.tvNodeList.TabIndex = 3;
             this.tvNodeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNodeList_AfterSelect);
             // 
@@ -102,10 +101,10 @@
             // 
             this.btnSaveConfig.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSaveConfig.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveConfig.Location = new System.Drawing.Point(301, 38);
-            this.btnSaveConfig.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.btnSaveConfig.Location = new System.Drawing.Point(139, 19);
+            this.btnSaveConfig.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.btnSaveConfig.Name = "btnSaveConfig";
-            this.btnSaveConfig.Size = new System.Drawing.Size(217, 60);
+            this.btnSaveConfig.Size = new System.Drawing.Size(100, 30);
             this.btnSaveConfig.TabIndex = 7;
             this.btnSaveConfig.Text = "Save Config";
             this.btnSaveConfig.UseVisualStyleBackColor = true;
@@ -114,10 +113,10 @@
             // pnlMain
             // 
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlMain.Location = new System.Drawing.Point(438, 126);
-            this.pnlMain.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.pnlMain.Location = new System.Drawing.Point(202, 63);
+            this.pnlMain.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1558, 1076);
+            this.pnlMain.Size = new System.Drawing.Size(720, 539);
             this.pnlMain.TabIndex = 8;
             // 
             // btnStart
@@ -127,10 +126,10 @@
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnStart.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnStart.Location = new System.Drawing.Point(1353, 38);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(15, 12, 15, 12);
+            this.btnStart.Location = new System.Drawing.Point(624, 19);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(215, 60);
+            this.btnStart.Size = new System.Drawing.Size(99, 30);
             this.btnStart.TabIndex = 9;
             this.btnStart.Text = "CMD Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -138,9 +137,9 @@
             // 
             // Gateway
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2058, 1269);
+            this.ClientSize = new System.Drawing.Size(893, 394);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.btnSaveConfig);
@@ -149,7 +148,6 @@
             this.Controls.Add(this.btnCmdDownload);
             this.Font = new System.Drawing.Font("新細明體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.Name = "Gateway";
             this.Text = "Gateway";
             this.Load += new System.EventHandler(this.Gateway_Load);
