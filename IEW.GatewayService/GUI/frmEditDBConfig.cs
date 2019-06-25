@@ -122,7 +122,7 @@ namespace IEW.GatewayService.GUI
                 txtPortID.Text = this.db_data.port_id;
                 txtConnectDB.Text = this.db_data.db_name;
                 txtUserName.Text = this.db_data.user_name;
-                txtPassword.Text = this.db_data.password;
+                txtPassword.Text = EncryptionHelper.Decrypt(this.db_data.password);
                 if (this.db_data.enable)
                 {
                     chkEnable.Checked = true;
@@ -227,14 +227,14 @@ namespace IEW.GatewayService.GUI
                 case "My SQL":
                     strConnectionString = "";
                     strConnectionString = "data source=" + txtDataSource.Text.Trim() + "," + txtPortID.Text.Trim() + "; initial catalog=" + txtConnectDB.Text.Trim();
-                    strConnectionString = strConnectionString + "; user id=" + txtUserName.Text.Trim() + "; password=" + txtPassword.Text.Trim();
+                    strConnectionString = strConnectionString + "; user id=" + txtUserName.Text.Trim() + "; password=" + EncryptionHelper.Encrypt(txtPassword.Text.Trim());
                     strConnectionString = strConnectionString + "; MultipleActiveResultSets=True; App=EntityFramework; persist security info=True";
                     break;
 
                 case "MS SQL":
                     strConnectionString = "";
                     strConnectionString = "server=" + txtDataSource.Text.Trim() + "; port=" + txtPortID.Text.Trim() + "; database=" + txtConnectDB.Text.Trim();
-                    strConnectionString = strConnectionString + "; uid=" + txtUserName.Text.Trim() + "; password=" + txtPassword.Text.Trim();
+                    strConnectionString = strConnectionString + "; uid=" + txtUserName.Text.Trim() + "; password=" + EncryptionHelper.Encrypt(txtPassword.Text.Trim());
                     break;
 
                 default:
@@ -379,15 +379,7 @@ namespace IEW.GatewayService.GUI
             tmpDB.port_id = txtPortID.Text.Trim();
             tmpDB.db_name = txtConnectDB.Text.Trim();
             tmpDB.user_name = txtUserName.Text.Trim();
-            tmpDB.password = txtPassword.Text.Trim();
-
-            /*
-            string encryptPassword = EncryptionHelper.Encrypt(txtPassword.Text.Trim());
-            MessageBox.Show("Encryped Password = " + encryptPassword, "Information");
-
-            string decryptPassword = EncryptionHelper.Decrypt(encryptPassword);
-            MessageBox.Show("Decryped Password = " + decryptPassword, "Information");
-            */
+            tmpDB.password = EncryptionHelper.Encrypt(txtPassword.Text.Trim());
 
             if (generate_connection_string(cmbDBType.Text.Trim()) == null)
             {
@@ -455,6 +447,11 @@ namespace IEW.GatewayService.GUI
                 delgSetDBSerial(this.serial_index);
             }
             delgSetDBInfo(tmpDB, this.isEdit);
+
+            if (!this.gateway_mgr.gateway_list[this.gateway_index].function_list.Contains("DB"))
+            {
+                this.gateway_mgr.gateway_list[this.gateway_index].function_list.Add("DB");
+            }
 
             this.Close();
         }

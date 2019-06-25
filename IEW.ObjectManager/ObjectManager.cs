@@ -25,6 +25,8 @@ namespace IEW.ObjectManager
         public DBManager DBManager = null;
         public event EventHandler HeartBeatEventHandler;
         public event EventHandler EDCReportEventHandler;
+        public event EventHandler StartAckEventHandler;
+        public event EventHandler ConfigAckEventHandler;
 
         #region Gateway Constructor
         public void GatewayManager_Initial()
@@ -199,6 +201,22 @@ namespace IEW.ObjectManager
             if(this.EDCReportEventHandler != null)
             {
                 EDCReportEventHandler(this, e);
+            }
+        }
+
+        public void OnStartAckEventCall(EventArgs e)
+        {
+            if(this.StartAckEventHandler != null)
+            {
+                StartAckEventHandler(this, e);
+            }
+        }
+
+        public void OnConfigAckEventCall(EventArgs e)
+        {
+            if (this.ConfigAckEventHandler != null)
+            {
+                ConfigAckEventHandler(this, e);
             }
         }
         #endregion

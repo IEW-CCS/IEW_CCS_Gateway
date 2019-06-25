@@ -457,6 +457,11 @@ namespace IEW.GatewayService.GUI
             }
             delgSetEDCXmlInfo(tmpEDC, this.isEdit);
 
+            if(!this.gateway_mgr.gateway_list[this.gateway_index].function_list.Contains("EDC"))
+            {
+                this.gateway_mgr.gateway_list[this.gateway_index].function_list.Add("EDC");
+            }
+
             this.Close();
         }
 

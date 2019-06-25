@@ -65,28 +65,6 @@ namespace IEW.GatewayService
 
                 // Timer_Routine_Job(routine_interval);
 
-                /*
-                ObjectManager.EDCManager_Initial();
-                cls_EDC_Info EDC = new cls_EDC_Info();
-                EDC.serial_id = "1";
-                EDC.gateway_id = "gateway001";
-                EDC.device_id = "sensor001";
-                EDC.report_tpye = "trigger";
-                EDC.ReportEDCPath = @"C:\EDC\Test_{Datetime}.xml";
-                EDC.enable = true;
-
-                cls_EDC_Head_Item hitem = new cls_EDC_Head_Item();
-                hitem.head_name = "GlassID";
-                hitem.value = "T8XXXX";
-
-                EDC.edchead_info.Add(hitem);
-
-                EDC.tag_info.Add(Tuple.Create("WordTestItem1", "tag_001"));
-                EDC.tag_info.Add(Tuple.Create("BitTestItem2", "tag_002"));
-
-                ObjectManager.EDCManager.gateway_edc.Add(EDC);
-                */
-
                 NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Initial Finished");
                 ret = true;
             }
@@ -154,7 +132,6 @@ namespace IEW.GatewayService
 
         }
 
-
         private void TimerTask(object timerState)
         {
             if (_Update_TagValue_Queue.Count > 0)
@@ -199,7 +176,6 @@ namespace IEW.GatewayService
                 Thread.Sleep(10);
             }
         }
-
 
         public void UpdateGatewayTagInfo(cls_ProcRecv_CollectData ProcData)
         {
@@ -302,7 +278,6 @@ namespace IEW.GatewayService
             }
         }
 
-
         public void Organize_EDCPartaker(string GateWayID, string Device_ID)
         {
             //--- 等待EDC List information 
@@ -388,6 +363,219 @@ namespace IEW.GatewayService
                         dv.hb_report_time = DateTime.ParseExact(hb.HBDatetime, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
                     }
 
+                    this.ObjectManager.OnHeartBeatEventCall(null);
+                }
+            }
+        }
+
+        public void StartAck(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/Cmd/Start/Ack
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            if (ObjectManager.MonitorManager != null)
+            {
+                cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                if (gw != null)
+                {
+                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
+                    if (dv != null)
+                    {
+                        cls_StartAck sc = new cls_StartAck();
+
+                        sc = JsonConvert.DeserializeObject<cls_StartAck>(InputData.MQTTPayload.ToString());
+                        if(sc.Cmd_Result == "OK")
+                        {
+                            gw.gateway_status = "Ready";
+                            gw.hb_status = "Ready";
+                            gw.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                            dv.device_status = "Ready";
+                            dv.hb_status = "Ready";
+                            dv.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+
+                            //Send message to notify IoTClient for receiving Gateway/Device configuration data
+                            SendCmdConfig(GateWayID, DeviceID);
+                        }
+                        else
+                        {
+                            gw.gateway_status = "Down";
+                            gw.hb_status = "Down";
+                            gw.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                            dv.device_status = "Down";
+                            dv.hb_status = "Down";
+                            dv.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                        }
+                    }
+
+                    //Raise event to notify Online Monitor form to refresh status
+                    this.ObjectManager.OnStartAckEventCall(null);
+                }
+            }
+        }
+
+        public void SendCmdConfig(string GateWayID, string DeviceID)
+        {
+            cls_Gateway_Info tmp_gw_info = new cls_Gateway_Info();
+            cls_Gateway_Info gw_info = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+            if(gw_info == null)
+            {
+                MessageBox.Show("Can't find [" + GateWayID + "][" + DeviceID + "] Config to send to IoTClient", "Error");
+                return;
+            }
+
+            tmp_gw_info.gateway_id = gw_info.gateway_id;
+            tmp_gw_info.gateway_ip = gw_info.gateway_ip;
+            tmp_gw_info.location = gw_info.location;
+            tmp_gw_info.virtual_flag = gw_info.virtual_flag;
+            tmp_gw_info.virtual_publish_topic = gw_info.virtual_publish_topic;
+            tmp_gw_info.function_list = gw_info.function_list;
+            cls_Device_Info dv_info = gw_info.device_info.Where(o => o.device_name == DeviceID).FirstOrDefault();
+            tmp_gw_info.device_info.Add(dv_info);
+
+            string json_msg = JsonConvert.SerializeObject(tmp_gw_info, Newtonsoft.Json.Formatting.Indented);
+
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = GateWayID;
+            SendOutMsg.DeviceID = DeviceID;
+            SendOutMsg.MQTTTopic = "Cmd_Config";
+            SendOutMsg.MQTTPayload = json_msg;
+            SendMQTTData(SendOutMsg);
+        }
+
+        public void ConfigEDC(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/Cmd/Config/EDC
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            SendConfigEDCReply(GateWayID, DeviceID);
+        }
+
+        public void SendConfigEDCReply(string GateWayID, string DeviceID)
+        {
+            List<cls_EDC_Info> edc_list = ObjectManager.EDCManager.gateway_edc.Where(p => p.gateway_id == GateWayID && p.device_id == DeviceID).ToList();
+
+            if (edc_list == null)
+            {
+                MessageBox.Show("Can't find [" + GateWayID + "][" + DeviceID + "] EDC XML Config to send to IoTClient", "Error");
+                return;
+            }
+
+            string json_msg = JsonConvert.SerializeObject(edc_list, Newtonsoft.Json.Formatting.Indented);
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = GateWayID;
+            SendOutMsg.DeviceID = DeviceID;
+            SendOutMsg.MQTTTopic = "Cmd_Config_EDC";
+            SendOutMsg.MQTTPayload = json_msg;
+            SendMQTTData(SendOutMsg);
+        }
+
+        public void ConfigDB(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/Cmd/Config/DB
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            SendConfigDBReply(GateWayID, DeviceID);
+        }
+
+        public void SendConfigDBReply(string GateWayID, string DeviceID)
+        {
+            cls_DB_Info db_info = ObjectManager.DBManager.dbconfig_list.Where(p => p.gateway_id == GateWayID && p.device_id == DeviceID).FirstOrDefault();
+            if (db_info == null)
+            {
+                MessageBox.Show("Can't find [" + GateWayID + "][" + DeviceID + "] DB Config to send to IoTClient", "Error");
+                return;
+            }
+
+            string json_msg = JsonConvert.SerializeObject(db_info, Newtonsoft.Json.Formatting.Indented);
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = GateWayID;
+            SendOutMsg.DeviceID = DeviceID;
+            SendOutMsg.MQTTTopic = "Cmd_Config_DB";
+            SendOutMsg.MQTTPayload = json_msg;
+            SendMQTTData(SendOutMsg);
+        }
+
+        public void ConfigAck(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/Cmd/Config/Ack
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            //Update IoTClient status in Online Monitor
+            if (ObjectManager.MonitorManager != null)
+            {
+                cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                if (gw != null)
+                {
+                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
+                    if (dv != null)
+                    {
+                        cls_ConfigAck ca = new cls_ConfigAck();
+
+                        ca = JsonConvert.DeserializeObject<cls_ConfigAck>(InputData.MQTTPayload.ToString());
+
+                        if(ca.Cmd_Result == "OK")
+                        {
+                            gw.iotclient_status =  "Ready";
+                            dv.iotclient_status = "Ready";
+                        }
+                        else
+                        {
+                            gw.iotclient_status = "Off";
+                            dv.iotclient_status = "Off";
+                        }
+                    }
+
+                    this.ObjectManager.OnConfigAckEventCall(null);
+                }
+            }
+        }
+
+        public void ReadDataAck(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/Cmd/ReadData/Ack
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            if (ObjectManager.MonitorManager != null)
+            {
+                cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                if (gw != null)
+                {
+                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
+                    if (dv != null)
+                    {
+                        cls_ReadDataAck rc = new cls_ReadDataAck();
+
+                        rc = JsonConvert.DeserializeObject<cls_ReadDataAck>(InputData.MQTTPayload.ToString());
+                        if (rc.Cmd_Result == "OK")
+                        {
+                            gw.gateway_status = "Idle";
+                            gw.hb_status = "Idle";
+                            gw.hb_report_time = DateTime.ParseExact(rc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                            dv.device_status = "Idle";
+                            dv.hb_status = "Idle";
+                            dv.hb_report_time = DateTime.ParseExact(rc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                        }
+                        else
+                        {
+                            gw.gateway_status = "Down";
+                            gw.hb_status = "Down";
+                            gw.hb_report_time = DateTime.ParseExact(rc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                            dv.device_status = "Down";
+                            dv.hb_status = "Down";
+                            dv.hb_report_time = DateTime.ParseExact(rc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                        }
+                    }
+
                     //Raise event to notify Online Monitor form to refresh status
                     this.ObjectManager.OnHeartBeatEventCall(null);
                 }
@@ -411,6 +599,39 @@ namespace IEW.GatewayService
                         gw.last_edc_time = DateTime.ParseExact(CollectData.Time_Stamp, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
 
                         dv.last_edc_time = DateTime.ParseExact(CollectData.Time_Stamp, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                    }
+                }
+            }
+        }
+
+        public void ReceiveReplyData(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/ReplyData
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            if (ObjectManager.GatewayManager != null)
+            {
+                cls_Gateway_Info Gateway = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                if (Gateway != null)
+                {
+                    cls_Device_Info Device = Gateway.device_info.Where(p => p.device_name == DeviceID).FirstOrDefault();
+                    if (Device != null)
+                    {
+                        try
+                        {
+                            //ProcCollectData Function = new ProcCollectData(Device, GateWayID, DeviceID);
+                            //ThreadPool.QueueUserWorkItem(o => Function.ThreadPool_Proc(InputData.MQTTPayload.ToString()));
+
+                            SetOnlineMonitorEDCReportStatus(GateWayID, DeviceID, InputData.MQTTPayload.ToString());
+                            //Raise event to notify Online Monitor form to refresh status
+                            this.ObjectManager.OnEDCReportEventCall(null);
+                        }
+                        catch (Exception ex)
+                        {
+                            NLogManager.Logger.LogError(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", ex);
+                        }
                     }
                 }
             }
@@ -449,7 +670,6 @@ namespace IEW.GatewayService
             }
         }
     }
-
 
     public class ProcCollectData
     {

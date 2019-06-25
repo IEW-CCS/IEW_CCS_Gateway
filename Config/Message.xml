@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object-definition>
   <message name="/IEW/+/+/ReplyData">
-    <object id="GatewayService" method="ReceiveMQTTData" />
+    <object id="GatewayService" method="ReceiveReplyData" />
   </message>
-    <message name="/IEW/+/+/Status/HeartBeat">
+  <message name="/IEW/+/+/Status/HeartBeat">
     <object id="GatewayService" method="ReceiveHeartBeat" />
+  </message>
+  <message name="/IEW/+/+/Cmd/Start/Ack">
+    <object id="GatewayService" method="StartAck" />
+  </message>
+  <message name="/IEW/+/+/Cmd/ReadData/Ack">
+    <object id="GatewayService" method="ReadDataAck" />
+  </message>
+  <message name="/IEW/+/+/Cmd/Config/EDC">
+    <object id="GatewayService" method="ConfigEDC" />
+  </message>
+  <message name="/IEW/+/+/Cmd/Config/DB">
+    <object id="GatewayService" method="ConfigDB" />
+  </message>
+  <message name="/IEW/+/+/Cmd/Config/Ack">
+    <object id="GatewayService" method="ConfigAck" />
   </message>
   <message name="/IEW/EDCService">
     <object id="EDCService" method="ReceiveMQTTData" />

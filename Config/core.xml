@@ -5,7 +5,6 @@
     <property name="QueueManager" ref="QueueManager" /> 
   </object>
 
-
   <object id="QueueManager" type="IEW.Platform.Kernel.Queue.QueueManager,IEW.Platform.Kernel" init-method="Init" /> 
   <object id="MessageManager" type="IEW.Platform.Kernel.Message.MessageManager,IEW.Platform.Kernel" init-method="Init">
     <property name="ConfigFileName" value="../../Config/Message.xml" />
@@ -34,7 +33,7 @@
     <property name="Name" value="MQTTManager" /> 
     <property name="MessageManager" ref="MessageManager"/>
     <property name="QueueManager" ref="QueueManager"/>
-    <property name="ConnectionString" value="tcp://172.20.10.9:1883"/>
+    <property name="ConnectionString" value="tcp://10.0.1.6:1883"/>
     <property name="ClientId" value="{ComputerName}_{ServerName}"/>
     <property name="Receive_Topic">
       <dictionary>
@@ -44,17 +43,23 @@
         <entry key="EDCService" value="/IEW/EDCService" />
         <entry key="HeartBeat" value ="/IEW/+/+/Status/HeartBeat" />
         <entry key="Alarm" value ="/IEW/+/+/Status/Alarm" />
-      </dictionary>
+        <entry key="StartAck" value ="/IEW/+/+/Cmd/Start/Ack" />
+        <entry key="ConfigEDC" value ="/IEW/+/+/Cmd/Config/EDC" />
+        <entry key="ConfigDB" value ="/IEW/+/+/Cmd/Config/DB" />
+        <entry key="ConfigAck" value ="/IEW/+/+/Cmd/Config/Ack" />
+        <entry key="ReadDataAck" value ="/IEW/+/+/Cmd/ReadData/Ack" />
+       </dictionary>
     </property>
     <property name="Publish_Topic">
       <dictionary>
         <entry key="Collect_Cmd" value="/IEW/{LineID}/{DeviceID}/Cmd/ReadData" /> 
         <entry key="Collect_Start" value="/IEW/{LineID}/{DeviceID}/Cmd/Start" /> 
+        <entry key="Cmd_Config" value="/IEW/{LineID}/{DeviceID}/Cmd/Config" /> 
+        <entry key="Cmd_Config_EDC" value="/IEW/{LineID}/{DeviceID}/Cmd/Config/EDC/Reply" /> 
+        <entry key="Cmd_Config_DB" value="/IEW/{LineID}/{DeviceID}/Cmd/Config/DB/Reply" /> 
+        <entry key="ReadData_Ready" value="/IEW/{LineID}/{DeviceID}/Cmd/ReadDataReady" /> 
         <entry key="EDCService" value="/IEW/EDCService" />
       </dictionary>
     </property>
-
   </object>
-
-
 </objects>

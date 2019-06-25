@@ -54,6 +54,8 @@
             this.lvTagList = new System.Windows.Forms.ListView();
             this.btnCalcTagRemove = new System.Windows.Forms.Button();
             this.btnCalcTagAdd = new System.Windows.Forms.Button();
+            this.txtLocation = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.pnlBLE.SuspendLayout();
             this.pnlPLC.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +64,7 @@
             // 
             this.txtDeviceID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDeviceID.Location = new System.Drawing.Point(121, 12);
-            this.txtDeviceID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDeviceID.Margin = new System.Windows.Forms.Padding(2);
             this.txtDeviceID.Name = "txtDeviceID";
             this.txtDeviceID.Size = new System.Drawing.Size(158, 23);
             this.txtDeviceID.TabIndex = 4;
@@ -95,7 +97,7 @@
             this.cmbType.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbType.FormattingEnabled = true;
             this.cmbType.Location = new System.Drawing.Point(121, 38);
-            this.cmbType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbType.Margin = new System.Windows.Forms.Padding(2);
             this.cmbType.Name = "cmbType";
             this.cmbType.Size = new System.Drawing.Size(158, 24);
             this.cmbType.TabIndex = 6;
@@ -105,7 +107,7 @@
             // 
             this.txtPLC_IP.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPLC_IP.Location = new System.Drawing.Point(142, 12);
-            this.txtPLC_IP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPLC_IP.Margin = new System.Windows.Forms.Padding(2);
             this.txtPLC_IP.Name = "txtPLC_IP";
             this.txtPLC_IP.Size = new System.Drawing.Size(158, 23);
             this.txtPLC_IP.TabIndex = 8;
@@ -125,7 +127,7 @@
             // 
             this.txtPLC_Port.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPLC_Port.Location = new System.Drawing.Point(142, 40);
-            this.txtPLC_Port.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPLC_Port.Margin = new System.Windows.Forms.Padding(2);
             this.txtPLC_Port.Name = "txtPLC_Port";
             this.txtPLC_Port.Size = new System.Drawing.Size(158, 23);
             this.txtPLC_Port.TabIndex = 10;
@@ -145,7 +147,7 @@
             // 
             this.txtBLE_Mac.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBLE_Mac.Location = new System.Drawing.Point(158, 12);
-            this.txtBLE_Mac.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtBLE_Mac.Margin = new System.Windows.Forms.Padding(2);
             this.txtBLE_Mac.Name = "txtBLE_Mac";
             this.txtBLE_Mac.Size = new System.Drawing.Size(158, 23);
             this.txtBLE_Mac.TabIndex = 12;
@@ -165,7 +167,7 @@
             // 
             this.txtBLE_Service_UUID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBLE_Service_UUID.Location = new System.Drawing.Point(158, 42);
-            this.txtBLE_Service_UUID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtBLE_Service_UUID.Margin = new System.Windows.Forms.Padding(2);
             this.txtBLE_Service_UUID.Name = "txtBLE_Service_UUID";
             this.txtBLE_Service_UUID.Size = new System.Drawing.Size(158, 23);
             this.txtBLE_Service_UUID.TabIndex = 14;
@@ -185,7 +187,7 @@
             // 
             this.btnDeviceCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeviceCancel.Location = new System.Drawing.Point(335, 511);
-            this.btnDeviceCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeviceCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeviceCancel.Name = "btnDeviceCancel";
             this.btnDeviceCancel.Size = new System.Drawing.Size(79, 34);
             this.btnDeviceCancel.TabIndex = 16;
@@ -197,7 +199,7 @@
             // 
             this.btnDeviceSave.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeviceSave.Location = new System.Drawing.Point(237, 511);
-            this.btnDeviceSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeviceSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeviceSave.Name = "btnDeviceSave";
             this.btnDeviceSave.Size = new System.Drawing.Size(79, 34);
             this.btnDeviceSave.TabIndex = 15;
@@ -214,7 +216,7 @@
             this.pnlBLE.Controls.Add(this.lblBLE_Service_UUID);
             this.pnlBLE.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlBLE.Location = new System.Drawing.Point(374, 72);
-            this.pnlBLE.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlBLE.Margin = new System.Windows.Forms.Padding(2);
             this.pnlBLE.Name = "pnlBLE";
             this.pnlBLE.Size = new System.Drawing.Size(354, 76);
             this.pnlBLE.TabIndex = 17;
@@ -228,7 +230,7 @@
             this.pnlPLC.Controls.Add(this.lblPLC_Port);
             this.pnlPLC.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnlPLC.Location = new System.Drawing.Point(23, 72);
-            this.pnlPLC.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlPLC.Margin = new System.Windows.Forms.Padding(2);
             this.pnlPLC.Name = "pnlPLC";
             this.pnlPLC.Size = new System.Drawing.Size(331, 76);
             this.pnlPLC.TabIndex = 18;
@@ -241,7 +243,7 @@
             this.btnTagRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTagRemove.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnTagRemove.Location = new System.Drawing.Point(706, 341);
-            this.btnTagRemove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnTagRemove.Margin = new System.Windows.Forms.Padding(2);
             this.btnTagRemove.Name = "btnTagRemove";
             this.btnTagRemove.Size = new System.Drawing.Size(22, 22);
             this.btnTagRemove.TabIndex = 22;
@@ -256,7 +258,7 @@
             this.btnTagAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTagAdd.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnTagAdd.Location = new System.Drawing.Point(681, 341);
-            this.btnTagAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnTagAdd.Margin = new System.Windows.Forms.Padding(2);
             this.btnTagAdd.Name = "btnTagAdd";
             this.btnTagAdd.Size = new System.Drawing.Size(22, 22);
             this.btnTagAdd.TabIndex = 21;
@@ -267,7 +269,7 @@
             // 
             this.btnLoadTag.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLoadTag.Location = new System.Drawing.Point(461, 511);
-            this.btnLoadTag.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLoadTag.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoadTag.Name = "btnLoadTag";
             this.btnLoadTag.Size = new System.Drawing.Size(110, 34);
             this.btnLoadTag.TabIndex = 23;
@@ -303,7 +305,7 @@
             this.lvCalcTagList.FullRowSelect = true;
             this.lvCalcTagList.GridLines = true;
             this.lvCalcTagList.Location = new System.Drawing.Point(23, 374);
-            this.lvCalcTagList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lvCalcTagList.Margin = new System.Windows.Forms.Padding(2);
             this.lvCalcTagList.Name = "lvCalcTagList";
             this.lvCalcTagList.Size = new System.Drawing.Size(705, 122);
             this.lvCalcTagList.TabIndex = 25;
@@ -317,7 +319,7 @@
             this.lvTagList.FullRowSelect = true;
             this.lvTagList.GridLines = true;
             this.lvTagList.Location = new System.Drawing.Point(23, 181);
-            this.lvTagList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lvTagList.Margin = new System.Windows.Forms.Padding(2);
             this.lvTagList.Name = "lvTagList";
             this.lvTagList.Size = new System.Drawing.Size(705, 156);
             this.lvTagList.TabIndex = 24;
@@ -333,7 +335,7 @@
             this.btnCalcTagRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCalcTagRemove.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnCalcTagRemove.Location = new System.Drawing.Point(706, 500);
-            this.btnCalcTagRemove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCalcTagRemove.Margin = new System.Windows.Forms.Padding(2);
             this.btnCalcTagRemove.Name = "btnCalcTagRemove";
             this.btnCalcTagRemove.Size = new System.Drawing.Size(22, 22);
             this.btnCalcTagRemove.TabIndex = 29;
@@ -348,17 +350,39 @@
             this.btnCalcTagAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCalcTagAdd.Font = new System.Drawing.Font("新細明體", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnCalcTagAdd.Location = new System.Drawing.Point(681, 500);
-            this.btnCalcTagAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCalcTagAdd.Margin = new System.Windows.Forms.Padding(2);
             this.btnCalcTagAdd.Name = "btnCalcTagAdd";
             this.btnCalcTagAdd.Size = new System.Drawing.Size(22, 22);
             this.btnCalcTagAdd.TabIndex = 28;
             this.btnCalcTagAdd.UseVisualStyleBackColor = true;
             this.btnCalcTagAdd.Click += new System.EventHandler(this.btnCalcTagAdd_Click);
             // 
+            // txtLocation
+            // 
+            this.txtLocation.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLocation.Location = new System.Drawing.Point(420, 9);
+            this.txtLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.txtLocation.Name = "txtLocation";
+            this.txtLocation.Size = new System.Drawing.Size(138, 23);
+            this.txtLocation.TabIndex = 31;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(334, 13);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(54, 17);
+            this.label4.TabIndex = 30;
+            this.label4.Text = "Location: ";
+            // 
             // frmEditDevice
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(746, 556);
+            this.Controls.Add(this.txtLocation);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.btnCalcTagRemove);
             this.Controls.Add(this.btnCalcTagAdd);
             this.Controls.Add(this.label2);
@@ -377,7 +401,7 @@
             this.Controls.Add(this.lblDeviceID);
             this.Controls.Add(this.pnlBLE);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmEditDevice";
             this.Text = "Add Device";
             this.Load += new System.EventHandler(this.frmEditDevice_Load);
@@ -417,5 +441,7 @@
         private System.Windows.Forms.ListView lvTagList;
         private System.Windows.Forms.Button btnCalcTagRemove;
         private System.Windows.Forms.Button btnCalcTagAdd;
+        private System.Windows.Forms.TextBox txtLocation;
+        private System.Windows.Forms.Label label4;
     }
 }

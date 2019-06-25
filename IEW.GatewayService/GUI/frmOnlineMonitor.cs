@@ -29,11 +29,14 @@ namespace IEW.GatewayService.GUI
             this.object_mgr = obj_mgr;
             this.object_mgr.HeartBeatEventHandler += new EventHandler(this.StatusUpdate);
             this.object_mgr.EDCReportEventHandler += new EventHandler(this.StatusUpdate);
+            this.object_mgr.StartAckEventHandler += new EventHandler(this.StatusUpdate);
+            this.object_mgr.ConfigAckEventHandler += new EventHandler(this.StatusUpdate);
         }
 
         private void frmOnlineMonitor_Load(object sender, EventArgs e)
         {
             this.gw_statusColumn.ImageGetter = new BrightIdeasSoftware.ImageGetterDelegate(this.GWStatusImageGetter);
+            this.iot_statusColumn.ImageGetter = new BrightIdeasSoftware.ImageGetterDelegate(this.IoTStatusImageGetter);
             lvoStatus.SetObjects(this.object_mgr.MonitorManager.monitor_list);
             lvoStatus.RefreshObjects(this.object_mgr.MonitorManager.monitor_list);
         }
@@ -55,6 +58,34 @@ namespace IEW.GatewayService.GUI
                 case "Down":
                     return "Down";
 
+                case "Idle":
+                    return "Idle";
+
+                default:
+                    return "Off";
+            }
+        }
+
+        public object IoTStatusImageGetter(object rawObject)
+        {
+            cls_Monitor_Gateway_Info mgi = (cls_Monitor_Gateway_Info)rawObject;
+            switch(mgi.iotclient_status)
+            {
+                case "Off":
+                    return "Off";
+
+                case "Ready":
+                    return "Ready";
+                /*
+                case "Run":
+                    return "Run";
+
+                case "Down":
+                    return "Down";
+
+                case "Idle":
+                    return "Idle";
+                */
                 default:
                     return "Off";
             }
@@ -130,6 +161,12 @@ namespace IEW.GatewayService.GUI
                     continue;
                 }
 
+                if (gw.iotclient_status != "Ready")
+                {
+                    MessageBox.Show("IoTClient status is wrong, [" + gw.gateway_id + "] will not send ReadData command", "Warning");
+                    continue;
+                }
+
                 GateWayID = gw.gateway_id;
                 foreach(cls_Monitor_Device_info dv in gw.device_list)
                 {
@@ -146,6 +183,8 @@ namespace IEW.GatewayService.GUI
             {
                 this.object_mgr.HeartBeatEventHandler -= new EventHandler(this.StatusUpdate);
                 this.object_mgr.EDCReportEventHandler -= new EventHandler(this.StatusUpdate);
+                this.object_mgr.StartAckEventHandler -= new EventHandler(this.StatusUpdate);
+                this.object_mgr.ConfigAckEventHandler -= new EventHandler(this.StatusUpdate);
                 components.Dispose();
             }
             base.Dispose(disposing);

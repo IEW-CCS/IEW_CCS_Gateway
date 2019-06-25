@@ -38,9 +38,8 @@ namespace IEW.GatewayService.UI
         static int NODE_INDEX_TAG_SET_LIST = 1;
         static int NODE_INDEX_EDC_HEADER_SET_LIST = 2;
         static int NODE_INDEX_EDC_OUTPUT_LIST = 3;
-        static int NODE_INDEX_ON_LINE_MONITOR = 4;
-        static int NODE_INDEX_DB_CONFIG = 5;
-
+        static int NODE_INDEX_DB_CONFIG = 4;
+        static int NODE_INDEX_ON_LINE_MONITOR = 5;
 
         //Define TabPages Index
         const int TABPAGE_INDEX_GATEWAY_LIST = 0;
@@ -88,13 +87,13 @@ namespace IEW.GatewayService.UI
             tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_LIST;
             tNode.ImageIndex = 9;
 
-            tNode = tvNodeList.Nodes.Add("On-Line Monitor");
-            tNode.Tag = TABPAGE_INDEX_ON_LINE_MONITOR;
-            tNode.ImageIndex = 11;
-
             tNode = tvNodeList.Nodes.Add("Database Config");
             tNode.Tag = TABPAGE_INDEX_DB_CONFIG_LIST;
             tNode.ImageIndex = 12;
+
+            tNode = tvNodeList.Nodes.Add("On-Line Monitor");
+            tNode.Tag = TABPAGE_INDEX_ON_LINE_MONITOR;
+            tNode.ImageIndex = 11;
 
             tvNodeList.EndUpdate();
 
@@ -746,6 +745,7 @@ namespace IEW.GatewayService.UI
                 StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Gateway_Device_Config.json");
 
                 string json_string = inputFile.ReadToEnd();
+                //string json_string = EncryptionHelper.Decrypt(inputFile.ReadToEnd());
 
                 ObjectManager.GatewayManager_Initial(json_string);
 
@@ -757,9 +757,9 @@ namespace IEW.GatewayService.UI
 
                 inputFile.Close();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Gateway config file loading error!", "Error");
+                MessageBox.Show("Gateway config file loading error -> " + ex.Message, "Error");
                 return false;
             }
 
@@ -916,6 +916,7 @@ namespace IEW.GatewayService.UI
                     mgi.gateway_ip = gi.gateway_ip;
                     mgi.gateway_location = gi.location;
                     mgi.gateway_status = "Off";
+                    mgi.iotclient_status = "Off";
 
                     if (gi.device_info.Count > 0)
                     {
@@ -940,6 +941,7 @@ namespace IEW.GatewayService.UI
             string json_string;
 
             json_string = ObjectManager.GatewayManager_ToJson_String();
+            //json_string = EncryptionHelper.Encrypt(ObjectManager.GatewayManager_ToJson_String());
             StreamWriter output = new StreamWriter("C:\\Gateway\\Config\\Gateway_Device_Config.json");
             output.Write(json_string);
             output.Close();

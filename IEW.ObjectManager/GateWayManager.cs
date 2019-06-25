@@ -16,6 +16,8 @@ namespace IEW.ObjectManager
         public string plc_ip_address { get; set; }
         public string plc_port_id { get; set; }
         public string ble_mac { get; set; }
+        public string device_location { get; set; }
+        //public string device_publish_topic { get; set; }
         public List<string> ble_service_uuid = new List<string>();
         public ConcurrentDictionary<string, cls_Tag> tag_info = new ConcurrentDictionary<string, cls_Tag>();
         public ConcurrentDictionary<string, cls_CalcTag> calc_tag_info = new ConcurrentDictionary<string, cls_CalcTag>();
@@ -31,6 +33,9 @@ namespace IEW.ObjectManager
         public string gateway_id { get; set; }
         public string gateway_ip { get; set; }
         public string location { get; set; }
+        public bool virtual_flag { get; set; }
+        public string virtual_publish_topic { get; set; }
+        public List<string> function_list = new List<string>(); //"EDC", "DB"
         public List<cls_Device_Info> device_info = new List<cls_Device_Info>();
 
         public object Clone()
@@ -250,13 +255,10 @@ namespace IEW.ObjectManager
     }
     #endregion
 
-
-
     public class cls_DeviceInfo_start
     {
         public string IP_ADDR { get; set; }
         public string PORT_ID { get; set; }
-
     }
 
     public class cls_Collect_start
@@ -279,6 +281,7 @@ namespace IEW.ObjectManager
         public string plc_ip { get; set; }
         public string plc_port { get; set; }
         public string device_status { get; set; }
+        public string iotclient_status { get; set; }
         public DateTime last_edc_time { get; set; }
         public string hb_status { get; set; }
         public DateTime hb_report_time { get; set; }
@@ -293,6 +296,7 @@ namespace IEW.ObjectManager
         public DateTime last_edc_time { get; set; }
         public string hb_status { get; set; }
         public DateTime hb_report_time { get; set; }
+        public string iotclient_status { get; set; }
         public List<cls_Monitor_Device_info> device_list = new List<cls_Monitor_Device_info>();
     }
 
@@ -314,7 +318,30 @@ namespace IEW.ObjectManager
         public string Status { get; set; }
         public string HBDatetime { get; set; }
     }
+    #endregion
 
+    #region Class to define the received Start Ack MQTT message payload
+    public class cls_StartAck
+    {
+        public string Cmd_Result { get; set; }
+        public string Trace_ID { get; set; }
+    }
+    #endregion
+
+    #region Class to define the received Config Ack MQTT message payload
+    public class cls_ConfigAck
+    {
+        public string Cmd_Result { get; set; }
+        public string Trace_ID { get; set; }
+    }
+    #endregion
+
+    #region Class to define the received ReadData Ack MQTT message payload
+    public class cls_ReadDataAck
+    {
+        public string Cmd_Result { get; set; }
+        public string Trace_ID { get; set; }
+    }
     #endregion
 
 }

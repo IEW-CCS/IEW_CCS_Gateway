@@ -41,6 +41,9 @@
             this.btnGWCancel = new System.Windows.Forms.Button();
             this.txtLocation = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtTopic = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.chkVirtual = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblGatewayID
@@ -69,7 +72,7 @@
             // 
             this.txtGatewayID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGatewayID.Location = new System.Drawing.Point(110, 16);
-            this.txtGatewayID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtGatewayID.Margin = new System.Windows.Forms.Padding(2);
             this.txtGatewayID.Name = "txtGatewayID";
             this.txtGatewayID.Size = new System.Drawing.Size(138, 23);
             this.txtGatewayID.TabIndex = 2;
@@ -78,7 +81,7 @@
             // 
             this.txtGatewayIP.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGatewayIP.Location = new System.Drawing.Point(110, 46);
-            this.txtGatewayIP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtGatewayIP.Margin = new System.Windows.Forms.Padding(2);
             this.txtGatewayIP.Name = "txtGatewayIP";
             this.txtGatewayIP.Size = new System.Drawing.Size(138, 23);
             this.txtGatewayIP.TabIndex = 3;
@@ -100,7 +103,7 @@
             this.lvGWDevice.FullRowSelect = true;
             this.lvGWDevice.GridLines = true;
             this.lvGWDevice.Location = new System.Drawing.Point(26, 105);
-            this.lvGWDevice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.lvGWDevice.Margin = new System.Windows.Forms.Padding(2);
             this.lvGWDevice.Name = "lvGWDevice";
             this.lvGWDevice.Size = new System.Drawing.Size(696, 399);
             this.lvGWDevice.TabIndex = 5;
@@ -116,7 +119,7 @@
             this.btnDeviceRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeviceRemove.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeviceRemove.Location = new System.Drawing.Point(698, 508);
-            this.btnDeviceRemove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeviceRemove.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeviceRemove.Name = "btnDeviceRemove";
             this.btnDeviceRemove.Size = new System.Drawing.Size(24, 24);
             this.btnDeviceRemove.TabIndex = 7;
@@ -131,7 +134,7 @@
             this.btnDeviceAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeviceAdd.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeviceAdd.Location = new System.Drawing.Point(673, 508);
-            this.btnDeviceAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnDeviceAdd.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeviceAdd.Name = "btnDeviceAdd";
             this.btnDeviceAdd.Size = new System.Drawing.Size(24, 24);
             this.btnDeviceAdd.TabIndex = 6;
@@ -142,7 +145,7 @@
             // 
             this.btnGWSave.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGWSave.Location = new System.Drawing.Point(295, 511);
-            this.btnGWSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGWSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnGWSave.Name = "btnGWSave";
             this.btnGWSave.Size = new System.Drawing.Size(79, 34);
             this.btnGWSave.TabIndex = 8;
@@ -154,7 +157,7 @@
             // 
             this.btnGWCancel.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGWCancel.Location = new System.Drawing.Point(393, 511);
-            this.btnGWCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGWCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnGWCancel.Name = "btnGWCancel";
             this.btnGWCancel.Size = new System.Drawing.Size(79, 34);
             this.btnGWCancel.TabIndex = 9;
@@ -166,7 +169,7 @@
             // 
             this.txtLocation.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLocation.Location = new System.Drawing.Point(366, 16);
-            this.txtLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtLocation.Margin = new System.Windows.Forms.Padding(2);
             this.txtLocation.Name = "txtLocation";
             this.txtLocation.Size = new System.Drawing.Size(138, 23);
             this.txtLocation.TabIndex = 11;
@@ -175,17 +178,51 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(292, 20);
+            this.label1.Location = new System.Drawing.Point(280, 20);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 17);
             this.label1.TabIndex = 10;
             this.label1.Text = "Location: ";
             // 
+            // txtTopic
+            // 
+            this.txtTopic.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTopic.Location = new System.Drawing.Point(366, 46);
+            this.txtTopic.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTopic.Name = "txtTopic";
+            this.txtTopic.Size = new System.Drawing.Size(307, 23);
+            this.txtTopic.TabIndex = 13;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(280, 50);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 17);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Publish Topic:";
+            // 
+            // chkVirtual
+            // 
+            this.chkVirtual.AutoSize = true;
+            this.chkVirtual.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkVirtual.Location = new System.Drawing.Point(548, 18);
+            this.chkVirtual.Name = "chkVirtual";
+            this.chkVirtual.Size = new System.Drawing.Size(125, 20);
+            this.chkVirtual.TabIndex = 14;
+            this.chkVirtual.Text = "Virtual Gateway Flag";
+            this.chkVirtual.UseVisualStyleBackColor = true;
+            // 
             // frmEditGateway
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(733, 556);
+            this.Controls.Add(this.chkVirtual);
+            this.Controls.Add(this.txtTopic);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.txtLocation);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnGWCancel);
@@ -199,7 +236,7 @@
             this.Controls.Add(this.lblGatewayIP);
             this.Controls.Add(this.lblGatewayID);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmEditGateway";
             this.Text = "Add Gateway";
             this.Load += new System.EventHandler(this.frmEditGateway_Load);
@@ -222,5 +259,8 @@
         private System.Windows.Forms.Button btnGWCancel;
         private System.Windows.Forms.TextBox txtLocation;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtTopic;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkVirtual;
     }
 }
