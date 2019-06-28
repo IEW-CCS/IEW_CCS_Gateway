@@ -23,6 +23,8 @@ namespace IEW.ObjectManager
 
         public List<cls_EDC_Head_Item> edchead_info;
         public List<cls_EDC_Body_Item> edcitem_info;
+        public List<string> interval_function = new List<string>();
+
 
         public EDCPartaker()
         {
@@ -39,6 +41,7 @@ namespace IEW.ObjectManager
             this.timestapm = DateTime.Now;
             this.ReportEDCPath = EDCInfo.ReportEDCPath;
 
+            this.interval_function =  EDCInfo.interval_function.ToList();
             this.edchead_info = EDCInfo.edchead_info.ToList();
             this.edcitem_info = new List<cls_EDC_Body_Item>();
 
