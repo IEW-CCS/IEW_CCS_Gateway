@@ -23,7 +23,7 @@ namespace IEW.ObjectManager
 
         public List<cls_EDC_Head_Item> edchead_info;
         public List<cls_EDC_Body_Item> edcitem_info;
-        public List<string> interval_function = new List<string>();
+        public List<string> interval_function ;
 
 
         public EDCPartaker()
