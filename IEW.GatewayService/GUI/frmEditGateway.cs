@@ -73,6 +73,18 @@ namespace IEW.GatewayService.GUI
                 txtGatewayID.Enabled = false;
                 txtGatewayIP.Text = this.gateway_Info.gateway_ip;
                 txtLocation.Text = this.gateway_Info.location;
+                if(this.gateway_Info.virtual_flag)
+                {
+                    chkVirtual.Checked = true;
+                    txtTopic.Text = this.gateway_Info.virtual_publish_topic;
+                }
+                else
+                {
+                    chkVirtual.Checked = false;
+                    txtTopic.Text = "";
+                    txtTopic.Enabled = false;
+                }
+
                 DisplayDeviceList();
             }
             else
@@ -162,6 +174,21 @@ namespace IEW.GatewayService.GUI
             giTemp.gateway_id = txtGatewayID.Text.Trim();
             giTemp.gateway_ip = txtGatewayIP.Text.Trim();
             giTemp.location = txtLocation.Text.Trim();
+            if(chkVirtual.Checked)
+            {
+                if(txtTopic.Text.Trim() == "")
+                {
+                    MessageBox.Show("Please input the Publish Topic for virtual gateway", "Error");
+                    return;
+                }
+                giTemp.virtual_flag = true;
+            }
+            else
+            {
+                giTemp.virtual_flag = false;
+            }
+
+            giTemp.virtual_publish_topic = txtTopic.Text.Trim();
             giTemp.device_info = this.device_list;
 
             delgSetGateway(giTemp, this.isEdit);
@@ -234,6 +261,19 @@ namespace IEW.GatewayService.GUI
 
             DisplayDeviceList();
             lvGWDevice.Focus();
+        }
+
+        private void chkVirtual_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkVirtual.Checked)
+            {
+                txtTopic.Enabled = true;
+            }
+            else
+            {
+                txtTopic.Enabled = false;
+                txtTopic.Text = "";
+            }
         }
     }
 }

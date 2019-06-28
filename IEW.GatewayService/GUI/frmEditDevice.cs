@@ -91,6 +91,7 @@ namespace IEW.GatewayService.GUI
                 txtPLC_IP.Text = device_data.plc_ip_address;
                 txtPLC_Port .Text= device_data.plc_port_id;
                 txtBLE_Mac.Text = device_data.ble_mac;
+                txtLocation.Text = device_data.device_location;
                 //txtBLE_Service_UUID.Text = device_data.ble_service_uuid;
             }
             else
@@ -198,6 +199,7 @@ namespace IEW.GatewayService.GUI
 
             diTemp.device_name = txtDeviceID.Text.Trim();
             diTemp.device_type = cmbType.Text.Trim();
+            diTemp.device_location = txtLocation.Text.Trim();
             diTemp.plc_ip_address = txtPLC_IP.Text.Trim();
             diTemp.plc_port_id = txtPLC_Port.Text.Trim();
             diTemp.ble_mac = txtBLE_Mac.Text.Trim();

@@ -37,13 +37,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lvoStatus = new BrightIdeasSoftware.ObjectListView();
             this.gw_idColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.gw_ipColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.gw_statusColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.edc_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dv_idColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dv_typeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dv_statusColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.iot_statusColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.hb_statusColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.hb_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.gw_locationColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.iot_statusColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.edc_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dv_locationColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.txtInterval = new System.Windows.Forms.TextBox();
@@ -53,7 +54,7 @@
             // btnStart
             // 
             this.btnStart.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStart.Location = new System.Drawing.Point(551, 475);
+            this.btnStart.Location = new System.Drawing.Point(11, 517);
             this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(76, 28);
@@ -65,7 +66,7 @@
             // btnReadData
             // 
             this.btnReadData.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReadData.Location = new System.Drawing.Point(645, 475);
+            this.btnReadData.Location = new System.Drawing.Point(105, 517);
             this.btnReadData.Margin = new System.Windows.Forms.Padding(2);
             this.btnReadData.Name = "btnReadData";
             this.btnReadData.Size = new System.Drawing.Size(76, 28);
@@ -88,24 +89,25 @@
             // lvoStatus
             // 
             this.lvoStatus.AllColumns.Add(this.gw_idColumn);
-            this.lvoStatus.AllColumns.Add(this.gw_ipColumn);
-            this.lvoStatus.AllColumns.Add(this.gw_statusColumn);
-            this.lvoStatus.AllColumns.Add(this.edc_timeColumn);
+            this.lvoStatus.AllColumns.Add(this.dv_idColumn);
+            this.lvoStatus.AllColumns.Add(this.dv_typeColumn);
+            this.lvoStatus.AllColumns.Add(this.dv_statusColumn);
+            this.lvoStatus.AllColumns.Add(this.iot_statusColumn);
             this.lvoStatus.AllColumns.Add(this.hb_statusColumn);
             this.lvoStatus.AllColumns.Add(this.hb_timeColumn);
-            this.lvoStatus.AllColumns.Add(this.gw_locationColumn);
-            this.lvoStatus.AllColumns.Add(this.iot_statusColumn);
+            this.lvoStatus.AllColumns.Add(this.edc_timeColumn);
+            this.lvoStatus.AllColumns.Add(this.dv_locationColumn1);
             this.lvoStatus.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.lvoStatus.CheckBoxes = true;
             this.lvoStatus.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.gw_idColumn,
-            this.gw_ipColumn,
-            this.gw_statusColumn,
-            this.edc_timeColumn,
+            this.dv_idColumn,
+            this.dv_typeColumn,
+            this.dv_statusColumn,
+            this.iot_statusColumn,
             this.hb_statusColumn,
             this.hb_timeColumn,
-            this.gw_locationColumn,
-            this.iot_statusColumn});
+            this.edc_timeColumn,
+            this.dv_locationColumn1});
             this.lvoStatus.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvoStatus.FullRowSelect = true;
             this.lvoStatus.GridLines = true;
@@ -117,60 +119,77 @@
             this.lvoStatus.MenuLabelLockGroupingOn = "";
             this.lvoStatus.Name = "lvoStatus";
             this.lvoStatus.ShowImagesOnSubItems = true;
-            this.lvoStatus.Size = new System.Drawing.Size(723, 427);
+            this.lvoStatus.Size = new System.Drawing.Size(723, 466);
             this.lvoStatus.SmallImageList = this.imageList1;
             this.lvoStatus.SortGroupItemsByPrimaryColumn = false;
             this.lvoStatus.TabIndex = 4;
             this.lvoStatus.UseCompatibleStateImageBehavior = false;
+            this.lvoStatus.UseSubItemCheckBoxes = true;
             this.lvoStatus.View = System.Windows.Forms.View.Details;
             // 
             // gw_idColumn
             // 
             this.gw_idColumn.AspectName = "gateway_id";
-            this.gw_idColumn.CheckBoxes = true;
             this.gw_idColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
+            this.gw_idColumn.IsVisible = false;
             this.gw_idColumn.Text = "Gateway ID";
-            this.gw_idColumn.Width = 110;
+            this.gw_idColumn.Width = 0;
             // 
-            // gw_ipColumn
+            // dv_idColumn
             // 
-            this.gw_ipColumn.AspectName = "gateway_ip";
-            this.gw_ipColumn.Text = "Gatewya IP";
-            this.gw_ipColumn.Width = 90;
+            this.dv_idColumn.AspectName = "device_id";
+            this.dv_idColumn.CheckBoxes = true;
+            this.dv_idColumn.Groupable = false;
+            this.dv_idColumn.Text = "Device ID";
+            this.dv_idColumn.Width = 90;
             // 
-            // gw_statusColumn
+            // dv_typeColumn
             // 
-            this.gw_statusColumn.AspectName = "gateway_status";
-            this.gw_statusColumn.Text = "Status";
-            this.gw_statusColumn.Width = 80;
+            this.dv_typeColumn.AspectName = "device_type";
+            this.dv_typeColumn.Groupable = false;
+            this.dv_typeColumn.Text = "Type";
+            this.dv_typeColumn.Width = 50;
             // 
-            // edc_timeColumn
+            // dv_statusColumn
             // 
-            this.edc_timeColumn.AspectName = "last_edc_time";
-            this.edc_timeColumn.Text = "Last EDC Time";
-            this.edc_timeColumn.Width = 130;
+            this.dv_statusColumn.AspectName = "device_status";
+            this.dv_statusColumn.Groupable = false;
+            this.dv_statusColumn.Text = "Status";
+            this.dv_statusColumn.Width = 70;
+            // 
+            // iot_statusColumn
+            // 
+            this.iot_statusColumn.AspectName = "iotclient_status";
+            this.iot_statusColumn.Groupable = false;
+            this.iot_statusColumn.Text = "IoTClient Status";
+            this.iot_statusColumn.Width = 70;
             // 
             // hb_statusColumn
             // 
             this.hb_statusColumn.AspectName = "hb_status";
-            this.hb_statusColumn.Text = "H/B Status";
+            this.hb_statusColumn.Groupable = false;
+            this.hb_statusColumn.Text = "HeartBeat";
             this.hb_statusColumn.Width = 70;
             // 
             // hb_timeColumn
             // 
             this.hb_timeColumn.AspectName = "hb_report_time";
-            this.hb_timeColumn.Text = "H/B Time";
+            this.hb_timeColumn.Groupable = false;
+            this.hb_timeColumn.Text = "HB Time";
             this.hb_timeColumn.Width = 130;
             // 
-            // gw_locationColumn
+            // edc_timeColumn
             // 
-            this.gw_locationColumn.AspectName = "gateway_location";
-            this.gw_locationColumn.Text = "Location";
+            this.edc_timeColumn.AspectName = "last_edc_time";
+            this.edc_timeColumn.Groupable = false;
+            this.edc_timeColumn.Text = "EDC Time";
+            this.edc_timeColumn.Width = 130;
             // 
-            // iot_statusColumn
+            // dv_locationColumn1
             // 
-            this.iot_statusColumn.AspectName = "iotclient_status";
-            this.iot_statusColumn.Text = "IoTClient Status";
+            this.dv_locationColumn1.AspectName = "device_location";
+            this.dv_locationColumn1.Groupable = false;
+            this.dv_locationColumn1.Text = "Location";
             // 
             // imageList1
             // 
@@ -186,7 +205,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(561, 12);
+            this.label2.Location = new System.Drawing.Point(597, 10);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 17);
@@ -196,7 +215,7 @@
             // txtInterval
             // 
             this.txtInterval.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtInterval.Location = new System.Drawing.Point(645, 11);
+            this.txtInterval.Location = new System.Drawing.Point(681, 8);
             this.txtInterval.Margin = new System.Windows.Forms.Padding(2);
             this.txtInterval.Name = "txtInterval";
             this.txtInterval.Size = new System.Drawing.Size(52, 23);
@@ -205,7 +224,7 @@
             // frmOnlineMonitor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(746, 519);
+            this.ClientSize = new System.Drawing.Size(746, 556);
             this.Controls.Add(this.txtInterval);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lvoStatus);
@@ -228,15 +247,16 @@
         private System.Windows.Forms.Label label1;
         private BrightIdeasSoftware.ObjectListView lvoStatus;
         private BrightIdeasSoftware.OLVColumn gw_idColumn;
-        private BrightIdeasSoftware.OLVColumn gw_ipColumn;
-        private BrightIdeasSoftware.OLVColumn gw_statusColumn;
-        private BrightIdeasSoftware.OLVColumn edc_timeColumn;
+        private BrightIdeasSoftware.OLVColumn dv_idColumn;
+        private BrightIdeasSoftware.OLVColumn dv_typeColumn;
+        private BrightIdeasSoftware.OLVColumn dv_statusColumn;
+        private BrightIdeasSoftware.OLVColumn iot_statusColumn;
         private BrightIdeasSoftware.OLVColumn hb_statusColumn;
-        private BrightIdeasSoftware.OLVColumn hb_timeColumn;
         private System.Windows.Forms.ImageList imageList1;
-        private BrightIdeasSoftware.OLVColumn gw_locationColumn;
+        private BrightIdeasSoftware.OLVColumn hb_timeColumn;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtInterval;
-        private BrightIdeasSoftware.OLVColumn iot_statusColumn;
+        private BrightIdeasSoftware.OLVColumn edc_timeColumn;
+        private BrightIdeasSoftware.OLVColumn dv_locationColumn1;
     }
 }

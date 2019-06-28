@@ -87,6 +87,7 @@ namespace IEW.ObjectManager
         //------ 設定 使用 ----- item 1 report EDC item name   items2 device tag class name;
         public List<Tuple<string, string>> tag_info = new List<Tuple<string, string>>();
         public List<Tuple<string, string>> calc_tag_info = new List<Tuple<string, string>>();
+        public List<string> interval_function = new List<string>();
 
         //------ Report EDC 使用 -----
         public List<cls_EDC_Head_Item> edchead_info = new List<cls_EDC_Head_Item>();

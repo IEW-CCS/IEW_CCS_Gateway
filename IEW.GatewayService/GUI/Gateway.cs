@@ -922,12 +922,17 @@ namespace IEW.GatewayService.UI
                     {
                         foreach (cls_Device_Info di in gi.device_info)
                         {
-                            cls_Monitor_Device_info mdi = new cls_Monitor_Device_info();
+                            cls_Monitor_Device_Info mdi = new cls_Monitor_Device_Info();
+                            mdi.gateway_id = mgi.gateway_id;
                             mdi.device_id = di.device_name;
+                            mdi.device_type = di.device_type;
                             mdi.device_status = "Off";
+                            mdi.iotclient_status = "Off";
                             mdi.plc_ip = di.plc_ip_address;
                             mdi.plc_port = di.plc_port_id;
+                            mdi.device_location = di.device_location;
                             mgi.device_list.Add(mdi);
+                            ObjectManager.MonitorManager.device_list.Add(mdi);
                         }
 
                     }

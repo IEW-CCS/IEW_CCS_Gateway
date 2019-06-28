@@ -343,17 +343,17 @@ namespace IEW.GatewayService
             string GateWayID = Topic[2].ToString();
             string DeviceID = Topic[3].ToString();
 
+            cls_HeartBeat hb = new cls_HeartBeat();
+            hb = JsonConvert.DeserializeObject<cls_HeartBeat>(InputData.MQTTPayload.ToString());
+
             if (ObjectManager.MonitorManager != null)
             {
                 cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
                 if (gw != null)
                 {
-                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
+                    cls_Monitor_Device_Info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
                     if (dv != null)
                     {
-                        cls_HeartBeat hb = new cls_HeartBeat();
-
-                        hb = JsonConvert.DeserializeObject<cls_HeartBeat>(InputData.MQTTPayload.ToString());
                         gw.gateway_status = hb.Status;
                         gw.hb_report_time = DateTime.ParseExact(hb.HBDatetime, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
                         gw.hb_status = hb.Status;
@@ -361,6 +361,14 @@ namespace IEW.GatewayService
                         dv.device_status = hb.Status;
                         dv.hb_status = hb.Status;
                         dv.hb_report_time = DateTime.ParseExact(hb.HBDatetime, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                    }
+
+                    cls_Monitor_Device_Info mdv = ObjectManager.MonitorManager.device_list.Where(o => o.gateway_id == GateWayID && o.device_id == DeviceID).FirstOrDefault();
+                    if(mdv != null)
+                    {
+                        mdv.device_status = hb.Status;
+                        mdv.hb_status = hb.Status;
+                        mdv.hb_report_time = DateTime.ParseExact(hb.HBDatetime, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
                     }
 
                     this.ObjectManager.OnHeartBeatEventCall(null);
@@ -375,17 +383,17 @@ namespace IEW.GatewayService
             string GateWayID = Topic[2].ToString();
             string DeviceID = Topic[3].ToString();
 
+            cls_StartAck sc = new cls_StartAck();
+            sc = JsonConvert.DeserializeObject<cls_StartAck>(InputData.MQTTPayload.ToString());
+
             if (ObjectManager.MonitorManager != null)
             {
                 cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
                 if (gw != null)
                 {
-                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
+                    cls_Monitor_Device_Info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
                     if (dv != null)
                     {
-                        cls_StartAck sc = new cls_StartAck();
-
-                        sc = JsonConvert.DeserializeObject<cls_StartAck>(InputData.MQTTPayload.ToString());
                         if(sc.Cmd_Result == "OK")
                         {
                             gw.gateway_status = "Ready";
@@ -396,7 +404,7 @@ namespace IEW.GatewayService
                             dv.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
 
                             //Send message to notify IoTClient for receiving Gateway/Device configuration data
-                            SendCmdConfig(GateWayID, DeviceID);
+                            //SendCmdConfig(GateWayID, DeviceID);
                         }
                         else
                         {
@@ -406,6 +414,26 @@ namespace IEW.GatewayService
                             dv.device_status = "Down";
                             dv.hb_status = "Down";
                             dv.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                        }
+                    }
+
+                    cls_Monitor_Device_Info mdv = ObjectManager.MonitorManager.device_list.Where(o => o.gateway_id == GateWayID && o.device_id == DeviceID).FirstOrDefault();
+                    if (mdv != null)
+                    {
+                        if (sc.Cmd_Result == "OK")
+                        {
+                            mdv.device_status = "Ready";
+                            mdv.hb_status = "Ready";
+                            mdv.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+
+                            //Send message to notify IoTClient for receiving Gateway/Device configuration data
+                            SendCmdConfig(GateWayID, DeviceID);
+                        }
+                        else
+                        {
+                            mdv.device_status = "Down";
+                            mdv.hb_status = "Down";
+                            mdv.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
                         }
                     }
 
@@ -508,18 +536,18 @@ namespace IEW.GatewayService
             string GateWayID = Topic[2].ToString();
             string DeviceID = Topic[3].ToString();
 
+            cls_ConfigAck ca = new cls_ConfigAck();
+            ca = JsonConvert.DeserializeObject<cls_ConfigAck>(InputData.MQTTPayload.ToString());
+
             //Update IoTClient status in Online Monitor
             if (ObjectManager.MonitorManager != null)
             {
                 cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
                 if (gw != null)
                 {
-                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
+                    cls_Monitor_Device_Info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
                     if (dv != null)
                     {
-                        cls_ConfigAck ca = new cls_ConfigAck();
-
-                        ca = JsonConvert.DeserializeObject<cls_ConfigAck>(InputData.MQTTPayload.ToString());
 
                         if(ca.Cmd_Result == "OK")
                         {
@@ -530,6 +558,20 @@ namespace IEW.GatewayService
                         {
                             gw.iotclient_status = "Off";
                             dv.iotclient_status = "Off";
+                        }
+                    }
+
+                    cls_Monitor_Device_Info mdv = ObjectManager.MonitorManager.device_list.Where(o => o.gateway_id == GateWayID && o.device_id == DeviceID).FirstOrDefault();
+                    if (mdv != null)
+                    {
+
+                        if (ca.Cmd_Result == "OK")
+                        {
+                            mdv.iotclient_status = "Ready";
+                        }
+                        else
+                        {
+                            mdv.iotclient_status = "Off";
                         }
                     }
 
@@ -550,7 +592,7 @@ namespace IEW.GatewayService
                 cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
                 if (gw != null)
                 {
-                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
+                    cls_Monitor_Device_Info dv = gw.device_list.Where(p => p.device_id == DeviceID).FirstOrDefault();
                     if (dv != null)
                     {
                         cls_ReadDataAck rc = new cls_ReadDataAck();
@@ -589,7 +631,7 @@ namespace IEW.GatewayService
                 cls_Monitor_Gateway_Info gw = ObjectManager.MonitorManager.monitor_list.Where(p => p.gateway_id == gw_id).FirstOrDefault();
                 if (gw != null)
                 {
-                    cls_Monitor_Device_info dv = gw.device_list.Where(p => p.device_id == dv_id).FirstOrDefault();
+                    cls_Monitor_Device_Info dv = gw.device_list.Where(p => p.device_id == dv_id).FirstOrDefault();
                     if (dv != null)
                     {
                         cls_HeartBeat hb = new cls_HeartBeat();

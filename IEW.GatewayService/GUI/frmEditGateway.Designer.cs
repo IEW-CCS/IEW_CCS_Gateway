@@ -215,6 +215,7 @@
             this.chkVirtual.TabIndex = 14;
             this.chkVirtual.Text = "Virtual Gateway Flag";
             this.chkVirtual.UseVisualStyleBackColor = true;
+            this.chkVirtual.CheckedChanged += new System.EventHandler(this.chkVirtual_CheckedChanged);
             // 
             // frmEditGateway
             // 
