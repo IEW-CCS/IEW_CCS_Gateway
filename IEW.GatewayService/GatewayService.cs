@@ -443,6 +443,21 @@ namespace IEW.GatewayService
             }
         }
 
+        public void SendStartAck(string GateWayID, string DeviceID)
+        {
+            cls_StartAck sc = new cls_StartAck();
+            sc.Cmd_Result = "OK";
+            sc.Trace_ID = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
+            string json_msg = JsonConvert.SerializeObject(sc, Newtonsoft.Json.Formatting.Indented);
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = GateWayID;
+            SendOutMsg.DeviceID = DeviceID;
+            SendOutMsg.MQTTTopic = "Collect_Start_Ack";
+            SendOutMsg.MQTTPayload = json_msg;
+            SendMQTTData(SendOutMsg);
+        }
+
         public void SendCmdConfig(string GateWayID, string DeviceID)
         {
             cls_Gateway_Info tmp_gw_info = new cls_Gateway_Info();

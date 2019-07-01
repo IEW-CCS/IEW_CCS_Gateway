@@ -227,14 +227,16 @@ namespace IEW.GatewayService.GUI
                 case "My SQL":
                     strConnectionString = "";
                     strConnectionString = "data source=" + txtDataSource.Text.Trim() + "," + txtPortID.Text.Trim() + "; initial catalog=" + txtConnectDB.Text.Trim();
-                    strConnectionString = strConnectionString + "; user id=" + txtUserName.Text.Trim() + "; password=" + EncryptionHelper.Encrypt(txtPassword.Text.Trim());
+                    //strConnectionString = strConnectionString + "; user id=" + txtUserName.Text.Trim() + "; password=" + EncryptionHelper.Encrypt(txtPassword.Text.Trim());
+                    strConnectionString = strConnectionString + "; user id=" + txtUserName.Text.Trim() + "; password=" + txtPassword.Text.Trim();
                     strConnectionString = strConnectionString + "; MultipleActiveResultSets=True; App=EntityFramework; persist security info=True";
                     break;
 
                 case "MS SQL":
                     strConnectionString = "";
                     strConnectionString = "server=" + txtDataSource.Text.Trim() + "; port=" + txtPortID.Text.Trim() + "; database=" + txtConnectDB.Text.Trim();
-                    strConnectionString = strConnectionString + "; uid=" + txtUserName.Text.Trim() + "; password=" + EncryptionHelper.Encrypt(txtPassword.Text.Trim());
+                   // strConnectionString = strConnectionString + "; uid=" + txtUserName.Text.Trim() + "; password=" + EncryptionHelper.Encrypt(txtPassword.Text.Trim());
+                    strConnectionString = strConnectionString + "; uid=" + txtUserName.Text.Trim() + "; password=" + txtPassword.Text.Trim();
                     break;
 
                 default:
@@ -379,7 +381,9 @@ namespace IEW.GatewayService.GUI
             tmpDB.port_id = txtPortID.Text.Trim();
             tmpDB.db_name = txtConnectDB.Text.Trim();
             tmpDB.user_name = txtUserName.Text.Trim();
-            tmpDB.password = EncryptionHelper.Encrypt(txtPassword.Text.Trim());
+            //tmpDB.password = EncryptionHelper.Encrypt(txtPassword.Text.Trim());
+            tmpDB.password = txtPassword.Text.Trim();
+
 
             if (generate_connection_string(cmbDBType.Text.Trim()) == null)
             {

@@ -280,6 +280,7 @@ namespace IEW.ObjectManager
         public string gateway_id { get; set; }
         public string device_id { get; set; }
         public string device_type { get; set; }
+        public bool virtual_flag { get; set; }
         public string plc_ip { get; set; }
         public string plc_port { get; set; }
         public string device_status { get; set; }
@@ -288,18 +289,21 @@ namespace IEW.ObjectManager
         public string device_location { get; set; }
         public DateTime last_edc_time { get; set; }
         public DateTime hb_report_time { get; set; }
-        private bool dv_checked_flag = false;
+        /*
+        public bool dv_checked_flag = false;
         public bool dv_checked
         {
             get { return dv_checked_flag; }
             set { dv_checked_flag = value; }
         }
+        */
     }
 
     public class cls_Monitor_Gateway_Info
     {
         public string gateway_id { get; set; }
         public string gateway_ip { get; set; }
+        public bool virtual_flag { get; set; }
         public string gateway_location { get; set; }
         public string gateway_status { get; set; }
         public DateTime last_edc_time { get; set; }

@@ -114,12 +114,11 @@ namespace IEW.GatewayService.GUI
 
             cmbReportType.Items.Clear();
             cmbReportType.Items.Add("trigger");
-            //cmbReportType.Items.Add("interval");
+            cmbReportType.Items.Add("interval");
 
             txtSerial.Enabled = false;
             this.serial_index = this.serial_index + 1;
             txtSerial.Text = this.serial_index.ToString("D8");
-
 
             if (isEdit)
             {
@@ -130,7 +129,31 @@ namespace IEW.GatewayService.GUI
                 cmbGateway.Text = this.edc_data.gateway_id;
                 cmbDevice.Text = this.edc_data.device_id;
                 cmbReportType.Text = this.edc_data.report_tpye;
-                //txtReportInterval.Text = edc_data.report_interval.ToString();
+                if (this.edc_data.report_tpye == "trigger")
+                {
+                    txtReportInterval.Text = "";
+                    txtReportInterval.Enabled = false;
+                }
+                else if(this.edc_data.report_tpye == "interval")
+                {
+                    txtReportInterval.Text = this.edc_data.report_interval.ToString();
+                    txtReportInterval.Enabled = true;
+                    if(this.edc_data.interval_function.Contains("AVG"))
+                    {
+                        chkAVG.Checked = true;
+                    }
+
+                    if (this.edc_data.interval_function.Contains("MAX"))
+                    {
+                        chkMAX.Checked = true;
+                    }
+
+                    if (this.edc_data.interval_function.Contains("MIN"))
+                    {
+                        chkMIN.Checked = true;
+                    }
+                }
+
                 txtReportPath.Text = this.edc_data.ReportEDCPath;
                 if(this.edc_data.enable)
                 {
@@ -243,7 +266,6 @@ namespace IEW.GatewayService.GUI
                 MessageBox.Show("Find header set information failed", "Error");
                 return;
             }
-
         }
 
         private void DisplayTagList(cls_Device_Info device)
@@ -371,6 +393,27 @@ namespace IEW.GatewayService.GUI
                         return;
                     }
                     tmpEDC.report_interval = int.Parse(txtReportInterval.Text.Trim());
+
+                    if(chkAVG.Checked)
+                    {
+                        tmpEDC.interval_function.Add("AVG");
+                    }
+
+                    if (chkMAX.Checked)
+                    {
+                        tmpEDC.interval_function.Add("MAX");
+                    }
+
+                    if (chkMIN.Checked)
+                    {
+                        tmpEDC.interval_function.Add("MIN");
+                    }
+
+                    if(tmpEDC.interval_function.Count == 0)
+                    {
+                        MessageBox.Show("Please checked at lease one interval function!", "Error");
+                        return;
+                    }
                 }
             }
 
@@ -498,6 +541,24 @@ namespace IEW.GatewayService.GUI
             }
 
             return true;
+        }
+
+        private void cmbReportType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cmbReportType.Text.Trim() == "trigger")
+            {
+                gbInterval.Enabled = false;
+                chkAVG.Checked = false;
+                chkMAX.Checked = false;
+                chkMIN.Checked = false;
+                txtReportInterval.Enabled = false;
+                txtReportInterval.Text = "";
+            }
+            else if(cmbReportType.Text.Trim() == "interval")
+            {
+                gbInterval.Enabled = true;
+                txtReportInterval.Enabled = true;
+            }
         }
     }
 }

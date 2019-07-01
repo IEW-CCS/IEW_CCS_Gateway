@@ -33,7 +33,7 @@
     <property name="Name" value="MQTTManager" /> 
     <property name="MessageManager" ref="MessageManager"/>
     <property name="QueueManager" ref="QueueManager"/>
-    <property name="ConnectionString" value="tcp://10.0.1.6:1883"/>
+    <property name="ConnectionString" value="tcp://172.20.10.9:1883"/>
     <property name="ClientId" value="{ComputerName}_{ServerName}"/>
     <property name="Receive_Topic">
       <dictionary>
@@ -54,6 +54,7 @@
       <dictionary>
         <entry key="Collect_Cmd" value="/IEW/{LineID}/{DeviceID}/Cmd/ReadData" /> 
         <entry key="Collect_Start" value="/IEW/{LineID}/{DeviceID}/Cmd/Start" /> 
+        <entry key="Collect_Start_Ack" value="/IEW/{LineID}/{DeviceID}/Cmd/Start/Ack" /> 
         <entry key="Cmd_Config" value="/IEW/{LineID}/{DeviceID}/Cmd/Config" /> 
         <entry key="Cmd_Config_EDC" value="/IEW/{LineID}/{DeviceID}/Cmd/Config/EDC/Reply" /> 
         <entry key="Cmd_Config_DB" value="/IEW/{LineID}/{DeviceID}/Cmd/Config/DB/Reply" /> 

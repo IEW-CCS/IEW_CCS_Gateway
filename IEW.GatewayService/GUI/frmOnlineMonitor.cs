@@ -6,7 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using IEW.Platform.Kernel.Common;
 using IEW.Platform.Kernel.Log;
@@ -112,6 +112,14 @@ namespace IEW.GatewayService.GUI
 
             foreach (cls_Monitor_Device_Info dv in dv_list)
             {
+                // If device is a virtual device, then directly send the Start/Ack MQTT message to CCS
+                if(dv.virtual_flag)
+                {
+                    IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "SendStartAck", new object[] { dv.gateway_id, dv.device_id });
+                    Thread.Sleep(500);
+                    continue;
+                }
+
                 cls_Collect_start cmd_start = new cls_Collect_start();
                 cmd_start.Cmd_Type = "Start";
                 cmd_start.Trace_ID = DateTime.Now.ToString("yyyyMMddhhmmss");
@@ -121,6 +129,7 @@ namespace IEW.GatewayService.GUI
                 cmd_start.Device_Info.Add(device_info);
                 string tmp_json = JsonConvert.SerializeObject(cmd_start, Newtonsoft.Json.Formatting.Indented);
                 IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Start", new object[] { dv.gateway_id, dv.device_id, tmp_json });
+                Thread.Sleep(500);
             }
         }
 
@@ -169,6 +178,7 @@ namespace IEW.GatewayService.GUI
                 string DeviceID = dv.device_id;
                 string tmp_json = this.object_mgr.GatewayCommand_Json("Collect", txtInterval.Text.Trim(), DateTime.Now.ToString("yyyyMMddhhmmssfff"), GateWayID, DeviceID);
                 IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "GateWay_Collect_Cmd_Download", new object[] { GateWayID, DeviceID, tmp_json });
+                Thread.Sleep(500);
             }
         }
 

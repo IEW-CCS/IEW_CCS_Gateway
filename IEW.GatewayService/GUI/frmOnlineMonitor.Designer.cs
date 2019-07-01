@@ -98,6 +98,7 @@
             this.lvoStatus.AllColumns.Add(this.edc_timeColumn);
             this.lvoStatus.AllColumns.Add(this.dv_locationColumn1);
             this.lvoStatus.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.lvoStatus.CheckBoxes = true;
             this.lvoStatus.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.gw_idColumn,
             this.dv_idColumn,
@@ -124,21 +125,21 @@
             this.lvoStatus.SortGroupItemsByPrimaryColumn = false;
             this.lvoStatus.TabIndex = 4;
             this.lvoStatus.UseCompatibleStateImageBehavior = false;
-            this.lvoStatus.UseSubItemCheckBoxes = true;
             this.lvoStatus.View = System.Windows.Forms.View.Details;
             // 
             // gw_idColumn
             // 
             this.gw_idColumn.AspectName = "gateway_id";
+            this.gw_idColumn.CheckBoxes = true;
+            this.gw_idColumn.Groupable = false;
             this.gw_idColumn.HeaderCheckBoxUpdatesRowCheckBoxes = false;
             this.gw_idColumn.IsVisible = false;
             this.gw_idColumn.Text = "Gateway ID";
-            this.gw_idColumn.Width = 0;
+            this.gw_idColumn.Width = 110;
             // 
             // dv_idColumn
             // 
             this.dv_idColumn.AspectName = "device_id";
-            this.dv_idColumn.CheckBoxes = true;
             this.dv_idColumn.Groupable = false;
             this.dv_idColumn.Text = "Device ID";
             this.dv_idColumn.Width = 90;

@@ -914,6 +914,7 @@ namespace IEW.GatewayService.UI
                     cls_Monitor_Gateway_Info mgi = new cls_Monitor_Gateway_Info();
                     mgi.gateway_id = gi.gateway_id;
                     mgi.gateway_ip = gi.gateway_ip;
+                    mgi.virtual_flag = gi.virtual_flag;
                     mgi.gateway_location = gi.location;
                     mgi.gateway_status = "Off";
                     mgi.iotclient_status = "Off";
@@ -925,6 +926,7 @@ namespace IEW.GatewayService.UI
                             cls_Monitor_Device_Info mdi = new cls_Monitor_Device_Info();
                             mdi.gateway_id = mgi.gateway_id;
                             mdi.device_id = di.device_name;
+                            mdi.virtual_flag = mgi.virtual_flag;
                             mdi.device_type = di.device_type;
                             mdi.device_status = "Off";
                             mdi.iotclient_status = "Off";

@@ -68,9 +68,6 @@ namespace IEW.ObjectManager
         }
     }
 
-
-
-
     public class cls_EDC_Info
     {
         public string     serial_id   { get; set; }
@@ -79,7 +76,7 @@ namespace IEW.ObjectManager
 
         public string     report_tpye     { get; set; }       //  trigger/interval
         public double     report_interval { get; set; }       //  以秒為單位 
-        public DateTime   timestapm       { get; set; }
+        public DateTime   timestamp       { get; set; }
 
         public string     ReportEDCPath   { get; set; }
         public bool       enable          { get; set; }
@@ -87,7 +84,7 @@ namespace IEW.ObjectManager
         //------ 設定 使用 ----- item 1 report EDC item name   items2 device tag class name;
         public List<Tuple<string, string>> tag_info = new List<Tuple<string, string>>();
         public List<Tuple<string, string>> calc_tag_info = new List<Tuple<string, string>>();
-        public List<string> interval_function = new List<string>();
+        public List<string> interval_function = new List<string>(); //AVG, MAX, MIN
 
         //------ Report EDC 使用 -----
         public List<cls_EDC_Head_Item> edchead_info = new List<cls_EDC_Head_Item>();
