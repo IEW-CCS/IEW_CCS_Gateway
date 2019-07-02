@@ -81,7 +81,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(6, 6);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(356, 485);
             this.panel1.TabIndex = 16;
@@ -110,7 +110,7 @@
             // 
             this.txtDescription.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDescription.Location = new System.Drawing.Point(14, 330);
-            this.txtDescription.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDescription.Margin = new System.Windows.Forms.Padding(2);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(328, 87);
@@ -132,10 +132,11 @@
             this.cmbDataType.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbDataType.FormattingEnabled = true;
             this.cmbDataType.Location = new System.Drawing.Point(118, 40);
-            this.cmbDataType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbDataType.Margin = new System.Windows.Forms.Padding(2);
             this.cmbDataType.Name = "cmbDataType";
             this.cmbDataType.Size = new System.Drawing.Size(135, 24);
             this.cmbDataType.TabIndex = 31;
+            this.cmbDataType.SelectedIndexChanged += new System.EventHandler(this.cmbDataType_SelectedIndexChanged);
             // 
             // btnTagCancel
             // 

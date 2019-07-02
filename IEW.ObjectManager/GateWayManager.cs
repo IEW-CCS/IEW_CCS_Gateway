@@ -289,14 +289,12 @@ namespace IEW.ObjectManager
         public string device_location { get; set; }
         public DateTime last_edc_time { get; set; }
         public DateTime hb_report_time { get; set; }
-        /*
         public bool dv_checked_flag = false;
         public bool dv_checked
         {
             get { return dv_checked_flag; }
             set { dv_checked_flag = value; }
         }
-        */
     }
 
     public class cls_Monitor_Gateway_Info

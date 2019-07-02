@@ -49,15 +49,9 @@ namespace IEW.GatewayService.GUI
             cmbDataType.Items.Clear();
             cmbDataType.Items.Add("PLC");
             cmbDataType.Items.Add("BLE");
+            cmbDataType.Items.Add("Virtual");
 
             cmbWordBit.Items.Clear();
-            cmbWordBit.Items.Add("SINT");
-            cmbWordBit.Items.Add("UINT");
-            cmbWordBit.Items.Add("SLONG");
-            cmbWordBit.Items.Add("ULONG");
-            cmbWordBit.Items.Add("ASC");
-            cmbWordBit.Items.Add("BIT");
-
 
             if (this.isEdit)
             {
@@ -67,48 +61,61 @@ namespace IEW.GatewayService.GUI
                 txtScale.Text = tag_data.scale.ToString();
                 txtOffset.Text = tag_data.offset.ToString();
                 txtDescription.Text = tag_data.Description;
-
-                if(tag_data.UUID_Address.Contains('.'))
+                if(tag_data.Type == "Virtual")
                 {
-                    cmbWordBit.Text = "BIT";
+                    txtStartAddress.Text = "";
+                    txtStartAddress.Enabled = false;
+                    txtStartBit.Text = "";
+                    txtStartBit.Enabled = false;
+                    txtEndBit.Text = "";
+                    txtEndBit.Enabled = false;
                     txtLength.Text = "";
                     txtLength.Enabled = false;
-                    gbLinearScale.Enabled = false;
-                    txtScale.Text = "";
-                    txtOffset.Text = "";
-                    txtStartBit.Enabled = true;
-                    txtEndBit.Enabled = true;
-
-                    string[] strArray = tag_data.UUID_Address.Split(new Char[] { ':', '.'});
-                    txtStartAddress.Text = strArray[0];
-                    txtStartBit.Text = strArray[1];
-                    txtEndBit.Text = strArray[2];
                 }
                 else
                 {
-                    cmbWordBit.Text = tag_data.Expression ;
-                    string[] strArray = tag_data.UUID_Address.Split(new Char[] { ':' });
-                    txtStartAddress.Text = strArray[0];
-                    txtStartBit.Enabled = false;
-                    txtEndBit.Enabled = false;
-
-                    if (cmbWordBit.Text == "ASC")
+                    if (tag_data.UUID_Address.Contains('.'))
                     {
+                        cmbWordBit.Text = "BIT";
+                        txtLength.Text = "";
+                        txtLength.Enabled = false;
                         gbLinearScale.Enabled = false;
                         txtScale.Text = "";
                         txtOffset.Text = "";
-                        txtLength.Enabled = true;
+                        txtStartBit.Enabled = true;
+                        txtEndBit.Enabled = true;
 
-                        int start = int.Parse(strArray[0].Substring(1));
-                        int end = int.Parse(strArray[1].Substring(1));
-                        int length = end - start;
-                        txtLength.Text = length.ToString();
+                        string[] strArray = tag_data.UUID_Address.Split(new Char[] { ':', '.' });
+                        txtStartAddress.Text = strArray[0];
+                        txtStartBit.Text = strArray[1];
+                        txtEndBit.Text = strArray[2];
                     }
                     else
                     {
-                        gbLinearScale.Enabled = true;
-                        txtLength.Enabled = false;
-                        txtLength.Text = "";
+                        cmbWordBit.Text = tag_data.Expression;
+                        string[] strArray = tag_data.UUID_Address.Split(new Char[] { ':' });
+                        txtStartAddress.Text = strArray[0];
+                        txtStartBit.Enabled = false;
+                        txtEndBit.Enabled = false;
+
+                        if (cmbWordBit.Text == "ASC")
+                        {
+                            gbLinearScale.Enabled = false;
+                            txtScale.Text = "";
+                            txtOffset.Text = "";
+                            txtLength.Enabled = true;
+
+                            int start = int.Parse(strArray[0].Substring(1));
+                            int end = int.Parse(strArray[1].Substring(1));
+                            int length = end - start;
+                            txtLength.Text = length.ToString();
+                        }
+                        else
+                        {
+                            gbLinearScale.Enabled = true;
+                            txtLength.Enabled = false;
+                            txtLength.Text = "";
+                        }
                     }
                 }
             }
@@ -123,38 +130,59 @@ namespace IEW.GatewayService.GUI
 
         private void cmbWordBit_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cmbWordBit.Text.Trim() == "BIT")
+            if (cmbDataType.Text.Trim() == "Virtual")
             {
-                gbLinearScale.Enabled = false;
-                txtScale.Text = "";
-                txtOffset.Text = "";
-                txtLength.Text = "";
-                txtLength.Enabled = false;
-                txtStartBit.Enabled = true;
-                txtEndBit.Enabled = true;
-            }
-            else if(cmbWordBit.Text.Trim() == "ASC")
-            {
-                gbLinearScale.Enabled = false;
-                txtScale.Text = "";
-                txtOffset.Text = "";
-                txtLength.Enabled = true;
-                txtStartBit.Text = "";
-                txtEndBit.Text = "";
-                txtStartBit.Enabled = false;
-                txtEndBit.Enabled = false;
+                if(cmbWordBit.Text.Trim() == "ASC")
+                {
+                    txtScale.Text = "";
+                    txtScale.Enabled = false;
+                    txtOffset.Text = "";
+                    txtOffset.Enabled = false;
+                }
+                else
+                {
+                    gbLinearScale.Enabled = true;
+                    txtScale.Text = "1";
+                    txtScale.Enabled = true;
+                    txtOffset.Text = "0";
+                    txtOffset.Enabled = true;
+                }
             }
             else
             {
-                gbLinearScale.Enabled = true;
-                txtLength.Text = "";
-                txtLength.Enabled = false;
-                txtStartBit.Text = "";
-                txtEndBit.Text = "";
-                txtStartBit.Enabled = false;
-                txtEndBit.Enabled = false;
-                txtScale.Text = "1";
-                txtOffset.Text = "0";
+                if (cmbWordBit.Text.Trim() == "BIT")
+                {
+                    gbLinearScale.Enabled = false;
+                    txtScale.Text = "";
+                    txtOffset.Text = "";
+                    txtLength.Text = "";
+                    txtLength.Enabled = false;
+                    txtStartBit.Enabled = true;
+                    txtEndBit.Enabled = true;
+                }
+                else if (cmbWordBit.Text.Trim() == "ASC")
+                {
+                    gbLinearScale.Enabled = false;
+                    txtScale.Text = "";
+                    txtOffset.Text = "";
+                    txtLength.Enabled = true;
+                    txtStartBit.Text = "";
+                    txtEndBit.Text = "";
+                    txtStartBit.Enabled = false;
+                    txtEndBit.Enabled = false;
+                }
+                else
+                {
+                    gbLinearScale.Enabled = true;
+                    txtLength.Text = "";
+                    txtLength.Enabled = false;
+                    txtStartBit.Text = "";
+                    txtEndBit.Text = "";
+                    txtStartBit.Enabled = false;
+                    txtEndBit.Enabled = false;
+                    txtScale.Text = "1";
+                    txtOffset.Text = "0";
+                }
             }
         }
 
@@ -201,143 +229,173 @@ namespace IEW.GatewayService.GUI
             }
             tmpTag.Type = cmbDataType.Text.Trim();
 
-            if (txtStartAddress.Text == "")
-            {
-                MessageBox.Show("Please enter start address!", "Error");
-                return;
-            }
-            else
-            {
-                if(!int.TryParse(txtStartAddress.Text.Trim().Substring(1), out iValue))
-                {
-                    MessageBox.Show("Start Address format is wrong!", "Error");
-                    return;
-                }
-                // Check if the first character equals to 'B', 'D', 'M', 'W'
-            }
-
             if (cmbWordBit.Text == "")
             {
                 MessageBox.Show("Please select the Word/Bit information!", "Error");
                 return;
             }
 
-            if(cmbWordBit.Text == "BIT")
+            if(cmbDataType.Text.Trim() == "Virtual")
             {
-                if(txtStartBit.Text == "")
+                double dScale;
+                double dOffset;
+                if(cmbWordBit.Text.Trim() != "ASC")
                 {
-                    MessageBox.Show("Please enter the start bit!", "Error");
-                    return;
-                }
-                else
-                {
-                    if (int.TryParse(txtStartBit.Text, out iValue))
+                    if (double.TryParse(txtScale.Text.Trim(), out dScale))
                     {
-                        if (iValue < 0 || iValue > 15)
-                        {
-                            MessageBox.Show("Please enter the correct start bit!", "Error");
-                            return;
-                        }
+                        tmpTag.scale = dScale;
                     }
                     else
                     {
-                        MessageBox.Show("Number only for Start Bit!", "Error");
+                        MessageBox.Show("Scale must be a double value", "Error");
                         return;
                     }
-                }
 
-                if (txtEndBit.Text == "")
-                {
-                    MessageBox.Show("Please enter the end bit!", "Error");
-                    return;
-                }
-                else
-                {
-                    if(int.TryParse(txtEndBit.Text, out iValue))
+                    if (double.TryParse(txtOffset.Text.Trim(), out dOffset))
                     {
-                        if (iValue < 0 || iValue > 15)
-                        {
-                            MessageBox.Show("Please enter the correct end bit!", "Error");
-                            return;
-                        }
+                        tmpTag.offset = dOffset;
                     }
                     else
                     {
-                        MessageBox.Show("Number only for End Bit!", "Error");
+                        MessageBox.Show("Offset must be a double value", "Error");
                         return;
                     }
                 }
-                tmpTag.UUID_Address = txtStartAddress.Text.Trim() + "." + txtStartBit.Text.Trim() + ":" + txtEndBit.Text.Trim();
-            }
-            else if(cmbWordBit.Text == "ASC")
-            {
-                if(txtLength.Text.Trim() == "")
-                {
-                    MessageBox.Show("Please enter the length", "Error");
-                    return;
-                }
-
-                if(int.TryParse(txtLength.Text.Trim(), out iValue))
-                {
-                    if(iValue <= 0)
-                    {
-                        MessageBox.Show("Length must > 1", "Error");
-                        return;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Number only for Length!", "Error");
-                    return;
-                }
-                end_address = get_end_address(txtStartAddress.Text.Trim(), int.Parse(txtLength.Text.Trim()));
-                tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
             }
             else
             {
-                switch (cmbWordBit.Text.Trim())
+                if (txtStartAddress.Text == "")
                 {
-                    case "SINT":
-                        end_address = get_end_address(txtStartAddress.Text.Trim(), 2);
-                        tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
-                        break;
-                    case "UINT":
-                        end_address = get_end_address(txtStartAddress.Text.Trim(), 2);
-                        tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
-                        break;
-                    case "SLONG":
-                        end_address = get_end_address(txtStartAddress.Text.Trim(), 4);
-                        tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
-                        break;
-                    case "ULONG":
-                        end_address = get_end_address(txtStartAddress.Text.Trim(), 4);
-                        tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                double dScale;
-                double dOffset;
-                if(double.TryParse(txtScale.Text.Trim(), out dScale))
-                {
-                    tmpTag.scale = dScale;
+                    MessageBox.Show("Please enter start address!", "Error");
+                    return;
                 }
                 else
                 {
-                    MessageBox.Show("Scale must be a double value", "Error");
-                    return;
+                    if (!int.TryParse(txtStartAddress.Text.Trim().Substring(1), out iValue))
+                    {
+                        MessageBox.Show("Start Address format is wrong!", "Error");
+                        return;
+                    }
+                    // Check if the first character equals to 'B', 'D', 'M', 'W'
                 }
 
-                if (double.TryParse(txtOffset.Text.Trim(), out dOffset))
+                if (cmbWordBit.Text == "BIT")
                 {
-                    tmpTag.offset = dOffset;
+                    if (txtStartBit.Text == "")
+                    {
+                        MessageBox.Show("Please enter the start bit!", "Error");
+                        return;
+                    }
+                    else
+                    {
+                        if (int.TryParse(txtStartBit.Text, out iValue))
+                        {
+                            if (iValue < 0 || iValue > 15)
+                            {
+                                MessageBox.Show("Please enter the correct start bit!", "Error");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Number only for Start Bit!", "Error");
+                            return;
+                        }
+                    }
+
+                    if (txtEndBit.Text == "")
+                    {
+                        MessageBox.Show("Please enter the end bit!", "Error");
+                        return;
+                    }
+                    else
+                    {
+                        if (int.TryParse(txtEndBit.Text, out iValue))
+                        {
+                            if (iValue < 0 || iValue > 15)
+                            {
+                                MessageBox.Show("Please enter the correct end bit!", "Error");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Number only for End Bit!", "Error");
+                            return;
+                        }
+                    }
+                    tmpTag.UUID_Address = txtStartAddress.Text.Trim() + "." + txtStartBit.Text.Trim() + ":" + txtEndBit.Text.Trim();
+                }
+                else if (cmbWordBit.Text == "ASC")
+                {
+                    if (txtLength.Text.Trim() == "")
+                    {
+                        MessageBox.Show("Please enter the length", "Error");
+                        return;
+                    }
+
+                    if (int.TryParse(txtLength.Text.Trim(), out iValue))
+                    {
+                        if (iValue <= 0)
+                        {
+                            MessageBox.Show("Length must > 1", "Error");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Number only for Length!", "Error");
+                        return;
+                    }
+                    end_address = get_end_address(txtStartAddress.Text.Trim(), int.Parse(txtLength.Text.Trim()));
+                    tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                 }
                 else
                 {
-                    MessageBox.Show("Offset must be a double value", "Error");
-                    return;
+                    switch (cmbWordBit.Text.Trim())
+                    {
+                        case "SINT":
+                            end_address = get_end_address(txtStartAddress.Text.Trim(), 2);
+                            tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
+                            break;
+                        case "UINT":
+                            end_address = get_end_address(txtStartAddress.Text.Trim(), 2);
+                            tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
+                            break;
+                        case "SLONG":
+                            end_address = get_end_address(txtStartAddress.Text.Trim(), 4);
+                            tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
+                            break;
+                        case "ULONG":
+                            end_address = get_end_address(txtStartAddress.Text.Trim(), 4);
+                            tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    double dScale;
+                    double dOffset;
+                    if (double.TryParse(txtScale.Text.Trim(), out dScale))
+                    {
+                        tmpTag.scale = dScale;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Scale must be a double value", "Error");
+                        return;
+                    }
+
+                    if (double.TryParse(txtOffset.Text.Trim(), out dOffset))
+                    {
+                        tmpTag.offset = dOffset;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Offset must be a double value", "Error");
+                        return;
+                    }
                 }
             }
 
@@ -353,6 +411,36 @@ namespace IEW.GatewayService.GUI
         private void btnTagCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cmbDataType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cmbDataType.Text.Trim() == "Virtual")
+            {
+                cmbWordBit.Items.Clear();
+                cmbWordBit.Items.Add("INT");
+                cmbWordBit.Items.Add("DOUBLE");
+                cmbWordBit.Items.Add("ASC");
+
+                txtStartAddress.Text = "";
+                txtStartAddress.Enabled = false;
+                txtStartBit.Text = "";
+                txtStartBit.Enabled = false;
+                txtEndBit.Text = "";
+                txtEndBit.Enabled = false;
+                txtLength.Text = "";
+                txtLength.Enabled = false;
+            }
+            else
+            {
+                cmbWordBit.Items.Clear();
+                cmbWordBit.Items.Add("SINT");
+                cmbWordBit.Items.Add("UINT");
+                cmbWordBit.Items.Add("SLONG");
+                cmbWordBit.Items.Add("ULONG");
+                cmbWordBit.Items.Add("ASC");
+                cmbWordBit.Items.Add("BIT");
+            }
         }
     }
 }

@@ -140,6 +140,7 @@
             // dv_idColumn
             // 
             this.dv_idColumn.AspectName = "device_id";
+            this.dv_idColumn.DisplayIndex = 1;
             this.dv_idColumn.Groupable = false;
             this.dv_idColumn.Text = "Device ID";
             this.dv_idColumn.Width = 90;
@@ -147,6 +148,7 @@
             // dv_typeColumn
             // 
             this.dv_typeColumn.AspectName = "device_type";
+            this.dv_typeColumn.DisplayIndex = 2;
             this.dv_typeColumn.Groupable = false;
             this.dv_typeColumn.Text = "Type";
             this.dv_typeColumn.Width = 50;
@@ -154,6 +156,7 @@
             // dv_statusColumn
             // 
             this.dv_statusColumn.AspectName = "device_status";
+            this.dv_statusColumn.DisplayIndex = 3;
             this.dv_statusColumn.Groupable = false;
             this.dv_statusColumn.Text = "Status";
             this.dv_statusColumn.Width = 70;
@@ -161,6 +164,7 @@
             // iot_statusColumn
             // 
             this.iot_statusColumn.AspectName = "iotclient_status";
+            this.iot_statusColumn.DisplayIndex = 4;
             this.iot_statusColumn.Groupable = false;
             this.iot_statusColumn.Text = "IoTClient Status";
             this.iot_statusColumn.Width = 70;
@@ -168,6 +172,7 @@
             // hb_statusColumn
             // 
             this.hb_statusColumn.AspectName = "hb_status";
+            this.hb_statusColumn.DisplayIndex = 5;
             this.hb_statusColumn.Groupable = false;
             this.hb_statusColumn.Text = "HeartBeat";
             this.hb_statusColumn.Width = 70;
@@ -175,6 +180,7 @@
             // hb_timeColumn
             // 
             this.hb_timeColumn.AspectName = "hb_report_time";
+            this.hb_timeColumn.DisplayIndex = 6;
             this.hb_timeColumn.Groupable = false;
             this.hb_timeColumn.Text = "HB Time";
             this.hb_timeColumn.Width = 130;
@@ -182,6 +188,7 @@
             // edc_timeColumn
             // 
             this.edc_timeColumn.AspectName = "last_edc_time";
+            this.edc_timeColumn.DisplayIndex = 7;
             this.edc_timeColumn.Groupable = false;
             this.edc_timeColumn.Text = "EDC Time";
             this.edc_timeColumn.Width = 130;
@@ -189,6 +196,7 @@
             // dv_locationColumn1
             // 
             this.dv_locationColumn1.AspectName = "device_location";
+            this.dv_locationColumn1.DisplayIndex = 8;
             this.dv_locationColumn1.Groupable = false;
             this.dv_locationColumn1.Text = "Location";
             // 
