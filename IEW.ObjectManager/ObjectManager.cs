@@ -23,6 +23,8 @@ namespace IEW.ObjectManager
         public EDCManager EDCManager = null;
         public MonitorManager MonitorManager = null;
         public DBManager DBManager = null;
+        public VersionManager VersionManager = null;
+
         public event EventHandler HeartBeatEventHandler;
         public event EventHandler EDCReportEventHandler;
         public event EventHandler StartAckEventHandler;
@@ -85,6 +87,18 @@ namespace IEW.ObjectManager
         public void DBManager_Initial(string Json)
         {
             this.DBManager = JsonConvert.DeserializeObject<DBManager>(Json);
+        }
+        #endregion
+
+        #region VersionManager Constructor
+        public void VersionManager_Initial()
+        {
+            this.VersionManager = new VersionManager();
+        }
+
+        public void VersionManager_Initial(string Json)
+        {
+            this.VersionManager = JsonConvert.DeserializeObject<VersionManager>(Json);
         }
         #endregion
 

@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetZip, Version=1.13.3.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.13.3\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="IEW.Platform.Kernel, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\IEW.Platform.Kernel.dll</HintPath>
@@ -130,6 +133,18 @@
     <Compile Include="GUI\frmEditTagSetTemplate.Designer.cs">
       <DependentUpon>frmEditTagSetTemplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmEditAppVersion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditAppVersion.Designer.cs">
+      <DependentUpon>frmEditAppVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmEditVersionInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditVersionInfo.Designer.cs">
+      <DependentUpon>frmEditVersionInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmListDBConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +168,18 @@
     </Compile>
     <Compile Include="GUI\frmListGateway.Designer.cs">
       <DependentUpon>frmListGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmListAppVersion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmListAppVersion.Designer.cs">
+      <DependentUpon>frmListAppVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmListOTA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmListOTA.Designer.cs">
+      <DependentUpon>frmListOTA.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmListTagSet.cs">
       <SubType>Form</SubType>
@@ -218,6 +245,12 @@
     <EmbeddedResource Include="GUI\frmEditTagSetTemplate.resx">
       <DependentUpon>frmEditTagSetTemplate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmEditAppVersion.resx">
+      <DependentUpon>frmEditAppVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmEditVersionInfo.resx">
+      <DependentUpon>frmEditVersionInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmListDBConfig.resx">
       <DependentUpon>frmListDBConfig.cs</DependentUpon>
     </EmbeddedResource>
@@ -229,6 +262,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmListGateway.resx">
       <DependentUpon>frmListGateway.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmListAppVersion.resx">
+      <DependentUpon>frmListAppVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmListOTA.resx">
+      <DependentUpon>frmListOTA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmListTagSet.resx">
       <DependentUpon>frmListTagSet.cs</DependentUpon>
@@ -251,6 +290,11 @@
     <None Include="images\icons\plus.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\icons\check.png" />
+    <Content Include="images\icons\f.png" />
+    <Content Include="images\icons\i.png" />
+    <Content Include="images\icons\version.png" />
+    <Content Include="images\icons\w.png" />
     <None Include="images\icons\arrow-right.png" />
     <Content Include="images\icons\arrow-left.png" />
     <Content Include="images\icons\db_list.png" />
@@ -267,6 +311,7 @@
     <Content Include="images\icons\minus2.png" />
     <Content Include="images\icons\network_card.png" />
     <Content Include="images\icons\Off.png" />
+    <Content Include="images\icons\ota.png" />
     <Content Include="images\icons\Ready.png" />
     <Content Include="images\icons\Run.png" />
     <Content Include="images\icons\save.png" />

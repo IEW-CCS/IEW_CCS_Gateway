@@ -90,7 +90,7 @@
             // txtPassword
             // 
             this.txtPassword.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPassword.Location = new System.Drawing.Point(559, 67);
+            this.txtPassword.Location = new System.Drawing.Point(559, 68);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(2);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
@@ -140,7 +140,7 @@
             // txtPortID
             // 
             this.txtPortID.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPortID.Location = new System.Drawing.Point(297, 70);
+            this.txtPortID.Location = new System.Drawing.Point(319, 70);
             this.txtPortID.Margin = new System.Windows.Forms.Padding(2);
             this.txtPortID.Name = "txtPortID";
             this.txtPortID.Size = new System.Drawing.Size(138, 23);
@@ -149,7 +149,7 @@
             // txtDataSource
             // 
             this.txtDataSource.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDataSource.Location = new System.Drawing.Point(297, 45);
+            this.txtDataSource.Location = new System.Drawing.Point(319, 45);
             this.txtDataSource.Margin = new System.Windows.Forms.Padding(2);
             this.txtDataSource.Name = "txtDataSource";
             this.txtDataSource.Size = new System.Drawing.Size(138, 23);
@@ -159,7 +159,7 @@
             // 
             this.cmbDBType.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbDBType.FormattingEnabled = true;
-            this.cmbDBType.Location = new System.Drawing.Point(297, 18);
+            this.cmbDBType.Location = new System.Drawing.Point(319, 18);
             this.cmbDBType.Margin = new System.Windows.Forms.Padding(2);
             this.cmbDBType.Name = "cmbDBType";
             this.cmbDBType.Size = new System.Drawing.Size(138, 24);
@@ -170,7 +170,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(204, 24);
+            this.label7.Location = new System.Drawing.Point(233, 24);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(52, 17);
@@ -192,7 +192,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(204, 71);
+            this.label5.Location = new System.Drawing.Point(233, 71);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(42, 17);
@@ -203,7 +203,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(204, 45);
+            this.label4.Location = new System.Drawing.Point(233, 48);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 17);
@@ -216,7 +216,7 @@
             this.txtSerial.Location = new System.Drawing.Point(84, 21);
             this.txtSerial.Margin = new System.Windows.Forms.Padding(2);
             this.txtSerial.Name = "txtSerial";
-            this.txtSerial.Size = new System.Drawing.Size(97, 23);
+            this.txtSerial.Size = new System.Drawing.Size(125, 23);
             this.txtSerial.TabIndex = 1;
             // 
             // cmbDevice
@@ -226,7 +226,7 @@
             this.cmbDevice.Location = new System.Drawing.Point(84, 70);
             this.cmbDevice.Margin = new System.Windows.Forms.Padding(2);
             this.cmbDevice.Name = "cmbDevice";
-            this.cmbDevice.Size = new System.Drawing.Size(97, 24);
+            this.cmbDevice.Size = new System.Drawing.Size(125, 24);
             this.cmbDevice.TabIndex = 5;
             this.cmbDevice.SelectedIndexChanged += new System.EventHandler(this.cmbDevice_SelectedIndexChanged);
             // 
@@ -248,7 +248,7 @@
             this.cmbGateway.Location = new System.Drawing.Point(84, 45);
             this.cmbGateway.Margin = new System.Windows.Forms.Padding(2);
             this.cmbGateway.Name = "cmbGateway";
-            this.cmbGateway.Size = new System.Drawing.Size(97, 24);
+            this.cmbGateway.Size = new System.Drawing.Size(125, 24);
             this.cmbGateway.TabIndex = 4;
             this.cmbGateway.SelectedIndexChanged += new System.EventHandler(this.cmbGateway_SelectedIndexChanged);
             // 

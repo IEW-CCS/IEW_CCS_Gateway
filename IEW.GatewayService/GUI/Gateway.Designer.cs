@@ -31,10 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gateway));
             this.btnLoadConfig = new System.Windows.Forms.Button();
-            this.tvNodeList = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.tvNodeList = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // btnLoadConfig
@@ -49,19 +49,6 @@
             this.btnLoadConfig.Text = "Load Config";
             this.btnLoadConfig.UseVisualStyleBackColor = true;
             this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
-            // 
-            // tvNodeList
-            // 
-            this.tvNodeList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tvNodeList.ImageIndex = 0;
-            this.tvNodeList.ImageList = this.imageList1;
-            this.tvNodeList.Location = new System.Drawing.Point(19, 63);
-            this.tvNodeList.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.tvNodeList.Name = "tvNodeList";
-            this.tvNodeList.SelectedImageIndex = 0;
-            this.tvNodeList.Size = new System.Drawing.Size(174, 574);
-            this.tvNodeList.TabIndex = 3;
-            this.tvNodeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNodeList_AfterSelect);
             // 
             // imageList1
             // 
@@ -81,6 +68,12 @@
             this.imageList1.Images.SetKeyName(11, "online_monitor.png");
             this.imageList1.Images.SetKeyName(12, "db_list.png");
             this.imageList1.Images.SetKeyName(13, "db_node.png");
+            this.imageList1.Images.SetKeyName(14, "version.png");
+            this.imageList1.Images.SetKeyName(15, "ota.png");
+            this.imageList1.Images.SetKeyName(16, "i.png");
+            this.imageList1.Images.SetKeyName(17, "w.png");
+            this.imageList1.Images.SetKeyName(18, "f.png");
+            this.imageList1.Images.SetKeyName(19, "check.png");
             // 
             // btnSaveConfig
             // 
@@ -104,6 +97,19 @@
             this.pnlMain.Size = new System.Drawing.Size(767, 573);
             this.pnlMain.TabIndex = 8;
             // 
+            // tvNodeList
+            // 
+            this.tvNodeList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tvNodeList.ImageIndex = 0;
+            this.tvNodeList.ImageList = this.imageList1;
+            this.tvNodeList.Location = new System.Drawing.Point(19, 63);
+            this.tvNodeList.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
+            this.tvNodeList.Name = "tvNodeList";
+            this.tvNodeList.SelectedImageIndex = 0;
+            this.tvNodeList.Size = new System.Drawing.Size(174, 574);
+            this.tvNodeList.TabIndex = 3;
+            this.tvNodeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNodeList_AfterSelect);
+            // 
             // Gateway
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -123,9 +129,9 @@
 
         #endregion
         private System.Windows.Forms.Button btnLoadConfig;
-        private System.Windows.Forms.TreeView tvNodeList;
         private System.Windows.Forms.Button btnSaveConfig;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Panel pnlMain;
+        private System.Windows.Forms.TreeView tvNodeList;
     }
 }

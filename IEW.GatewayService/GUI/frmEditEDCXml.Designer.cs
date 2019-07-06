@@ -35,6 +35,10 @@
             this.cmbGateway = new System.Windows.Forms.ComboBox();
             this.cmbDevice = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbInterval = new System.Windows.Forms.GroupBox();
+            this.chkMIN = new System.Windows.Forms.CheckBox();
+            this.chkMAX = new System.Windows.Forms.CheckBox();
+            this.chkAVG = new System.Windows.Forms.CheckBox();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtReportPath = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -52,10 +56,6 @@
             this.btnCancelEDCXml = new System.Windows.Forms.Button();
             this.btnSaveEDCXml = new System.Windows.Forms.Button();
             this.chkEnable = new System.Windows.Forms.CheckBox();
-            this.gbInterval = new System.Windows.Forms.GroupBox();
-            this.chkAVG = new System.Windows.Forms.CheckBox();
-            this.chkMAX = new System.Windows.Forms.CheckBox();
-            this.chkMIN = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.gbInterval.SuspendLayout();
             this.SuspendLayout();
@@ -149,6 +149,51 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Basic Information";
+            // 
+            // gbInterval
+            // 
+            this.gbInterval.Controls.Add(this.chkMIN);
+            this.gbInterval.Controls.Add(this.chkMAX);
+            this.gbInterval.Controls.Add(this.chkAVG);
+            this.gbInterval.Location = new System.Drawing.Point(427, 20);
+            this.gbInterval.Name = "gbInterval";
+            this.gbInterval.Size = new System.Drawing.Size(257, 49);
+            this.gbInterval.TabIndex = 13;
+            this.gbInterval.TabStop = false;
+            this.gbInterval.Text = "Report Interval Function";
+            // 
+            // chkMIN
+            // 
+            this.chkMIN.AutoSize = true;
+            this.chkMIN.Location = new System.Drawing.Point(174, 23);
+            this.chkMIN.Margin = new System.Windows.Forms.Padding(2);
+            this.chkMIN.Name = "chkMIN";
+            this.chkMIN.Size = new System.Drawing.Size(49, 21);
+            this.chkMIN.TabIndex = 38;
+            this.chkMIN.Text = "MIN";
+            this.chkMIN.UseVisualStyleBackColor = true;
+            // 
+            // chkMAX
+            // 
+            this.chkMAX.AutoSize = true;
+            this.chkMAX.Location = new System.Drawing.Point(90, 23);
+            this.chkMAX.Margin = new System.Windows.Forms.Padding(2);
+            this.chkMAX.Name = "chkMAX";
+            this.chkMAX.Size = new System.Drawing.Size(54, 21);
+            this.chkMAX.TabIndex = 37;
+            this.chkMAX.Text = "MAX";
+            this.chkMAX.UseVisualStyleBackColor = true;
+            // 
+            // chkAVG
+            // 
+            this.chkAVG.AutoSize = true;
+            this.chkAVG.Location = new System.Drawing.Point(5, 23);
+            this.chkAVG.Margin = new System.Windows.Forms.Padding(2);
+            this.chkAVG.Name = "chkAVG";
+            this.chkAVG.Size = new System.Drawing.Size(51, 21);
+            this.chkAVG.TabIndex = 36;
+            this.chkAVG.Text = "AVG";
+            this.chkAVG.UseVisualStyleBackColor = true;
             // 
             // btnBrowse
             // 
@@ -334,58 +379,14 @@
             // chkEnable
             // 
             this.chkEnable.AutoSize = true;
+            this.chkEnable.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkEnable.Location = new System.Drawing.Point(673, 123);
             this.chkEnable.Margin = new System.Windows.Forms.Padding(2);
             this.chkEnable.Name = "chkEnable";
-            this.chkEnable.Size = new System.Drawing.Size(56, 16);
+            this.chkEnable.Size = new System.Drawing.Size(60, 20);
             this.chkEnable.TabIndex = 35;
             this.chkEnable.Text = "Enable";
             this.chkEnable.UseVisualStyleBackColor = true;
-            // 
-            // gbInterval
-            // 
-            this.gbInterval.Controls.Add(this.chkMIN);
-            this.gbInterval.Controls.Add(this.chkMAX);
-            this.gbInterval.Controls.Add(this.chkAVG);
-            this.gbInterval.Location = new System.Drawing.Point(427, 20);
-            this.gbInterval.Name = "gbInterval";
-            this.gbInterval.Size = new System.Drawing.Size(257, 49);
-            this.gbInterval.TabIndex = 13;
-            this.gbInterval.TabStop = false;
-            this.gbInterval.Text = "Report Interval Function";
-            // 
-            // chkAVG
-            // 
-            this.chkAVG.AutoSize = true;
-            this.chkAVG.Location = new System.Drawing.Point(5, 23);
-            this.chkAVG.Margin = new System.Windows.Forms.Padding(2);
-            this.chkAVG.Name = "chkAVG";
-            this.chkAVG.Size = new System.Drawing.Size(51, 21);
-            this.chkAVG.TabIndex = 36;
-            this.chkAVG.Text = "AVG";
-            this.chkAVG.UseVisualStyleBackColor = true;
-            // 
-            // chkMAX
-            // 
-            this.chkMAX.AutoSize = true;
-            this.chkMAX.Location = new System.Drawing.Point(90, 23);
-            this.chkMAX.Margin = new System.Windows.Forms.Padding(2);
-            this.chkMAX.Name = "chkMAX";
-            this.chkMAX.Size = new System.Drawing.Size(54, 21);
-            this.chkMAX.TabIndex = 37;
-            this.chkMAX.Text = "MAX";
-            this.chkMAX.UseVisualStyleBackColor = true;
-            // 
-            // chkMIN
-            // 
-            this.chkMIN.AutoSize = true;
-            this.chkMIN.Location = new System.Drawing.Point(174, 23);
-            this.chkMIN.Margin = new System.Windows.Forms.Padding(2);
-            this.chkMIN.Name = "chkMIN";
-            this.chkMIN.Size = new System.Drawing.Size(49, 21);
-            this.chkMIN.TabIndex = 38;
-            this.chkMIN.Text = "MIN";
-            this.chkMIN.UseVisualStyleBackColor = true;
             // 
             // frmEditEDCXml
             // 
