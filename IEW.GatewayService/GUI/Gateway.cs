@@ -41,6 +41,8 @@ namespace IEW.GatewayService.UI
         static int NODE_INDEX_EDC_OUTPUT_LIST = 3;
         static int NODE_INDEX_DB_CONFIG = 4;
         static int NODE_INDEX_ON_LINE_MONITOR = 5;
+        static int NODE_INDEX_VERSION = 6;
+        static int NODE_INDEX_OTA = 7;
 
         //Define TabPages Index
         const int TABPAGE_INDEX_GATEWAY_LIST = 0;
@@ -55,6 +57,11 @@ namespace IEW.GatewayService.UI
         const int TABPAGE_INDEX_ON_LINE_MONITOR = 9;
         const int TABPAGE_INDEX_DB_CONFIG_LIST = 10;
         const int TABPAGE_INDEX_DB_CONFIG_INFO = 11;
+        const int TABPAGE_INDEX_VERSION_LIST = 12;
+        const int TABPAGE_INDEX_IOT_VERSION = 13;
+        const int TABPAGE_INDEX_WORKER_VERSION = 14;
+        const int TABPAGE_INDEX_FIRMWARE_VERSION = 15;
+        const int TABPAGE_INDEX_OTA = 16;
 
         TreeNode objSelectedNode;
         public cls_Gateway_Info gw;
@@ -75,26 +82,42 @@ namespace IEW.GatewayService.UI
             TreeNode tNode = tvNodeList.Nodes.Add("Gateway List");
             tNode.Tag = TABPAGE_INDEX_GATEWAY_LIST;
             tNode.ImageIndex = 0;
+            tNode.SelectedImageIndex = 19;
 
             tNode = tvNodeList.Nodes.Add("Tag Set List");
             tNode.Tag = TABPAGE_INDEX_TAGSET_LIST;
             tNode.ImageIndex = 3;
+            tNode.SelectedImageIndex = 19;
 
             tNode = tvNodeList.Nodes.Add("EDC Header Set List");
             tNode.Tag = TABPAGE_INDEX_EDCHEADERSET_LIST;
             tNode.ImageIndex = 8;
+            tNode.SelectedImageIndex = 19;
 
             tNode = tvNodeList.Nodes.Add("EDC XML Output Config List");
             tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_LIST;
             tNode.ImageIndex = 9;
+            tNode.SelectedImageIndex = 19;
 
             tNode = tvNodeList.Nodes.Add("Database Config");
             tNode.Tag = TABPAGE_INDEX_DB_CONFIG_LIST;
             tNode.ImageIndex = 12;
+            tNode.SelectedImageIndex = 19;
 
             tNode = tvNodeList.Nodes.Add("On-Line Monitor");
             tNode.Tag = TABPAGE_INDEX_ON_LINE_MONITOR;
             tNode.ImageIndex = 11;
+            tNode.SelectedImageIndex = 19;
+
+            tNode = tvNodeList.Nodes.Add("Version Management");
+            tNode.Tag = TABPAGE_INDEX_VERSION_LIST;
+            tNode.ImageIndex = 14;
+            tNode.SelectedImageIndex = 19;
+
+            tNode = tvNodeList.Nodes.Add("OTA Management");
+            tNode.Tag = TABPAGE_INDEX_OTA;
+            tNode.ImageIndex = 15;
+            tNode.SelectedImageIndex = 19;
 
             tvNodeList.EndUpdate();
 
@@ -123,6 +146,9 @@ namespace IEW.GatewayService.UI
             LoadHeaderSetConfig();
             LoadEDCXmlConfig();
             LoadDBConfig();
+            LoadVersionConfig();
+            LoadOTAConfig();
+
             RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
@@ -141,12 +167,14 @@ namespace IEW.GatewayService.UI
                 tNode = tvNodeList.Nodes[NODE_INDEX_GATEWAY_LIST].Nodes.Add(gi.gateway_id);
                 tNode.Tag = TABPAGE_INDEX_GATEWAY_INFO;
                 tNode.ImageIndex = 1;
+                tNode.SelectedImageIndex = 19;
 
                 foreach (cls_Device_Info di in gi.device_info)
                 {
                     tNode = tvNodeList.Nodes[NODE_INDEX_GATEWAY_LIST].Nodes[j].Nodes.Add(di.device_name);
                     tNode.Tag = TABPAGE_INDEX_DEVICE_INFO;
                     tNode.ImageIndex = 2;
+                    tNode.SelectedImageIndex = 19;
                 }
                 j++;
             }
@@ -156,6 +184,7 @@ namespace IEW.GatewayService.UI
                 tNode = tvNodeList.Nodes[NODE_INDEX_TAG_SET_LIST].Nodes.Add(ts.TagSetName);
                 tNode.Tag = TABPAGE_INDEX_TAGSET_INFO;
                 tNode.ImageIndex = 4;
+                tNode.SelectedImageIndex = 19;
             }
 
             foreach (cls_EDC_Header hs in this.header_set.head_set_list)
@@ -163,6 +192,7 @@ namespace IEW.GatewayService.UI
                 tNode = tvNodeList.Nodes[NODE_INDEX_EDC_HEADER_SET_LIST].Nodes.Add(hs.set_name);
                 tNode.Tag = TABPAGE_INDEX_EDCHEADERSET_INFO;
                 tNode.ImageIndex = 7;
+                tNode.SelectedImageIndex = 19;
             }
 
             if(ObjectManager.EDCManager.gateway_edc.Count > 0)
@@ -172,6 +202,7 @@ namespace IEW.GatewayService.UI
                     tNode = tvNodeList.Nodes[NODE_INDEX_EDC_OUTPUT_LIST].Nodes.Add(edc_info.serial_id + "." + edc_info.gateway_id + "." + edc_info.device_id);
                     tNode.Tag = TABPAGE_INDEX_EDC_OUTPUT_INFO;
                     tNode.ImageIndex = 10;
+                    tNode.SelectedImageIndex = 19;
                 }
             }
 
@@ -182,10 +213,26 @@ namespace IEW.GatewayService.UI
                     tNode = tvNodeList.Nodes[NODE_INDEX_DB_CONFIG].Nodes.Add(db_info.serial_id + "." + db_info.gateway_id + "." + db_info.device_id);
                     tNode.Tag = TABPAGE_INDEX_DB_CONFIG_INFO;
                     tNode.ImageIndex = 13;
+                    tNode.SelectedImageIndex = 19;
                 }
             }
 
-            tvNodeList.ExpandAll();
+            tNode = tvNodeList.Nodes[NODE_INDEX_VERSION].Nodes.Add("IOT Image");
+            tNode.Tag = TABPAGE_INDEX_IOT_VERSION;
+            tNode.ImageIndex = 16;
+            tNode.SelectedImageIndex = 19;
+
+            tNode = tvNodeList.Nodes[NODE_INDEX_VERSION].Nodes.Add("Worker Image");
+            tNode.Tag = TABPAGE_INDEX_WORKER_VERSION;
+            tNode.ImageIndex = 17;
+            tNode.SelectedImageIndex = 19;
+
+            tNode = tvNodeList.Nodes[NODE_INDEX_VERSION].Nodes.Add("Firmware Image");
+            tNode.Tag = TABPAGE_INDEX_FIRMWARE_VERSION;
+            tNode.ImageIndex = 18;
+            tNode.SelectedImageIndex = 19;
+
+            //tvNodeList.ExpandAll();
             tvNodeList.EndUpdate();
 
             DisplayPanel(display_index);
@@ -251,16 +298,36 @@ namespace IEW.GatewayService.UI
                     DisplayEDCXMLInfo();
                     break;
 
-                case TABPAGE_INDEX_ON_LINE_MONITOR:
-                    DisplayOnlineMonitor();
-                    break;
-
                 case TABPAGE_INDEX_DB_CONFIG_LIST:
                     DisplayDBConfigList();
                     break;
 
                 case TABPAGE_INDEX_DB_CONFIG_INFO:
                     DisplayDBConfigInfo();
+                    break;
+
+                case TABPAGE_INDEX_ON_LINE_MONITOR:
+                    DisplayOnlineMonitor();
+                    break;
+
+                case TABPAGE_INDEX_VERSION_LIST:
+                    DisplayVersionManagement();
+                    break;
+
+                case TABPAGE_INDEX_IOT_VERSION:
+                    DisplayIOTVersion();
+                    break;
+
+                case TABPAGE_INDEX_WORKER_VERSION:
+                    DisplayWorkerVersion();
+                    break;
+
+                case TABPAGE_INDEX_FIRMWARE_VERSION:
+                    DisplayFirmwareVersion();
+                    break;
+
+                case TABPAGE_INDEX_OTA:
+                    DisplayOTAManagement();
                     break;
 
                 default:
@@ -717,6 +784,81 @@ namespace IEW.GatewayService.UI
             frm.Show();
         }
 
+        private void DisplayVersionManagement()
+        {
+            frmListAppVersion frm = new frmListAppVersion(ObjectManager.VersionManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
+        private void DisplayIOTVersion()
+        {
+            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "IOT");
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
+        private void DisplayWorkerVersion()
+        {
+            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "WORKER");
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
+        private void DisplayFirmwareVersion()
+        {
+            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "FIRMWARE");
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
+        private void DisplayOTAManagement()
+        {
+            frmListOTA frm = new frmListOTA(ObjectManager.GatewayManager, ObjectManager.OTAManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+            pnlMain.Controls.Add(frm);
+            frm.Show();
+        }
+
         public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
         {
             gi.device_info[index] = di;
@@ -792,9 +934,9 @@ namespace IEW.GatewayService.UI
 
                 inputFile.Close();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Tag Set config file loading error!", "Error");
+                MessageBox.Show("Tag Set config file loading error! -> " + ex.Message, "Error");
                 return false;
             }
 
@@ -827,9 +969,9 @@ namespace IEW.GatewayService.UI
 
                 inputFile.Close();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("EDC Header Set config file loading error!", "Error");
+                MessageBox.Show("EDC Header Set config file loading error! -> " + ex.Message, "Error");
                 return false;
             }
 
@@ -861,9 +1003,9 @@ namespace IEW.GatewayService.UI
 
                 inputFile.Close();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("EDC XML config file loading error!", "Error");
+                MessageBox.Show("EDC XML config file loading error! -> " + ex.Message, "Error");
                 return false;
             }
 
@@ -895,9 +1037,9 @@ namespace IEW.GatewayService.UI
 
                 inputFile.Close();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("DB config file loading error!", "Error");
+                MessageBox.Show("DB config file loading error! -> " + ex.Message, "Error");
                 return false;
             }
 
@@ -942,6 +1084,74 @@ namespace IEW.GatewayService.UI
                     ObjectManager.MonitorManager.monitor_list.Add(mgi);
                 }
             }
+        }
+
+        private bool LoadVersionConfig()
+        {
+            try
+            {
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\Version_Config.json"))
+                {
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    ObjectManager.VersionManager_Initial();
+                    return true;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Version_Config.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                ObjectManager.VersionManager_Initial(json_string);
+
+                if (ObjectManager.VersionManager.version_list == null)
+                {
+                    MessageBox.Show("No Version Configuration exists!", "Information");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Version config file loading error! -> " + ex.Message, "Error");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool LoadOTAConfig()
+        {
+            try
+            {
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\OTA_Config.json"))
+                {
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    ObjectManager.OTAManager_Initial();
+                    return true;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\OTA_Config.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                ObjectManager.OTAManager_Initial(json_string);
+
+                if (ObjectManager.OTAManager.ota_iot_list == null && ObjectManager.OTAManager.ota_worker_list == null && ObjectManager.OTAManager.ota_firmware_list == null )
+                {
+                    MessageBox.Show("No OTA Configuration exists!", "Information");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("OTA config file loading error! -> " + ex.Message, "Error");
+                return false;
+            }
+
+            return true;
         }
 
         private void SaveGatewayConfig()
@@ -994,6 +1204,18 @@ namespace IEW.GatewayService.UI
             output.Write(json_string);
             output.Close();
         }
+
+        /*
+        private void SaveVersionConfig()
+        {
+            string json_string;
+
+            json_string = JsonConvert.SerializeObject(ObjectManager.VersionManager, Newtonsoft.Json.Formatting.Indented);
+            StreamWriter output = new StreamWriter("C:\\Gateway\\Config\\Version_Config.json");
+            output.Write(json_string);
+            output.Close();
+        }
+        */
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
