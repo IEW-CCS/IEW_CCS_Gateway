@@ -24,6 +24,7 @@ namespace IEW.ObjectManager
         public MonitorManager MonitorManager = null;
         public DBManager DBManager = null;
         public VersionManager VersionManager = null;
+        public OTAManager OTAManager = null;
 
         public event EventHandler HeartBeatEventHandler;
         public event EventHandler EDCReportEventHandler;
@@ -99,6 +100,18 @@ namespace IEW.ObjectManager
         public void VersionManager_Initial(string Json)
         {
             this.VersionManager = JsonConvert.DeserializeObject<VersionManager>(Json);
+        }
+        #endregion
+
+        #region OTAManager Constructor
+        public void OTAManager_Initial()
+        {
+            this.OTAManager = new OTAManager();
+        }
+
+        public void OTAManager_Initial(string Json)
+        {
+            this.OTAManager = JsonConvert.DeserializeObject<OTAManager>(Json);
         }
         #endregion
 

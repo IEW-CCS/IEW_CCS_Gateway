@@ -64,7 +64,7 @@ namespace IEW.GatewayService.GUI
                     foreach(cls_Version_Info ver in kv.Value)
                     {
                         ListViewItem lvItem = new ListViewItem(ver.ap_version);
-                        lvItem.SubItems.Add(ver.ap_path_name);
+                        lvItem.SubItems.Add(ver.ap_store_path_name);
                         lvItem.SubItems.Add(ver.update_time.ToString());
                         lvItem.SubItems.Add(ver.ap_description);
                         lvVersionList.Items.Add(lvItem);
@@ -94,6 +94,7 @@ namespace IEW.GatewayService.GUI
             {
                 return true;
             }
+
         }
 
         //Delegate function to setup application version information
@@ -112,7 +113,7 @@ namespace IEW.GatewayService.GUI
             try
             {
                 var zip = new ZipFile();
-                zip.AddDirectory(ver_info.ap_path_name);
+                zip.AddDirectory(ver_info.ap_upload_path_name);
                 if(!Directory.Exists(strDestinationDir))
                 {
                     Directory.CreateDirectory(strDestinationDir);
@@ -129,15 +130,19 @@ namespace IEW.GatewayService.GUI
             try
             {
                 strMD5 = GetMD5HashFromFile(strDestinationDir + strDestinationName);
-                StreamWriter output = new StreamWriter(strDestinationDir + strDestinationMD5);
-                output.Write(strMD5);
-                output.Close();
+                //StreamWriter output = new StreamWriter(strDestinationDir + strDestinationMD5);
+                //output.Write(strMD5);
+                //output.Close();
             }
             catch(Exception ex)
             {
                 MessageBox.Show("Create MD5 file exception -> " + ex.Message, "Error");
                 return;
             }
+
+            ver_info.ap_store_path_name = strDestinationDir + strDestinationName;
+            //ver_info.md5_store_path_name = strDestinationDir + strDestinationMD5;
+            ver_info.md5_string = strMD5;
 
             if (this.ver_mgr.version_list.ContainsKey(this.application_key))
             {
@@ -209,7 +214,10 @@ namespace IEW.GatewayService.GUI
                     if(ver != null)
                     {
                         strDestinationDir = get_destination_dir(ver);
-                        Directory.Delete(strDestinationDir, true);
+                        if(Directory.Exists(strDestinationDir))
+                        {
+                            Directory.Delete(strDestinationDir, true);
+                        }
                         kv.Value.Remove(ver);
                     }
                     else

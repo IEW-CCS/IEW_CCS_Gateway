@@ -146,6 +146,8 @@ namespace IEW.GatewayService.UI
             LoadEDCXmlConfig();
             LoadDBConfig();
             LoadVersionConfig();
+            LoadOTAConfig();
+
             RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
@@ -843,7 +845,7 @@ namespace IEW.GatewayService.UI
 
         private void DisplayOTAManagement()
         {
-            frmListOTA frm = new frmListOTA();
+            frmListOTA frm = new frmListOTA(ObjectManager.GatewayManager, ObjectManager.OTAManager);
             frm.Owner = this;
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
@@ -1111,6 +1113,40 @@ namespace IEW.GatewayService.UI
             catch (Exception ex)
             {
                 MessageBox.Show("Version config file loading error! -> " + ex.Message, "Error");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool LoadOTAConfig()
+        {
+            try
+            {
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\OTA_Config.json"))
+                {
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    ObjectManager.OTAManager_Initial();
+                    return true;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\OTA_Config.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                ObjectManager.OTAManager_Initial(json_string);
+
+                if (ObjectManager.OTAManager.ota_iot_list == null && ObjectManager.OTAManager.ota_worker_list == null && ObjectManager.OTAManager.ota_firmware_list == null )
+                {
+                    MessageBox.Show("No OTA Configuration exists!", "Information");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("OTA config file loading error! -> " + ex.Message, "Error");
                 return false;
             }
 

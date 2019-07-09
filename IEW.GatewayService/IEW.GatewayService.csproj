@@ -109,6 +109,12 @@
     <Compile Include="GUI\frmEditEDCXml.Designer.cs">
       <DependentUpon>frmEditEDCXml.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\frmEditOTA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmEditOTA.Designer.cs">
+      <DependentUpon>frmEditOTA.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\frmEditTag.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -232,6 +238,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmEditEDCXml.resx">
       <DependentUpon>frmEditEDCXml.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmEditOTA.resx">
+      <DependentUpon>frmEditOTA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmEditTag.resx">
       <DependentUpon>frmEditTag.cs</DependentUpon>

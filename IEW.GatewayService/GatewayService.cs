@@ -595,6 +595,28 @@ namespace IEW.GatewayService
             }
         }
 
+        public void SendOTA(string GateWayID, string DeviceID, cls_Cmd_OTA ota)
+        {
+            string json_msg = JsonConvert.SerializeObject(ota, Newtonsoft.Json.Formatting.Indented);
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = GateWayID;
+            SendOutMsg.DeviceID = DeviceID;
+            SendOutMsg.MQTTTopic = "Cmd_OTA";
+            SendOutMsg.MQTTPayload = json_msg;
+            SendMQTTData(SendOutMsg);
+        }
+
+        public void OTAAck(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/Cmd/OTA/Ack
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            //Update current version information for gateway/device
+
+        }
+
         public void ReadDataAck(xmlMessage InputData)
         {
             // Parse Mqtt Topic
@@ -678,10 +700,8 @@ namespace IEW.GatewayService
                     {
                         try
                         {
-                            //ProcCollectData Function = new ProcCollectData(Device, GateWayID, DeviceID);
-                            //ThreadPool.QueueUserWorkItem(o => Function.ThreadPool_Proc(InputData.MQTTPayload.ToString()));
-
                             SetOnlineMonitorEDCReportStatus(GateWayID, DeviceID, InputData.MQTTPayload.ToString());
+
                             //Raise event to notify Online Monitor form to refresh status
                             this.ObjectManager.OnEDCReportEventCall(null);
                         }
