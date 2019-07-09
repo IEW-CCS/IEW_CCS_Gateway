@@ -18,6 +18,7 @@ namespace IEW.ObjectManager
         {
             return this.MemberwiseClone();
         }
+
     }
 
     public class cls_DB_Info
