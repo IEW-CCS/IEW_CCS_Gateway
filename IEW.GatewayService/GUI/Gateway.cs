@@ -1221,16 +1221,19 @@ namespace IEW.GatewayService.UI
         {
             Boolean bSaveDB_Result = false;
 
+
+            System.Diagnostics.Debug.Print("1-"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             SaveGatewayConfig();
             SaveTagSetConfig();
             SaveEDCHeaderSetConfig();
             SaveEDCXmlConfig();
             SaveDBConfig();
-
+            System.Diagnostics.Debug.Print("2-" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             //add for db sync - vic
             if (true)
             {
                 bSaveDB_Result = SyncConfigToDB();
+                System.Diagnostics.Debug.Print("3-" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 if (bSaveDB_Result)
                 {
                     MessageBox.Show("Save Data To DB Sucessfully!", "Save to DB Result.");
@@ -1438,6 +1441,8 @@ namespace IEW.GatewayService.UI
                     //oIoT_Device.plc_port_id = oDeviceInfo.plc_port_id;
                     //oIoT_Device.ble_mac = oDeviceInfo.ble_mac;
                     //oIoT_Device.ble_service_uuid = oDeviceInfo.ble_service_uuid;
+                    oIoT_Device.eqp_id = oDeviceInfo.device_name;
+                    oIoT_Device.sub_eqp_id = oDeviceInfo.device_name;
 
                     oIoT_Device.clm_date_time = DateTime.Now;
                     oIoT_Device.clm_user = "SYSADM";
@@ -1462,8 +1467,8 @@ namespace IEW.GatewayService.UI
                     oIoT_Device.ooc_flg = "N";
                     oIoT_Device.oos_flg = "N";
                     oIoT_Device.alarm_flg = "N";
-                    oIoT_Device.eqp_id = "";
-                    oIoT_Device.sub_eqp_id = "";
+                    oIoT_Device.eqp_id = oDeviceInfo.device_name;
+                    oIoT_Device.sub_eqp_id = oDeviceInfo.device_name;
                     oIoT_Device.device_no = oIoT_Device.getNewTableNO(_db);
                     oIoT_Device.gateway_id= gateway_id;
                     oIoT_Device.plc_ip_address = oDeviceInfo.plc_ip_address;

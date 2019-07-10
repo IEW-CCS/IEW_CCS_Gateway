@@ -39,19 +39,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabOTA = new System.Windows.Forms.TabControl();
             this.tabPageIOT = new System.Windows.Forms.TabPage();
+            this.cmbIOTVersion = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.lvIOTList = new System.Windows.Forms.ListView();
             this.tabPageWorker = new System.Windows.Forms.TabPage();
+            this.cmbWorkerVersion = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.lvWorkerList = new System.Windows.Forms.ListView();
             this.tabPageFirmware = new System.Windows.Forms.TabPage();
+            this.cmbFirmwareVersion = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.lvFirmwareList = new System.Windows.Forms.ListView();
             this.btnSetup = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.cmbIOTVersion = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cmbWorkerVersion = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.cmbFirmwareVersion = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.gbFTPServer.SuspendLayout();
             this.tabOTA.SuspendLayout();
             this.tabPageIOT.SuspendLayout();
@@ -170,9 +170,32 @@
             this.tabPageIOT.Text = "IoTClient";
             this.tabPageIOT.UseVisualStyleBackColor = true;
             // 
+            // cmbIOTVersion
+            // 
+            this.cmbIOTVersion.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbIOTVersion.FormattingEnabled = true;
+            this.cmbIOTVersion.Location = new System.Drawing.Point(108, 9);
+            this.cmbIOTVersion.Name = "cmbIOTVersion";
+            this.cmbIOTVersion.Size = new System.Drawing.Size(121, 24);
+            this.cmbIOTVersion.TabIndex = 61;
+            this.cmbIOTVersion.SelectedIndexChanged += new System.EventHandler(this.cmbIOTVersion_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(10, 12);
+            this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(89, 17);
+            this.label5.TabIndex = 60;
+            this.label5.Text = "New Version List";
+            // 
             // lvIOTList
             // 
             this.lvIOTList.CheckBoxes = true;
+            this.lvIOTList.FullRowSelect = true;
+            this.lvIOTList.GridLines = true;
             this.lvIOTList.Location = new System.Drawing.Point(7, 39);
             this.lvIOTList.Name = "lvIOTList";
             this.lvIOTList.Size = new System.Drawing.Size(702, 354);
@@ -193,9 +216,32 @@
             this.tabPageWorker.Text = "Worker";
             this.tabPageWorker.UseVisualStyleBackColor = true;
             // 
+            // cmbWorkerVersion
+            // 
+            this.cmbWorkerVersion.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbWorkerVersion.FormattingEnabled = true;
+            this.cmbWorkerVersion.Location = new System.Drawing.Point(108, 9);
+            this.cmbWorkerVersion.Name = "cmbWorkerVersion";
+            this.cmbWorkerVersion.Size = new System.Drawing.Size(121, 24);
+            this.cmbWorkerVersion.TabIndex = 63;
+            this.cmbWorkerVersion.SelectedIndexChanged += new System.EventHandler(this.cmbWorkerVersion_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(10, 12);
+            this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(89, 17);
+            this.label6.TabIndex = 62;
+            this.label6.Text = "New Version List";
+            // 
             // lvWorkerList
             // 
             this.lvWorkerList.CheckBoxes = true;
+            this.lvWorkerList.FullRowSelect = true;
+            this.lvWorkerList.GridLines = true;
             this.lvWorkerList.Location = new System.Drawing.Point(7, 39);
             this.lvWorkerList.Name = "lvWorkerList";
             this.lvWorkerList.Size = new System.Drawing.Size(702, 354);
@@ -216,9 +262,32 @@
             this.tabPageFirmware.Text = "Firmware";
             this.tabPageFirmware.UseVisualStyleBackColor = true;
             // 
+            // cmbFirmwareVersion
+            // 
+            this.cmbFirmwareVersion.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbFirmwareVersion.FormattingEnabled = true;
+            this.cmbFirmwareVersion.Location = new System.Drawing.Point(108, 9);
+            this.cmbFirmwareVersion.Name = "cmbFirmwareVersion";
+            this.cmbFirmwareVersion.Size = new System.Drawing.Size(121, 24);
+            this.cmbFirmwareVersion.TabIndex = 65;
+            this.cmbFirmwareVersion.SelectedIndexChanged += new System.EventHandler(this.cmbFirmwareVersion_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(10, 12);
+            this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(89, 17);
+            this.label7.TabIndex = 64;
+            this.label7.Text = "New Version List";
+            // 
             // lvFirmwareList
             // 
             this.lvFirmwareList.CheckBoxes = true;
+            this.lvFirmwareList.FullRowSelect = true;
+            this.lvFirmwareList.GridLines = true;
             this.lvFirmwareList.Location = new System.Drawing.Point(7, 39);
             this.lvFirmwareList.Name = "lvFirmwareList";
             this.lvFirmwareList.Size = new System.Drawing.Size(702, 354);
@@ -249,69 +318,6 @@
             this.btnUpdate.Text = "OTA Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
-            // cmbIOTVersion
-            // 
-            this.cmbIOTVersion.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbIOTVersion.FormattingEnabled = true;
-            this.cmbIOTVersion.Location = new System.Drawing.Point(108, 9);
-            this.cmbIOTVersion.Name = "cmbIOTVersion";
-            this.cmbIOTVersion.Size = new System.Drawing.Size(121, 24);
-            this.cmbIOTVersion.TabIndex = 61;
-            this.cmbIOTVersion.SelectedIndexChanged += new System.EventHandler(this.cmbIOTVersion_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(10, 12);
-            this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(89, 17);
-            this.label5.TabIndex = 60;
-            this.label5.Text = "New Version List";
-            // 
-            // cmbWorkerVersion
-            // 
-            this.cmbWorkerVersion.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbWorkerVersion.FormattingEnabled = true;
-            this.cmbWorkerVersion.Location = new System.Drawing.Point(108, 9);
-            this.cmbWorkerVersion.Name = "cmbWorkerVersion";
-            this.cmbWorkerVersion.Size = new System.Drawing.Size(121, 24);
-            this.cmbWorkerVersion.TabIndex = 63;
-            this.cmbWorkerVersion.SelectedIndexChanged += new System.EventHandler(this.cmbWorkerVersion_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(10, 12);
-            this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 17);
-            this.label6.TabIndex = 62;
-            this.label6.Text = "New Version List";
-            // 
-            // cmbFirmwareVersion
-            // 
-            this.cmbFirmwareVersion.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbFirmwareVersion.FormattingEnabled = true;
-            this.cmbFirmwareVersion.Location = new System.Drawing.Point(108, 9);
-            this.cmbFirmwareVersion.Name = "cmbFirmwareVersion";
-            this.cmbFirmwareVersion.Size = new System.Drawing.Size(121, 24);
-            this.cmbFirmwareVersion.TabIndex = 65;
-            this.cmbFirmwareVersion.SelectedIndexChanged += new System.EventHandler(this.cmbFirmwareVersion_SelectedIndexChanged);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(10, 12);
-            this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(89, 17);
-            this.label7.TabIndex = 64;
-            this.label7.Text = "New Version List";
             // 
             // frmListOTA
             // 

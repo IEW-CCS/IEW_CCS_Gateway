@@ -53,8 +53,11 @@ namespace IEW.ObjectManager
         public string gateway_id { get; set; }
         public string ap_type { get; set; } // "IOT", "WORKER"
         public string ap_version { get; set; } //Current Version
-        public string ap_store_path_name { get; set; }
-        public string md5_string { get; set; }
+        public string ap_last_store_path_name { get; set; }
+        public string md5_last_string { get; set; }
+        public string ap_new_version { get; set; } //Current Version
+        public string ap_new_store_path_name { get; set; }
+        public string md5_new_string { get; set; }
         public string ap_description { get; set; }
         public string update_status { get; set; }
         public string status_message { get; set; }
@@ -67,8 +70,11 @@ namespace IEW.ObjectManager
         public string device_id { get; set; }
         public string ap_type { get; set; } //  "FIRMWARE"
         public string ap_version { get; set; } //Current Version
-        public string ap_store_path_name { get; set; }
-        public string md5_string { get; set; }
+        public string ap_last_store_path_name { get; set; }
+        public string md5_last_string { get; set; }
+        public string ap_new_version { get; set; } //Current Version
+        public string ap_new_store_path_name { get; set; }
+        public string md5_new_string { get; set; }
         public string ap_description { get; set; }
         public string update_status { get; set; }
         public string status_message { get; set; }

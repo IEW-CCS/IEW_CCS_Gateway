@@ -6,9 +6,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using IEW.Platform.Kernel.Common;
+using IEW.Platform.Kernel.Log;
 using IEW.ObjectManager;
 using Newtonsoft.Json;
 
@@ -224,6 +227,7 @@ namespace IEW.GatewayService.GUI
             {
                 lvIOTList.BeginUpdate();
                 lvIOTList.Items.Clear();
+                List<cls_OTA_Gateway_Info> tmp_list = new List<cls_OTA_Gateway_Info>();
 
                 foreach (cls_Gateway_Info gw in this.gw_manager.gateway_list)
                 {
@@ -241,10 +245,14 @@ namespace IEW.GatewayService.GUI
                         {
                             lvItem.SubItems.Add("N");
                         }
-
                         lvItem.SubItems.Add(""); //Status
                         lvItem.SubItems.Add(""); //Update Time
                         lvIOTList.Items.Add(lvItem);
+
+                        cls_OTA_Gateway_Info tmp = new cls_OTA_Gateway_Info();
+                        tmp.gateway_id = gw.gateway_id;
+                        tmp.ap_type = "IOT";
+                        tmp_list.Add(tmp);
                     }
                     else
                     {
@@ -266,7 +274,17 @@ namespace IEW.GatewayService.GUI
                 }
 
                 lvIOTList.EndUpdate();
+
+                if(tmp_list.Count > 0)
+                {
+                    foreach(cls_OTA_Gateway_Info ogi in tmp_list)
+                    {
+                        this.ota_manager.ota_iot_list.Add(ogi);
+                    }
+                }
             }
+
+            SaveOTAConfig();
         }
 
         private void DisplayWorkerList()
@@ -285,6 +303,7 @@ namespace IEW.GatewayService.GUI
             {
                 lvWorkerList.BeginUpdate();
                 lvWorkerList.Items.Clear();
+                List<cls_OTA_Gateway_Info> tmp_list = new List<cls_OTA_Gateway_Info>();
 
                 foreach (cls_Gateway_Info gw in this.gw_manager.gateway_list)
                 {
@@ -306,6 +325,11 @@ namespace IEW.GatewayService.GUI
                         lvItem.SubItems.Add(""); //Status
                         lvItem.SubItems.Add(""); //Update Time
                         lvWorkerList.Items.Add(lvItem);
+
+                        cls_OTA_Gateway_Info tmp = new cls_OTA_Gateway_Info();
+                        tmp.gateway_id = gw.gateway_id;
+                        tmp.ap_type = "WORKER";
+                        tmp_list.Add(tmp);
                     }
                     else
                     {
@@ -327,6 +351,13 @@ namespace IEW.GatewayService.GUI
                 }
 
                 lvWorkerList.EndUpdate();
+                if (tmp_list.Count > 0)
+                {
+                    foreach (cls_OTA_Gateway_Info ogi in tmp_list)
+                    {
+                        this.ota_manager.ota_worker_list.Add(ogi);
+                    }
+                }
             }
         }
 
@@ -346,8 +377,9 @@ namespace IEW.GatewayService.GUI
             {
                 lvFirmwareList.BeginUpdate();
                 lvFirmwareList.Items.Clear();
+                List<cls_OTA_Device_Info> tmp_list = new List<cls_OTA_Device_Info>();
 
-                foreach(cls_Gateway_Info gw in this.gw_manager.gateway_list)
+                foreach (cls_Gateway_Info gw in this.gw_manager.gateway_list)
                 {
                     foreach(cls_Device_Info dv in gw.device_info)
                     {
@@ -370,6 +402,12 @@ namespace IEW.GatewayService.GUI
                             lvItem.SubItems.Add(""); //Status
                             lvItem.SubItems.Add(""); //Update Time
                             lvFirmwareList.Items.Add(lvItem);
+
+                            cls_OTA_Device_Info tmp = new cls_OTA_Device_Info();
+                            tmp.gateway_id = gw.gateway_id;
+                            tmp.device_id = dv.device_name;
+                            tmp.ap_type = "FIRMWARE";
+                            tmp_list.Add(tmp);
                         }
                         else
                         {
@@ -392,6 +430,13 @@ namespace IEW.GatewayService.GUI
                     }
                 }
                 lvFirmwareList.EndUpdate();
+                if (tmp_list.Count > 0)
+                {
+                    foreach (cls_OTA_Device_Info odi in tmp_list)
+                    {
+                        this.ota_manager.ota_firmware_list.Add(odi);
+                    }
+                }
             }
         }
 
@@ -444,6 +489,58 @@ namespace IEW.GatewayService.GUI
             return true;
         }
 
+        private bool VerifyInputData(string ap_type)
+        {
+            if(ap_type == "IOT")
+            {
+                if (cmbIOTVersion.Text.Trim() == "")
+                {
+                    MessageBox.Show("Please select the new version first", "Error");
+                    return false;
+                }
+
+                if(lvIOTList.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select the gateway first", "Error");
+                    return false;
+                }
+            }
+            else if(ap_type == "WORKER")
+            {
+                if (cmbWorkerVersion.Text.Trim() == "")
+                {
+                    MessageBox.Show("Please select the new version first", "Error");
+                    return false;
+                }
+
+                if (lvWorkerList.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select the gateway first", "Error");
+                    return false;
+                }
+            }
+            else if(ap_type == "FIRMWARE")
+            {
+                if (cmbFirmwareVersion.Text.Trim() == "")
+                {
+                    MessageBox.Show("Please select the new version first", "Error");
+                    return false;
+                }
+
+                if (lvFirmwareList.CheckedItems.Count == 0)
+                {
+                    MessageBox.Show("Please select the device first", "Error");
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnSetup_Click(object sender, EventArgs e)
         {
             if(VerifyFTPData())
@@ -452,10 +549,6 @@ namespace IEW.GatewayService.GUI
                 this.ota_manager.ftp_info.server_port = txtServerPort.Text.Trim();
                 this.ota_manager.ftp_info.user_id = txtUserID.Text.Trim();
                 this.ota_manager.ftp_info.password = txtPassword.Text.Trim();
-
-                //frmEditOTA frm = new frmEditOTA(SetCmdOTAList, this.gw_manager, this.ota_manager, AP_TYPE[tabOTA.SelectedIndex]);
-                //frm.Owner = this;
-                //frm.ShowDialog();
 
                 SaveFTPConfig();
                 SaveOTAConfig();
@@ -502,23 +595,111 @@ namespace IEW.GatewayService.GUI
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             cls_Cmd_OTA cmd_ota = new cls_Cmd_OTA();
+            int ver_index;
+            ListView lvList = null;
+            string gw_id;
+            string dv_id;
 
-            if(!VerifyFTPData())
+            if (VerifyFTPData())
+            {
+                this.ota_manager.ftp_info.server_ip = txtServerIP.Text.Trim();
+                this.ota_manager.ftp_info.server_port = txtServerPort.Text.Trim();
+                this.ota_manager.ftp_info.user_id = txtUserID.Text.Trim();
+                this.ota_manager.ftp_info.password = txtPassword.Text.Trim();
+
+                SaveFTPConfig();
+            }
+            else
+            {
+                return;
+            }
+            
+            if(VerifyInputData(AP_TYPE[tabOTA.SelectedIndex]))
+            {
+                SaveOTAConfig();
+            }
+            else
             {
                 return;
             }
 
-            cmd_ota.Trace_ID = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            cmd_ota.FTP_Server = txtServerIP.Text.Trim();
-            cmd_ota.FTP_Port = txtServerPort.Text.Trim();
-            cmd_ota.User_name = txtUserID.Text.Trim();
-            cmd_ota.Password = txtPassword.Text.Trim();
-            cmd_ota.App_Name = AP_TYPE[tabOTA.SelectedIndex];
-            //cmd_ota.Current_Version = 
-            cmd_ota.New_Version = this.ver_info.ap_version;
-            //cmd_ota.Process_ID = 
-            cmd_ota.Image_Name = this.ver_info.ap_store_path_name;
-            cmd_ota.MD5_String = this.ver_info.md5_string;
+            ver_index = 0;
+            if (tabOTA.SelectedIndex == 0) //IOT Tab Page
+            {
+                lvList = lvIOTList;
+                ver_index = 2;
+            }
+            else if(tabOTA.SelectedIndex == 1) //Worker Tab Page
+            {
+                lvList = lvWorkerList;
+                ver_index = 2;
+            }
+            else if(tabOTA.SelectedIndex == 2) //Firmware Tab Page
+            {
+                lvList = lvFirmwareList;
+                ver_index = 3;
+            }
+
+            if(lvList != null)
+            {
+                foreach (ListViewItem lvItem in lvList.CheckedItems)
+                {
+                    //MessageBox.Show(lvItem.SubItems[2].Text, "Information");
+                    cmd_ota.Trace_ID = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                    cmd_ota.FTP_Server = txtServerIP.Text.Trim();
+                    cmd_ota.FTP_Port = txtServerPort.Text.Trim();
+                    cmd_ota.User_name = txtUserID.Text.Trim();
+                    cmd_ota.Password = txtPassword.Text.Trim();
+                    cmd_ota.App_Name = AP_TYPE[tabOTA.SelectedIndex];
+                    cmd_ota.Current_Version = lvItem.SubItems[ver_index].Text;
+                    cmd_ota.New_Version = this.ver_info.ap_version;
+                    //cmd_ota.Process_ID = 
+                    cmd_ota.Image_Name = this.ver_info.ap_store_path_name;
+                    cmd_ota.MD5_String = this.ver_info.md5_string;
+
+                    string json_string = JsonConvert.SerializeObject(cmd_ota, Newtonsoft.Json.Formatting.Indented);
+                    gw_id = lvItem.Text.Trim();
+                    if(tabOTA.SelectedIndex == 0 || tabOTA.SelectedIndex == 1)
+                    {
+                        cls_Gateway_Info gw = this.gw_manager.gateway_list.Where(p => p.gateway_id == gw_id).FirstOrDefault();
+                        dv_id = gw.device_info[0].device_name;
+
+                        cls_OTA_Gateway_Info ogi = null;
+                        if (tabOTA.SelectedIndex == 0)
+                        {
+                            ogi = this.ota_manager.ota_iot_list.Where(o => o.gateway_id == gw_id).FirstOrDefault();
+                        }
+                        else
+                        {
+                            ogi = this.ota_manager.ota_worker_list.Where(o => o.gateway_id == gw_id).FirstOrDefault();
+                        }
+
+                        if(ogi != null)
+                        {
+                            ogi.ap_new_version = this.ver_info.ap_version;
+                            ogi.ap_new_store_path_name = this.ver_info.ap_store_path_name;
+                            ogi.md5_new_string = this.ver_info.md5_string;
+                            ogi.ap_description = this.ver_info.ap_description;
+                        }
+                    }
+                    else
+                    {
+                        dv_id = lvItem.SubItems[1].Text.Trim();
+                        cls_OTA_Device_Info odi = this.ota_manager.ota_firmware_list.Where(o => (o.gateway_id == gw_id) && (o.device_id == dv_id)).FirstOrDefault();
+                        if(odi != null)
+                        {
+                            odi.ap_new_version = this.ver_info.ap_version;
+                            odi.ap_new_store_path_name = this.ver_info.ap_store_path_name;
+                            odi.md5_new_string = this.ver_info.md5_string;
+                            odi.ap_description = this.ver_info.ap_description;
+                        }
+                    }
+
+                    SaveOTAConfig();
+                    IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "SendOTA", new object[] { gw_id, dv_id, json_string });
+                    Thread.Sleep(500);
+                }
+            }
         }
     }
 }

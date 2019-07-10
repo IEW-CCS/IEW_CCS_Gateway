@@ -374,12 +374,13 @@ namespace IEW.ObjectManager
     #endregion
 
     #region Class to define the received OTA Ack MQTT message payload
-    public class cls_OTAAck
+    public class cls_Cmd_OTA_Ack
     {
         public string Cmd_Result { get; set; }
         public string Trace_ID { get; set; }
         public string App_Name { get; set; }
-        public string Version { get; set; }
+        public string New_Version { get; set; }
+        public string MD5_String { get; set; }
     }
     #endregion
 }

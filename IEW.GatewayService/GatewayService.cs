@@ -595,14 +595,14 @@ namespace IEW.GatewayService
             }
         }
 
-        public void SendOTA(string GateWayID, string DeviceID, cls_Cmd_OTA ota)
+        public void SendOTA(string GateWayID, string DeviceID, string msg)
         {
-            string json_msg = JsonConvert.SerializeObject(ota, Newtonsoft.Json.Formatting.Indented);
+            //string json_msg = JsonConvert.SerializeObject(ota, Newtonsoft.Json.Formatting.Indented);
             xmlMessage SendOutMsg = new xmlMessage();
             SendOutMsg.LineID = GateWayID;
             SendOutMsg.DeviceID = DeviceID;
             SendOutMsg.MQTTTopic = "Cmd_OTA";
-            SendOutMsg.MQTTPayload = json_msg;
+            SendOutMsg.MQTTPayload = msg;
             SendMQTTData(SendOutMsg);
         }
 
@@ -613,7 +613,7 @@ namespace IEW.GatewayService
             string GateWayID = Topic[2].ToString();
             string DeviceID = Topic[3].ToString();
 
-            //Update current version information for gateway/device
+            //Update new version information for gateway/device
 
         }
 

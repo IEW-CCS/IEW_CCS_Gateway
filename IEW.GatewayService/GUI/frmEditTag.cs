@@ -71,6 +71,10 @@ namespace IEW.GatewayService.GUI
                     txtEndBit.Enabled = false;
                     txtLength.Text = "";
                     txtLength.Enabled = false;
+                    txtScale.Text = "";
+                    txtScale.Enabled = false;
+                    txtOffset.Text = "";
+                    txtOffset.Enabled = false;
                 }
                 else
                 {
@@ -132,7 +136,7 @@ namespace IEW.GatewayService.GUI
         {
             if (cmbDataType.Text.Trim() == "Virtual")
             {
-                if(cmbWordBit.Text.Trim() == "ASC")
+                if(cmbWordBit.Text.Trim() == "ASC" || cmbWordBit.Text.Trim() == "DATETIME")
                 {
                     txtScale.Text = "";
                     txtScale.Enabled = false;
@@ -239,7 +243,7 @@ namespace IEW.GatewayService.GUI
             {
                 double dScale;
                 double dOffset;
-                if(cmbWordBit.Text.Trim() != "ASC")
+                if(cmbWordBit.Text.Trim() == "INT" || cmbWordBit.Text.Trim() == "DOUBLE")
                 {
                     if (double.TryParse(txtScale.Text.Trim(), out dScale))
                     {
@@ -421,6 +425,7 @@ namespace IEW.GatewayService.GUI
                 cmbWordBit.Items.Add("INT");
                 cmbWordBit.Items.Add("DOUBLE");
                 cmbWordBit.Items.Add("ASC");
+                cmbWordBit.Items.Add("DATETIME");
 
                 txtStartAddress.Text = "";
                 txtStartAddress.Enabled = false;
