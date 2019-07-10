@@ -20,6 +20,7 @@ namespace IEW.GatewayService.GUI
         cls_Tag tag_data;
         public SetTag delgSetTag;
         public CheckDuplicateTag delgCheckDuplicate;
+        string[] ALLOWED_ADDRESS = { "B", "D", "M", "W", "Z" };
 
         public frmEditTag()
         {
@@ -194,11 +195,23 @@ namespace IEW.GatewayService.GUI
         {
             string end_address;
             int iValue;
+            int start_index;
+            int iDecimalength;
 
-            int iDecimalength = start_address.Trim().Length - 1;
-            iValue = int.Parse(start_address.Trim().Substring(1)) + offset -1;
+            if (start_address.Substring(0, 1) == "Z")
+            {
+                start_index = 2;
+                iDecimalength = start_address.Trim().Length - 2;
+            }
+            else
+            {
+                start_index = 1;
+                iDecimalength = start_address.Trim().Length - 1;
+            }
 
-            end_address = start_address.Substring(0,1) + iValue.ToString("D" + iDecimalength.ToString());
+            iValue = int.Parse(start_address.Trim().Substring(start_index)) + offset -1;
+
+            end_address = start_address.Substring(0,start_index) + iValue.ToString("D" + iDecimalength.ToString());
 
             return end_address;
         }
@@ -275,12 +288,39 @@ namespace IEW.GatewayService.GUI
                 }
                 else
                 {
-                    if (!int.TryParse(txtStartAddress.Text.Trim().Substring(1), out iValue))
+                    // Check if the first character equals to 'B', 'D', 'M', 'W', "ZR"
+                    if(ALLOWED_ADDRESS.Contains(txtStartAddress.Text.Trim().Substring(0, 1)))
+                    {
+                        if(txtStartAddress.Text.Trim().Substring(0, 1) == "Z")
+                        {
+                            if(txtStartAddress.Text.Trim().Substring(1, 1) != "R")
+                            {
+                                MessageBox.Show("The first character of Start Address should be B, D, M, W, ZR", "Error");
+                                return;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("The first character of Start Address should be B, D, M, W, ZR", "Error");
+                        return;
+                    }
+
+                    int start_index;
+                    if(txtStartAddress.Text.Trim().Substring(0, 1) == "Z")
+                    {
+                        start_index = 2;
+                    }
+                    else
+                    {
+                        start_index = 1;
+                    }
+
+                    if (!int.TryParse(txtStartAddress.Text.Trim().Substring(start_index), out iValue))
                     {
                         MessageBox.Show("Start Address format is wrong!", "Error");
                         return;
                     }
-                    // Check if the first character equals to 'B', 'D', 'M', 'W'
                 }
 
                 if (cmbWordBit.Text == "BIT")
