@@ -381,6 +381,7 @@ namespace IEW.ObjectManager
         public string App_Name { get; set; }
         public string New_Version { get; set; }
         public string MD5_String { get; set; }
+        public string Return_Message { get; set; }
     }
     #endregion
 }

@@ -24,6 +24,7 @@ namespace IEW.GatewayService.GUI
         const int PAGE_INDEX_WORKER = 1;
         const int PAGE_INDEX_FIRMWARE = 2;
 
+        public IEW.ObjectManager.ObjectManager obj_manager;
         public OTAManager ota_manager;
         public GateWayManager gw_manager;
         public VersionManager ver_mgr;
@@ -34,11 +35,13 @@ namespace IEW.GatewayService.GUI
             InitializeComponent();
         }
 
-        public frmListOTA(GateWayManager gw_mgr, OTAManager ota_mgr)
+        public frmListOTA(IEW.ObjectManager.ObjectManager obj_mgr, GateWayManager gw_mgr, OTAManager ota_mgr)
         {
             InitializeComponent();
+            this.obj_manager = obj_mgr;
             this.gw_manager = gw_mgr;
             this.ota_manager = ota_mgr;
+            this.obj_manager.OTAAckEventHandler += new EventHandler(this.RefreshOTAAck);
         }
 
         private void frmListOTA_Load(object sender, EventArgs e)
@@ -59,6 +62,7 @@ namespace IEW.GatewayService.GUI
             lvIOTList.Columns.Add("Virtual Flag", 60);
             lvIOTList.Columns.Add("Update Status", 80);
             lvIOTList.Columns.Add("Update Time", 140);
+            lvIOTList.Columns.Add("Return Message", 140);
             lvIOTList.Items.Clear();
             lvIOTList.EndUpdate();
 
@@ -70,6 +74,7 @@ namespace IEW.GatewayService.GUI
             lvWorkerList.Columns.Add("Virtual Flag", 60);
             lvWorkerList.Columns.Add("Update Status", 80);
             lvWorkerList.Columns.Add("Update Time", 140);
+            lvWorkerList.Columns.Add("Return Message", 140);
             lvWorkerList.Items.Clear();
             lvWorkerList.EndUpdate();
 
@@ -82,16 +87,19 @@ namespace IEW.GatewayService.GUI
             lvFirmwareList.Columns.Add("Virtual Flag", 60);
             lvFirmwareList.Columns.Add("Update Status", 80);
             lvFirmwareList.Columns.Add("Update Time", 140);
+            lvFirmwareList.Columns.Add("Return Message", 140);
             lvFirmwareList.Items.Clear();
             lvFirmwareList.EndUpdate();
 
+            CheckForIllegalCrossThreadCalls = false;
             RefreshOTAList(PAGE_INDEX_IOT);
         }
 
-        //Delegate function to setup cls_Cmd_OTA list
-        void SetCmdOTAList(List<cls_Cmd_OTA> ota_list)
+        private void RefreshOTAAck(object sender, EventArgs e)
         {
-
+            //MessageBox.Show("Receive OTA Ack Event!", "Information");
+            SaveOTAConfig();
+            RefreshOTAList(this.tabOTA.SelectedIndex);
         }
 
         private bool LoadFTPConfig()
@@ -247,6 +255,7 @@ namespace IEW.GatewayService.GUI
                         }
                         lvItem.SubItems.Add(""); //Status
                         lvItem.SubItems.Add(""); //Update Time
+                        lvItem.SubItems.Add(""); //Return Message
                         lvIOTList.Items.Add(lvItem);
 
                         cls_OTA_Gateway_Info tmp = new cls_OTA_Gateway_Info();
@@ -269,6 +278,7 @@ namespace IEW.GatewayService.GUI
                         }
                         lvItem.SubItems.Add(ota_gw.update_status);
                         lvItem.SubItems.Add(ota_gw.last_update_time.ToString());
+                        lvItem.SubItems.Add(ota_gw.status_message); //Return Message
                         lvIOTList.Items.Add(lvItem);
                     }
                 }
@@ -324,6 +334,7 @@ namespace IEW.GatewayService.GUI
 
                         lvItem.SubItems.Add(""); //Status
                         lvItem.SubItems.Add(""); //Update Time
+                        lvItem.SubItems.Add(""); //Return Message
                         lvWorkerList.Items.Add(lvItem);
 
                         cls_OTA_Gateway_Info tmp = new cls_OTA_Gateway_Info();
@@ -346,6 +357,7 @@ namespace IEW.GatewayService.GUI
                         }
                         lvItem.SubItems.Add(ota_gw.update_status);
                         lvItem.SubItems.Add(ota_gw.last_update_time.ToString());
+                        lvItem.SubItems.Add(ota_gw.status_message); //Return Message
                         lvWorkerList.Items.Add(lvItem);
                     }
                 }
@@ -401,6 +413,7 @@ namespace IEW.GatewayService.GUI
 
                             lvItem.SubItems.Add(""); //Status
                             lvItem.SubItems.Add(""); //Update Time
+                            lvItem.SubItems.Add(""); //Return Message
                             lvFirmwareList.Items.Add(lvItem);
 
                             cls_OTA_Device_Info tmp = new cls_OTA_Device_Info();
@@ -425,6 +438,7 @@ namespace IEW.GatewayService.GUI
                             }
                             lvItem.SubItems.Add(ota_dv.update_status);
                             lvItem.SubItems.Add(ota_dv.last_update_time.ToString());
+                            lvItem.SubItems.Add(ota_dv.status_message); //Return Message
                             lvFirmwareList.Items.Add(lvItem);
                         }
                     }
@@ -539,22 +553,6 @@ namespace IEW.GatewayService.GUI
             }
 
             return true;
-        }
-
-        private void btnSetup_Click(object sender, EventArgs e)
-        {
-            if(VerifyFTPData())
-            {
-                this.ota_manager.ftp_info.server_ip = txtServerIP.Text.Trim();
-                this.ota_manager.ftp_info.server_port = txtServerPort.Text.Trim();
-                this.ota_manager.ftp_info.user_id = txtUserID.Text.Trim();
-                this.ota_manager.ftp_info.password = txtPassword.Text.Trim();
-
-                SaveFTPConfig();
-                SaveOTAConfig();
-            }
-
-            RefreshOTAList(tabOTA.SelectedIndex);
         }
 
         private void tabOTA_SelectedIndexChanged(object sender, EventArgs e)
@@ -701,5 +699,16 @@ namespace IEW.GatewayService.GUI
                 }
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                this.obj_manager.OTAAckEventHandler -= new EventHandler(this.RefreshOTAAck);
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }

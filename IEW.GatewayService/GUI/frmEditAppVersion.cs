@@ -162,7 +162,8 @@ namespace IEW.GatewayService.GUI
         private string get_destination_dir(cls_Version_Info ver)
         {
             string strDest;
-            strDest = "C:\\VersionControl\\" + ver.ap_type + "\\" + ver.ap_version + "\\";
+            //strDest = "C:\\VersionControl\\" + ver.ap_type + "\\" + ver.ap_version + "\\";
+            strDest = "\\" + ver.ap_type + "\\" + ver.ap_version + "\\";
 
             return strDest;
         }

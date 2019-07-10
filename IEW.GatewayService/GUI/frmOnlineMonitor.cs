@@ -39,7 +39,6 @@ namespace IEW.GatewayService.GUI
             this.iot_statusColumn.ImageGetter = new BrightIdeasSoftware.ImageGetterDelegate(this.IoTStatusImageGetter);
 
             lvoStatus.SetObjects(this.object_mgr.MonitorManager.device_list);
-            //lvoStatus.UncheckSubItem(this.object_mgr.MonitorManager.device_list, dv_idColumn);
             lvoStatus.RefreshObjects(this.object_mgr.MonitorManager.device_list);
         }
 
