@@ -239,6 +239,11 @@ namespace IEW.GatewayService.GUI
 
                 foreach (cls_Gateway_Info gw in this.gw_manager.gateway_list)
                 {
+                    if(gw.virtual_flag)
+                    {
+                        continue;
+                    }
+
                     cls_OTA_Gateway_Info ota_gw = this.ota_manager.ota_iot_list.Where(p => p.gateway_id == gw.gateway_id).FirstOrDefault();
                     if(ota_gw == null)
                     {
@@ -317,6 +322,11 @@ namespace IEW.GatewayService.GUI
 
                 foreach (cls_Gateway_Info gw in this.gw_manager.gateway_list)
                 {
+                    if (gw.virtual_flag)
+                    {
+                        continue;
+                    }
+
                     cls_OTA_Gateway_Info ota_gw = this.ota_manager.ota_worker_list.Where(p => p.gateway_id == gw.gateway_id).FirstOrDefault();
                     if (ota_gw == null)
                     {
@@ -393,7 +403,12 @@ namespace IEW.GatewayService.GUI
 
                 foreach (cls_Gateway_Info gw in this.gw_manager.gateway_list)
                 {
-                    foreach(cls_Device_Info dv in gw.device_info)
+                    if (gw.virtual_flag)
+                    {
+                        continue;
+                    }
+
+                    foreach (cls_Device_Info dv in gw.device_info)
                     {
                         cls_OTA_Device_Info ota_dv = this.ota_manager.ota_firmware_list.Where(p => (p.gateway_id == gw.gateway_id) && (p.device_id == dv.device_name)).FirstOrDefault();
                         if (ota_dv == null)

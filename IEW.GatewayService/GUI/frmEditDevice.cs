@@ -144,12 +144,15 @@ namespace IEW.GatewayService.GUI
                 MessageBox.Show("Please enter Device ID!", "Error");
                 return;
             }
-
-            duplicate_flag = (bool)IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "CheckDuplicateDeviceID", new object[] { txtDeviceID.Text.Trim() });
-            if(duplicate_flag)
+            
+            if(!this.isEdit)
             {
-                MessageBox.Show("Device ID should be unique!!", "Error");
-                return;
+                duplicate_flag = (bool)IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "CheckDuplicateDeviceID", new object[] { txtDeviceID.Text.Trim() });
+                if (duplicate_flag)
+                {
+                    MessageBox.Show("Device ID should be unique!!", "Error");
+                    return;
+                }
             }
 
             if (cmbType.Text == "PLC")

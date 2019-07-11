@@ -16,6 +16,11 @@ namespace IEW.GatewayService.GUI
 
     public partial class frmEditTag : Form
     {
+        const int UINT_LENGTH = 1;
+        const int SINT_LENGTH = 1;
+        const int ULONG_LENGTH = 2;
+        const int SLONG_LENGTH = 2;
+
         bool isEdit;
         cls_Tag tag_data;
         public SetTag delgSetTag;
@@ -399,19 +404,19 @@ namespace IEW.GatewayService.GUI
                     switch (cmbWordBit.Text.Trim())
                     {
                         case "SINT":
-                            end_address = get_end_address(txtStartAddress.Text.Trim(), 2);
+                            end_address = get_end_address(txtStartAddress.Text.Trim(), SINT_LENGTH);
                             tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                             break;
                         case "UINT":
-                            end_address = get_end_address(txtStartAddress.Text.Trim(), 2);
+                            end_address = get_end_address(txtStartAddress.Text.Trim(), UINT_LENGTH);
                             tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                             break;
                         case "SLONG":
-                            end_address = get_end_address(txtStartAddress.Text.Trim(), 4);
+                            end_address = get_end_address(txtStartAddress.Text.Trim(), SLONG_LENGTH);
                             tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                             break;
                         case "ULONG":
-                            end_address = get_end_address(txtStartAddress.Text.Trim(), 4);
+                            end_address = get_end_address(txtStartAddress.Text.Trim(), ULONG_LENGTH);
                             tmpTag.UUID_Address = txtStartAddress.Text.Trim() + ":" + end_address;
                             break;
 
