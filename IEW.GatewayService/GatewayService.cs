@@ -415,7 +415,7 @@ namespace IEW.GatewayService
                         {
                             gw.gateway_status = "Ready";
                             gw.hb_status = "Ready";
-                            gw.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                            gw.hb_report_time = DateTime.ParseExact(sc.Trace_ID, GlobalVaraible.DATETIME_FORMAT, CultureInfo.InvariantCulture);
                             dv.device_status = "Ready";
                             dv.hb_status = "Ready";
                             dv.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
