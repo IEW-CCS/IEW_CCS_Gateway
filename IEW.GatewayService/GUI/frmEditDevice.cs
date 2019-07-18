@@ -137,11 +137,22 @@ namespace IEW.GatewayService.GUI
         private void btnDeviceSave_Click(object sender, EventArgs e)
         {
             cls_Device_Info diTemp = new cls_Device_Info();
+            bool duplicate_flag = false;
 
             if ( txtDeviceID.Text.Trim() == "" )
             {
                 MessageBox.Show("Please enter Device ID!", "Error");
                 return;
+            }
+            
+            if(!this.isEdit)
+            {
+                duplicate_flag = (bool)IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "CheckDuplicateDeviceID", new object[] { txtDeviceID.Text.Trim() });
+                if (duplicate_flag)
+                {
+                    MessageBox.Show("Device ID should be unique!!", "Error");
+                    return;
+                }
             }
 
             if (cmbType.Text == "PLC")

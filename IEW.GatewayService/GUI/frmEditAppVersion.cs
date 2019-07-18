@@ -100,6 +100,7 @@ namespace IEW.GatewayService.GUI
         //Delegate function to setup application version information
         void SetVersionInfo(cls_Version_Info ver_info)
         {
+            string strPrefix = "C:\\VersionControl";
             string strDestinationDir;
             string strDestinationName;
             string strDestinationMD5;
@@ -114,11 +115,12 @@ namespace IEW.GatewayService.GUI
             {
                 var zip = new ZipFile();
                 zip.AddDirectory(ver_info.ap_upload_path_name);
-                if(!Directory.Exists(strDestinationDir))
+                if(!Directory.Exists(strPrefix + strDestinationDir))
                 {
-                    Directory.CreateDirectory(strDestinationDir);
+                    Directory.CreateDirectory(strPrefix + strDestinationDir);
                 }
-                zip.Save(strDestinationDir + strDestinationName);
+                string tmp = strPrefix + strDestinationDir + strDestinationName;
+                zip.Save(strPrefix + strDestinationDir + strDestinationName);
             }
             catch(Exception ex)
             {
@@ -129,7 +131,7 @@ namespace IEW.GatewayService.GUI
             //Add MD5 checksum file
             try
             {
-                strMD5 = GetMD5HashFromFile(strDestinationDir + strDestinationName);
+                strMD5 = GetMD5HashFromFile(strPrefix + strDestinationDir + strDestinationName);
                 //StreamWriter output = new StreamWriter(strDestinationDir + strDestinationMD5);
                 //output.Write(strMD5);
                 //output.Close();
@@ -162,7 +164,8 @@ namespace IEW.GatewayService.GUI
         private string get_destination_dir(cls_Version_Info ver)
         {
             string strDest;
-            strDest = "C:\\VersionControl\\" + ver.ap_type + "\\" + ver.ap_version + "\\";
+            //strDest = "C:\\VersionControl\\" + ver.ap_type + "\\" + ver.ap_version + "\\";
+            strDest = "\\" + ver.ap_type + "\\" + ver.ap_version + "\\";
 
             return strDest;
         }

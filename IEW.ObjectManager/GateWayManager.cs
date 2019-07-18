@@ -159,6 +159,9 @@ namespace IEW.ObjectManager
 
             foreach (KeyValuePair<string, cls_Tag> kvp in _DeviceInfo.tag_info)
             {
+
+                if (kvp.Value.Type == "Virtual")
+                    continue;
                 cls_Collect_Tag temp = new cls_Collect_Tag();
                 temp.DATA_NAME = kvp.Value.TagName;
                 temp.DATA_TYPE = "BLOCK";// kvp.Value.Expression;
@@ -381,6 +384,7 @@ namespace IEW.ObjectManager
         public string App_Name { get; set; }
         public string New_Version { get; set; }
         public string MD5_String { get; set; }
+        public string Return_Message { get; set; }
     }
     #endregion
 }

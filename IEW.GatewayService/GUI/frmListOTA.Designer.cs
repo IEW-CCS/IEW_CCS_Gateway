@@ -11,6 +11,7 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /*
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -19,6 +20,7 @@
             }
             base.Dispose(disposing);
         }
+        */
 
         #region Windows Form Designer generated code
 
@@ -50,7 +52,6 @@
             this.cmbFirmwareVersion = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.lvFirmwareList = new System.Windows.Forms.ListView();
-            this.btnSetup = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.gbFTPServer.SuspendLayout();
             this.tabOTA.SuspendLayout();
@@ -295,22 +296,10 @@
             this.lvFirmwareList.UseCompatibleStateImageBehavior = false;
             this.lvFirmwareList.View = System.Windows.Forms.View.Details;
             // 
-            // btnSetup
-            // 
-            this.btnSetup.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetup.Location = new System.Drawing.Point(13, 511);
-            this.btnSetup.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
-            this.btnSetup.Name = "btnSetup";
-            this.btnSetup.Size = new System.Drawing.Size(79, 36);
-            this.btnSetup.TabIndex = 36;
-            this.btnSetup.Text = "Setup";
-            this.btnSetup.UseVisualStyleBackColor = true;
-            this.btnSetup.Click += new System.EventHandler(this.btnSetup_Click);
-            // 
             // btnUpdate
             // 
             this.btnUpdate.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUpdate.Location = new System.Drawing.Point(342, 511);
+            this.btnUpdate.Location = new System.Drawing.Point(317, 511);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(79, 36);
@@ -323,7 +312,6 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(740, 556);
-            this.Controls.Add(this.btnSetup);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.tabOTA);
             this.Controls.Add(this.gbFTPServer);
@@ -358,7 +346,6 @@
         private System.Windows.Forms.TabPage tabPageIOT;
         private System.Windows.Forms.TabPage tabPageWorker;
         private System.Windows.Forms.TabPage tabPageFirmware;
-        private System.Windows.Forms.Button btnSetup;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.ListView lvIOTList;
         private System.Windows.Forms.ListView lvWorkerList;

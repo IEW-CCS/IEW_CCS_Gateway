@@ -11,11 +11,11 @@
   </object>
 
   <object id="MDIForm" type="IEW.Platform.Kernel.UI.MDIForm,IEW.Platform.Kernel" init-method="Init">
-     <property name="DefaultDisplayFormName" value="FrmGateway" /> 
+     <property name="DefaultDisplayFormName" value="FrmGateway" />
      <property name="CommandButtonList">
       <dictionary>
-         <entry key="1" value="FrmLogView" /> 
-         <entry key="2" value="FrmGateway" /> 
+         <entry key="1" value="FrmGateway" /> 
+         <entry key="2" value="FrmLogView" />
       </dictionary>
      </property>
   </object>

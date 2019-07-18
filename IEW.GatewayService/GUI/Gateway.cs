@@ -846,7 +846,7 @@ namespace IEW.GatewayService.UI
 
         private void DisplayOTAManagement()
         {
-            frmListOTA frm = new frmListOTA(ObjectManager.GatewayManager, ObjectManager.OTAManager);
+            frmListOTA frm = new frmListOTA(this.ObjectManager, ObjectManager.GatewayManager, ObjectManager.OTAManager);
             frm.Owner = this;
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
