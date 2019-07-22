@@ -24,5 +24,7 @@
   <message name="/IEW/EDCService">
     <object id="EDCService" method="ReceiveMQTTData" />
   </message>
-
+  <message name="/IEW/+/+/Cmd/OTA/Ack">
+    <object id="GatewayService" method="OTAAck" />
+  </message>
 </object-definition>

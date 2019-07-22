@@ -86,7 +86,7 @@ namespace IEW.GatewayService.GUI
 
             tmpVer.ap_type = this.application_key;
             tmpVer.ap_version = txtVersion.Text.Trim();
-            tmpVer.ap_path_name = txtPath.Text.Trim();
+            tmpVer.ap_upload_path_name = txtPath.Text.Trim();
             tmpVer.ap_description = txtDescription.Text.Trim();
             tmpVer.update_time = DateTime.Now;
 

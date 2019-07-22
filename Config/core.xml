@@ -11,10 +11,11 @@
   </object>
 
   <object id="MDIForm" type="IEW.Platform.Kernel.UI.MDIForm,IEW.Platform.Kernel" init-method="Init">
+     <property name="DefaultDisplayFormName" value="FrmGateway" />
      <property name="CommandButtonList">
       <dictionary>
-         <entry key="1" value="FrmLogView" /> 
-         <entry key="2" value="FrmGateway" /> 
+         <entry key="1" value="FrmGateway" /> 
+         <entry key="2" value="FrmLogView" />
       </dictionary>
      </property>
   </object>
@@ -48,6 +49,7 @@
         <entry key="ConfigDB" value ="/IEW/+/+/Cmd/Config/DB" />
         <entry key="ConfigAck" value ="/IEW/+/+/Cmd/Config/Ack" />
         <entry key="ReadDataAck" value ="/IEW/+/+/Cmd/ReadData/Ack" />
+        <entry key="OTAAck" value ="/IEW/+/+/Cmd/OTA/Ack" />
        </dictionary>
     </property>
     <property name="Publish_Topic">
@@ -60,6 +62,7 @@
         <entry key="Cmd_Config_DB" value="/IEW/{LineID}/{DeviceID}/Cmd/Config/DB/Reply" /> 
         <entry key="ReadData_Ready" value="/IEW/{LineID}/{DeviceID}/Cmd/ReadDataReady" /> 
         <entry key="EDCService" value="/IEW/EDCService" />
+        <entry key="Cmd_OTA" value="/IEW/{LineID}/{DeviceID}/Cmd/OTA" /> 
       </dictionary>
     </property>
   </object>

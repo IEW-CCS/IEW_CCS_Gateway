@@ -13,6 +13,7 @@ using IEW.Platform.Kernel.Common;
 using IEW.Platform.Kernel.Log;
 using IEW.ObjectManager;
 using IEW.GatewayService.GUI;
+using IEW.ObjectManager.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -146,6 +147,8 @@ namespace IEW.GatewayService.UI
             LoadEDCXmlConfig();
             LoadDBConfig();
             LoadVersionConfig();
+            LoadOTAConfig();
+
             RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
@@ -843,7 +846,7 @@ namespace IEW.GatewayService.UI
 
         private void DisplayOTAManagement()
         {
-            frmListOTA frm = new frmListOTA();
+            frmListOTA frm = new frmListOTA(this.ObjectManager, ObjectManager.GatewayManager, ObjectManager.OTAManager);
             frm.Owner = this;
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
@@ -1117,6 +1120,40 @@ namespace IEW.GatewayService.UI
             return true;
         }
 
+        private bool LoadOTAConfig()
+        {
+            try
+            {
+                if (!System.IO.File.Exists("C:\\Gateway\\Config\\OTA_Config.json"))
+                {
+                    //MessageBox.Show("No tag set config file exists! Please start to create tag set template.", "Information");
+                    ObjectManager.OTAManager_Initial();
+                    return true;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\OTA_Config.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                ObjectManager.OTAManager_Initial(json_string);
+
+                if (ObjectManager.OTAManager.ota_iot_list == null && ObjectManager.OTAManager.ota_worker_list == null && ObjectManager.OTAManager.ota_firmware_list == null )
+                {
+                    MessageBox.Show("No OTA Configuration exists!", "Information");
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("OTA config file loading error! -> " + ex.Message, "Error");
+                return false;
+            }
+
+            return true;
+        }
+
         private void SaveGatewayConfig()
         {
             string json_string;
@@ -1182,12 +1219,607 @@ namespace IEW.GatewayService.UI
 
         private void btnSaveConfig_Click(object sender, EventArgs e)
         {
+            Boolean bSaveDB_Result = false;
+
+
+            System.Diagnostics.Debug.Print("1-"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             SaveGatewayConfig();
             SaveTagSetConfig();
             SaveEDCHeaderSetConfig();
             SaveEDCXmlConfig();
             SaveDBConfig();
-            //SaveVersionConfig();
+            System.Diagnostics.Debug.Print("2-" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            //add for db sync - vic
+            if (true)
+            {
+                bSaveDB_Result = SyncConfigToDB();
+                System.Diagnostics.Debug.Print("3-" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                if (bSaveDB_Result)
+                {
+                    MessageBox.Show("Save Data To DB Sucessfully!", "Save to DB Result.");
+                }
+            }
+        }
+
+        private Boolean SyncConfigToDB()
+        {
+            Boolean bResult = true; 
+            try
+            {
+                //-------- Load DB Setting --------
+                using (IOT_DbContext db = new IOT_DbContext("MySql.Data.MySqlClient", "server=localhost;port=3306;database=iotdb;uid=root;password=qQ123456"))
+                {
+                    //gateway sync
+                    if (ObjectManager.GatewayManager.gateway_list.Count > 0)
+                    {
+                        foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+                        {
+                            SaveGatewayToDB(db, gi);
+
+                            //device sync
+                            if (gi.device_info.Count > 0)
+                            {
+                                foreach (cls_Device_Info di in gi.device_info)
+                                {
+                                    SaveDeviceToDB(db, di, gi.gateway_id);
+
+                                    //tag sync
+                                    if (di.tag_info.Count > 0)
+                                    {
+                                        foreach (KeyValuePair<string, cls_Tag> kvp in di.tag_info)
+                                        {
+
+                                            SaveDeviceTagToDB(db, kvp.Value, di.device_name);
+                                        }
+
+
+                                    }
+
+                                    //calc tag sync
+                                    if (di.tag_info.Count > 0)
+                                    {
+                                        foreach (KeyValuePair<string, cls_CalcTag> kvp in di.calc_tag_info)
+                                        {
+
+                                            SaveDeviceCalcTagToDB(db, kvp.Value, di.device_name);
+                                        }
+
+
+                                    }
+
+                                }
+                            }
+
+
+                        }
+                    }
+                    //tag set sync
+                    //SaveTagSetToDB(db);
+                    if (ObjectManager.TagSetManager.tag_set_list.Count > 0)
+                    {
+                        foreach (cls_Tag_Set ts in ObjectManager.TagSetManager.tag_set_list)
+                        {
+                            SaveTagSetToDB(db, ts);
+
+                            //tag  sync
+                            if (ts.tag_set.Count > 0)
+                            {
+                                foreach (cls_Tag tag in ts.tag_set)
+                                {
+                                    SaveTagToDB(db, tag, ts.TagSetName);
+
+
+                                }
+
+                            }
+
+                            //cal tag  sync
+                            if (ts.calc_tag_set.Count > 0)
+                            {
+                                foreach (cls_CalcTag calc_tag in ts.calc_tag_set)
+                                {
+                                    SaveCalcTagToDB(db, calc_tag, ts.TagSetName);
+
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.Message, "SyncConfigToDB");
+                bResult =false;
+            }
+            return bResult;
+        }
+
+        private void SaveGatewayToDB(IOT_DbContext _db, cls_Gateway_Info oGatewayInfo)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotGateways = _db.IOT_GATEWAY.AsQueryable();
+                vIotGateways = vIotGateways.Where(c => c.gateway_id == oGatewayInfo.gateway_id);
+                if (vIotGateways.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_GATEWAY oIoT_Gateway = new IOT_GATEWAY();
+
+                if (bExisting)
+                {
+                    oIoT_Gateway = vIotGateways.FirstOrDefault();
+                    oIoT_Gateway.gateway_ip = oGatewayInfo.gateway_ip;
+                    oIoT_Gateway.location = oGatewayInfo.location;
+                    if (oGatewayInfo.virtual_flag)
+                    {
+                        oIoT_Gateway.virtual_flag = "Y";
+                    }
+                    else
+                    {
+                        oIoT_Gateway.virtual_flag = "N";
+                    }
+
+                    oIoT_Gateway.virtual_publish_topic = oGatewayInfo.virtual_publish_topic;
+                    oIoT_Gateway.clm_date_time = DateTime.Now;
+                    oIoT_Gateway.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_Gateway);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    oIoT_Gateway.gateway_id = oGatewayInfo.gateway_id;
+                    oIoT_Gateway.gateway_ip = oGatewayInfo.gateway_ip;
+                    oIoT_Gateway.location = oGatewayInfo.location;
+                    if (oGatewayInfo.virtual_flag)
+                    {
+                        oIoT_Gateway.virtual_flag = "Y";
+                    }
+                    else
+                    {
+                        oIoT_Gateway.virtual_flag = "N";
+                    }
+
+                    oIoT_Gateway.virtual_publish_topic = oGatewayInfo.virtual_publish_topic;
+                    oIoT_Gateway.clm_date_time = DateTime.Now;
+                    oIoT_Gateway.clm_user = "SYSADM";
+
+                    _db.IOT_GATEWAY.Add(oIoT_Gateway);
+                    _db.SaveChanges();
+                }
+                
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveGatewayToDB");
+            }
+
+        }
+
+        private void SaveDeviceToDB(IOT_DbContext _db, cls_Device_Info oDeviceInfo, string gateway_id)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotDevices = _db.IOT_DEVICE.AsQueryable();
+                vIotDevices = vIotDevices.Where(c => c.device_id == oDeviceInfo.device_name);
+                if (vIotDevices.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_DEVICE oIoT_Device = new IOT_DEVICE();
+
+                if (bExisting)
+                {
+                    oIoT_Device = vIotDevices.FirstOrDefault();
+                    oIoT_Device.device_type = oDeviceInfo.device_type;
+                    if (oDeviceInfo.device_location == null)
+                    {
+                        oIoT_Device.location = "";
+                    }
+                    else
+                    {
+                        oIoT_Device.location = oDeviceInfo.device_location;
+                    }
+                    oIoT_Device.gateway_id = gateway_id;
+                    oIoT_Device.plc_ip_address = oDeviceInfo.plc_ip_address;
+                    oIoT_Device.plc_port_id = oDeviceInfo.plc_port_id;
+                    oIoT_Device.ble_mac = oDeviceInfo.ble_mac;
+                    //oIoT_Device.ble_service_uuid = oDeviceInfo.ble_service_uuid;
+                    //oIoT_Device.plc_ip_address = oDeviceInfo.plc_ip_address;
+                    //oIoT_Device.plc_port_id = oDeviceInfo.plc_port_id;
+                    //oIoT_Device.ble_mac = oDeviceInfo.ble_mac;
+                    //oIoT_Device.ble_service_uuid = oDeviceInfo.ble_service_uuid;
+                    oIoT_Device.eqp_id = oDeviceInfo.device_name;
+                    oIoT_Device.sub_eqp_id = oDeviceInfo.device_name;
+
+                    oIoT_Device.clm_date_time = DateTime.Now;
+                    oIoT_Device.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_Device);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    oIoT_Device.device_id = oDeviceInfo.device_name;
+                    oIoT_Device.device_desc= "";
+                    oIoT_Device.status = "";
+                    oIoT_Device.device_type = oDeviceInfo.device_type;
+                    if (oDeviceInfo.device_location == null)
+                    {
+                        oIoT_Device.location = "";
+                    }
+                    else
+                    {
+                        oIoT_Device.location = oDeviceInfo.device_location;
+                    }
+                    oIoT_Device.ooc_flg = "N";
+                    oIoT_Device.oos_flg = "N";
+                    oIoT_Device.alarm_flg = "N";
+                    oIoT_Device.eqp_id = oDeviceInfo.device_name;
+                    oIoT_Device.sub_eqp_id = oDeviceInfo.device_name;
+                    oIoT_Device.device_no = oIoT_Device.getNewTableNO(_db);
+                    oIoT_Device.gateway_id= gateway_id;
+                    oIoT_Device.plc_ip_address = oDeviceInfo.plc_ip_address;
+                    oIoT_Device.plc_port_id = oDeviceInfo.plc_port_id;
+                    oIoT_Device.ble_mac = oDeviceInfo.ble_mac;
+                    //oIoT_Device.ble_service_uuid = oDeviceInfo.ble_service_uuid;
+                    //oIoT_Device.plc_ip_address = oDeviceInfo.plc_ip_address;
+                    //oIoT_Device.plc_port_id = oDeviceInfo.plc_port_id;
+                    //oIoT_Device.ble_mac = oDeviceInfo.ble_mac;
+                    //oIoT_Device.ble_service_uuid = oDeviceInfo.ble_service_uuid;
+
+                    oIoT_Device.clm_date_time = DateTime.Now;
+                    oIoT_Device.clm_user = "SYSADM";
+
+
+                    _db.IOT_DEVICE.Add(oIoT_Device);
+                    _db.SaveChanges();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveDeviceToDB");
+            }
+
+        }
+
+        private void SaveTagSetToDB(IOT_DbContext _db, cls_Tag_Set oTagSet)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotTagSets = _db.IOT_TAG_SET.AsQueryable();
+                vIotTagSets = vIotTagSets.Where(c => c.tag_set_id == oTagSet.TagSetName);
+                if (vIotTagSets.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_TAG_SET oIoT_TagSet = new IOT_TAG_SET();
+
+                if (bExisting)
+                {
+                    oIoT_TagSet = vIotTagSets.FirstOrDefault();
+                    
+                    oIoT_TagSet.tag_set_desc = oTagSet.TagSetDescription;
+
+                    oIoT_TagSet.clm_date_time = DateTime.Now;
+                    oIoT_TagSet.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    oIoT_TagSet.tag_set_id = oTagSet.TagSetName;
+                    oIoT_TagSet.tag_set_desc = oTagSet.TagSetDescription;
+
+                    oIoT_TagSet.clm_date_time = DateTime.Now;
+                    oIoT_TagSet.clm_user = "SYSADM";
+
+                    _db.IOT_TAG_SET.Add(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveTagSetToDB");
+            }
+
+        }
+
+        private void SaveDeviceTagToDB(IOT_DbContext _db, cls_Tag oTag, string device_id)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotDeviceTags = _db.IOT_DEVICE_TAG.AsQueryable();
+                vIotDeviceTags = vIotDeviceTags.Where(c => c.device_id == device_id && c.tag_id == oTag.TagName);
+                if (vIotDeviceTags.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_DEVICE_TAG oIoT_DeviceTag = new IOT_DEVICE_TAG();
+
+                if (bExisting)
+                {
+                    oIoT_DeviceTag = vIotDeviceTags.FirstOrDefault();
+
+                    oIoT_DeviceTag.tag_desc = oTag.Description;
+                    oIoT_DeviceTag.data_type = oTag.Expression;
+                    oIoT_DeviceTag.data_unit = oTag.Type;
+                    oIoT_DeviceTag.uuid_address = oTag.UUID_Address;
+                    oIoT_DeviceTag.value = oTag.Value;
+                    oIoT_DeviceTag.scale = oTag.scale;
+                    oIoT_DeviceTag.offset = oTag.offset;
+                    oIoT_DeviceTag.report_flag = oTag.report_flag;
+                    oIoT_DeviceTag.db_report_flag = oTag.db_report_flag;
+                    oIoT_DeviceTag.clm_date_time = DateTime.Now;
+                    oIoT_DeviceTag.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                else
+                {
+
+                    oIoT_DeviceTag.device_id = device_id;
+                    oIoT_DeviceTag.tag_id = oTag.TagName;
+                    oIoT_DeviceTag.tag_desc = oTag.Description;
+                    oIoT_DeviceTag.data_type = oTag.Expression;
+                    oIoT_DeviceTag.data_unit = oTag.Type;
+                    oIoT_DeviceTag.uuid_address = oTag.UUID_Address;
+                    oIoT_DeviceTag.value = oTag.Value;
+                    oIoT_DeviceTag.scale = oTag.scale;
+                    oIoT_DeviceTag.offset = oTag.offset;
+                    oIoT_DeviceTag.report_flag = oTag.report_flag;
+                    oIoT_DeviceTag.db_report_flag = oTag.db_report_flag;
+
+                    oIoT_DeviceTag.clm_date_time = DateTime.Now;
+                    oIoT_DeviceTag.clm_user = "SYSADM";
+
+                    _db.IOT_DEVICE_TAG.Add(oIoT_DeviceTag);
+                    _db.SaveChanges();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveDeviceTagToDB");
+            }
+
+        }
+
+        private void SaveDeviceCalcTagToDB(IOT_DbContext _db, cls_CalcTag oCalcTag, string device_id)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotDeviceCalcTags = _db.IOT_DEVICE_CALC_TAG.AsQueryable();
+                vIotDeviceCalcTags = vIotDeviceCalcTags.Where(c => c.device_id == device_id && c.cal_tag_id == oCalcTag.TagName);
+                if (vIotDeviceCalcTags.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_DEVICE_CALC_TAG oIoT_DeviceCalcTag = new IOT_DEVICE_CALC_TAG();
+
+                if (bExisting)
+                {
+                    oIoT_DeviceCalcTag = vIotDeviceCalcTags.FirstOrDefault();
+
+                    oIoT_DeviceCalcTag.cal_tag_desc = oCalcTag.Description;
+                    oIoT_DeviceCalcTag.data_type = oCalcTag.Type;
+                    oIoT_DeviceCalcTag.expression = oCalcTag.Expression;
+
+                    oIoT_DeviceCalcTag.value = oCalcTag.Value;
+                    oIoT_DeviceCalcTag.param_a = oCalcTag.ParamA;
+                    oIoT_DeviceCalcTag.param_b = oCalcTag.ParamB;
+                    oIoT_DeviceCalcTag.param_c = oCalcTag.ParamC;
+                    oIoT_DeviceCalcTag.param_d = oCalcTag.ParamD;
+                    oIoT_DeviceCalcTag.param_e = oCalcTag.ParamE;
+                    oIoT_DeviceCalcTag.param_f = oCalcTag.ParamF;
+                    oIoT_DeviceCalcTag.param_g = oCalcTag.ParamG;
+                    oIoT_DeviceCalcTag.param_h = oCalcTag.ParamH;
+
+                    oIoT_DeviceCalcTag.clm_date_time = DateTime.Now;
+                    oIoT_DeviceCalcTag.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                else
+                {
+
+                    oIoT_DeviceCalcTag.device_id = device_id;
+                    oIoT_DeviceCalcTag.cal_tag_id= oCalcTag.TagName;
+                    oIoT_DeviceCalcTag.cal_tag_desc = oCalcTag.Description;
+                    oIoT_DeviceCalcTag.data_type = oCalcTag.Type;
+                    oIoT_DeviceCalcTag.expression = oCalcTag.Expression;
+
+                    oIoT_DeviceCalcTag.value = oCalcTag.Value;
+                    oIoT_DeviceCalcTag.param_a = oCalcTag.ParamA;
+                    oIoT_DeviceCalcTag.param_b = oCalcTag.ParamB;
+                    oIoT_DeviceCalcTag.param_c = oCalcTag.ParamC;
+                    oIoT_DeviceCalcTag.param_d = oCalcTag.ParamD;
+                    oIoT_DeviceCalcTag.param_e = oCalcTag.ParamE;
+                    oIoT_DeviceCalcTag.param_f = oCalcTag.ParamF;
+                    oIoT_DeviceCalcTag.param_g = oCalcTag.ParamG;
+                    oIoT_DeviceCalcTag.param_h = oCalcTag.ParamH;
+
+                    oIoT_DeviceCalcTag.clm_date_time = DateTime.Now;
+                    oIoT_DeviceCalcTag.clm_user = "SYSADM";
+
+                    _db.IOT_DEVICE_CALC_TAG.Add(oIoT_DeviceCalcTag);
+                    _db.SaveChanges();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveDeviceCalcTagToDB");
+            }
+
+        }
+
+        private void SaveTagToDB(IOT_DbContext _db, cls_Tag oTag, string tag_set_id)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotTags = _db.IOT_TAG.AsQueryable();
+                vIotTags = vIotTags.Where(c => c.tag_set_id == tag_set_id && c.tag_id == oTag.TagName);
+                if (vIotTags.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_TAG oIoT_Tag = new IOT_TAG();
+
+                if (bExisting)
+                {
+                    oIoT_Tag = vIotTags.FirstOrDefault();
+
+                    oIoT_Tag.tag_desc = oTag.Description;
+                    oIoT_Tag.data_type = oTag.Expression;
+                    oIoT_Tag.data_unit = oTag.Type;
+                    oIoT_Tag.uuid_address = oTag.UUID_Address;
+                    oIoT_Tag.value = oTag.Value;
+                    oIoT_Tag.scale = oTag.scale;
+                    oIoT_Tag.offset = oTag.offset;
+                    oIoT_Tag.report_flag = oTag.report_flag;
+                    oIoT_Tag.db_report_flag = oTag.db_report_flag;
+                    oIoT_Tag.clm_date_time = DateTime.Now;
+                    oIoT_Tag.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                else
+                {
+
+                    oIoT_Tag.tag_set_id = tag_set_id;
+                    oIoT_Tag.tag_id = oTag.TagName;
+                    oIoT_Tag.tag_desc = oTag.Description;
+                    oIoT_Tag.data_type = oTag.Expression;
+                    oIoT_Tag.data_unit = oTag.Type;
+                    oIoT_Tag.uuid_address = oTag.UUID_Address;
+                    oIoT_Tag.value = oTag.Value;
+                    oIoT_Tag.scale = oTag.scale;
+                    oIoT_Tag.offset = oTag.offset;
+                    oIoT_Tag.report_flag = oTag.report_flag;
+                    oIoT_Tag.db_report_flag = oTag.db_report_flag;
+
+                    oIoT_Tag.clm_date_time = DateTime.Now;
+                    oIoT_Tag.clm_user = "SYSADM";
+
+                    _db.IOT_TAG.Add(oIoT_Tag);
+                    _db.SaveChanges();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveTagToDB");
+            }
+
+        }
+
+        private void SaveCalcTagToDB(IOT_DbContext _db, cls_CalcTag oCalcTag, string tag_set_id)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotCalcTags = _db.IOT_CALC_TAG.AsQueryable();
+                vIotCalcTags = vIotCalcTags.Where(c => c.tag_set_id == tag_set_id && c.cal_tag_id == oCalcTag.TagName);
+                if (vIotCalcTags.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_CALC_TAG oIoT_CalcTag = new IOT_CALC_TAG();
+
+                if (bExisting)
+                {
+                    oIoT_CalcTag = vIotCalcTags.FirstOrDefault();
+
+                    oIoT_CalcTag.cal_tag_desc = oCalcTag.Description;
+                    oIoT_CalcTag.data_type = oCalcTag.Type;
+                    oIoT_CalcTag.expression = oCalcTag.Expression;
+
+                    oIoT_CalcTag.value = oCalcTag.Value;
+                    oIoT_CalcTag.param_a = oCalcTag.ParamA;
+                    oIoT_CalcTag.param_b = oCalcTag.ParamB;
+                    oIoT_CalcTag.param_c = oCalcTag.ParamC;
+                    oIoT_CalcTag.param_d = oCalcTag.ParamD;
+                    oIoT_CalcTag.param_e = oCalcTag.ParamE;
+                    oIoT_CalcTag.param_f = oCalcTag.ParamF;
+                    oIoT_CalcTag.param_g = oCalcTag.ParamG;
+                    oIoT_CalcTag.param_h = oCalcTag.ParamH;
+
+                    oIoT_CalcTag.clm_date_time = DateTime.Now;
+                    oIoT_CalcTag.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                else
+                {
+
+                    oIoT_CalcTag.tag_set_id = tag_set_id;
+                    oIoT_CalcTag.cal_tag_id = oCalcTag.TagName;
+                    oIoT_CalcTag.cal_tag_desc = oCalcTag.Description;
+                    oIoT_CalcTag.data_type = oCalcTag.Type;
+                    oIoT_CalcTag.expression = oCalcTag.Expression;
+
+                    oIoT_CalcTag.value = oCalcTag.Value;
+                    oIoT_CalcTag.param_a = oCalcTag.ParamA;
+                    oIoT_CalcTag.param_b = oCalcTag.ParamB;
+                    oIoT_CalcTag.param_c = oCalcTag.ParamC;
+                    oIoT_CalcTag.param_d = oCalcTag.ParamD;
+                    oIoT_CalcTag.param_e = oCalcTag.ParamE;
+                    oIoT_CalcTag.param_f = oCalcTag.ParamF;
+                    oIoT_CalcTag.param_g = oCalcTag.ParamG;
+                    oIoT_CalcTag.param_h = oCalcTag.ParamH;
+
+                    oIoT_CalcTag.clm_date_time = DateTime.Now;
+                    oIoT_CalcTag.clm_user = "SYSADM";
+
+                    _db.IOT_CALC_TAG.Add(oIoT_CalcTag);
+                    _db.SaveChanges();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveCalcTagToDB");
+            }
+
         }
     }
 }

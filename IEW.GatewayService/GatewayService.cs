@@ -102,6 +102,23 @@ namespace IEW.GatewayService
             NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Destory");
         }
 
+        public bool CheckDuplicateDeviceID(string device_id)
+        {
+            //MessageBox.Show("GatewayService receive invoke", "Information");
+            foreach(cls_Gateway_Info gw_info in ObjectManager.GatewayManager.gateway_list)
+            {
+                foreach(cls_Device_Info dv_info in gw_info.device_info)
+                {
+                    if(dv_info.device_name == device_id)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         //-------- send out MQTT Data -------
         private void SendMQTTData(xmlMessage msg)
         {
@@ -398,7 +415,7 @@ namespace IEW.GatewayService
                         {
                             gw.gateway_status = "Ready";
                             gw.hb_status = "Ready";
-                            gw.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+                            gw.hb_report_time = DateTime.ParseExact(sc.Trace_ID, GlobalVaraible.DATETIME_FORMAT, CultureInfo.InvariantCulture);
                             dv.device_status = "Ready";
                             dv.hb_status = "Ready";
                             dv.hb_report_time = DateTime.ParseExact(sc.Trace_ID, "yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
@@ -595,6 +612,124 @@ namespace IEW.GatewayService
             }
         }
 
+        public void SendOTA(string GateWayID, string DeviceID, string msg)
+        {
+            //string json_msg = JsonConvert.SerializeObject(ota, Newtonsoft.Json.Formatting.Indented);
+            xmlMessage SendOutMsg = new xmlMessage();
+            SendOutMsg.LineID = GateWayID;
+            SendOutMsg.DeviceID = DeviceID;
+            SendOutMsg.MQTTTopic = "Cmd_OTA";
+            SendOutMsg.MQTTPayload = msg;
+            SendMQTTData(SendOutMsg);
+        }
+
+        public void OTAAck(xmlMessage InputData)
+        {
+            // Parse Mqtt Topic
+            string[] Topic = InputData.MQTTTopic.Split('/');    // /IEW/GateWay/Device/Cmd/OTA/Ack
+            string GateWayID = Topic[2].ToString();
+            string DeviceID = Topic[3].ToString();
+
+            cls_Cmd_OTA_Ack ota_ack = new cls_Cmd_OTA_Ack();
+            ota_ack = JsonConvert.DeserializeObject<cls_Cmd_OTA_Ack>(InputData.MQTTPayload.ToString());
+            if(ota_ack.Cmd_Result == "OK")
+            {
+                if (ota_ack.App_Name == "IOT")
+                {
+                    cls_OTA_Gateway_Info ogi = ObjectManager.OTAManager.ota_iot_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                    if (ogi != null)
+                    {
+                        if (ota_ack.New_Version == ogi.ap_new_version)
+                        {
+                            ogi.ap_version = ogi.ap_new_version;
+                            ogi.ap_last_store_path_name = ogi.ap_new_store_path_name;
+                            ogi.md5_last_string = ogi.md5_new_string;
+                            ogi.ap_new_version = "";
+                            ogi.ap_new_store_path_name = "";
+                            ogi.md5_new_string = "";
+                            ogi.update_status = "OK";
+                            ogi.last_update_time = DateTime.Now;
+                            ogi.status_message = ota_ack.Return_Message;
+                        }
+                    }
+                }
+                else if (ota_ack.App_Name == "WORKER")
+                {
+                    cls_OTA_Gateway_Info ogi = ObjectManager.OTAManager.ota_worker_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                    if (ogi != null)
+                    {
+                        if (ota_ack.New_Version == ogi.ap_new_version)
+                        {
+                            ogi.ap_version = ogi.ap_new_version;
+                            ogi.ap_last_store_path_name = ogi.ap_new_store_path_name;
+                            ogi.md5_last_string = ogi.md5_new_string;
+                            ogi.ap_new_version = "";
+                            ogi.ap_new_store_path_name = "";
+                            ogi.md5_new_string = "";
+                            ogi.update_status = "OK";
+                            ogi.last_update_time = DateTime.Now;
+                            ogi.status_message = ota_ack.Return_Message;
+                        }
+                    }
+                }
+                else if (ota_ack.App_Name == "FIRMWARE")
+                {
+                    cls_OTA_Device_Info odi = ObjectManager.OTAManager.ota_firmware_list.Where(p => (p.gateway_id == GateWayID) && (p.device_id == DeviceID)).FirstOrDefault();
+                    if (odi != null)
+                    {
+                        if (ota_ack.New_Version == odi.ap_new_version)
+                        {
+                            odi.ap_version = odi.ap_new_version;
+                            odi.ap_last_store_path_name = odi.ap_new_store_path_name;
+                            odi.md5_last_string = odi.md5_new_string;
+                            odi.ap_new_version = "";
+                            odi.ap_new_store_path_name = "";
+                            odi.md5_new_string = "";
+                            odi.update_status = "OK";
+                            odi.last_update_time = DateTime.Now;
+                            odi.status_message = ota_ack.Return_Message;
+                        }
+                    }
+                }
+            }
+            else //OTA Result is NG
+            {
+                if (ota_ack.App_Name == "IOT")
+                {
+                    cls_OTA_Gateway_Info ogi = ObjectManager.OTAManager.ota_iot_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                    if (ogi != null)
+                    {
+                        ogi.update_status = ota_ack.Cmd_Result;
+                        ogi.status_message = ota_ack.Return_Message;
+                        ogi.last_update_time = DateTime.Now;
+                    }
+                }
+                else if (ota_ack.App_Name == "WORKER")
+                {
+                    cls_OTA_Gateway_Info ogi = ObjectManager.OTAManager.ota_worker_list.Where(p => p.gateway_id == GateWayID).FirstOrDefault();
+                    if (ogi != null)
+                    {
+                        ogi.update_status = ota_ack.Cmd_Result;
+                        ogi.status_message = ota_ack.Return_Message;
+                        ogi.last_update_time = DateTime.Now;
+                    }
+                }
+                else if (ota_ack.App_Name == "FIRMWARE")
+                {
+                    cls_OTA_Device_Info odi = ObjectManager.OTAManager.ota_firmware_list.Where(p => (p.gateway_id == GateWayID) && (p.device_id == DeviceID)).FirstOrDefault();
+                    if (odi != null)
+                    {
+                        odi.update_status = ota_ack.Cmd_Result;
+                        odi.status_message = ota_ack.Return_Message;
+                        odi.last_update_time = DateTime.Now;
+                    }
+                }
+            }
+
+            //Update new version information for gateway/device
+            this.ObjectManager.OnOTAAckEventCall(null);
+        }
+
         public void ReadDataAck(xmlMessage InputData)
         {
             // Parse Mqtt Topic
@@ -678,10 +813,8 @@ namespace IEW.GatewayService
                     {
                         try
                         {
-                            //ProcCollectData Function = new ProcCollectData(Device, GateWayID, DeviceID);
-                            //ThreadPool.QueueUserWorkItem(o => Function.ThreadPool_Proc(InputData.MQTTPayload.ToString()));
-
                             SetOnlineMonitorEDCReportStatus(GateWayID, DeviceID, InputData.MQTTPayload.ToString());
+
                             //Raise event to notify Online Monitor form to refresh status
                             this.ObjectManager.OnEDCReportEventCall(null);
                         }
@@ -1011,6 +1144,7 @@ namespace IEW.GatewayService
                 return 1;
             }
         }
+
     }
 
 }

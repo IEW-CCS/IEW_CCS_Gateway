@@ -159,6 +159,9 @@ namespace IEW.ObjectManager
 
             foreach (KeyValuePair<string, cls_Tag> kvp in _DeviceInfo.tag_info)
             {
+
+                if (kvp.Value.Type == "Virtual")
+                    continue;
                 cls_Collect_Tag temp = new cls_Collect_Tag();
                 temp.DATA_NAME = kvp.Value.TagName;
                 temp.DATA_TYPE = "BLOCK";// kvp.Value.Expression;
@@ -356,4 +359,32 @@ namespace IEW.ObjectManager
     }
     #endregion
 
+    #region Class to define the published OTA MQTT message payload
+    public class cls_Cmd_OTA
+    {
+        public string Trace_ID { get; set; }
+        public string FTP_Server { get; set; }
+        public string FTP_Port { get; set; }
+        public string User_name { get; set; }
+        public string Password { get; set; }
+        public string App_Name { get; set; }
+        public string Current_Version { get; set; }
+        public string New_Version { get; set; }
+        public string Process_ID { get; set; }
+        public string Image_Name { get; set; }
+        public string MD5_String { get; set; }
+    }
+    #endregion
+
+    #region Class to define the received OTA Ack MQTT message payload
+    public class cls_Cmd_OTA_Ack
+    {
+        public string Cmd_Result { get; set; }
+        public string Trace_ID { get; set; }
+        public string App_Name { get; set; }
+        public string New_Version { get; set; }
+        public string MD5_String { get; set; }
+        public string Return_Message { get; set; }
+    }
+    #endregion
 }

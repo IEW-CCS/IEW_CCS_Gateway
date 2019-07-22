@@ -122,7 +122,8 @@ namespace IEW.GatewayService.GUI
                 txtPortID.Text = this.db_data.port_id;
                 txtConnectDB.Text = this.db_data.db_name;
                 txtUserName.Text = this.db_data.user_name;
-                txtPassword.Text = EncryptionHelper.Decrypt(this.db_data.password);
+                //txtPassword.Text = EncryptionHelper.Decrypt(this.db_data.password);
+                txtPassword.Text = this.db_data.password;
                 if (this.db_data.enable)
                 {
                     chkEnable.Checked = true;
@@ -224,7 +225,7 @@ namespace IEW.GatewayService.GUI
             string strConnectionString;
             switch(db_type)
             {
-                case "My SQL":
+                case "MS SQL":
                     strConnectionString = "";
                     strConnectionString = "data source=" + txtDataSource.Text.Trim() + "," + txtPortID.Text.Trim() + "; initial catalog=" + txtConnectDB.Text.Trim();
                     //strConnectionString = strConnectionString + "; user id=" + txtUserName.Text.Trim() + "; password=" + EncryptionHelper.Encrypt(txtPassword.Text.Trim());
@@ -232,7 +233,7 @@ namespace IEW.GatewayService.GUI
                     strConnectionString = strConnectionString + "; MultipleActiveResultSets=True; App=EntityFramework; persist security info=True";
                     break;
 
-                case "MS SQL":
+                case "My SQL":
                     strConnectionString = "";
                     strConnectionString = "server=" + txtDataSource.Text.Trim() + "; port=" + txtPortID.Text.Trim() + "; database=" + txtConnectDB.Text.Trim();
                    // strConnectionString = strConnectionString + "; uid=" + txtUserName.Text.Trim() + "; password=" + EncryptionHelper.Encrypt(txtPassword.Text.Trim());

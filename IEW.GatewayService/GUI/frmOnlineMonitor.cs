@@ -39,7 +39,6 @@ namespace IEW.GatewayService.GUI
             this.iot_statusColumn.ImageGetter = new BrightIdeasSoftware.ImageGetterDelegate(this.IoTStatusImageGetter);
 
             lvoStatus.SetObjects(this.object_mgr.MonitorManager.device_list);
-            //lvoStatus.UncheckSubItem(this.object_mgr.MonitorManager.device_list, dv_idColumn);
             lvoStatus.RefreshObjects(this.object_mgr.MonitorManager.device_list);
         }
 
@@ -122,7 +121,7 @@ namespace IEW.GatewayService.GUI
 
                 cls_Collect_start cmd_start = new cls_Collect_start();
                 cmd_start.Cmd_Type = "Start";
-                cmd_start.Trace_ID = DateTime.Now.ToString("yyyyMMddhhmmss");
+                cmd_start.Trace_ID = DateTime.Now.ToString("yyyyMMddhhmmssfff");
                 cls_DeviceInfo_start device_info = new cls_DeviceInfo_start();
                 device_info.IP_ADDR = dv.plc_ip;
                 device_info.PORT_ID = dv.plc_port;

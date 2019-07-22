@@ -24,11 +24,13 @@ namespace IEW.ObjectManager
         public MonitorManager MonitorManager = null;
         public DBManager DBManager = null;
         public VersionManager VersionManager = null;
+        public OTAManager OTAManager = null;
 
         public event EventHandler HeartBeatEventHandler;
         public event EventHandler EDCReportEventHandler;
         public event EventHandler StartAckEventHandler;
         public event EventHandler ConfigAckEventHandler;
+        public event EventHandler OTAAckEventHandler;
 
         #region Gateway Constructor
         public void GatewayManager_Initial()
@@ -99,6 +101,18 @@ namespace IEW.ObjectManager
         public void VersionManager_Initial(string Json)
         {
             this.VersionManager = JsonConvert.DeserializeObject<VersionManager>(Json);
+        }
+        #endregion
+
+        #region OTAManager Constructor
+        public void OTAManager_Initial()
+        {
+            this.OTAManager = new OTAManager();
+        }
+
+        public void OTAManager_Initial(string Json)
+        {
+            this.OTAManager = JsonConvert.DeserializeObject<OTAManager>(Json);
         }
         #endregion
 
@@ -231,6 +245,16 @@ namespace IEW.ObjectManager
             if (this.ConfigAckEventHandler != null)
             {
                 ConfigAckEventHandler(this, e);
+            }
+        }
+        #endregion
+
+        #region Event Handler for OTA Update
+        public void OnOTAAckEventCall(EventArgs e)
+        {
+            if(this.OTAAckEventHandler != null)
+            {
+                OTAAckEventHandler(this, e);
             }
         }
         #endregion
