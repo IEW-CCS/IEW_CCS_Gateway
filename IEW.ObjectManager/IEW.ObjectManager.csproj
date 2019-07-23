@@ -79,6 +79,9 @@
     <Compile Include="Models\IOT_DEVICE_SPEC.cs" />
     <Compile Include="Models\IOT_DEVICE_TYPE.cs" />
     <Compile Include="Models\IOT_EDC_GLS_INFO.cs" />
+    <Compile Include="Models\IOT_EDC_HEADER.cs" />
+    <Compile Include="Models\IOT_EDC_HEADER_SET.cs" />
+    <Compile Include="Models\IOT_EDC_XML_CONF.cs" />
     <Compile Include="Models\IOT_GATEWAY.cs" />
     <Compile Include="Models\IOT_LOCATION.cs" />
     <Compile Include="Models\IOT_TAG.cs" />

@@ -1246,9 +1246,11 @@ namespace IEW.GatewayService.UI
             Boolean bResult = true; 
             try
             {
+                System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 //-------- Load DB Setting --------
-                using (IOT_DbContext db = new IOT_DbContext("MySql.Data.MySqlClient", "server=localhost;port=3306;database=iotdb;uid=root;password=qQ123456"))
+                using (IOT_DbContext db = new IOT_DbContext("MySql.Data.MySqlClient", "server=192.168.8.107;port=3306;database=iotdb;uid=root;password=qQ123456"))
                 {
+                    System.Diagnostics.Debug.Print("DB COnnect End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     //gateway sync
                     if (ObjectManager.GatewayManager.gateway_list.Count > 0)
                     {
@@ -1327,6 +1329,57 @@ namespace IEW.GatewayService.UI
 
                         }
 
+                    }
+
+                    //edc header set sync
+                    if (this.header_set.head_set_list.Count > 0)
+                    {
+                        foreach (cls_EDC_Header eh in this.header_set.head_set_list)
+                        {
+                            SaveEDC_HeaderSetToDB(db , eh);
+
+                            //tag  sync
+                            if (eh.head_set.Count > 0)
+                            {
+                                foreach (cls_EDC_Head_Item ehi in eh.head_set)
+                                {
+                                    SaveEDC_HeaderToDB(db, ehi, eh.set_name);
+                                    
+                                }
+
+                            }
+                            
+                        }
+
+                    }
+
+                    //edc header set sync
+                    if (this.header_set.head_set_list.Count > 0)
+                    {
+                        foreach (cls_EDC_Header eh in this.header_set.head_set_list)
+                        {
+                            SaveEDC_HeaderSetToDB(db, eh);
+
+                            //tag  sync
+                            if (eh.head_set.Count > 0)
+                            {
+                                foreach (cls_EDC_Head_Item ehi in eh.head_set)
+                                {
+                                    SaveEDC_HeaderToDB(db, ehi, eh.set_name);
+
+                                }
+
+                            }
+                        }
+                    }
+
+                    //edc header set sync
+                    if (ObjectManager.EDCManager.gateway_edc.Count > 0)
+                    {
+                        foreach (cls_EDC_Info ei in ObjectManager.EDCManager.gateway_edc)
+                        {
+                            SaveEDC_XML_ConfigToDB(db, ei);
+                        }
                     }
                 }
             }
@@ -1818,6 +1871,221 @@ namespace IEW.GatewayService.UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.InnerException.InnerException.Message, "SaveCalcTagToDB");
+            }
+
+        }
+
+        private void SaveEDC_HeaderSetToDB(IOT_DbContext _db, cls_EDC_Header oEDC_HeaderSet)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotEDC_HeaderSets = _db.IOT_EDC_HEADER_SET.AsQueryable();
+                vIotEDC_HeaderSets = vIotEDC_HeaderSets.Where(c => c.edc_header_set_id == oEDC_HeaderSet.set_name);
+                if (vIotEDC_HeaderSets.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_EDC_HEADER_SET oIoT_EDC_HeaderSet = new IOT_EDC_HEADER_SET();
+
+                if (bExisting)
+                {
+                    oIoT_EDC_HeaderSet = vIotEDC_HeaderSets.FirstOrDefault();
+
+                    oIoT_EDC_HeaderSet.edc_header_set_desc = oEDC_HeaderSet.set_description;
+
+                    oIoT_EDC_HeaderSet.clm_date_time = DateTime.Now;
+                    oIoT_EDC_HeaderSet.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    oIoT_EDC_HeaderSet.edc_header_set_id = oEDC_HeaderSet.set_name;
+                    oIoT_EDC_HeaderSet.edc_header_set_desc = oEDC_HeaderSet.set_description;
+
+                    oIoT_EDC_HeaderSet.clm_date_time = DateTime.Now;
+                    oIoT_EDC_HeaderSet.clm_user = "SYSADM";
+
+                    _db.IOT_EDC_HEADER_SET.Add(oIoT_EDC_HeaderSet);
+                    _db.SaveChanges();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveEDC_HeaderSetToDB");
+            }
+
+        }
+
+        private void SaveEDC_HeaderToDB(IOT_DbContext _db, cls_EDC_Head_Item oEDC_Header, string edc_header_set_id)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotEDC_Headers = _db.IOT_EDC_HEADER.AsQueryable();
+                vIotEDC_Headers = vIotEDC_Headers.Where(c => c.edc_header_set_id == edc_header_set_id && c.edc_header_id == oEDC_Header.head_name);
+                if (vIotEDC_Headers.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_EDC_HEADER oIoT_EDC_Header = new IOT_EDC_HEADER();
+
+                if (bExisting)
+                {
+                    oIoT_EDC_Header = vIotEDC_Headers.FirstOrDefault();
+
+                    oIoT_EDC_Header.length = oEDC_Header.length.ToString();
+                    oIoT_EDC_Header.value = oEDC_Header.value;
+                    oIoT_EDC_Header.clm_date_time = DateTime.Now;
+                    oIoT_EDC_Header.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                else
+                {
+
+                    oIoT_EDC_Header.edc_header_set_id = edc_header_set_id;
+                    oIoT_EDC_Header.edc_header_id = oEDC_Header.head_name;
+                    oIoT_EDC_Header.length = oEDC_Header.length.ToString();
+                    oIoT_EDC_Header.value = oEDC_Header.value;
+
+                    oIoT_EDC_Header.clm_date_time = DateTime.Now;
+                    oIoT_EDC_Header.clm_user = "SYSADM";
+
+                    _db.IOT_EDC_HEADER.Add(oIoT_EDC_Header);
+                    _db.SaveChanges();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveEDC_HeaderToDB");
+            }
+
+        }
+
+        private void SaveEDC_XML_ConfigToDB(IOT_DbContext _db, cls_EDC_Info oEDC_Info)
+        {
+            Boolean bExisting = false;
+
+            try
+            {
+                var vIotEDC_XML_Configs = _db.IOT_EDC_XML_CONF.AsQueryable();
+                vIotEDC_XML_Configs = vIotEDC_XML_Configs.Where(c => c.serial_id == oEDC_Info.serial_id);
+                if (vIotEDC_XML_Configs.Count() > 0)
+                {
+                    bExisting = true;
+                }
+
+                IOT_EDC_XML_CONF oIoT_EDC_XML_Config = new IOT_EDC_XML_CONF();
+
+                if (bExisting)
+                {
+                    oIoT_EDC_XML_Config = vIotEDC_XML_Configs.FirstOrDefault();
+
+                    oIoT_EDC_XML_Config.gateway_id = oEDC_Info.gateway_id;
+                    oIoT_EDC_XML_Config.device_id = oEDC_Info.device_id;
+                    oIoT_EDC_XML_Config.edc_header_set_id = "EDC_HEADER_SET_ID";
+                    oIoT_EDC_XML_Config.report_type = oEDC_Info.report_tpye;
+                    oIoT_EDC_XML_Config.report_interval = oEDC_Info.report_interval;
+                    oIoT_EDC_XML_Config.report_edc_path = oEDC_Info.ReportEDCPath;
+                    oIoT_EDC_XML_Config.avg_flag = "N";
+                    oIoT_EDC_XML_Config.max_flag = "N";
+                    oIoT_EDC_XML_Config.min_flag = "N";
+
+                    foreach (string s in oEDC_Info.interval_function)
+                    {
+                        if(s == "AVG")
+                        {
+                            oIoT_EDC_XML_Config.avg_flag = "Y";
+                        }
+                        else if(s == "MAX")
+                        {
+                            oIoT_EDC_XML_Config.max_flag = "Y";
+                        }
+                        else if(s == "MIN")
+                        {
+                            oIoT_EDC_XML_Config.min_flag = "Y";
+                        }
+                    }
+
+                    if (oEDC_Info.enable)
+                    {
+                        oIoT_EDC_XML_Config.enable = "Y";
+                    }
+                    else {
+                        oIoT_EDC_XML_Config.enable = "N";
+                    }
+                    
+
+                    oIoT_EDC_XML_Config.clm_date_time = DateTime.Now;
+                    oIoT_EDC_XML_Config.clm_user = "SYSADM";
+
+                    //_db.Update(oIoT_TagSet);
+                    _db.SaveChanges();
+                }
+                else
+                {
+
+                    oIoT_EDC_XML_Config.serial_id = oEDC_Info.serial_id;
+                    oIoT_EDC_XML_Config.gateway_id = oEDC_Info.gateway_id;
+                    oIoT_EDC_XML_Config.device_id = oEDC_Info.device_id;
+                    oIoT_EDC_XML_Config.edc_header_set_id = "EDC_HEADER_SET_ID";
+                    oIoT_EDC_XML_Config.report_type = oEDC_Info.report_tpye;
+                    oIoT_EDC_XML_Config.report_interval = oEDC_Info.report_interval;
+                    oIoT_EDC_XML_Config.report_edc_path = oEDC_Info.ReportEDCPath;
+                    oIoT_EDC_XML_Config.avg_flag = "N";
+                    oIoT_EDC_XML_Config.max_flag = "N";
+                    oIoT_EDC_XML_Config.min_flag = "N";
+
+                    foreach (string s in oEDC_Info.interval_function)
+                    {
+                        if (s == "AVG")
+                        {
+                            oIoT_EDC_XML_Config.avg_flag = "Y";
+                        }
+                        else if (s == "MAX")
+                        {
+                            oIoT_EDC_XML_Config.max_flag = "Y";
+                        }
+                        else if (s == "MIN")
+                        {
+                            oIoT_EDC_XML_Config.min_flag = "Y";
+                        }
+                    }
+
+
+                    if (oEDC_Info.enable)
+                    {
+                        oIoT_EDC_XML_Config.enable = "Y";
+                    }
+                    else
+                    {
+                        oIoT_EDC_XML_Config.enable = "N";
+                    }
+
+
+                    oIoT_EDC_XML_Config.clm_date_time = DateTime.Now;
+                    oIoT_EDC_XML_Config.clm_user = "SYSADM";
+
+                    _db.IOT_EDC_XML_CONF.Add(oIoT_EDC_XML_Config);
+                    _db.SaveChanges();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.InnerException.Message, "SaveEDC_HeaderToDB");
             }
 
         }
