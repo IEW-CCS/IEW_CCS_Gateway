@@ -23,6 +23,7 @@ namespace IEW.GatewayService.UI
     public partial class Gateway : Form
     {
         private IEW.ObjectManager.ObjectManager _ObjectManager;
+        
         public IEW.ObjectManager.ObjectManager ObjectManager
         {
             get
@@ -32,6 +33,19 @@ namespace IEW.GatewayService.UI
             set
             {
                 this._ObjectManager = value;
+            }
+        }
+
+        private IOT_DbContext _db;
+        public IOT_DbContext db
+        {
+            get
+            {
+                return this._db;
+            }
+            set
+            {
+                this._db = value;
             }
         }
 
@@ -124,6 +138,18 @@ namespace IEW.GatewayService.UI
             this.isLoadConfig = false;
 
             pnlMain.Height = tvNodeList.Height;
+
+            //db init
+            System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            this.db = new IOT_DbContext("MySql.Data.MySqlClient", "server=192.168.8.107;port=3306;database=iotdb;uid=root;password=qQ123456");
+            System.Diagnostics.Debug.Print("DB COnnect End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                this.db.Configuration.AutoDetectChangesEnabled = false;
+                this.db.Configuration.LazyLoadingEnabled = false;
+                this.db.Configuration.ProxyCreationEnabled = false;
+                this.db.IOT_GATEWAY.FirstOrDefault();
+            System.Diagnostics.Debug.Print("DB COnnect init End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+
         }
 
         public void Init()
@@ -1246,69 +1272,77 @@ namespace IEW.GatewayService.UI
             Boolean bResult = true; 
             try
             {
-                System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+               // System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 //-------- Load DB Setting --------
-                using (IOT_DbContext db = new IOT_DbContext("MySql.Data.MySqlClient", "server=192.168.8.107;port=3306;database=iotdb;uid=root;password=qQ123456"))
-                {
-                    System.Diagnostics.Debug.Print("DB COnnect End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                //using (IOT_DbContext db = new IOT_DbContext("MySql.Data.MySqlClient", "server=192.168.8.107;port=3306;database=iotdb;uid=root;password=qQ123456"))
+                //{
+                   // System.Diagnostics.Debug.Print("DB COnnect End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                    System.Diagnostics.Debug.Print("Gateway Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     //gateway sync
                     if (ObjectManager.GatewayManager.gateway_list.Count > 0)
                     {
+                        System.Diagnostics.Debug.Print("Gateway Start-1" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                         foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
                         {
-                            SaveGatewayToDB(db, gi);
-
+                            System.Diagnostics.Debug.Print("Gateway Start-2" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                            SaveGatewayToDB(this.db, gi);
+                            System.Diagnostics.Debug.Print("Gateway Start-3" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                             //device sync
+                            System.Diagnostics.Debug.Print("Device Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                             if (gi.device_info.Count > 0)
                             {
                                 foreach (cls_Device_Info di in gi.device_info)
                                 {
+                                    System.Diagnostics.Debug.Print("Device - Save Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                                     SaveDeviceToDB(db, di, gi.gateway_id);
-
+                                    System.Diagnostics.Debug.Print("Device - Save End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                                     //tag sync
+                                    System.Diagnostics.Debug.Print("Device - Tag Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                                     if (di.tag_info.Count > 0)
                                     {
                                         foreach (KeyValuePair<string, cls_Tag> kvp in di.tag_info)
                                         {
 
-                                            SaveDeviceTagToDB(db, kvp.Value, di.device_name);
+                                            SaveDeviceTagToDB(this.db, kvp.Value, di.device_name);
                                         }
 
 
                                     }
-
+                                    System.Diagnostics.Debug.Print("Device - Tag End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                    System.Diagnostics.Debug.Print("Device - Calc Tag Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                                     //calc tag sync
                                     if (di.tag_info.Count > 0)
                                     {
                                         foreach (KeyValuePair<string, cls_CalcTag> kvp in di.calc_tag_info)
                                         {
 
-                                            SaveDeviceCalcTagToDB(db, kvp.Value, di.device_name);
+                                            SaveDeviceCalcTagToDB(this.db, kvp.Value, di.device_name);
                                         }
 
 
                                     }
-
+                                    System.Diagnostics.Debug.Print("Device - Calc Tag End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                                 }
                             }
-
+                            System.Diagnostics.Debug.Print("Device End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
                         }
                     }
+                    System.Diagnostics.Debug.Print("Gateway End & Tag Set Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     //tag set sync
                     //SaveTagSetToDB(db);
                     if (ObjectManager.TagSetManager.tag_set_list.Count > 0)
                     {
                         foreach (cls_Tag_Set ts in ObjectManager.TagSetManager.tag_set_list)
                         {
-                            SaveTagSetToDB(db, ts);
+                            SaveTagSetToDB(this.db, ts);
 
                             //tag  sync
                             if (ts.tag_set.Count > 0)
                             {
                                 foreach (cls_Tag tag in ts.tag_set)
                                 {
-                                    SaveTagToDB(db, tag, ts.TagSetName);
+                                    SaveTagToDB(this.db, tag, ts.TagSetName);
 
 
                                 }
@@ -1320,7 +1354,7 @@ namespace IEW.GatewayService.UI
                             {
                                 foreach (cls_CalcTag calc_tag in ts.calc_tag_set)
                                 {
-                                    SaveCalcTagToDB(db, calc_tag, ts.TagSetName);
+                                    SaveCalcTagToDB(this.db, calc_tag, ts.TagSetName);
 
 
                                 }
@@ -1331,19 +1365,20 @@ namespace IEW.GatewayService.UI
 
                     }
 
+                    System.Diagnostics.Debug.Print("Tag Set End & edc header Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     //edc header set sync
                     if (this.header_set.head_set_list.Count > 0)
                     {
                         foreach (cls_EDC_Header eh in this.header_set.head_set_list)
                         {
-                            SaveEDC_HeaderSetToDB(db , eh);
+                            SaveEDC_HeaderSetToDB(this.db , eh);
 
                             //tag  sync
                             if (eh.head_set.Count > 0)
                             {
                                 foreach (cls_EDC_Head_Item ehi in eh.head_set)
                                 {
-                                    SaveEDC_HeaderToDB(db, ehi, eh.set_name);
+                                    SaveEDC_HeaderToDB(this.db, ehi, eh.set_name);
                                     
                                 }
 
@@ -1353,35 +1388,39 @@ namespace IEW.GatewayService.UI
 
                     }
 
+                    /*
                     //edc header set sync
                     if (this.header_set.head_set_list.Count > 0)
                     {
                         foreach (cls_EDC_Header eh in this.header_set.head_set_list)
                         {
-                            SaveEDC_HeaderSetToDB(db, eh);
+                            SaveEDC_HeaderSetToDB(this.db, eh);
 
                             //tag  sync
                             if (eh.head_set.Count > 0)
                             {
                                 foreach (cls_EDC_Head_Item ehi in eh.head_set)
                                 {
-                                    SaveEDC_HeaderToDB(db, ehi, eh.set_name);
+                                    SaveEDC_HeaderToDB(this.db, ehi, eh.set_name);
 
                                 }
 
                             }
                         }
                     }
+                    */
 
+                    System.Diagnostics.Debug.Print("Edc End & XML Out Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     //edc header set sync
                     if (ObjectManager.EDCManager.gateway_edc.Count > 0)
                     {
                         foreach (cls_EDC_Info ei in ObjectManager.EDCManager.gateway_edc)
                         {
-                            SaveEDC_XML_ConfigToDB(db, ei);
+                            SaveEDC_XML_ConfigToDB(this.db, ei);
                         }
                     }
-                }
+                    System.Diagnostics.Debug.Print("XML Out End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                //}
             }
             catch (Exception ex)
             {
@@ -1397,18 +1436,33 @@ namespace IEW.GatewayService.UI
 
             try
             {
+                System.Diagnostics.Debug.Print("SaveGatewayToDB -1" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                //var vIotGateways = _db.IOT_GATEWAY.Where(c => c.gateway_id == oGatewayInfo.gateway_id);
                 var vIotGateways = _db.IOT_GATEWAY.AsQueryable();
-                vIotGateways = vIotGateways.Where(c => c.gateway_id == oGatewayInfo.gateway_id);
+                System.Diagnostics.Debug.Print("SaveGatewayToDB -2" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                /*
+                vIotGateways = vIotGateways;
                 if (vIotGateways.Count() > 0)
                 {
                     bExisting = true;
+                }*/
+                foreach(IOT_GATEWAY oIotGateway in vIotGateways)
+                {
+                    if(oIotGateway.gateway_id == oGatewayInfo.gateway_id)
+                    {
+                        bExisting = true;
+                        break;
+                    }
                 }
 
+                System.Diagnostics.Debug.Print("SaveGatewayToDB -3" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 IOT_GATEWAY oIoT_Gateway = new IOT_GATEWAY();
 
                 if (bExisting)
                 {
+                    System.Diagnostics.Debug.Print("SaveGatewayToDB -4" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     oIoT_Gateway = vIotGateways.FirstOrDefault();
+                    System.Diagnostics.Debug.Print("SaveGatewayToDB -5" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     oIoT_Gateway.gateway_ip = oGatewayInfo.gateway_ip;
                     oIoT_Gateway.location = oGatewayInfo.location;
                     if (oGatewayInfo.virtual_flag)
@@ -1425,7 +1479,10 @@ namespace IEW.GatewayService.UI
                     oIoT_Gateway.clm_user = "SYSADM";
 
                     //_db.Update(oIoT_Gateway);
+                    System.Diagnostics.Debug.Print("SaveGatewayToDB -6" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     _db.SaveChanges();
+                    System.Diagnostics.Debug.Print("SaveGatewayToDB -7" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
                 }
                 else
                 {
@@ -1444,9 +1501,11 @@ namespace IEW.GatewayService.UI
                     oIoT_Gateway.virtual_publish_topic = oGatewayInfo.virtual_publish_topic;
                     oIoT_Gateway.clm_date_time = DateTime.Now;
                     oIoT_Gateway.clm_user = "SYSADM";
-
+                    System.Diagnostics.Debug.Print("SaveGatewayToDB -8" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     _db.IOT_GATEWAY.Add(oIoT_Gateway);
+                    System.Diagnostics.Debug.Print("SaveGatewayToDB -9" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     _db.SaveChanges();
+                    System.Diagnostics.Debug.Print("SaveGatewayToDB -10" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 }
                 
 
@@ -1464,8 +1523,10 @@ namespace IEW.GatewayService.UI
 
             try
             {
+                System.Diagnostics.Debug.Print("SaveDeviceToDB - Find STart" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 var vIotDevices = _db.IOT_DEVICE.AsQueryable();
                 vIotDevices = vIotDevices.Where(c => c.device_id == oDeviceInfo.device_name);
+                System.Diagnostics.Debug.Print("SaveDeviceToDB - Find End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 if (vIotDevices.Count() > 0)
                 {
                     bExisting = true;
@@ -1501,7 +1562,9 @@ namespace IEW.GatewayService.UI
                     oIoT_Device.clm_user = "SYSADM";
 
                     //_db.Update(oIoT_Device);
+                    System.Diagnostics.Debug.Print("SaveDeviceToDB - Update STart" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     _db.SaveChanges();
+                    System.Diagnostics.Debug.Print("SaveDeviceToDB - Update End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 }
                 else
                 {
@@ -1536,9 +1599,10 @@ namespace IEW.GatewayService.UI
                     oIoT_Device.clm_date_time = DateTime.Now;
                     oIoT_Device.clm_user = "SYSADM";
 
-
+                    System.Diagnostics.Debug.Print("SaveDeviceToDB - Add STart" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     _db.IOT_DEVICE.Add(oIoT_Device);
                     _db.SaveChanges();
+                    System.Diagnostics.Debug.Print("SaveDeviceToDB - Add End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 }
 
 
@@ -1556,8 +1620,10 @@ namespace IEW.GatewayService.UI
 
             try
             {
+                System.Diagnostics.Debug.Print("SaveTagSetToDB - Find STart" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 var vIotTagSets = _db.IOT_TAG_SET.AsQueryable();
                 vIotTagSets = vIotTagSets.Where(c => c.tag_set_id == oTagSet.TagSetName);
+                System.Diagnostics.Debug.Print("SaveTagSetToDB - Find End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 if (vIotTagSets.Count() > 0)
                 {
                     bExisting = true;
@@ -1575,7 +1641,9 @@ namespace IEW.GatewayService.UI
                     oIoT_TagSet.clm_user = "SYSADM";
 
                     //_db.Update(oIoT_TagSet);
+                    System.Diagnostics.Debug.Print("SaveTagSetToDB - Update STart" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     _db.SaveChanges();
+                    System.Diagnostics.Debug.Print("SaveTagSetToDB - Update End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 }
                 else
                 {
@@ -1585,8 +1653,10 @@ namespace IEW.GatewayService.UI
                     oIoT_TagSet.clm_date_time = DateTime.Now;
                     oIoT_TagSet.clm_user = "SYSADM";
 
+                    System.Diagnostics.Debug.Print("SaveTagSetToDB - Add STart" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     _db.IOT_TAG_SET.Add(oIoT_TagSet);
                     _db.SaveChanges();
+                    System.Diagnostics.Debug.Print("SaveTagSetToDB - Add End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 }
                 
             }
