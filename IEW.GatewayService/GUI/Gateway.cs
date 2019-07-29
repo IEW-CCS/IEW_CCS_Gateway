@@ -1248,7 +1248,7 @@ namespace IEW.GatewayService.UI
             {
                 System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 //-------- Load DB Setting --------
-                using (IOT_DbContext db = new IOT_DbContext("MySql.Data.MySqlClient", "server=192.168.8.107;port=3306;database=iotdb;uid=root;password=qQ123456"))
+                using (IOT_DbContext db = new IOT_DbContext("MySql.Data.MySqlClient", "server=172.20.10.7;port=3306;database=iotdb;uid=root;password=qQ123456"))
                 {
                     System.Diagnostics.Debug.Print("DB COnnect End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     //gateway sync
