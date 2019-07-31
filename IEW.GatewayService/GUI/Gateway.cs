@@ -140,9 +140,11 @@ namespace IEW.GatewayService.UI
             pnlMain.Height = tvNodeList.Height;
 
             //db init
+            LoadDBConfig();
+
             System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            this.db = new IOT_DbContext("MySql.Data.MySqlClient", "server=192.168.8.107;port=3306;database=iotdb;uid=root;password=qQ123456");
-            System.Diagnostics.Debug.Print("DB COnnect End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            this.db = new IOT_DbContext(this.ObjectManager.DBManager.config_db.provider_name, this.ObjectManager.DBManager.config_db.connection_string);
+            System.Diagnostics.Debug.Print("DB COnnect End & init Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 this.db.Configuration.AutoDetectChangesEnabled = false;
                 this.db.Configuration.LazyLoadingEnabled = false;
                 this.db.Configuration.ProxyCreationEnabled = false;
@@ -176,6 +178,7 @@ namespace IEW.GatewayService.UI
             LoadOTAConfig();
 
             RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
+
         }
 
         public void RefreshGatewayConfig(int display_index)
