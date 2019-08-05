@@ -1118,6 +1118,7 @@ namespace IEW.GatewayService.UI
                 mdi.last_edc_time = ism.last_edc_time;
                 mdi.hb_report_time = ism.hb_report_time;
                 mdi.last_alarm_datetime = ism.last_alarm_datetime;
+                mdi.last_alarm_message = ism.last_alarm_message;
                 ObjectManager.MonitorManager.device_list.Add(mdi);
             }
         }
