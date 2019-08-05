@@ -292,12 +292,10 @@ namespace IEW.ObjectManager
         public string device_location { get; set; }
         public DateTime last_edc_time { get; set; }
         public DateTime hb_report_time { get; set; }
-        public bool dv_checked_flag = false;
-        public bool dv_checked
-        {
-            get { return dv_checked_flag; }
-            set { dv_checked_flag = value; }
-        }
+        public string last_alarm_code { get; set; }
+        public string last_alarm_app { get; set; }
+        public string last_alarm_message { get; set; }
+        public DateTime last_alarm_datetime { get; set; }
     }
 
     public class cls_Monitor_Gateway_Info
@@ -316,7 +314,7 @@ namespace IEW.ObjectManager
 
     public class MonitorManager
     {
-        public List<cls_Monitor_Gateway_Info> monitor_list = new List<cls_Monitor_Gateway_Info>();
+        //public List<cls_Monitor_Gateway_Info> monitor_list = new List<cls_Monitor_Gateway_Info>();
         public List<cls_Monitor_Device_Info> device_list = new List<cls_Monitor_Device_Info>();
 
         public object Clone()
@@ -387,4 +385,16 @@ namespace IEW.ObjectManager
         public string Return_Message { get; set; }
     }
     #endregion
+
+    #region Class to define the received Alarm MQTT message payload
+    public class cls_Alarm
+    {
+        public string AlarmCode { get; set; }
+        public string AlarmLevel { get; set; }
+        public string AlarmApp { get; set; }
+        public string DateTime { get; set; }
+        public string AlarmDesc { get; set; }
+    }
+    #endregion
+
 }

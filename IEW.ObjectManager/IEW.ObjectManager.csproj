@@ -104,6 +104,7 @@
     <Compile Include="Models\IOT_EDC_XML_CONF.cs" />
     <Compile Include="Models\IOT_GATEWAY.cs" />
     <Compile Include="Models\IOT_LOCATION.cs" />
+    <Compile Include="Models\IOT_STATUS_MONITOR.cs" />
     <Compile Include="Models\IOT_TAG.cs" />
     <Compile Include="Models\IOT_TAG_SET.cs" />
     <Compile Include="ObjectManager.cs" />

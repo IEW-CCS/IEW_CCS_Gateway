@@ -142,16 +142,17 @@ namespace IEW.GatewayService.UI
             //db init
             LoadDBConfig();
 
-            System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            this.db = new IOT_DbContext(this.ObjectManager.DBManager.config_db.provider_name, this.ObjectManager.DBManager.config_db.connection_string);
-            System.Diagnostics.Debug.Print("DB COnnect End & init Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            if(this.ObjectManager.DBManager.config_db.enable)
+            {
+                System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                this.db = new IOT_DbContext(this.ObjectManager.DBManager.config_db.provider_name, this.ObjectManager.DBManager.config_db.connection_string);
+                System.Diagnostics.Debug.Print("DB COnnect End & init Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 this.db.Configuration.AutoDetectChangesEnabled = false;
                 this.db.Configuration.LazyLoadingEnabled = false;
                 this.db.Configuration.ProxyCreationEnabled = false;
                 this.db.IOT_GATEWAY.FirstOrDefault();
-            System.Diagnostics.Debug.Print("DB COnnect init End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-
-
+                System.Diagnostics.Debug.Print("DB COnnect init End" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            }
         }
 
         public void Init()
@@ -1077,40 +1078,83 @@ namespace IEW.GatewayService.UI
 
         private void LoadMonitorConfig()
         {
-            ObjectManager.MonitorManager_Initial();
-
-            if (ObjectManager.GatewayManager.gateway_list.Count > 0)
+            if(ObjectManager.DBManager.config_db.enable)
             {
-                foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+                ObjectManager.MonitorManager_Initial();
+
+                BuildMonitorInformationFromDB();
+            }
+            else
+            {
+                BuildMonitorInformationFromFile();
+            }
+        }
+
+        private void BuildMonitorInformationFromDB()
+        {
+            var tmp = this._db.IOT_STATUS_MONITOR.Where(x => x.id > 0);
+            foreach(IOT_STATUS_MONITOR ism in tmp)
+            {
+                cls_Monitor_Device_Info mdi = new cls_Monitor_Device_Info();
+                mdi.gateway_id = ism.gateway_id;
+                mdi.device_id = ism.device_id;
+                if(ism.virtual_flag == "Y")
                 {
-                    cls_Monitor_Gateway_Info mgi = new cls_Monitor_Gateway_Info();
-                    mgi.gateway_id = gi.gateway_id;
-                    mgi.gateway_ip = gi.gateway_ip;
-                    mgi.virtual_flag = gi.virtual_flag;
-                    mgi.gateway_location = gi.location;
-                    mgi.gateway_status = "Off";
-                    mgi.iotclient_status = "Off";
+                    mdi.virtual_flag = true;
+                }
+                else
+                {
+                    mdi.virtual_flag = false;
+                }
+                mdi.device_type = ism.device_type;
+                mdi.device_status = ism.device_status;
+                mdi.iotclient_status = ism.iotclient_status;
+                mdi.hb_status = ism.hb_status;
+                mdi.plc_ip = ism.plc_ip;
+                mdi.plc_port = ism.plc_port;
+                mdi.device_location = ism.device_location;
+                mdi.last_alarm_code = ism.last_alarm_code;
+                mdi.last_alarm_app = ism.last_alarm_app;
+                mdi.last_edc_time = ism.last_edc_time;
+                mdi.hb_report_time = ism.hb_report_time;
+                mdi.last_alarm_datetime = ism.last_alarm_datetime;
+                ObjectManager.MonitorManager.device_list.Add(mdi);
+            }
+        }
 
-                    if (gi.device_info.Count > 0)
+        private void BuildMonitorInformationFromFile()
+        {
+            if(File.Exists("C:\\Gateway\\Information\\Monitor_Status.json"))
+            {
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Information\\Monitor_Status.json");
+                string json_string = inputFile.ReadToEnd();
+                ObjectManager.DBManager_Initial(json_string);
+            }
+            else  //Monitor_Status.json doesn;t exist, build initial monitor information from gateway/device setting
+            {
+                ObjectManager.MonitorManager_Initial();
+                if (ObjectManager.GatewayManager.gateway_list.Count > 0)
+                {
+                    foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
                     {
-                        foreach (cls_Device_Info di in gi.device_info)
+                        if (gi.device_info.Count > 0)
                         {
-                            cls_Monitor_Device_Info mdi = new cls_Monitor_Device_Info();
-                            mdi.gateway_id = mgi.gateway_id;
-                            mdi.device_id = di.device_name;
-                            mdi.virtual_flag = mgi.virtual_flag;
-                            mdi.device_type = di.device_type;
-                            mdi.device_status = "Off";
-                            mdi.iotclient_status = "Off";
-                            mdi.plc_ip = di.plc_ip_address;
-                            mdi.plc_port = di.plc_port_id;
-                            mdi.device_location = di.device_location;
-                            mgi.device_list.Add(mdi);
-                            ObjectManager.MonitorManager.device_list.Add(mdi);
+                            foreach (cls_Device_Info di in gi.device_info)
+                            {
+                                cls_Monitor_Device_Info mdi = new cls_Monitor_Device_Info();
+                                mdi.gateway_id = gi.gateway_id;
+                                mdi.device_id = di.device_name;
+                                mdi.virtual_flag = gi.virtual_flag;
+                                mdi.device_type = di.device_type;
+                                mdi.device_status = "Off";
+                                mdi.iotclient_status = "Off";
+                                mdi.plc_ip = di.plc_ip_address;
+                                mdi.plc_port = di.plc_port_id;
+                                mdi.device_location = di.device_location;
+                                ObjectManager.MonitorManager.device_list.Add(mdi);
+                            }
                         }
-
                     }
-                    ObjectManager.MonitorManager.monitor_list.Add(mgi);
                 }
             }
         }
@@ -1250,7 +1294,6 @@ namespace IEW.GatewayService.UI
         {
             Boolean bSaveDB_Result = false;
 
-
             System.Diagnostics.Debug.Print("1-"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             SaveGatewayConfig();
             SaveTagSetConfig();
@@ -1259,7 +1302,7 @@ namespace IEW.GatewayService.UI
             SaveDBConfig();
             System.Diagnostics.Debug.Print("2-" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             //add for db sync - vic
-            if (true)
+            if (this.ObjectManager.DBManager.config_db.enable)
             {
                 bSaveDB_Result = SyncConfigToDB();
                 System.Diagnostics.Debug.Print("3-" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));

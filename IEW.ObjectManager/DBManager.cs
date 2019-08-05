@@ -12,7 +12,7 @@ namespace IEW.ObjectManager
     public class DBManager
     {
         public int serial_id_index;
-        public cls_DB_Info config_db;
+        public cls_DB_Info config_db = new cls_DB_Info();
         public List<cls_DB_Info> dbconfig_list = new List<cls_DB_Info>();
 
         public object Clone()

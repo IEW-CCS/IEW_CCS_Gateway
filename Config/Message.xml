@@ -6,6 +6,9 @@
   <message name="/IEW/+/+/Status/HeartBeat">
     <object id="GatewayService" method="ReceiveHeartBeat" />
   </message>
+  <message name="/IEW/+/+/Status/Alarm">
+    <object id="GatewayService" method="ReceiveAlarm" />
+  </message>
   <message name="/IEW/+/+/Cmd/Start/Ack">
     <object id="GatewayService" method="StartAck" />
   </message>

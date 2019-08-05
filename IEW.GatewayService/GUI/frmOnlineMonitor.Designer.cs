@@ -44,10 +44,13 @@
             this.hb_statusColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.hb_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.edc_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.dv_locationColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.txtInterval = new System.Windows.Forms.TextBox();
+            this.alarm_codeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.alarm_appColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.alarm_timeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.alarm_msgColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.lvoStatus)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,7 +99,10 @@
             this.lvoStatus.AllColumns.Add(this.hb_statusColumn);
             this.lvoStatus.AllColumns.Add(this.hb_timeColumn);
             this.lvoStatus.AllColumns.Add(this.edc_timeColumn);
-            this.lvoStatus.AllColumns.Add(this.dv_locationColumn1);
+            this.lvoStatus.AllColumns.Add(this.alarm_codeColumn);
+            this.lvoStatus.AllColumns.Add(this.alarm_appColumn);
+            this.lvoStatus.AllColumns.Add(this.alarm_msgColumn);
+            this.lvoStatus.AllColumns.Add(this.alarm_timeColumn);
             this.lvoStatus.AlternateRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.lvoStatus.CheckBoxes = true;
             this.lvoStatus.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -108,7 +114,10 @@
             this.hb_statusColumn,
             this.hb_timeColumn,
             this.edc_timeColumn,
-            this.dv_locationColumn1});
+            this.alarm_codeColumn,
+            this.alarm_appColumn,
+            this.alarm_msgColumn,
+            this.alarm_timeColumn});
             this.lvoStatus.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvoStatus.FullRowSelect = true;
             this.lvoStatus.GridLines = true;
@@ -140,7 +149,6 @@
             // dv_idColumn
             // 
             this.dv_idColumn.AspectName = "device_id";
-            this.dv_idColumn.DisplayIndex = 1;
             this.dv_idColumn.Groupable = false;
             this.dv_idColumn.Text = "Device ID";
             this.dv_idColumn.Width = 90;
@@ -148,7 +156,6 @@
             // dv_typeColumn
             // 
             this.dv_typeColumn.AspectName = "device_type";
-            this.dv_typeColumn.DisplayIndex = 2;
             this.dv_typeColumn.Groupable = false;
             this.dv_typeColumn.Text = "Type";
             this.dv_typeColumn.Width = 50;
@@ -156,7 +163,6 @@
             // dv_statusColumn
             // 
             this.dv_statusColumn.AspectName = "device_status";
-            this.dv_statusColumn.DisplayIndex = 3;
             this.dv_statusColumn.Groupable = false;
             this.dv_statusColumn.Text = "Status";
             this.dv_statusColumn.Width = 70;
@@ -164,7 +170,6 @@
             // iot_statusColumn
             // 
             this.iot_statusColumn.AspectName = "iotclient_status";
-            this.iot_statusColumn.DisplayIndex = 4;
             this.iot_statusColumn.Groupable = false;
             this.iot_statusColumn.Text = "IoTClient Status";
             this.iot_statusColumn.Width = 70;
@@ -172,7 +177,6 @@
             // hb_statusColumn
             // 
             this.hb_statusColumn.AspectName = "hb_status";
-            this.hb_statusColumn.DisplayIndex = 5;
             this.hb_statusColumn.Groupable = false;
             this.hb_statusColumn.Text = "HeartBeat";
             this.hb_statusColumn.Width = 70;
@@ -180,7 +184,6 @@
             // hb_timeColumn
             // 
             this.hb_timeColumn.AspectName = "hb_report_time";
-            this.hb_timeColumn.DisplayIndex = 6;
             this.hb_timeColumn.Groupable = false;
             this.hb_timeColumn.Text = "HB Time";
             this.hb_timeColumn.Width = 130;
@@ -188,17 +191,9 @@
             // edc_timeColumn
             // 
             this.edc_timeColumn.AspectName = "last_edc_time";
-            this.edc_timeColumn.DisplayIndex = 7;
             this.edc_timeColumn.Groupable = false;
             this.edc_timeColumn.Text = "EDC Time";
             this.edc_timeColumn.Width = 130;
-            // 
-            // dv_locationColumn1
-            // 
-            this.dv_locationColumn1.AspectName = "device_location";
-            this.dv_locationColumn1.DisplayIndex = 8;
-            this.dv_locationColumn1.Groupable = false;
-            this.dv_locationColumn1.Text = "Location";
             // 
             // imageList1
             // 
@@ -229,6 +224,33 @@
             this.txtInterval.Name = "txtInterval";
             this.txtInterval.Size = new System.Drawing.Size(52, 23);
             this.txtInterval.TabIndex = 6;
+            // 
+            // alarm_codeColumn
+            // 
+            this.alarm_codeColumn.AspectName = "last_alarm_code";
+            this.alarm_codeColumn.Groupable = false;
+            this.alarm_codeColumn.Text = "Alarm Code";
+            // 
+            // alarm_appColumn
+            // 
+            this.alarm_appColumn.AspectName = "last_alarm_app";
+            this.alarm_appColumn.Groupable = false;
+            this.alarm_appColumn.Text = "Alarm App";
+            this.alarm_appColumn.Width = 80;
+            // 
+            // alarm_timeColumn
+            // 
+            this.alarm_timeColumn.AspectName = "last_alarm_datetime";
+            this.alarm_timeColumn.Groupable = false;
+            this.alarm_timeColumn.Text = "Alarm Date Time";
+            this.alarm_timeColumn.Width = 140;
+            // 
+            // alarm_msgColumn
+            // 
+            this.alarm_msgColumn.AspectName = "last_alarm_message";
+            this.alarm_msgColumn.Groupable = false;
+            this.alarm_msgColumn.Text = "Alarm Message";
+            this.alarm_msgColumn.Width = 120;
             // 
             // frmOnlineMonitor
             // 
@@ -266,6 +288,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtInterval;
         private BrightIdeasSoftware.OLVColumn edc_timeColumn;
-        private BrightIdeasSoftware.OLVColumn dv_locationColumn1;
+        private BrightIdeasSoftware.OLVColumn alarm_codeColumn;
+        private BrightIdeasSoftware.OLVColumn alarm_appColumn;
+        private BrightIdeasSoftware.OLVColumn alarm_timeColumn;
+        private BrightIdeasSoftware.OLVColumn alarm_msgColumn;
     }
 }

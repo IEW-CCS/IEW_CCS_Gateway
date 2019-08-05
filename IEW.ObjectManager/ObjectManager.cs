@@ -27,6 +27,7 @@ namespace IEW.ObjectManager
         public OTAManager OTAManager = null;
 
         public event EventHandler HeartBeatEventHandler;
+        public event EventHandler AlarmEventHandler;
         public event EventHandler EDCReportEventHandler;
         public event EventHandler StartAckEventHandler;
         public event EventHandler ConfigAckEventHandler;
@@ -221,6 +222,14 @@ namespace IEW.ObjectManager
             if(this.HeartBeatEventHandler != null)
             {
                 HeartBeatEventHandler(this, e);
+            }
+        }
+
+        public void OnAlarmEventCall(EventArgs e)
+        {
+            if (this.AlarmEventHandler != null)
+            {
+                AlarmEventHandler(this, e);
             }
         }
 

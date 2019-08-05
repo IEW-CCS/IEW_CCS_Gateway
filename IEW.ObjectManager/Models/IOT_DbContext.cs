@@ -62,6 +62,7 @@ namespace IEW.ObjectManager.Models
         public DbSet<IOT_EDC_HEADER_SET> IOT_EDC_HEADER_SET { get; set; }
         public DbSet<IOT_EDC_HEADER> IOT_EDC_HEADER { get; set; }
         public DbSet<IOT_EDC_XML_CONF> IOT_EDC_XML_CONF { get; set; }
+        public DbSet<IOT_STATUS_MONITOR> IOT_STATUS_MONITOR { get; set; }
         
         public DbSet<IOT_DEVICE_EDC_LABEL> IOT_DEVICE_EDC_LABEL { get; set; }
         public DbSet<IOT_DEVICE_EDC> IOT_DEVICE_EDC { get; set; }
