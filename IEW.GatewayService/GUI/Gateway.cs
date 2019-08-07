@@ -1129,7 +1129,34 @@ namespace IEW.GatewayService.UI
             {
                 StreamReader inputFile = new StreamReader("C:\\Gateway\\Information\\Monitor_Status.json");
                 string json_string = inputFile.ReadToEnd();
-                ObjectManager.DBManager_Initial(json_string);
+                ObjectManager.MonitorManager_Initial(json_string);
+                if (ObjectManager.GatewayManager.gateway_list.Count > 0)
+                {
+                    foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+                    {
+                        if (gi.device_info.Count > 0)
+                        {
+                            foreach (cls_Device_Info di in gi.device_info)
+                            {
+                                cls_Monitor_Device_Info mdi_tmp = ObjectManager.MonitorManager.device_list.Where(p => (p.gateway_id == gi.gateway_id) && (p.device_id == di.device_name)).FirstOrDefault();
+                                if(mdi_tmp == null)
+                                {
+                                    cls_Monitor_Device_Info mdi = new cls_Monitor_Device_Info();
+                                    mdi.gateway_id = gi.gateway_id;
+                                    mdi.device_id = di.device_name;
+                                    mdi.virtual_flag = gi.virtual_flag;
+                                    mdi.device_type = di.device_type;
+                                    mdi.device_status = "Off";
+                                    mdi.iotclient_status = "Off";
+                                    mdi.plc_ip = di.plc_ip_address;
+                                    mdi.plc_port = di.plc_port_id;
+                                    mdi.device_location = di.device_location;
+                                    ObjectManager.MonitorManager.device_list.Add(mdi);
+                                }
+                            }
+                        }
+                    }
+                }
             }
             else  //Monitor_Status.json doesn;t exist, build initial monitor information from gateway/device setting
             {
