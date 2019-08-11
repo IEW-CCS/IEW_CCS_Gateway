@@ -38,8 +38,6 @@
     <property name="ClientId" value="{ComputerName}_{ServerName}"/>
     <property name="Receive_Topic">
       <dictionary>
-        <entry key="Collect_Ack" value="/IEW/+/+/Cmd/Ack" /> 
-        <entry key="Test_Ack" value="/IEW/AA/BB/Cmd/#" />
         <entry key="PLC_Reply_Data" value="/IEW/+/+/ReplyData" />
         <entry key="EDCService" value="/IEW/EDCService" />
         <entry key="HeartBeat" value ="/IEW/+/+/Status/HeartBeat" />

@@ -149,19 +149,22 @@ namespace IEW.GatewayService.GUI
                 }
             }
 
-            if (txtGatewayIP.Text.Trim() == "")
+            if(!chkVirtual.Checked)
             {
-                MessageBox.Show("Please enter the gateway ip!", "Error");
-                return;
-            }
-            else
-            {
-                IPAddress ip;
-                bool validate = IPAddress.TryParse(txtGatewayIP.Text.Trim(), out ip);
-                if (!validate)
+                if (txtGatewayIP.Text.Trim() == "")
                 {
-                    MessageBox.Show("Please enter the  valid ip address!", "Error");
+                    MessageBox.Show("Please enter the gateway ip!", "Error");
                     return;
+                }
+                else
+                {
+                    IPAddress ip;
+                    bool validate = IPAddress.TryParse(txtGatewayIP.Text.Trim(), out ip);
+                    if (!validate)
+                    {
+                        MessageBox.Show("Please enter the  valid ip address!", "Error");
+                        return;
+                    }
                 }
             }
 

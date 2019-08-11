@@ -54,6 +54,8 @@
             this.btnSaveDBConfig = new System.Windows.Forms.Button();
             this.lvCalcTagList = new System.Windows.Forms.ListView();
             this.label11 = new System.Windows.Forms.Label();
+            this.chkCalcTagCheckAll = new System.Windows.Forms.CheckBox();
+            this.chkTagCheckAll = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -336,6 +338,7 @@
             // 
             // lvCalcTagList
             // 
+            this.lvCalcTagList.CheckBoxes = true;
             this.lvCalcTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvCalcTagList.FullRowSelect = true;
             this.lvCalcTagList.GridLines = true;
@@ -358,11 +361,39 @@
             this.label11.TabIndex = 35;
             this.label11.Text = "Calculation Tag List";
             // 
+            // chkCalcTagCheckAll
+            // 
+            this.chkCalcTagCheckAll.AutoSize = true;
+            this.chkCalcTagCheckAll.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkCalcTagCheckAll.Location = new System.Drawing.Point(135, 324);
+            this.chkCalcTagCheckAll.Margin = new System.Windows.Forms.Padding(2);
+            this.chkCalcTagCheckAll.Name = "chkCalcTagCheckAll";
+            this.chkCalcTagCheckAll.Size = new System.Drawing.Size(71, 20);
+            this.chkCalcTagCheckAll.TabIndex = 40;
+            this.chkCalcTagCheckAll.Text = "Check All";
+            this.chkCalcTagCheckAll.UseVisualStyleBackColor = true;
+            this.chkCalcTagCheckAll.CheckedChanged += new System.EventHandler(this.chkCalcTagCheckAll_CheckedChanged);
+            // 
+            // chkTagCheckAll
+            // 
+            this.chkTagCheckAll.AutoSize = true;
+            this.chkTagCheckAll.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkTagCheckAll.Location = new System.Drawing.Point(135, 124);
+            this.chkTagCheckAll.Margin = new System.Windows.Forms.Padding(2);
+            this.chkTagCheckAll.Name = "chkTagCheckAll";
+            this.chkTagCheckAll.Size = new System.Drawing.Size(71, 20);
+            this.chkTagCheckAll.TabIndex = 39;
+            this.chkTagCheckAll.Text = "Check All";
+            this.chkTagCheckAll.UseVisualStyleBackColor = true;
+            this.chkTagCheckAll.CheckedChanged += new System.EventHandler(this.chkTagCheckAll_CheckedChanged);
+            // 
             // frmEditDBConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(740, 556);
+            this.Controls.Add(this.chkCalcTagCheckAll);
+            this.Controls.Add(this.chkTagCheckAll);
             this.Controls.Add(this.btnCancelDBConfig);
             this.Controls.Add(this.btnSaveDBConfig);
             this.Controls.Add(this.lvCalcTagList);
@@ -409,5 +440,7 @@
         private System.Windows.Forms.Button btnSaveDBConfig;
         private System.Windows.Forms.ListView lvCalcTagList;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox chkCalcTagCheckAll;
+        private System.Windows.Forms.CheckBox chkTagCheckAll;
     }
 }

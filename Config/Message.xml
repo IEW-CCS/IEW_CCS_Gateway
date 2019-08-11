@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object-definition>
-  <message name="/IEW/+/+/ReplyData">
+  <message name="PLC_Reply_Data">
     <object id="GatewayService" method="ReceiveReplyData" />
   </message>
-  <message name="/IEW/+/+/Status/HeartBeat">
+  <message name="HeartBeat">
     <object id="GatewayService" method="ReceiveHeartBeat" />
   </message>
-  <message name="/IEW/+/+/Status/Alarm">
+  <message name="Alarm">
     <object id="GatewayService" method="ReceiveAlarm" />
   </message>
-  <message name="/IEW/+/+/Cmd/Start/Ack">
+  <message name="StartAck">
     <object id="GatewayService" method="StartAck" />
   </message>
-  <message name="/IEW/+/+/Cmd/ReadData/Ack">
+  <message name="ReadDataAck">
     <object id="GatewayService" method="ReadDataAck" />
   </message>
-  <message name="/IEW/+/+/Cmd/Config/EDC">
+  <message name="ConfigEDC">
     <object id="GatewayService" method="ConfigEDC" />
   </message>
-  <message name="/IEW/+/+/Cmd/Config/DB">
+  <message name="ConfigDB">
     <object id="GatewayService" method="ConfigDB" />
   </message>
-  <message name="/IEW/+/+/Cmd/Config/Ack">
+  <message name="ConfigAck">
     <object id="GatewayService" method="ConfigAck" />
   </message>
   <message name="/IEW/EDCService">
     <object id="EDCService" method="ReceiveMQTTData" />
   </message>
-  <message name="/IEW/+/+/Cmd/OTA/Ack">
+  <message name="OTAAck">
     <object id="GatewayService" method="OTAAck" />
   </message>
 </object-definition>

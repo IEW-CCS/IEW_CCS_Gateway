@@ -60,6 +60,9 @@ namespace IEW.GatewayService.GUI
         {
             cmbType.Items.Clear();
             cmbType.Items.Add("PLC");
+            cmbType.Items.Add("Temperature");
+            cmbType.Items.Add("Vibration");
+
             //cmbType.Items.Add("BLE");
 
             lvTagList.Columns.Clear();
@@ -122,6 +125,17 @@ namespace IEW.GatewayService.GUI
                 txtPLC_IP.Text = "";
                 txtPLC_Port.Text = "";
             }
+            else
+            {
+                pnlBLE.Enabled = false;
+                txtBLE_Mac.Enabled = false;
+                txtBLE_Service_UUID.Enabled = false;
+                txtBLE_Mac.Text = "";
+                txtBLE_Service_UUID.Text = "";
+                pnlPLC.Enabled = false;
+                txtPLC_IP.Text = "";
+                txtPLC_Port.Text = "";
+            }
         }
 
         private void btnDeviceCancel_Click(object sender, EventArgs e)
@@ -153,6 +167,12 @@ namespace IEW.GatewayService.GUI
                     MessageBox.Show("Device ID should be unique!!", "Error");
                     return;
                 }
+            }
+
+            if(cmbType.Text.Trim() == "")
+            {
+                MessageBox.Show("Please select the device type!", "Error");
+                return;
             }
 
             if (cmbType.Text == "PLC")
@@ -201,11 +221,6 @@ namespace IEW.GatewayService.GUI
                     MessageBox.Show("Please enter the BLE Service UUID!", "Error");
                     return;
                 }
-            }
-            else
-            {
-                MessageBox.Show("Please select the device type!", "Error");
-                return;
             }
 
             diTemp.device_name = txtDeviceID.Text.Trim();

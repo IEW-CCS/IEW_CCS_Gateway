@@ -56,6 +56,8 @@
             this.btnCancelEDCXml = new System.Windows.Forms.Button();
             this.btnSaveEDCXml = new System.Windows.Forms.Button();
             this.chkEnable = new System.Windows.Forms.CheckBox();
+            this.chkTagCheckAll = new System.Windows.Forms.CheckBox();
+            this.chkCalcTagCheckAll = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.gbInterval.SuspendLayout();
             this.SuspendLayout();
@@ -330,13 +332,14 @@
             // 
             // lvCalcTagList
             // 
+            this.lvCalcTagList.CheckBoxes = true;
             this.lvCalcTagList.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvCalcTagList.FullRowSelect = true;
             this.lvCalcTagList.GridLines = true;
-            this.lvCalcTagList.Location = new System.Drawing.Point(18, 343);
+            this.lvCalcTagList.Location = new System.Drawing.Point(18, 348);
             this.lvCalcTagList.Margin = new System.Windows.Forms.Padding(2);
             this.lvCalcTagList.Name = "lvCalcTagList";
-            this.lvCalcTagList.Size = new System.Drawing.Size(720, 162);
+            this.lvCalcTagList.Size = new System.Drawing.Size(720, 157);
             this.lvCalcTagList.TabIndex = 11;
             this.lvCalcTagList.UseCompatibleStateImageBehavior = false;
             this.lvCalcTagList.View = System.Windows.Forms.View.Details;
@@ -380,7 +383,7 @@
             // 
             this.chkEnable.AutoSize = true;
             this.chkEnable.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkEnable.Location = new System.Drawing.Point(673, 123);
+            this.chkEnable.Location = new System.Drawing.Point(669, 121);
             this.chkEnable.Margin = new System.Windows.Forms.Padding(2);
             this.chkEnable.Name = "chkEnable";
             this.chkEnable.Size = new System.Drawing.Size(60, 20);
@@ -388,10 +391,38 @@
             this.chkEnable.Text = "Enable";
             this.chkEnable.UseVisualStyleBackColor = true;
             // 
+            // chkTagCheckAll
+            // 
+            this.chkTagCheckAll.AutoSize = true;
+            this.chkTagCheckAll.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkTagCheckAll.Location = new System.Drawing.Point(353, 121);
+            this.chkTagCheckAll.Margin = new System.Windows.Forms.Padding(2);
+            this.chkTagCheckAll.Name = "chkTagCheckAll";
+            this.chkTagCheckAll.Size = new System.Drawing.Size(71, 20);
+            this.chkTagCheckAll.TabIndex = 36;
+            this.chkTagCheckAll.Text = "Check All";
+            this.chkTagCheckAll.UseVisualStyleBackColor = true;
+            this.chkTagCheckAll.CheckedChanged += new System.EventHandler(this.chkTagCheckAll_CheckedChanged);
+            // 
+            // chkCalcTagCheckAll
+            // 
+            this.chkCalcTagCheckAll.AutoSize = true;
+            this.chkCalcTagCheckAll.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkCalcTagCheckAll.Location = new System.Drawing.Point(125, 324);
+            this.chkCalcTagCheckAll.Margin = new System.Windows.Forms.Padding(2);
+            this.chkCalcTagCheckAll.Name = "chkCalcTagCheckAll";
+            this.chkCalcTagCheckAll.Size = new System.Drawing.Size(71, 20);
+            this.chkCalcTagCheckAll.TabIndex = 37;
+            this.chkCalcTagCheckAll.Text = "Check All";
+            this.chkCalcTagCheckAll.UseVisualStyleBackColor = true;
+            this.chkCalcTagCheckAll.CheckedChanged += new System.EventHandler(this.chkCalcTagCheckAll_CheckedChanged);
+            // 
             // frmEditEDCXml
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(740, 556);
+            this.Controls.Add(this.chkCalcTagCheckAll);
+            this.Controls.Add(this.chkTagCheckAll);
             this.Controls.Add(this.chkEnable);
             this.Controls.Add(this.btnCancelEDCXml);
             this.Controls.Add(this.btnSaveEDCXml);
@@ -446,5 +477,7 @@
         private System.Windows.Forms.CheckBox chkMAX;
         private System.Windows.Forms.CheckBox chkAVG;
         private System.Windows.Forms.CheckBox chkEnable;
+        private System.Windows.Forms.CheckBox chkTagCheckAll;
+        private System.Windows.Forms.CheckBox chkCalcTagCheckAll;
     }
 }

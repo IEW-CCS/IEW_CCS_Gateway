@@ -486,10 +486,24 @@ namespace IEW.GatewayService.GUI
                 }
             }
 
-            foreach(KeyValuePair<string, cls_CalcTag> calc_tag in this.gateway_mgr.gateway_list[gateway_index].device_info[device_index].calc_tag_info)
+            foreach (ListViewItem item in lvCalcTagList.Items)
+            {
+                if (item.Checked)
+                {
+                    cls_CalcTag ct = this.gateway_mgr.gateway_list[gateway_index].device_info[device_index].calc_tag_info[item.Text.Trim()];
+                    if(ct != null)
+                    {
+                        tmp_calc_tag_info.Add(Tuple.Create(ct.TagName, ct.TagName));
+                    }
+                }
+            }
+
+            /*
+            foreach (KeyValuePair<string, cls_CalcTag> calc_tag in this.gateway_mgr.gateway_list[gateway_index].device_info[device_index].calc_tag_info)
             {
                 tmp_calc_tag_info.Add(Tuple.Create(calc_tag.Key, calc_tag.Key));
             }
+            */
 
             tmpEDC.tag_info = tmp_tag_info;
             tmpEDC.calc_tag_info = tmp_calc_tag_info;
@@ -558,6 +572,42 @@ namespace IEW.GatewayService.GUI
             {
                 gbInterval.Enabled = true;
                 txtReportInterval.Enabled = true;
+            }
+        }
+
+        private void chkTagCheckAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkTagCheckAll.Checked)
+            {
+                foreach (ListViewItem item in lvTagList.Items)
+                {
+                    item.Checked = true;
+                }
+            }
+            else
+            {
+                foreach (ListViewItem item in lvTagList.Items)
+                {
+                    item.Checked = false;
+                }
+            }
+        }
+
+        private void chkCalcTagCheckAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkCalcTagCheckAll.Checked)
+            {
+                foreach (ListViewItem item in lvCalcTagList.Items)
+                {
+                    item.Checked = true;
+                }
+            }
+            else
+            {
+                foreach (ListViewItem item in lvCalcTagList.Items)
+                {
+                    item.Checked = false;
+                }
             }
         }
     }

@@ -78,6 +78,7 @@ namespace IEW.GatewayService.UI
         const int TABPAGE_INDEX_OTA = 16;
 
         TreeNode objSelectedNode;
+        public cls_GlobalSetting ccs_initial;
         public cls_Gateway_Info gw;
         bool isLoadConfig;
         public EDCHeaderSet header_set = new EDCHeaderSet();
@@ -140,12 +141,15 @@ namespace IEW.GatewayService.UI
             pnlMain.Height = tvNodeList.Height;
 
             //db init
-            LoadDBConfig();
+            //LoadDBConfig();
+            LoadInitial();
 
-            if(this.ObjectManager.DBManager.config_db.enable)
+            //if(this.ObjectManager.DBManager.config_db.enable)
+            if (this.ccs_initial.db_enabled)
             {
                 System.Diagnostics.Debug.Print("DB COnnect Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-                this.db = new IOT_DbContext(this.ObjectManager.DBManager.config_db.provider_name, this.ObjectManager.DBManager.config_db.connection_string);
+                //this.db = new IOT_DbContext(this.ObjectManager.DBManager.config_db.provider_name, this.ObjectManager.DBManager.config_db.connection_string);
+                this.db = new IOT_DbContext(this.ccs_initial.db_info.provider_name, this.ccs_initial.db_info.connection_string);
                 System.Diagnostics.Debug.Print("DB COnnect End & init Start" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 this.db.Configuration.AutoDetectChangesEnabled = false;
                 this.db.Configuration.LazyLoadingEnabled = false;
@@ -904,6 +908,47 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
 
+        private bool LoadInitial()
+        {
+            try
+            {
+                this.ccs_initial = new cls_GlobalSetting();
+
+                if (!File.Exists("C:\\Gateway\\Config\\Global_Setting.json"))
+                {
+                    MessageBox.Show("No Global Setting file exists!.", "Error");
+                    this.ccs_initial.db_enabled = false;
+                    return false;
+                }
+
+                StreamReader inputFile = new StreamReader("C:\\Gateway\\Config\\Global_Setting.json");
+
+                string json_string = inputFile.ReadToEnd();
+
+                this.ccs_initial = JsonConvert.DeserializeObject<cls_GlobalSetting>(json_string);
+
+                if (this.ccs_initial == null)
+                {
+                    //Console.WriteLine("No Initial config exists!");
+                    MessageBox.Show("No Initial config exists!.", "Error");
+                    this.ccs_initial = new cls_GlobalSetting();
+                    this.ccs_initial.db_enabled = false;
+                    return false;
+                }
+
+                inputFile.Close();
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine("Service  Initial file loading error -> " + ex.Message);
+                MessageBox.Show("LoadInitial Exception: " + ex.Message, "Error");
+                this.ccs_initial.db_enabled = false;
+                return false;
+            }
+
+            return true;
+        }
+
         private bool LoadGatewayConfig()
         {
             try
@@ -1078,7 +1123,7 @@ namespace IEW.GatewayService.UI
 
         private void LoadMonitorConfig()
         {
-            if(ObjectManager.DBManager.config_db.enable)
+            if(this.ccs_initial.db_enabled)
             {
                 ObjectManager.MonitorManager_Initial();
 
@@ -1129,6 +1174,8 @@ namespace IEW.GatewayService.UI
             {
                 StreamReader inputFile = new StreamReader("C:\\Gateway\\Information\\Monitor_Status.json");
                 string json_string = inputFile.ReadToEnd();
+                inputFile.Close();
+
                 ObjectManager.MonitorManager_Initial(json_string);
                 if (ObjectManager.GatewayManager.gateway_list.Count > 0)
                 {
@@ -1330,7 +1377,7 @@ namespace IEW.GatewayService.UI
             SaveDBConfig();
             System.Diagnostics.Debug.Print("2-" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             //add for db sync - vic
-            if (this.ObjectManager.DBManager.config_db.enable)
+            if (this.ccs_initial.db_enabled)
             {
                 bSaveDB_Result = SyncConfigToDB();
                 System.Diagnostics.Debug.Print("3-" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));

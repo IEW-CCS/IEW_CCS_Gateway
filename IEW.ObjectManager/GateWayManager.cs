@@ -7,8 +7,34 @@ using System.Collections.Concurrent;
 
 namespace IEW.ObjectManager
 {
-    #region Gateway Class Define  For Global used.
+    #region Application Initial Configuration Class
+    public class cls_GlobalSetting
+    {
+        public bool db_enabled { get; set; }
+        public cls_Database db_info = new cls_Database();
+        public string monitor_service_init_path { get; set; }
+        public string ccs_gateway_config_path { get; set; }
+        public string monitor_status_path { get; set; }
+        public string alarm_path { get; set; }
+        public string alarm_history_path { get; set; }
+    }
+    #endregion
 
+    #region Database Connection Information
+    public class cls_Database
+    {
+        public string db_type { get; set; }
+        public string data_source { get; set; }
+        public string port_id { get; set; }
+        public string db_name { get; set; }
+        public string user_name { get; set; }
+        public string password { get; set; }
+        public string provider_name { get; set; }
+        public string connection_string { get; set; }
+    }
+    #endregion
+
+    #region Gateway Class Define  For Global used.
     public class cls_Device_Info
     {
         public string device_name { get; set; }
