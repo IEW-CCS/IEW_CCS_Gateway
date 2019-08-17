@@ -186,13 +186,15 @@ namespace IEW.GatewayService.GUI
         {
             if (disposing && (components != null))
             {
-                this.object_mgr.HeartBeatEventHandler -= new EventHandler(this.StatusUpdate);
-                this.object_mgr.AlarmEventHandler -= new EventHandler(this.StatusUpdate);
-                this.object_mgr.EDCReportEventHandler -= new EventHandler(this.StatusUpdate);
-                this.object_mgr.StartAckEventHandler -= new EventHandler(this.StatusUpdate);
-                this.object_mgr.ConfigAckEventHandler -= new EventHandler(this.StatusUpdate);
                 components.Dispose();
             }
+
+            this.object_mgr.HeartBeatEventHandler -= new EventHandler(this.StatusUpdate);
+            this.object_mgr.AlarmEventHandler -= new EventHandler(this.StatusUpdate);
+            this.object_mgr.EDCReportEventHandler -= new EventHandler(this.StatusUpdate);
+            this.object_mgr.StartAckEventHandler -= new EventHandler(this.StatusUpdate);
+            this.object_mgr.ConfigAckEventHandler -= new EventHandler(this.StatusUpdate);
+
             base.Dispose(disposing);
         }
 

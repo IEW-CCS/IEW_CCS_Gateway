@@ -20,6 +20,7 @@ namespace IEW.GatewayService.GUI
     public partial class frmEditEDCXml : Form
     {
         bool isEdit;
+        bool isCopy;
         EDCHeaderSet edc_header_list;
         int gateway_index;
         int device_index;
@@ -51,10 +52,11 @@ namespace IEW.GatewayService.GUI
         }
 
         //Constructor to Edit EDC Xml Information
-        public frmEditEDCXml(SetEDCXmlInfo set_xml, GateWayManager gwm,  cls_EDC_Info edc_info, string gateway, string device)
+        public frmEditEDCXml(SetEDCXmlInfo set_xml, GateWayManager gwm,  cls_EDC_Info edc_info, string gateway, string device, bool copy_flag)
         {
             InitializeComponent();
             this.isEdit = true;
+            this.isCopy = copy_flag;
             this.gateway_mgr = gwm; ;
             this.edc_data = edc_info;
             this.gateway_id = gateway;
@@ -122,8 +124,16 @@ namespace IEW.GatewayService.GUI
 
             if (isEdit)
             {
-                cmbGateway.Enabled = false;
-                cmbDevice.Enabled = false;
+                if(isCopy)
+                {
+                    cmbGateway.Enabled = true;
+                    cmbDevice.Enabled = true;
+                }
+                else
+                {
+                    cmbGateway.Enabled = false;
+                    cmbDevice.Enabled = false;
+                }
 
                 txtSerial.Text = this.edc_data.serial_id;
                 cmbGateway.Text = this.edc_data.gateway_id;
@@ -498,13 +508,6 @@ namespace IEW.GatewayService.GUI
                 }
             }
 
-            /*
-            foreach (KeyValuePair<string, cls_CalcTag> calc_tag in this.gateway_mgr.gateway_list[gateway_index].device_info[device_index].calc_tag_info)
-            {
-                tmp_calc_tag_info.Add(Tuple.Create(calc_tag.Key, calc_tag.Key));
-            }
-            */
-
             tmpEDC.tag_info = tmp_tag_info;
             tmpEDC.calc_tag_info = tmp_calc_tag_info;
 
@@ -512,9 +515,17 @@ namespace IEW.GatewayService.GUI
             {
                 delgSetSerial(this.serial_index);
             }
-            delgSetEDCXmlInfo(tmpEDC, this.isEdit);
 
-            if(!this.gateway_mgr.gateway_list[this.gateway_index].function_list.Contains("EDC"))
+            if (this.isCopy)
+            {
+                delgSetEDCXmlInfo(tmpEDC, false);
+            }
+            else
+            {
+                delgSetEDCXmlInfo(tmpEDC, this.isEdit);
+            }
+
+            if (!this.gateway_mgr.gateway_list[this.gateway_index].function_list.Contains("EDC"))
             {
                 this.gateway_mgr.gateway_list[this.gateway_index].function_list.Add("EDC");
             }

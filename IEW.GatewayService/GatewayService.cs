@@ -102,6 +102,17 @@ namespace IEW.GatewayService
             NLogManager.Logger.LogInfo(LogName, GetType().Name, MethodInfo.GetCurrentMethod().Name + "()", "Gateway_Destory");
         }
 
+        public bool CheckDuplicateGatewayID(string gateway_id)
+        {
+            cls_Gateway_Info gwi = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == gateway_id).FirstOrDefault();
+            if(gwi != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public bool CheckDuplicateDeviceID(string device_id)
         {
             //MessageBox.Show("GatewayService receive invoke", "Information");
@@ -113,6 +124,19 @@ namespace IEW.GatewayService
                     {
                         return true;
                     }
+                }
+            }
+
+            return false;
+        }
+
+        public bool CheckDuplicateTagSetName(string tag_set_name)
+        {
+            foreach (cls_Tag_Set tag_set in ObjectManager.TagSetManager.tag_set_list)
+            {
+                if (tag_set.TagSetName == tag_set_name)
+                {
+                    return true;
                 }
             }
 

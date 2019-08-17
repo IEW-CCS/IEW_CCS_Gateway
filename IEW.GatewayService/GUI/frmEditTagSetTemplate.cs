@@ -19,6 +19,7 @@ namespace IEW.GatewayService.GUI
     public partial class frmEditTagSetTemplate : Form
     {
         public bool isEdit;
+        public bool isCopy = false;
         public cls_Tag_Set tag_set_data;
         public List<cls_Tag> tag_list = new List<cls_Tag>();
         public List<cls_CalcTag> calc_tag_list = new List<cls_CalcTag>();
@@ -51,6 +52,10 @@ namespace IEW.GatewayService.GUI
         {
             InitializeComponent();
             this.isEdit = true;
+            if(tag_set.TagSetName == "")
+            {
+                this.isCopy = true;
+            }
             this.tag_set_data = tag_set;
             this.tag_list = tag_set.tag_set;
             this.calc_tag_list = tag_set.calc_tag_set;
@@ -158,7 +163,14 @@ namespace IEW.GatewayService.GUI
             if (isEdit)
             {
                 txtTagSetName.Text = this.tag_set_data.TagSetName;
-                txtTagSetName.Enabled = false;
+                if(this.isCopy)
+                {
+                    txtTagSetName.Enabled = true;
+                }
+                else
+                {
+                    txtTagSetName.Enabled = false;
+                }
                 txtTagSetDescription.Text = this.tag_set_data.TagSetDescription;
                 DisplayTagList();
                 DisplayCalcTagList();
@@ -181,10 +193,18 @@ namespace IEW.GatewayService.GUI
             }
             else
             {
-                if(!this.isEdit)
+                if(!this.isEdit || this.isCopy)
                 {
+                    /*
                     if (!this.delgCheckDuplicate(txtTagSetName.Text.Trim()))
                     {
+                        return;
+                    }
+                    */
+                    bool set_duplicate_flag = (bool)IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "CheckDuplicateTagSetName", new object[] { txtTagSetName.Text.Trim() });
+                    if (set_duplicate_flag)
+                    {
+                        MessageBox.Show(" TagSet Name [" + txtTagSetName.Text.Trim() + "] is duplicate, it should be unique!!", "Error");
                         return;
                     }
                 }
@@ -195,8 +215,14 @@ namespace IEW.GatewayService.GUI
             tmpTagSet.tag_set = this.tag_list;
             tmpTagSet.calc_tag_set = this.calc_tag_list;
 
-            delgSetTagSet(tmpTagSet, this.isEdit);
-            tmpTagSet = null;
+            if(this.isCopy)
+            {
+                delgSetTagSet(tmpTagSet, false);
+            }
+            else
+            {
+                delgSetTagSet(tmpTagSet, this.isEdit);
+            }
 
             this.Close();
         }

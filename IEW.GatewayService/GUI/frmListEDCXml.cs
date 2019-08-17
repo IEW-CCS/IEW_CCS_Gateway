@@ -23,8 +23,10 @@ namespace IEW.GatewayService.GUI
         {
             InitializeComponent();
             this.delgEDCManager = set_edc_mgrr;
-            this.edcm = (EDCManager)edc_mgr.Clone();
+            //this.edcm = (EDCManager)edc_mgr.Clone();
+            this.edcm = edc_mgr;
             this.gateway_mgr = (GateWayManager)gwm.Clone();
+            this.edcm.eventAddEDCXml += new EventHandler(this.btnAddXml_Click);
         }
 
         private void frmListEDCXml_Load(object sender, EventArgs e)
@@ -187,7 +189,7 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
-            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, this.gateway_mgr, edcTemp, strGatewayID, strDeviceID);
+            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, this.gateway_mgr, edcTemp, strGatewayID, strDeviceID, false);
             frm.Owner = this;
             frm.ShowDialog();
 
@@ -197,5 +199,18 @@ namespace IEW.GatewayService.GUI
             RefreshEDCXmlList();
             lvEDCXmlList.Focus();
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
+            this.edcm.eventAddEDCXml -= new EventHandler(this.btnAddXml_Click);
+
+            base.Dispose(disposing);
+        }
+
     }
 }

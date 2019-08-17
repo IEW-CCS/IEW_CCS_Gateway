@@ -47,11 +47,6 @@ namespace IEW.ObjectManager
         public List<string> ble_service_uuid = new List<string>();
         public ConcurrentDictionary<string, cls_Tag> tag_info = new ConcurrentDictionary<string, cls_Tag>();
         public ConcurrentDictionary<string, cls_CalcTag> calc_tag_info = new ConcurrentDictionary<string, cls_CalcTag>();
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
     }
 
     public class cls_Gateway_Info
@@ -63,21 +58,26 @@ namespace IEW.ObjectManager
         public string virtual_publish_topic { get; set; }
         public List<string> function_list = new List<string>(); //"EDC", "DB"
         public List<cls_Device_Info> device_info = new List<cls_Device_Info>();
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
     }
 
     public class GateWayManager
     {
         public List<cls_Gateway_Info> gateway_list = new List<cls_Gateway_Info>();
+        public event EventHandler eventAddGateway;
 
         public object Clone()
         {
             return this.MemberwiseClone();
         }
+
+        public void OnAddGatewayEventCall(EventArgs e)
+        {
+            if (this.eventAddGateway != null)
+            {
+                eventAddGateway(this, e);
+            }
+        }
+
     }
 
     #endregion
@@ -141,11 +141,21 @@ namespace IEW.ObjectManager
     public class TagSetManager
     {
         public List<cls_Tag_Set> tag_set_list = new List<cls_Tag_Set>();
+        public event EventHandler eventAddTagSet;
 
         public object Clone()
         {
             return this.MemberwiseClone();
         }
+
+        public void OnAddTagSetEventCall(EventArgs e)
+        {
+            if (this.eventAddTagSet != null)
+            {
+                eventAddTagSet(this, e);
+            }
+        }
+
     }
 
     #endregion

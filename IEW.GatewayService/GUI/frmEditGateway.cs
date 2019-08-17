@@ -20,44 +20,57 @@ namespace IEW.GatewayService.GUI
     {
         public List<cls_Device_Info> device_list = new List<cls_Device_Info>();
         bool isEdit;
-        cls_Gateway_Info gateway_Info;
-        int iGatewayIndex;
+        bool isCopy;
+        public cls_Gateway_Info gateway_Info;
+        //int iGatewayIndex;
         public SetGatewayInfo delgSetGateway;
         public ChechDuplicateGatewayID delgCheckDuplicate;
+        public cls_Gateway_Info old_gw;
 
+        //Constructor currently no use
         public frmEditGateway()
         {
             InitializeComponent();
             this.isEdit = false;
         }
+        
 
-        public frmEditGateway(cls_Gateway_Info gw, int index)
+        //Constructor currently no use
+        public frmEditGateway(cls_Gateway_Info gw)
         {
             InitializeComponent();
             this.isEdit = true;
             this.gateway_Info = gw;
             this.device_list = gw.device_info;
-            iGatewayIndex = index;
+            //iGatewayIndex = index;
         }
 
-        public frmEditGateway(SetGatewayInfo set_gw, cls_Gateway_Info gw, int index)
+        //Constructor called by frmListGateway after double clicked the gateway list
+        //Constructor called by Gateway.cs after clicked the gateway node
+        public frmEditGateway(SetGatewayInfo set_gw, cls_Gateway_Info gw)
         {
             InitializeComponent();
             this.isEdit = true;
+            if(gw.gateway_id == "")
+            {
+                this.isCopy = true;
+            }
             this.gateway_Info = gw;
             this.device_list = gw.device_info;
-            iGatewayIndex = index;
+            //iGatewayIndex = index;
             this.delgSetGateway = set_gw;
         }
 
+        // Constructor called by frmListGateway after clicked "+" button
         public frmEditGateway(SetGatewayInfo set_gw, ChechDuplicateGatewayID check, bool edit_flag)
         {
             InitializeComponent();
             this.isEdit = edit_flag;
+            this.gateway_Info = new cls_Gateway_Info();
             this.delgSetGateway = set_gw;
             this.delgCheckDuplicate = check;
         }
-
+        
         private void frmEditGateway_Load(object sender, EventArgs e)
         {
             lvGWDevice.Columns.Clear();
@@ -70,7 +83,14 @@ namespace IEW.GatewayService.GUI
             if(this.isEdit)
             {
                 txtGatewayID.Text = this.gateway_Info.gateway_id;
-                txtGatewayID.Enabled = false;
+                if(this.isCopy)
+                {
+                    txtGatewayID.Enabled = true;
+                }
+                else
+                {
+                    txtGatewayID.Enabled = false;
+                }
                 txtGatewayIP.Text = this.gateway_Info.gateway_ip;
                 txtLocation.Text = this.gateway_Info.location;
                 if(this.gateway_Info.virtual_flag)
@@ -110,11 +130,12 @@ namespace IEW.GatewayService.GUI
 
         private void DisplayDeviceList()
         {
-            if (device_list.Count > 0)
+            if (this.gateway_Info.device_info.Count > 0)
             {
                 lvGWDevice.BeginUpdate();
                 lvGWDevice.Items.Clear();
-                foreach ( cls_Device_Info di in device_list )
+                //foreach ( cls_Device_Info di in device_list )
+                foreach (cls_Device_Info di in this.gateway_Info.device_info)
                 {
                     ListViewItem lvItem = new ListViewItem(di.device_name);
                     lvItem.SubItems.Add(di.device_type);
@@ -140,10 +161,18 @@ namespace IEW.GatewayService.GUI
             }
             else
             {
-                if(!this.isEdit)
+                if(!this.isEdit || this.isCopy)
                 {
+                    /*
                     if(!this.delgCheckDuplicate(txtGatewayID.Text.Trim()))
                     {
+                        return;
+                    }
+                    */
+                    bool gw_duplicate_flag = (bool)IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "CheckDuplicateGatewayID", new object[] { txtGatewayID.Text.Trim() });
+                    if (gw_duplicate_flag)
+                    {
+                        MessageBox.Show("Gateway ID [" + txtGatewayID.Text.Trim() + "] is duplicate, it should be unique!!", "Error");
                         return;
                     }
                 }
@@ -192,9 +221,28 @@ namespace IEW.GatewayService.GUI
             }
 
             giTemp.virtual_publish_topic = txtTopic.Text.Trim();
-            giTemp.device_info = this.device_list;
+            //giTemp.device_info = this.device_list;
+            giTemp.device_info = this.gateway_Info.device_info;
 
-            delgSetGateway(giTemp, this.isEdit);
+            if (this.isCopy)
+            {
+                foreach(cls_Device_Info dvi in giTemp.device_info)
+                {
+                    bool duplicate_flag = (bool)IEW.Platform.Kernel.Platform.Instance.Invoke("GatewayService", "CheckDuplicateDeviceID", new object[] { dvi.device_name });
+                    if (duplicate_flag)
+                    {
+                        MessageBox.Show("Device ID [" + dvi.device_name + "] is duplicate, it should be unique!!", "Error");
+                        return;
+                    }
+                }
+
+                delgSetGateway(giTemp, false);
+            }
+            else
+            {
+                delgSetGateway(giTemp, this.isEdit);
+            }
+
             giTemp = null;
 
             this.Close();
@@ -235,7 +283,6 @@ namespace IEW.GatewayService.GUI
         private void lvGWDevice_DoubleClick(object sender, EventArgs e)
         {
             string strDeviceID;
-            cls_Device_Info deviceTemp = new cls_Device_Info();
 
             if (lvGWDevice.SelectedItems.Count == 0)
             {
@@ -246,6 +293,15 @@ namespace IEW.GatewayService.GUI
             strDeviceID = lvGWDevice.SelectedItems[0].Text.Trim();
 
             int i = 0;
+
+            cls_Device_Info deviceTemp = this.gateway_Info.device_info.Where(o => o.device_name == strDeviceID).FirstOrDefault();
+            if(deviceTemp == null)
+            {
+                return;
+            }
+
+            i = this.gateway_Info.device_info.FindIndex(p => p.device_name == deviceTemp.device_name);
+            /*
             foreach (cls_Device_Info di in this.gateway_Info.device_info)
             {
                 if (di.device_name == strDeviceID)
@@ -255,12 +311,16 @@ namespace IEW.GatewayService.GUI
                 }
                 i++;
             }
+            */
+
+            if(this.isCopy)
+            {
+                deviceTemp.device_name = "";
+            }
 
             var frm = new frmEditDevice(deviceTemp, i);
             frm.Owner = this;
             frm.ShowDialog();
-
-            deviceTemp = null;
 
             DisplayDeviceList();
             lvGWDevice.Focus();

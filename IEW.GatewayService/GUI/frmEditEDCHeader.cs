@@ -17,9 +17,9 @@ namespace IEW.GatewayService.GUI
     public partial class frmEditEDCHeader : Form
     {
         public bool isEdit;
+        public bool isCopy = false;
         public cls_EDC_Header header_set_data;
         public List<cls_EDC_Head_Item> item_list = new List<cls_EDC_Head_Item>();
-        public int header_set_index;
 
         public SetHeaderSetInfo delgSetHeaderSet;
         public CheckDuplicateHeaderSet delgCheckDuplicate;
@@ -30,17 +30,23 @@ namespace IEW.GatewayService.GUI
             this.isEdit = false;
         }
 
-        public frmEditEDCHeader(SetHeaderSetInfo set_hs, cls_EDC_Header header_set, int index)
+        //Constructor called by Gateway.cs after clicked the Header Set node
+        public frmEditEDCHeader(SetHeaderSetInfo set_hs, CheckDuplicateHeaderSet check, cls_EDC_Header header_set)
         {
             InitializeComponent();
             this.isEdit = true;
+            if(header_set.set_name == "")
+            {
+                this.isCopy = true;
+            }
+
             header_set_data = header_set;
             item_list = header_set.head_set;
-            header_set_index = index;
             this.delgSetHeaderSet = set_hs;
+            this.delgCheckDuplicate = check;
         }
 
-
+        //Constructor called by frmListEDCHeaderSet form after clicked "+" button
         public frmEditEDCHeader(SetHeaderSetInfo set_hs, CheckDuplicateHeaderSet check, bool edit_flag)
         {
             InitializeComponent();
@@ -62,7 +68,14 @@ namespace IEW.GatewayService.GUI
             if (isEdit)
             {
                 txtEDCHeaderSetName.Text = this.header_set_data.set_name;
-                txtEDCHeaderSetName.Enabled = false;
+                if(this.isCopy)
+                {
+                    txtEDCHeaderSetName.Enabled = true;
+                }
+                else
+                {
+                    txtEDCHeaderSetName.Enabled = false;
+                }
                 txtDescription.Text = this.header_set_data.set_description;
                 DisplayItemList();
             }
@@ -238,7 +251,7 @@ namespace IEW.GatewayService.GUI
             }
             else
             {
-                if (!this.isEdit)
+                if (!this.isEdit || this.isCopy)
                 {
                     if (!this.delgCheckDuplicate(txtEDCHeaderSetName.Text.Trim()))
                     {
@@ -257,7 +270,14 @@ namespace IEW.GatewayService.GUI
             }
             */
 
-            delgSetHeaderSet(tmpHeaderSet, this.isEdit);
+            if(this.isCopy)
+            {
+                delgSetHeaderSet(tmpHeaderSet, false);
+            }
+            else
+            {
+                delgSetHeaderSet(tmpHeaderSet, this.isEdit);
+            }
             tmpHeaderSet = null;
 
             this.Close();

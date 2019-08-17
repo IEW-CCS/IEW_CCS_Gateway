@@ -22,9 +22,11 @@ namespace IEW.GatewayService.GUI
         public frmListDBConfig(SetDBManager set_db_mgrr, DBManager db_mgr, GateWayManager gw_mgr)
         {
             InitializeComponent();
-            this.dbm = (DBManager)db_mgr.Clone();
+            //this.dbm = (DBManager)db_mgr.Clone();
+            this.dbm = db_mgr;
             this.gateway_mgr = (GateWayManager)gw_mgr.Clone();
             this.delgDBManager = set_db_mgrr;
+            this.dbm.eventAddDBConfig += new EventHandler(this.btnAddDBConfig_Click);
         }
 
         private void frmListDBConfig_Load(object sender, EventArgs e)
@@ -201,7 +203,7 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
-            frmEditDBConfig frm = new frmEditDBConfig(SetDBConfigInfo, this.gateway_mgr, dbTemp, strGatewayID, strDeviceID);
+            frmEditDBConfig frm = new frmEditDBConfig(SetDBConfigInfo, this.gateway_mgr, dbTemp, strGatewayID, strDeviceID, false);
             frm.Owner = this;
             frm.ShowDialog();
 
@@ -211,5 +213,18 @@ namespace IEW.GatewayService.GUI
             RefreshDBConfigList();
             lvDBConfigList.Focus();
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
+            this.dbm.eventAddDBConfig -= new EventHandler(this.btnAddDBConfig_Click);
+
+            base.Dispose(disposing);
+        }
+
     }
 }

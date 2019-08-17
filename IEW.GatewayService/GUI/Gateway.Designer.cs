@@ -35,6 +35,13 @@
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.tvNodeList = new System.Windows.Forms.TreeView();
+            this.ctxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxAddMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxMenu.SuspendLayout();
+            this.ctxAddMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnLoadConfig
@@ -109,6 +116,48 @@
             this.tvNodeList.Size = new System.Drawing.Size(174, 574);
             this.tvNodeList.TabIndex = 3;
             this.tvNodeList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNodeList_AfterSelect);
+            this.tvNodeList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvNodeList_MouseDown);
+            // 
+            // ctxMenu
+            // 
+            this.ctxMenu.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctxMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem,
+            this.copyToolStripMenuItem});
+            this.ctxMenu.Name = "contextMenuStrip1";
+            this.ctxMenu.Size = new System.Drawing.Size(114, 48);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.ToolTipText = "Delete the selected node";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.ToolTipText = "Copy this node\'s information and create a new node";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // ctxAddMenu
+            // 
+            this.ctxAddMenu.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctxAddMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToolStripMenuItem});
+            this.ctxAddMenu.Name = "ctxAddMenu";
+            this.ctxAddMenu.Size = new System.Drawing.Size(181, 48);
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addToolStripMenuItem.Text = "Add";
+            this.addToolStripMenuItem.ToolTipText = "Add new node for selected function";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
             // Gateway
             // 
@@ -123,6 +172,8 @@
             this.Name = "Gateway";
             this.Text = "Gateway";
             this.Load += new System.EventHandler(this.Gateway_Load);
+            this.ctxMenu.ResumeLayout(false);
+            this.ctxAddMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -133,5 +184,10 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Panel pnlMain;
         private System.Windows.Forms.TreeView tvNodeList;
+        private System.Windows.Forms.ContextMenuStrip ctxMenu;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip ctxAddMenu;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
     }
 }

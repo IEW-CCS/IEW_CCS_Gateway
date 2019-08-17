@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IEW.ObjectManager
 {
-    public static class GlobalVaraible
+    public  static class GlobalVaraible
     {
         public const string DATETIME_FORMAT = "yyyyMMddHHmmssfff";
     }

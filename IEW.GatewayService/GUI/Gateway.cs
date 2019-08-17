@@ -220,7 +220,7 @@ namespace IEW.GatewayService.UI
                 tNode.ImageIndex = 4;
                 tNode.SelectedImageIndex = 19;
             }
-
+            
             foreach (cls_EDC_Header hs in this.header_set.head_set_list)
             {
                 tNode = tvNodeList.Nodes[NODE_INDEX_EDC_HEADER_SET_LIST].Nodes.Add(hs.set_name);
@@ -301,11 +301,11 @@ namespace IEW.GatewayService.UI
                     break;
 
                 case TABPAGE_INDEX_GATEWAY_INFO:
-                    DisplayGatewayInfo();
+                    DisplayGatewayInfo(false);
                     break;
 
                 case TABPAGE_INDEX_DEVICE_INFO:
-                    DisplayDeviceInfo();
+                    DisplayDeviceInfo(false);
                     break;
 
                 case TABPAGE_INDEX_TAGSET_LIST:
@@ -313,7 +313,7 @@ namespace IEW.GatewayService.UI
                     break;
 
                 case TABPAGE_INDEX_TAGSET_INFO:
-                    DisplayTagSetInfo();
+                    DisplayTagSetInfo(false);
                     break;
 
                 case TABPAGE_INDEX_EDCHEADERSET_LIST:
@@ -321,7 +321,7 @@ namespace IEW.GatewayService.UI
                     break;
 
                 case TABPAGE_INDEX_EDCHEADERSET_INFO:
-                    DisplayEDCHeaderSetInfo();
+                    DisplayEDCHeaderSetInfo(false);
                     break;
 
                 case TABPAGE_INDEX_EDC_OUTPUT_LIST:
@@ -329,15 +329,15 @@ namespace IEW.GatewayService.UI
                     break;
 
                 case TABPAGE_INDEX_EDC_OUTPUT_INFO:
-                    DisplayEDCXMLInfo();
+                    DisplayEDCXMLInfo(false);
                     break;
-
+                    
                 case TABPAGE_INDEX_DB_CONFIG_LIST:
                     DisplayDBConfigList();
                     break;
 
                 case TABPAGE_INDEX_DB_CONFIG_INFO:
-                    DisplayDBConfigInfo();
+                    DisplayDBConfigInfo(false);
                     break;
 
                 case TABPAGE_INDEX_ON_LINE_MONITOR:
@@ -394,6 +394,7 @@ namespace IEW.GatewayService.UI
             }
             else
             {
+                g_info.function_list.Clear();
                 ObjectManager.GatewayManager.gateway_list.Add(g_info);
             }
 
@@ -438,6 +439,24 @@ namespace IEW.GatewayService.UI
             RefreshGatewayConfig(TABPAGE_INDEX_EDCHEADERSET_LIST);
         }
 
+
+        //Delegate function to check header set name is duplicate or not
+        bool CheckDuplicateHeaderSetName(string hs_name)
+        {
+            if (this.header_set.head_set_list.Count > 0)
+            {
+                foreach (cls_EDC_Header hs in this.header_set.head_set_list)
+                {
+                    if (hs.set_name == hs_name)
+                    {
+                        MessageBox.Show("Duplicate header set id!", "Error");
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
         //Delegate function to set EDC Header Set information
         void SetEDCHeaderSetInfo(cls_EDC_Header edc_set, bool edit_flag)
         {
@@ -489,6 +508,7 @@ namespace IEW.GatewayService.UI
             else
             {
                 ObjectManager.EDCManager.gateway_edc.Add(edc_info);
+                ObjectManager.EDCManager.serial_id_index = int.Parse(edc_info.serial_id);
             }
 
             RefreshGatewayConfig(TABPAGE_INDEX_EDC_OUTPUT_LIST);
@@ -521,6 +541,7 @@ namespace IEW.GatewayService.UI
             else
             {
                 ObjectManager.DBManager.dbconfig_list.Add(db_info);
+                ObjectManager.DBManager.serial_id_index = int.Parse(db_info.serial_id);
             }
 
             RefreshGatewayConfig(TABPAGE_INDEX_DB_CONFIG_LIST);
@@ -528,105 +549,147 @@ namespace IEW.GatewayService.UI
 
         private void DisplayGatewayList()
         {
+            if (pnlMain.Controls.Count > 0)
+            {
+                //pnlMain.Controls.RemoveAt(0);
+                pnlMain.Controls[0].Dispose();
+            }
+
             frmListGateway gwList = new frmListGateway(SetGatewayManager, ObjectManager.GatewayManager);
             gwList.Owner = this;
             gwList.TopLevel = false;
             gwList.FormBorderStyle = FormBorderStyle.None;
-            if (pnlMain.Controls.Count > 0)
-            {
-                //pnlMain.Controls.RemoveAt(0);
-                pnlMain.Controls[0].Dispose();
-            }
             pnlMain.Controls.Add(gwList);
             gwList.Show();
         }
 
-        private void DisplayGatewayInfo()
+        private void DisplayGatewayInfo(bool copy_flag)
         {
             TreeNode tNode = tvNodeList.SelectedNode;
 
-            int i = 0;
-            foreach(cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
+            cls_Gateway_Info gwi = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == tNode.Text.Trim()).FirstOrDefault();
+            
+            if (gwi == null)
             {
-                if(gi.gateway_id == tNode.Text)
-                {
-                    break;
-                }
-                i++;
+                MessageBox.Show("Cannot find Gateway Object from GatewayManager", "Error");
+                return;
             }
 
-            frmEditGateway gwForm = new frmEditGateway(SetGatewayInfo, ObjectManager.GatewayManager.gateway_list[i], i);
-            gwForm.Owner = this;
-            gwForm.TopLevel = false;
-            gwForm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
-            pnlMain.Controls.Add(gwForm);
 
-            gwForm.Show();
+            if(copy_flag)
+            {
+                cls_Gateway_Info tmp_gwi = new cls_Gateway_Info();
+
+                string json_string = JsonConvert.SerializeObject(gwi, Newtonsoft.Json.Formatting.Indented);
+                tmp_gwi = JsonConvert.DeserializeObject<cls_Gateway_Info>(json_string);
+                tmp_gwi.gateway_id = "";
+
+                frmEditGateway gwForm = new frmEditGateway(SetGatewayInfo, tmp_gwi);
+                gwForm.Owner = this;
+                gwForm.TopLevel = false;
+                gwForm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(gwForm);
+
+                gwForm.Show();
+            }
+            else
+            {
+                frmEditGateway gwForm = new frmEditGateway(SetGatewayInfo, gwi);
+                gwForm.Owner = this;
+                gwForm.TopLevel = false;
+                gwForm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(gwForm);
+
+                gwForm.Show();
+            }
+
         }
 
-        private void DisplayDeviceInfo()
+        private void DisplayDeviceInfo(bool copy_flag)
         {
             TreeNode tNode = tvNodeList.SelectedNode;  // Device Node
             TreeNode pNode = tNode.Parent;                    // Gateway Node
 
             int i = 0;
             int j = 0;
-            foreach (cls_Gateway_Info gi in ObjectManager.GatewayManager.gateway_list)
-            {
-                if (gi.gateway_id == pNode.Text)
-                {
-                    foreach (cls_Device_Info dv in ObjectManager.GatewayManager.gateway_list[i].device_info)
-                    {
-                        if(dv.device_name == tNode.Text)
-                        {
-                            break;
-                        }
-                        j++;
-                    }
-                    break;
-                }
-                i++;
-            }
 
-            frmEditDevice deviceForm = new frmEditDevice(ObjectManager.GatewayManager.gateway_list[i], ObjectManager.GatewayManager.gateway_list[i].device_info[j], j);
-            deviceForm.Owner = this;
-            deviceForm.TopLevel = false;
-            deviceForm.FormBorderStyle = FormBorderStyle.None;
+            cls_Gateway_Info gi = ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == pNode.Text.Trim()).FirstOrDefault();
+            if(gi == null)
+            {
+                MessageBox.Show("Cannot find Gateway Object from GatewayManager", "Error");
+                return;
+            }
+            i = ObjectManager.GatewayManager.gateway_list.FindIndex(o => o.gateway_id == gi.gateway_id);
+
+            cls_Device_Info dv = gi.device_info.Where(x => x.device_name == tNode.Text.Trim()).FirstOrDefault();
+            if (dv == null)
+            {
+                MessageBox.Show("Cannot find Device Object from Gateway[" + gi.gateway_id + "]", "Error");
+                return;
+            }
+            j = gi.device_info.FindIndex(y => y.device_name == dv.device_name);
+
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
-            pnlMain.Controls.Add(deviceForm);
 
-            deviceForm.Show();
+            if(copy_flag)
+            {
+                cls_Device_Info tmpDevice = new cls_Device_Info();
+
+                string json_string = JsonConvert.SerializeObject(dv, Newtonsoft.Json.Formatting.Indented);
+                tmpDevice = JsonConvert.DeserializeObject<cls_Device_Info>(json_string);
+                tmpDevice.device_name = "";
+
+                frmEditDevice deviceForm = new frmEditDevice(gi, tmpDevice, j);
+                deviceForm.Owner = this;
+                deviceForm.TopLevel = false;
+                deviceForm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(deviceForm);
+
+                deviceForm.Show();
+            }
+            else
+            {
+                frmEditDevice deviceForm = new frmEditDevice(gi, dv, j);
+                deviceForm.Owner = this;
+                deviceForm.TopLevel = false;
+                deviceForm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(deviceForm);
+
+                deviceForm.Show();
+            }
         }
 
         private void DispalyTagSetList()
         {
-            frmListTagSet setList = new frmListTagSet(SetTagSetManager, ObjectManager.TagSetManager);
-            setList.Owner = this;
-            setList.TopLevel = false;
-            setList.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmListTagSet setList = new frmListTagSet(SetTagSetManager, ObjectManager.TagSetManager);
+            setList.Owner = this;
+            setList.TopLevel = false;
+            setList.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(setList);
             setList.Show();
         }
 
-        private void DisplayTagSetInfo()
+        private void DisplayTagSetInfo(bool copy_flag)
         {
             TreeNode tNode = tvNodeList.SelectedNode;  // Tag Set Node
 
             int i = 0;
+            /*
             foreach(cls_Tag_Set tag_set in ObjectManager.TagSetManager.tag_set_list)
             {
                 if(tag_set.TagSetName == tNode.Text)
@@ -635,41 +698,71 @@ namespace IEW.GatewayService.UI
                 }
                 i++;
             }
+            */
+            cls_Tag_Set tag_set = ObjectManager.TagSetManager.tag_set_list.Where(p => p.TagSetName == tNode.Text.Trim()).FirstOrDefault();
+            if(tag_set == null)
+            {
+                MessageBox.Show("Cannot find TagSet Object from TagSetManager", "Error");
+                return;
+            }
+            i = ObjectManager.TagSetManager.tag_set_list.FindIndex(o => o.TagSetName == tag_set.TagSetName);
 
-            frmEditTagSetTemplate frm = new frmEditTagSetTemplate(SetTagSetInfo, ObjectManager.TagSetManager.tag_set_list[i], i);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
-            pnlMain.Controls.Add(frm);
 
-            frm.Show();
+            if(copy_flag)
+            {
+                cls_Tag_Set tmpTagSet = new cls_Tag_Set();
+                string json_string = JsonConvert.SerializeObject(tag_set, Newtonsoft.Json.Formatting.Indented);
+                tmpTagSet = JsonConvert.DeserializeObject<cls_Tag_Set>(json_string);
+                tmpTagSet.TagSetName = "";
+
+                frmEditTagSetTemplate frm = new frmEditTagSetTemplate(SetTagSetInfo, tmpTagSet, i);
+                frm.Owner = this;
+                frm.TopLevel = false;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(frm);
+
+                frm.Show();
+            }
+            else
+            {
+
+                frmEditTagSetTemplate frm = new frmEditTagSetTemplate(SetTagSetInfo, ObjectManager.TagSetManager.tag_set_list[i], i);
+                frm.Owner = this;
+                frm.TopLevel = false;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(frm);
+
+                frm.Show();
+            }
         }
 
         private void DisplayEDCHeaderSetList()
         {
-            frmListEDCHeaderSet headerList = new frmListEDCHeaderSet(SetEDCHeaderSetList, this.header_set);
-            headerList.Owner = this;
-            headerList.TopLevel = false;
-            headerList.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmListEDCHeaderSet headerList = new frmListEDCHeaderSet(SetEDCHeaderSetList, this.header_set);
+            headerList.Owner = this;
+            headerList.TopLevel = false;
+            headerList.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(headerList);
             headerList.Show();
         }
 
-        private void DisplayEDCHeaderSetInfo()
+        private void DisplayEDCHeaderSetInfo(bool copy_flag)
         {
             TreeNode tNode = tvNodeList.SelectedNode;  // Header Set Info Node
 
             int i = 0;
+            /*
             foreach (cls_EDC_Header hs in this.header_set.head_set_list)
             {
                 if (hs.set_name == tNode.Text)
@@ -678,37 +771,67 @@ namespace IEW.GatewayService.UI
                 }
                 i++;
             }
+            */
 
-            frmEditEDCHeader frm = new frmEditEDCHeader(SetEDCHeaderSetInfo, this.header_set.head_set_list[i], i);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
+            cls_EDC_Header hs = this.header_set.head_set_list.Where(p => p.set_name == tNode.Text.Trim()).FirstOrDefault();
+            if (hs == null)
+            {
+                MessageBox.Show("Cannot find Header Set  Object from Header Set List", "Error");
+                return;
+            }
+            i = this.header_set.head_set_list.FindIndex(o => o.set_name == hs.set_name);
+
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
-            pnlMain.Controls.Add(frm);
 
-            frm.Show();
+            if(copy_flag)
+            {
+                cls_EDC_Header tmpHeaderSet = new cls_EDC_Header();
+
+                string json_string = JsonConvert.SerializeObject(hs, Newtonsoft.Json.Formatting.Indented);
+                tmpHeaderSet = JsonConvert.DeserializeObject<cls_EDC_Header>(json_string);
+                tmpHeaderSet.set_name = "";
+
+                frmEditEDCHeader frm = new frmEditEDCHeader(SetEDCHeaderSetInfo, CheckDuplicateHeaderSetName, tmpHeaderSet);
+                frm.Owner = this;
+                frm.TopLevel = false;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(frm);
+
+                frm.Show();
+            }
+            else
+            {
+                frmEditEDCHeader frm = new frmEditEDCHeader(SetEDCHeaderSetInfo, CheckDuplicateHeaderSetName, this.header_set.head_set_list[i]);
+                frm.Owner = this;
+                frm.TopLevel = false;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(frm);
+
+                frm.Show();
+            }
         }
 
         private void DisplayEDCXMLList()
         {
-            frmListEDCXml frm = new frmListEDCXml(EDCManager, ObjectManager.EDCManager, ObjectManager.GatewayManager);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmListEDCXml frm = new frmListEDCXml(EDCManager, ObjectManager.EDCManager, ObjectManager.GatewayManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(frm);
             frm.Show();
         }
 
-        private void DisplayEDCXMLInfo()
+        private void DisplayEDCXMLInfo(bool copy_flag)
         {
             string strSerial;
             string strGatewayID;
@@ -725,6 +848,7 @@ namespace IEW.GatewayService.UI
             strDeviceID = tmp[2];
 
             i = 0;
+            /*
             foreach(cls_EDC_Info edc in ObjectManager.EDCManager.gateway_edc)
             {
                 if(edc.serial_id == strSerial)
@@ -733,52 +857,82 @@ namespace IEW.GatewayService.UI
                 }
                 i++;
             }
+            */
+            cls_EDC_Info edc = ObjectManager.EDCManager.gateway_edc.Where(p => p.serial_id == strSerial).FirstOrDefault();
+            if(edc == null)
+            {
+                MessageBox.Show("Cannot find EDC Info  Object from EDCManager", "Error");
+                return;
+            }
+            i = ObjectManager.EDCManager.gateway_edc.FindIndex(o => o.serial_id == edc.serial_id);
 
-            frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, ObjectManager.GatewayManager, ObjectManager.EDCManager.gateway_edc[i], strGatewayID, strDeviceID);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
-            pnlMain.Controls.Add(frm);
 
-            frm.Show();
+            if(copy_flag)
+            {
+                cls_EDC_Info tmpEDC = new cls_EDC_Info();
+
+                string json_string = JsonConvert.SerializeObject(edc, Newtonsoft.Json.Formatting.Indented);
+                tmpEDC = JsonConvert.DeserializeObject<cls_EDC_Info>(json_string);
+                tmpEDC.serial_id = (ObjectManager.EDCManager.get_last_serial_id() + 1).ToString("D8");
+
+                frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, ObjectManager.GatewayManager, tmpEDC, strGatewayID, strDeviceID, true);
+                frm.Owner = this;
+                frm.TopLevel = false;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(frm);
+
+                frm.Show();
+            }
+            else
+            {
+                frmEditEDCXml frm = new frmEditEDCXml(SetEDCXmlInfo, ObjectManager.GatewayManager, ObjectManager.EDCManager.gateway_edc[i], strGatewayID, strDeviceID, false);
+                frm.Owner = this;
+                frm.TopLevel = false;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(frm);
+
+                frm.Show();
+            }
         }
 
         private void DisplayOnlineMonitor()
         {
-            frmOnlineMonitor frm = new frmOnlineMonitor(this.ObjectManager);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmOnlineMonitor frm = new frmOnlineMonitor(this.ObjectManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(frm);
             frm.Show();
         }
 
         private void DisplayDBConfigList()
         {
-            frmListDBConfig frm = new frmListDBConfig(SetDBManager, ObjectManager.DBManager, ObjectManager.GatewayManager);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmListDBConfig frm = new frmListDBConfig(SetDBManager, ObjectManager.DBManager, ObjectManager.GatewayManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(frm);
             frm.Show();
         }
 
-        private void DisplayDBConfigInfo()
+        private void DisplayDBConfigInfo(bool copy_flag)
         {
             string strSerial;
             string strGatewayID;
@@ -795,6 +949,7 @@ namespace IEW.GatewayService.UI
             strDeviceID = tmp[2];
 
             i = 0;
+            /*
             foreach (cls_DB_Info db in ObjectManager.DBManager.dbconfig_list)
             {
                 if (db.serial_id == strSerial)
@@ -803,101 +958,142 @@ namespace IEW.GatewayService.UI
                 }
                 i++;
             }
+            */
+            cls_DB_Info db = ObjectManager.DBManager.dbconfig_list.Where(p => p.serial_id == strSerial).FirstOrDefault();
+            if(db == null)
+            {
+                MessageBox.Show("Cannot find DB Config  Object from DBManager", "Error");
+                return;
+            }
+            i = ObjectManager.DBManager.dbconfig_list.FindIndex(o => o.serial_id == db.serial_id);
 
-            frmEditDBConfig frm = new frmEditDBConfig(SetDBConfigInfo, ObjectManager.GatewayManager, ObjectManager.DBManager.dbconfig_list[i], strGatewayID, strDeviceID);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
-            pnlMain.Controls.Add(frm);
 
-            frm.Show();
+            if(copy_flag)
+            {
+                cls_DB_Info tmpDB = new cls_DB_Info();
+
+                string json_string = JsonConvert.SerializeObject(db, Newtonsoft.Json.Formatting.Indented);
+                tmpDB = JsonConvert.DeserializeObject<cls_DB_Info>(json_string);
+                tmpDB.serial_id = (ObjectManager.DBManager.get_last_serial_id() + 1).ToString("D8");
+
+                frmEditDBConfig frm = new frmEditDBConfig(SetDBConfigInfo, ObjectManager.GatewayManager, tmpDB, strGatewayID, strDeviceID, true);
+                frm.Owner = this;
+                frm.TopLevel = false;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(frm);
+
+                frm.Show();
+            }
+            else
+            {
+                frmEditDBConfig frm = new frmEditDBConfig(SetDBConfigInfo, ObjectManager.GatewayManager, ObjectManager.DBManager.dbconfig_list[i], strGatewayID, strDeviceID, false);
+                frm.Owner = this;
+                frm.TopLevel = false;
+                frm.FormBorderStyle = FormBorderStyle.None;
+                pnlMain.Controls.Add(frm);
+
+                frm.Show();
+            }
         }
 
         private void DisplayVersionManagement()
         {
-            frmListAppVersion frm = new frmListAppVersion(ObjectManager.VersionManager);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmListAppVersion frm = new frmListAppVersion(ObjectManager.VersionManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(frm);
             frm.Show();
         }
 
         private void DisplayIOTVersion()
         {
-            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "IOT");
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "IOT");
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(frm);
             frm.Show();
         }
 
         private void DisplayWorkerVersion()
         {
-            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "WORKER");
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "WORKER");
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(frm);
             frm.Show();
         }
 
         private void DisplayFirmwareVersion()
         {
-            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "FIRMWARE");
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmEditAppVersion frm = new frmEditAppVersion(ObjectManager.VersionManager, "FIRMWARE");
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(frm);
             frm.Show();
         }
 
         private void DisplayOTAManagement()
         {
-            frmListOTA frm = new frmListOTA(this.ObjectManager, ObjectManager.GatewayManager, ObjectManager.OTAManager);
-            frm.Owner = this;
-            frm.TopLevel = false;
-            frm.FormBorderStyle = FormBorderStyle.None;
             if (pnlMain.Controls.Count > 0)
             {
                 //pnlMain.Controls.RemoveAt(0);
                 pnlMain.Controls[0].Dispose();
             }
+
+            frmListOTA frm = new frmListOTA(this.ObjectManager, ObjectManager.GatewayManager, ObjectManager.OTAManager);
+            frm.Owner = this;
+            frm.TopLevel = false;
+            frm.FormBorderStyle = FormBorderStyle.None;
             pnlMain.Controls.Add(frm);
             frm.Show();
         }
 
-        public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index)
+        public void SetDeviceInfo(cls_Gateway_Info gi, cls_Device_Info di, int index, bool copy_flag)
         {
-            gi.device_info[index] = di;
+            if(copy_flag)
+            {
+                gi.device_info.Add(di);
+            }
+            else
+            {
+                gi.device_info[index] = di;
+            }
         }
 
+        /*
         private void btnAddGateway_Click(object sender, EventArgs e)
         {
             var frm = new frmEditGateway();
@@ -907,6 +1103,7 @@ namespace IEW.GatewayService.UI
             gw = null;
             RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
         }
+        */
 
         private bool LoadInitial()
         {
@@ -2280,5 +2477,193 @@ namespace IEW.GatewayService.UI
             }
 
         }
+
+        private void tvNodeList_MouseDown(object sender, MouseEventArgs e)
+        {
+            if(e.Button != MouseButtons.Right)
+            {
+                return;
+            }
+
+            TreeNode node_here = tvNodeList.GetNodeAt(e.X, e.Y);
+            if(node_here == null)
+            {
+                return;
+            }
+
+            tvNodeList.SelectedNode = node_here;
+
+            switch(tvNodeList.SelectedNode.Tag)
+            {
+                case TABPAGE_INDEX_GATEWAY_INFO:
+                    ctxMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_DEVICE_INFO:
+                    ctxMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_TAGSET_INFO:
+                    ctxMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_EDCHEADERSET_INFO:
+                    ctxMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_EDC_OUTPUT_INFO:
+                    ctxMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_INFO:
+                    ctxMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_GATEWAY_LIST:
+                    ctxAddMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_TAGSET_LIST:
+                    ctxAddMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_EDCHEADERSET_LIST:
+                    ctxAddMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_EDC_OUTPUT_LIST:
+                    ctxAddMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_LIST:
+                    ctxAddMenu.Show(tvNodeList, new Point(e.X, e.Y));
+                    break;
+
+                default:
+                    return;
+            }
+        }
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Add Menu Clicked", "Information");
+            switch(tvNodeList.SelectedNode.Tag)
+            {
+                case TABPAGE_INDEX_GATEWAY_LIST:
+                    this.ObjectManager.GatewayManager.OnAddGatewayEventCall(e);
+                    break;
+
+                case TABPAGE_INDEX_TAGSET_LIST:
+                    this.ObjectManager.TagSetManager.OnAddTagSetEventCall(e);
+                    break;
+
+                case TABPAGE_INDEX_EDCHEADERSET_LIST:
+                    this.header_set.OnAddHeaderSetEventCall(e);
+                    break;
+
+                case TABPAGE_INDEX_EDC_OUTPUT_LIST:
+                    this.ObjectManager.EDCManager.OnAddEDCXmlEventCall(e);
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_LIST:
+                    this.ObjectManager.DBManager.OnAddDBConfigEventCall(e);
+                    break;
+
+                default:
+                    return;
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure to delete this node?", "Confirm Message", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            {
+                return;
+            }
+
+            switch (tvNodeList.SelectedNode.Tag)
+            {
+                case TABPAGE_INDEX_GATEWAY_INFO:
+                    string gw_id = tvNodeList.SelectedNode.Text.Trim();
+                    this.ObjectManager.GatewayManager.gateway_list.Remove(this.ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == gw_id).FirstOrDefault());
+                    RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
+                    break;
+
+                case TABPAGE_INDEX_DEVICE_INFO:
+                    string dv_id = tvNodeList.SelectedNode.Text.Trim();
+                    TreeNode pNode = tvNodeList.SelectedNode.Parent;
+                    string g_id = pNode.Text.Trim();
+                    cls_Gateway_Info gw = this.ObjectManager.GatewayManager.gateway_list.Where(p => p.gateway_id == g_id).FirstOrDefault();
+                    if(gw != null)
+                    {
+                        gw.device_info.Remove(gw.device_info.Where(o => o.device_name == dv_id).FirstOrDefault());
+                    }
+                    RefreshGatewayConfig(TABPAGE_INDEX_GATEWAY_LIST);
+                    break;
+
+                case TABPAGE_INDEX_TAGSET_INFO:
+                    string set_id = tvNodeList.SelectedNode.Text.Trim();
+                    this.ObjectManager.TagSetManager.tag_set_list.Remove(this.ObjectManager.TagSetManager.tag_set_list.Where(p => p.TagSetName == set_id).FirstOrDefault());
+                    RefreshGatewayConfig(TABPAGE_INDEX_TAGSET_LIST);
+                    break;
+
+                case TABPAGE_INDEX_EDCHEADERSET_INFO:
+                    string header_id = tvNodeList.SelectedNode.Text.Trim();
+                    this.header_set.head_set_list.Remove(this.header_set.head_set_list.Where(p => p.set_name == header_id).FirstOrDefault());
+                    RefreshGatewayConfig(TABPAGE_INDEX_EDCHEADERSET_LIST);
+                    break;
+
+                case TABPAGE_INDEX_EDC_OUTPUT_INFO:
+                    string[] str_array = tvNodeList.SelectedNode.Text.Split('.');
+                    string serial_id = str_array[0];
+                    this.ObjectManager.EDCManager.gateway_edc.Remove(this.ObjectManager.EDCManager.gateway_edc.Where(p => p.serial_id == serial_id).FirstOrDefault());
+                    RefreshGatewayConfig(TABPAGE_INDEX_EDC_OUTPUT_LIST); 
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_INFO:
+                    string[] str2_array = tvNodeList.SelectedNode.Text.Split('.');
+                    string s_id = str2_array[0];
+                    this.ObjectManager.DBManager.dbconfig_list.Remove(this.ObjectManager.DBManager.dbconfig_list.Where(p => p.serial_id == s_id).FirstOrDefault());
+                    RefreshGatewayConfig(TABPAGE_INDEX_DB_CONFIG_LIST);
+                    break;
+
+                default:
+                    return;
+            }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (tvNodeList.SelectedNode.Tag)
+            {
+                case TABPAGE_INDEX_GATEWAY_INFO:
+                    DisplayGatewayInfo(true);
+                    break;
+
+                case TABPAGE_INDEX_DEVICE_INFO:
+                    DisplayDeviceInfo(true);
+                    break;
+
+                case TABPAGE_INDEX_TAGSET_INFO:
+                    DisplayTagSetInfo(true);
+                    break;
+
+                case TABPAGE_INDEX_EDCHEADERSET_INFO:
+                    DisplayEDCHeaderSetInfo(true);
+                    break;
+
+                case TABPAGE_INDEX_EDC_OUTPUT_INFO:
+                    DisplayEDCXMLInfo(true);
+                    break;
+
+                case TABPAGE_INDEX_DB_CONFIG_INFO:
+                    DisplayDBConfigInfo(true);
+                    break;
+
+                default:
+                    return;
+            }
+        }
+
     }
 }

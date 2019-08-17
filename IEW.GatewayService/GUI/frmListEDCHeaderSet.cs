@@ -17,12 +17,15 @@ namespace IEW.GatewayService.GUI
     {
         public SetEDCHeaderList delgEDCHeaderSetList;
         public EDCHeaderSet hsList = new EDCHeaderSet();
+        public EventHandler e_handler;
 
         public frmListEDCHeaderSet(SetEDCHeaderList set_list, EDCHeaderSet hs)
         {
             InitializeComponent();
             this.hsList = hs;
             this.delgEDCHeaderSetList = set_list;
+
+            this.hsList.eventAddHeaderSet += new EventHandler(this.btnAddHeaderSet_Click);
         }
 
         private void frmListEDCHeaderSet_Load(object sender, EventArgs e)
@@ -175,7 +178,7 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
-            frmEditEDCHeader frm = new frmEditEDCHeader(SetHeaderSetInfo, hsTemp, i);
+            frmEditEDCHeader frm = new frmEditEDCHeader(SetHeaderSetInfo, CheckDuplicateHeaderSet, hsTemp);
             frm.Owner = this;
             frm.ShowDialog();
 
@@ -183,6 +186,18 @@ namespace IEW.GatewayService.GUI
 
             RefreshHeaderSetList();
             lvHeaderSetList.Focus();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
+            this.hsList.eventAddHeaderSet -= new EventHandler(this.btnAddHeaderSet_Click);
+
+            base.Dispose(disposing);
         }
 
     }

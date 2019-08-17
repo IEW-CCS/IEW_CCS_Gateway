@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gpbDBInfo = new System.Windows.Forms.GroupBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtUserName = new System.Windows.Forms.TextBox();
@@ -56,38 +56,38 @@
             this.label11 = new System.Windows.Forms.Label();
             this.chkCalcTagCheckAll = new System.Windows.Forms.CheckBox();
             this.chkTagCheckAll = new System.Windows.Forms.CheckBox();
-            this.groupBox1.SuspendLayout();
+            this.gpbDBInfo.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // gpbDBInfo
             // 
-            this.groupBox1.Controls.Add(this.txtPassword);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.txtUserName);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.txtConnectDB);
-            this.groupBox1.Controls.Add(this.txtPortID);
-            this.groupBox1.Controls.Add(this.txtDataSource);
-            this.groupBox1.Controls.Add(this.cmbDBType);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtSerial);
-            this.groupBox1.Controls.Add(this.cmbDevice);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.cmbGateway);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(-3, 11);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(732, 108);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Database Information";
+            this.gpbDBInfo.Controls.Add(this.txtPassword);
+            this.gpbDBInfo.Controls.Add(this.label9);
+            this.gpbDBInfo.Controls.Add(this.txtUserName);
+            this.gpbDBInfo.Controls.Add(this.label8);
+            this.gpbDBInfo.Controls.Add(this.txtConnectDB);
+            this.gpbDBInfo.Controls.Add(this.txtPortID);
+            this.gpbDBInfo.Controls.Add(this.txtDataSource);
+            this.gpbDBInfo.Controls.Add(this.cmbDBType);
+            this.gpbDBInfo.Controls.Add(this.label7);
+            this.gpbDBInfo.Controls.Add(this.label6);
+            this.gpbDBInfo.Controls.Add(this.label5);
+            this.gpbDBInfo.Controls.Add(this.label4);
+            this.gpbDBInfo.Controls.Add(this.txtSerial);
+            this.gpbDBInfo.Controls.Add(this.cmbDevice);
+            this.gpbDBInfo.Controls.Add(this.label1);
+            this.gpbDBInfo.Controls.Add(this.cmbGateway);
+            this.gpbDBInfo.Controls.Add(this.label2);
+            this.gpbDBInfo.Controls.Add(this.label3);
+            this.gpbDBInfo.Font = new System.Drawing.Font("Arial Narrow", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gpbDBInfo.Location = new System.Drawing.Point(-3, 11);
+            this.gpbDBInfo.Margin = new System.Windows.Forms.Padding(2);
+            this.gpbDBInfo.Name = "gpbDBInfo";
+            this.gpbDBInfo.Padding = new System.Windows.Forms.Padding(2);
+            this.gpbDBInfo.Size = new System.Drawing.Size(732, 108);
+            this.gpbDBInfo.TabIndex = 7;
+            this.gpbDBInfo.TabStop = false;
+            this.gpbDBInfo.Text = "Database Information";
             // 
             // txtPassword
             // 
@@ -401,12 +401,12 @@
             this.Controls.Add(this.lvTagList);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.chkEnable);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gpbDBInfo);
             this.Name = "frmEditDBConfig";
             this.Text = "frmEditDBConfig";
             this.Load += new System.EventHandler(this.frmEditDBConfig_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gpbDBInfo.ResumeLayout(false);
+            this.gpbDBInfo.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -414,7 +414,7 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gpbDBInfo;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;

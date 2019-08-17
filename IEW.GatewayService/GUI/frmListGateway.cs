@@ -24,6 +24,7 @@ namespace IEW.GatewayService.GUI
             InitializeComponent();
             this.gm = gw;
             this.delgGWManager = set_gm;
+            this.gm.eventAddGateway += new EventHandler(this.btnAddGateway_Click);
         }
 
         private void frmListGateway_Load(object sender, EventArgs e)
@@ -175,7 +176,7 @@ namespace IEW.GatewayService.GUI
                 i++;
             }
 
-            var frm = new frmEditGateway(SetGatewayInfo, gwTemp, i);
+            var frm = new frmEditGateway(SetGatewayInfo, gwTemp);
             frm.Owner = this;
             frm.ShowDialog();
 
@@ -183,6 +184,18 @@ namespace IEW.GatewayService.GUI
 
             RefreshGatewayList();
             lvGatewayList.Focus();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
+            this.gm.eventAddGateway -= new EventHandler(this.btnAddGateway_Click);
+
+            base.Dispose(disposing);
         }
 
     }

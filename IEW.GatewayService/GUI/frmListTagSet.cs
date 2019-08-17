@@ -24,6 +24,7 @@ namespace IEW.GatewayService.GUI
             InitializeComponent();
             this.tsm = ts;
             this.delgTSManager = set_tsm;
+            this.tsm.eventAddTagSet += new EventHandler(this.btnAddTagSetTemplate_Click);
         }
 
         private void frmListTagSet_Load(object sender, EventArgs e)
@@ -184,5 +185,18 @@ namespace IEW.GatewayService.GUI
             RefreshTagSetList();
             lvTagSetList.Focus();
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
+            this.tsm.eventAddTagSet -= new EventHandler(this.btnAddTagSetTemplate_Click);
+
+            base.Dispose(disposing);
+        }
+
     }
 }

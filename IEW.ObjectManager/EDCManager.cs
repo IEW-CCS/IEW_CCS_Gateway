@@ -102,9 +102,24 @@ namespace IEW.ObjectManager
     {
         public int serial_id_index;
         public List<cls_EDC_Info> gateway_edc = new List<cls_EDC_Info>();
+        public event EventHandler eventAddEDCXml;
+
         public object Clone()
         {
             return this.MemberwiseClone();
+        }
+
+        public void OnAddEDCXmlEventCall(EventArgs e)
+        {
+            if (this.eventAddEDCXml != null)
+            {
+                eventAddEDCXml(this, e);
+            }
+        }
+
+        public int get_last_serial_id()
+        {
+            return serial_id_index;
         }
     }
 
@@ -132,5 +147,19 @@ namespace IEW.ObjectManager
     public class EDCHeaderSet
     {
         public List<cls_EDC_Header> head_set_list = new List<cls_EDC_Header>();
+        public event EventHandler eventAddHeaderSet;
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        public void OnAddHeaderSetEventCall(EventArgs e)
+        {
+            if (this.eventAddHeaderSet != null)
+            {
+                eventAddHeaderSet(this, e);
+            }
+        }
     }
 }

@@ -20,12 +20,14 @@ namespace IEW.GatewayService.GUI
     {
         bool isEdit;
         bool isEmbedded;
+        bool isCopy = false;
         cls_Device_Info device_data;
         cls_Gateway_Info gw_data;
         ConcurrentDictionary<string, cls_Tag> taglist_data = new ConcurrentDictionary<string, cls_Tag>();
         ConcurrentDictionary<string, cls_CalcTag> calc_taglist_data = new ConcurrentDictionary<string, cls_CalcTag>();
         int iDeviceIndex;
 
+        // Constructor called by frmEditGateway after clicked "+" button
         public frmEditDevice()
         {
             InitializeComponent();
@@ -33,6 +35,7 @@ namespace IEW.GatewayService.GUI
             this.isEmbedded = false;
         }
 
+        // Constructor called by frmEditGateway after double clicked device list
         public frmEditDevice(cls_Device_Info device, int index)
         {
             InitializeComponent();
@@ -42,8 +45,17 @@ namespace IEW.GatewayService.GUI
             this.iDeviceIndex = index;
             this.taglist_data = device.tag_info;
             this.calc_taglist_data = device.calc_tag_info;
+            if(this.device_data.device_name =="")
+            {
+                this.isCopy = true;
+            }
+            else
+            {
+                this.isCopy = false;
+            }
         }
 
+        //Constructor called by Gateway.cs after clicked device node
         public frmEditDevice(cls_Gateway_Info gw, cls_Device_Info device, int index)
         {
             InitializeComponent();
@@ -54,6 +66,15 @@ namespace IEW.GatewayService.GUI
             this.iDeviceIndex = index;
             this.taglist_data = device.tag_info;
             this.calc_taglist_data = device.calc_tag_info;
+            if (this.device_data.device_name == "")
+            {
+                this.isCopy = true;
+            }
+            else
+            {
+                this.isCopy = false;
+            }
+
         }
 
         private void frmEditDevice_Load(object sender, EventArgs e)
@@ -62,7 +83,6 @@ namespace IEW.GatewayService.GUI
             cmbType.Items.Add("PLC");
             cmbType.Items.Add("Temperature");
             cmbType.Items.Add("Vibration");
-
             //cmbType.Items.Add("BLE");
 
             lvTagList.Columns.Clear();
@@ -89,7 +109,14 @@ namespace IEW.GatewayService.GUI
             if (this.isEdit)
             {
                 txtDeviceID.Text = device_data.device_name;
-                txtDeviceID.Enabled = false;
+                if(this.isCopy)
+                {
+                    txtDeviceID.Enabled = true;
+                }
+                else
+                {
+                    txtDeviceID.Enabled = false;
+                }
                 cmbType.Text = device_data.device_type;
                 txtPLC_IP.Text = device_data.plc_ip_address;
                 txtPLC_Port .Text= device_data.plc_port_id;
@@ -141,11 +168,6 @@ namespace IEW.GatewayService.GUI
         private void btnDeviceCancel_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        public cls_Device_Info GetDeviceInfo()
-        {
-            return device_data;
         }
 
         private void btnDeviceSave_Click(object sender, EventArgs e)
@@ -249,21 +271,21 @@ namespace IEW.GatewayService.GUI
 
                 if (!isEdit)
                 {
-                    pgw.device_list.Add(diTemp);
+                    //pgw.device_list.Add(diTemp);
+                    pgw.gateway_Info.device_info.Add(diTemp);
                 }
                 else
                 {
-                    pgw.device_list[iDeviceIndex] = diTemp;
+                    //pgw.device_list[iDeviceIndex] = diTemp;
+                    pgw.gateway_Info.device_info[iDeviceIndex] = diTemp;
                 }
             }
             else
             {
                 Gateway p = (Gateway)this.Owner;
-                p.SetDeviceInfo(gw_data, device_data, iDeviceIndex);
+                p.SetDeviceInfo(gw_data, device_data, iDeviceIndex, this.isCopy);
                 p.RefreshGatewayConfig(0);
             }
-
-            diTemp = null;
 
             this.Close();
         }

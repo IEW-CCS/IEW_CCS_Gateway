@@ -21,6 +21,7 @@ namespace IEW.GatewayService.GUI
     public partial class frmEditDBConfig : Form
     {
         bool isEdit;
+        bool isCopy;
         int gateway_index;
         int device_index;
         int serial_index;
@@ -53,10 +54,11 @@ namespace IEW.GatewayService.GUI
         }
 
         //Constructor to Edit DB Config Information
-        public frmEditDBConfig(SetDBInfo set_db_info, GateWayManager gwm, cls_DB_Info db_info, string gateway, string device)
+        public frmEditDBConfig(SetDBInfo set_db_info, GateWayManager gwm, cls_DB_Info db_info, string gateway, string device, bool copy_flag)
         {
             InitializeComponent();
             this.isEdit = true;
+            this.isCopy = copy_flag;
             this.gateway_mgr = gwm; ;
             this.db_data = db_info;
             this.gateway_id = gateway;
@@ -105,6 +107,7 @@ namespace IEW.GatewayService.GUI
 
             if (isEdit)
             {
+                /*
                 cmbGateway.Enabled = false;
                 cmbDevice.Enabled = false;
                 cmbDBType.Enabled = false;
@@ -113,6 +116,16 @@ namespace IEW.GatewayService.GUI
                 txtConnectDB.Enabled = false;
                 txtUserName.Enabled = false;
                 txtPassword.Enabled = false;
+                */
+                if(this.isCopy)
+                {
+                    gpbDBInfo.Enabled = true;
+                    txtSerial.Enabled = false;
+                }
+                else
+                {
+                    gpbDBInfo.Enabled = false;
+                }
 
                 txtSerial.Text = this.db_data.serial_id;
                 cmbGateway.Text = this.db_data.gateway_id;
@@ -465,7 +478,15 @@ namespace IEW.GatewayService.GUI
             {
                 delgSetDBSerial(this.serial_index);
             }
-            delgSetDBInfo(tmpDB, this.isEdit);
+
+            if(this.isCopy)
+            {
+                delgSetDBInfo(tmpDB, false);
+            }
+            else
+            {
+                delgSetDBInfo(tmpDB, this.isEdit);
+            }
 
             if (!this.gateway_mgr.gateway_list[this.gateway_index].function_list.Contains("DB"))
             {

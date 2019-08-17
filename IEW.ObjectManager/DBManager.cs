@@ -13,10 +13,24 @@ namespace IEW.ObjectManager
         public int serial_id_index;
         //public cls_DB_Info config_db = new cls_DB_Info();
         public List<cls_DB_Info> dbconfig_list = new List<cls_DB_Info>();
+        public event EventHandler eventAddDBConfig;
 
         public object Clone()
         {
             return this.MemberwiseClone();
+        }
+
+        public void OnAddDBConfigEventCall(EventArgs e)
+        {
+            if (this.eventAddDBConfig != null)
+            {
+                eventAddDBConfig(this, e);
+            }
+        }
+
+        public int get_last_serial_id()
+        {
+            return serial_id_index;
         }
     }
 
