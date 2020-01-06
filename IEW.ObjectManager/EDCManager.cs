@@ -135,6 +135,7 @@ namespace IEW.ObjectManager
         public string item_name  { get; set; }
         public string item_type  { get; set; }
         public string item_value { get; set; }
+        public string orig_item_type { get; set; }
     }
 
     public class cls_EDC_Header

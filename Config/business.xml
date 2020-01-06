@@ -12,6 +12,8 @@
     <property name="LogName" value="Service" />
   </object>
 
-
+  <object id="LogService" type="IEW.LogManage.LogService,IEW.LogManage" init-method="Init" destroy-method="Destroy" parent="AbstractService">
+    <property name="LogName" value="Service" />
+  </object>
 
 </objects>

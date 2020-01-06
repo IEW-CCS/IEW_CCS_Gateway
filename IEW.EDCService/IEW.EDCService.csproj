@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cls_EDC_Info.cs" />
+    <Compile Include="EDC_Interval_Partaker.cs" />
     <Compile Include="IOTEDCService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

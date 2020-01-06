@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.Xml.Serialization;
 using System.Xml;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
-using IEW.ObjectManager;
 
-namespace IEW.IOTEDCService
+
+namespace EDCService
 {
 
     [Serializable]
@@ -39,7 +36,7 @@ namespace IEW.IOTEDCService
         public string ROUTE_VERSION { get; set; }
         [XmlElement("owner")]
         public string OWNER { get; set; }
-        [XmlElement("recpie_id")]
+        [XmlElement("recipe_id")]
         public string RECIPE_ID { get; set; }
         [XmlElement("operation")]
         public string OPERATION { get; set; }
@@ -256,8 +253,4 @@ namespace IEW.IOTEDCService
         }
 
     }
-
-
-
-
 }
