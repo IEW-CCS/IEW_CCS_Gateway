@@ -102,7 +102,7 @@ namespace IEW.GatewayService
             {
                 Double.TryParse(exp.Evaluate().ToString(), out douResult);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 douResult = -999999.999;
             }

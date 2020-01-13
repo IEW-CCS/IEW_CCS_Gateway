@@ -226,6 +226,7 @@
       <DependentUpon>Gateway.cs</DependentUpon>
     </Compile>
     <Compile Include="GatewayService.cs" />
+    <Compile Include="Proc_CollectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
